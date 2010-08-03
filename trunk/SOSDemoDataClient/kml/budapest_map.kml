@@ -1,0 +1,715 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<kml xmlns="http://earth.google.com/kml/2.2">
+ <Document>
+  <name>Budapest Accommodation Service map</name>
+  <description><![CDATA[Apartments, hotels and attractions in Budapest]]></description>
+  <Style id="1">
+   <IconStyle id="1">
+    <Icon>
+     <href>http://hotels.budapestrooms.com/maps/markers/gm_marker1.png</href>
+    </Icon>
+   </IconStyle>
+  </Style>
+  <Style id="2">
+   <IconStyle id="2">
+    <Icon>
+     <href>http://hotels.budapestrooms.com/maps/markers/gm_marker2.png</href>
+    </Icon>
+   </IconStyle>
+  </Style>
+  <Style id="3">
+   <IconStyle id="3">
+    <Icon>
+     <href>http://hotels.budapestrooms.com/maps/markers/gm_marker3.png</href>
+    </Icon>
+   </IconStyle>
+  </Style>
+  <Style id="4">
+   <IconStyle id="4">
+    <Icon>
+     <href>http://hotels.budapestrooms.com/maps/markers/gm_marker4.png</href>
+    </Icon>
+   </IconStyle>
+  </Style>
+  <Style id="5">
+   <IconStyle id="5">
+    <Icon>
+     <href>http://hotels.budapestrooms.com/maps/markers/gm_marker5.png</href>
+    </Icon>
+   </IconStyle>
+  </Style>
+  <Style id="6">
+   <IconStyle id="6">
+    <Icon>
+     <href>http://hotels.budapestrooms.com/maps/markers/gm_marker6.png</href>
+    </Icon>
+   </IconStyle>
+  </Style>
+  <Folder>
+   <name>Apartments</name>
+   <Placemark id="placemark-7">
+    <styleUrl>#1</styleUrl>
+    <name>Rákóczi studio apartment in Budapest</name>
+    <description><![CDATA[<div style='width:350px; text-align:left;'> <img src='http://www.budapestrooms.com/rakoczi/apartment_rakoczi_1.jpg' style='float:left; width:100px; height:100px; margin-right:4px;' /> Situated in the very heart of the City. Close to the pedestrian street and the major sights, the National Museum, the Great Synagogue and the Opera. 'Astoria' and 'Deák tér' metro station are nearby.<br />
+32 sq.m., 4 beds, one room, fully- equipped kitchen and bathroom with toilet. <br />
+Prices: 40-60 &#8364; / night / apartment * <br /> <a href='http://www.budapestrooms.com/rakoczi/index.php'>more information and reservation</a> <br /><div style='text-align:center;'><img src='http://www.budapestrooms.com/panel/bas_logo.gif' style='width:110px;height:110px' /></div></div>]]></description>
+    <Point>
+     <coordinates>19.0630066394806,47.4951829703894</coordinates>
+    </Point>
+   </Placemark>
+   <Placemark id="placemark-8">
+    <styleUrl>#1</styleUrl>
+    <name>Semmelweis apratment in Budapest</name>
+    <description><![CDATA[<div style='width:350px; text-align:left;'> <img src='http://www.budapestrooms.com/semmelweis/apartment_semmelweis_2.jpg' style='float:left; width:100px; height:100px; margin-right:4px;' /> Situated in the very heart of the City. Close to the pedestrian street and the major sights, the National Museum, the Great Synagogue and the Danube Corso. Astoria', 'Deák tér' and 'Ferenciek tere' metro station are nearby. <br />
+65 sq.m., 6 beds, 3 rooms, fully- equipped kitchen and bathroom with toilet. <br />
+Prices: 60-90 &#8364; / night / apartment * <br /> <a href='http://www.budapestrooms.com/semmelweis/index.php'>more information and reservation</a> <br /><div style='text-align:center;'><img src='http://www.budapestrooms.com/panel/bas_logo.gif' style='width:110px;height:110px' /></div></div>]]></description>
+    <Point>
+     <coordinates>19.0574705600739,47.4952047172696</coordinates>
+    </Point>
+   </Placemark>
+   <Placemark id="placemark-17">
+    <styleUrl>#1</styleUrl>
+    <name>Kígyó apartment in Budapest</name>
+    <description><![CDATA[<div style='width:350px; text-align:left;'> <img src='http://www.budapestrooms.com/kigyo/apartment_kigyo_2.jpg' style='float:left; width:100px; height:100px; margin-right:4px;' /> Situated in the very heart of Budapest centre, in the middle of the 'Kígyó utca' pedestrian street. Close to the Erzsbet Bridge, the Inner City Parish Church and the Vigad Concert Hall, just between the famous Vácihopping street and the 'Ferenciek tere' metro station.<br />
+45 sq.m., 4 beds, two separate rooms, kitchen, bathroom and toilet.<br />
+Prices: 50-70 &#8364; / night /apartment * <br /> <a href='http://www.budapestrooms.com/kigyo/index.php'>more information and reservation</a> <br /><div style='text-align:center;'><img src='http://www.budapestrooms.com/panel/bas_logo.gif' style='width:110px;height:110px' /></div></div>]]></description>
+    <Point>
+     <coordinates>19.0542197227478,47.4930807294506</coordinates>
+    </Point>
+   </Placemark>
+  </Folder>
+  <Folder>
+   <name>Apartment rooms</name>
+   <Placemark id="placemark-1">
+    <styleUrl>#2</styleUrl>
+    <name>Rákóczi 2-room apartment in Budapest</name>
+    <description><![CDATA[<div style='width:350px; text-align:left;'> <img src='http://www.budapestrooms.com/rakoczi2/apartment_rakoczi_2.jpg' style='float:left; width:100px; height:100px; margin-right:4px;' /> Rákóczi 2-room apartment<br />
+Situated in the very heart of the City. Close to the pedestrian street and the major sights, the National Museum, the Synagogue and the Great Boulevard. 'Blaha Lujza tér' and 'Astoria' metro stations are nearby.<br />
+50 sq.m., 6 beds, two separate rooms, fully-equipped kitchen, bathroom with toilet.<br />
+Prices: 50-90 &#8364; / night / apartment *<br />
+ <br /> <a href='http://www.budapestrooms.com/rakoczi2/index.php'>more information and reservation</a> <br /><div style='text-align:center;'><img src='http://www.budapestrooms.com/panel/bas_logo.gif' style='width:110px;height:110px' /></div></div>]]></description>
+    <Point>
+     <coordinates>19.0656566619873,47.4961470734293</coordinates>
+    </Point>
+   </Placemark>
+   <Placemark id="placemark-2">
+    <styleUrl>#2</styleUrl>
+    <name>Rákóczi 3-room apartment in Budapest</name>
+    <description><![CDATA[<div style='width:350px; text-align:left;'> <img src='http://www.budapestrooms.com/rakoczi3/apartment_rakoczi_2.jpg' style='float:left; width:100px; height:100px; margin-right:4px;' /> Total number of rooms: 3 (each with separate entrances!)<br />
+Total number of sleeping places: 6<br />
+Single bed: 2<br />
+Double bed: 2<br />
+There are electric cooker, microwave, coffee maker, fridge with freezer. <br /> <a href='http://www.budapestrooms.com/rakoczi3/index.php'>more information and reservation</a> <br /><div style='text-align:center;'><img src='http://www.budapestrooms.com/panel/bas_logo.gif' style='width:110px;height:110px' /></div></div>]]></description>
+    <Point>
+     <coordinates>19.0656566619873,47.4961470734293</coordinates>
+    </Point>
+   </Placemark>
+   <Placemark id="placemark-3">
+    <styleUrl>#2</styleUrl>
+    <name>Dohány apartment in Budapest</name>
+    <description><![CDATA[<div style='width:350px; text-align:left;'> <img src='http://www.budapestrooms.com/dohany/apartment_dohany_1.jpg' style='float:left; width:100px; height:100px; margin-right:4px;' /> Situated in the very heart of Budapest. Close to the pedestrian street and the major sights : the National Museum, the Great Synagogue and the Basilica. The nearest metro stop: 'Astoria'.<br />
+100 sq.m., 10 beds, 3 separate rooms + hall, fully-equipped kitchen and bathroom with toilet.<br />
+Prices: 60-140 &#8364; / night / apartment * <br /> <a href='http://www.budapestrooms.com/dohany/index.php'>more information and reservation</a> <br /><div style='text-align:center;'><img src='http://www.budapestrooms.com/panel/bas_logo.gif' style='width:110px;height:110px' /></div></div>]]></description>
+    <Point>
+     <coordinates>19.0629529953003,47.4952844557535</coordinates>
+    </Point>
+   </Placemark>
+   <Placemark id="placemark-4">
+    <styleUrl>#2</styleUrl>
+    <name>Dohány 2-room + hall apartment in Budapest</name>
+    <description><![CDATA[<div style='width:350px; text-align:left;'> <img src='http://www.budapestrooms.com/dohany2/apartment_dohany_1.jpg' style='float:left; width:100px; height:100px; margin-right:4px;' /> Situated in the very heart of Budapest. Close to the pedestrian street and <br />
+the major sights : the Great Synagogue, the National Museum and the Basilica. The nearest metro stop: 'Astoria'.<br />
+80 sq.m., 7 beds, 2 separate rooms + hall, a small kitchen and an elegant bathroom with toilet.<br />
+Prices: 60-120 &#8364; / night / apartment * <br /> <a href='http://www.budapestrooms.com/dohany2/index.php'>more information and reservation</a> <br /><div style='text-align:center;'><img src='http://www.budapestrooms.com/panel/bas_logo.gif' style='width:110px;height:110px' /></div></div>]]></description>
+    <Point>
+     <coordinates>19.0629529953003,47.4952844557535</coordinates>
+    </Point>
+   </Placemark>
+   <Placemark id="placemark-5">
+    <styleUrl>#2</styleUrl>
+    <name>Asbóth apartment in Budapest</name>
+    <description><![CDATA[<div style='width:350px; text-align:left;'> <img src='http://www.budapestrooms.com/asboth/apartment_asboth_3.jpg' style='float:left; width:100px; height:100px; margin-right:4px;' /> Situated in the very heart of the City. Close to the Opera, the Basilica and the pedestrian street. 'Deák tér' metro station is nearby.<br />
+50 sq.m., 4 beds, one room, fully equipped kitchen, bathroom and toilet.<br />
+Prices: 50-70 &#8364; / night / apartment * <br /> <a href='http://www.budapestrooms.com/asboth/index.php'>more information and reservation</a> <br /><div style='text-align:center;'><img src='http://www.budapestrooms.com/panel/bas_logo.gif' style='width:110px;height:110px' /></div></div>]]></description>
+    <Point>
+     <coordinates>19.0574598312378,47.4972851271694</coordinates>
+    </Point>
+   </Placemark>
+   <Placemark id="placemark-6">
+    <styleUrl>#2</styleUrl>
+    <name>Asbóth 2-room + hall apartment in Budapest</name>
+    <description><![CDATA[<div style='width:350px; text-align:left;'> <img src='http://www.budapestrooms.com/asboth2/apartment_asboth_3.jpg' style='float:left; width:100px; height:100px; margin-right:4px;' /> Situated in the very heart of the City. Close to the Opera, the Basilica and the pedestrian street. 'Deák tér' metro station, a metro interchange is nearby.<br />
+80 sq.m., 8 beds, two separate rooms, a fully equipped kitchen, a bathroom and a toilet.<br />
+Prices: 60-120 &#8364; / night / apartment * <br /> <a href='http://www.budapestrooms.com/asboth2/index.php'>more information and reservation</a> <br /><div style='text-align:center;'><img src='http://www.budapestrooms.com/panel/bas_logo.gif' style='width:110px;height:110px' /></div></div>]]></description>
+    <Point>
+     <coordinates>19.0574598312378,47.4972851271694</coordinates>
+    </Point>
+   </Placemark>
+   <Placemark id="placemark-9">
+    <styleUrl>#2</styleUrl>
+    <name>Rákóczi 4-room apartment in Budapest</name>
+    <description><![CDATA[<div style='width:350px; text-align:left;'> <img src='http://www.budapestrooms.com/rakoczi4/apartment_rakoczi_3.jpg' style='float:left; width:100px; height:100px; margin-right:4px;' /> Situated in the City. Close to the major sights, the Great Boulevard and the Synagogue. 'Blaha Lujza tér' and 'Keleti' metro stations are nearby.<br />
+Luxury and spacious apartment. 100 sq.m., 9 beds, three separate bedrooms + living room, a fully-equipped kitchen, a bathroom with shower and toilet, another bathroom with tub and another toilet.<br />
+Prices: 80-180 &#8364; / night / apartment * <br /> <a href='http://www.budapestrooms.com/rakoczi4/index.php'>more information and reservation</a> <br /><div style='text-align:center;'><img src='http://www.budapestrooms.com/panel/bas_logo.gif' style='width:110px;height:110px' /></div></div>]]></description>
+    <Point>
+     <coordinates>19.0770292282104,47.4982491916126</coordinates>
+    </Point>
+   </Placemark>
+   <Placemark id="placemark-10">
+    <styleUrl>#2</styleUrl>
+    <name>Szerémi apartment in Budapest in Budapest</name>
+    <description><![CDATA[<div style='width:350px; text-align:left;'> <img src='http://www.budapestrooms.com/szeremi/apartment_szeremi_2.jpg' style='float:left; width:100px; height:100px; margin-right:4px;' /> Situated in a central place, close to the Gellért Bath, the Szabadság Bridge and the Central Market Hall. 'Ferenc körút' metro station is not far.<br />
+45 sq.m, 5 beds, 2 separate rooms, fully- equipped kitchen and bathroom with toilet.<br />
+Prices: 40-70 &#8364; / night / apartment * <br /> <a href='http://www.budapestrooms.com/szeremi/index.php'>more information and reservation</a> <br /><div style='text-align:center;'><img src='http://www.budapestrooms.com/panel/bas_logo.gif' style='width:110px;height:110px' /></div></div>]]></description>
+    <Point>
+     <coordinates>19.0509903430939,47.4709876137749</coordinates>
+    </Point>
+   </Placemark>
+   <Placemark id="placemark-11">
+    <styleUrl>#2</styleUrl>
+    <name>Galamb apartment in Budapest</name>
+    <description><![CDATA[<div style='width:350px; text-align:left;'> <img src='http://www.budapestrooms.com/galamb/apartment_galamb_3.jpg' style='float:left; width:100px; height:100px; margin-right:4px;' /> Situated in the very heart of the City. Close to the Vigadó Concert Hall and just between the Vácialking street and the Danube Corso. 'Ferenciek tere' metro station is nearby.<br />
+32 sq.m., 4 beds, one room, kitchen-corner and bathroom with toilet.<br />
+Prices: 45-65 &#8364; / night / apartment * <br /> <a href='http://www.budapestrooms.com/galamb/index.php'>more information and reservation</a> <br /><div style='text-align:center;'><img src='http://www.budapestrooms.com/panel/bas_logo.gif' style='width:110px;height:110px' /></div></div>]]></description>
+    <Point>
+     <coordinates>19.0515804290771,47.4933851971431</coordinates>
+    </Point>
+   </Placemark>
+   <Placemark id="placemark-12">
+    <styleUrl>#2</styleUrl>
+    <name>Kékgolyó apartment in Budapest</name>
+    <description><![CDATA[<div style='width:350px; text-align:left;'> <img src='http://www.budapestrooms.com/kekgolyo/apartment_kekgolyo_1.jpg' style='float:left; width:100px; height:100px; margin-right:4px;' /> Situated in a central place, close to the Royal Palace. 'Déli' metro station is nearby.<br />
+32 sq.m., 4 beds, one-room, fully- equipped kitchen and bathroom with toilet.<br />
+Prices: 45-65 &#8364; / night / apartment * <br /> <a href='http://www.budapestrooms.com/kekgolyo/index.php'>more information and reservation</a> <br /><div style='text-align:center;'><img src='http://www.budapestrooms.com/panel/bas_logo.gif' style='width:110px;height:110px' /></div></div>]]></description>
+    <Point>
+     <coordinates>19.0218937397003,47.4993292127097</coordinates>
+    </Point>
+   </Placemark>
+   <Placemark id="placemark-13">
+    <styleUrl>#2</styleUrl>
+    <name>Aranykéz 1-room apartment in Budapest</name>
+    <description><![CDATA[<div style='width:350px; text-align:left;'> <img src='http://www.budapestrooms.com/aranykez1/apartment_aranykez_2.jpg' style='float:left; width:100px; height:100px; margin-right:4px;' /> Situated in the very heart of the City. Close to the major sights, the Chain Bridge, the pedestrian street called 'Vácitca', the Danube Embankment and  the famous confectionery 'Gerbaud'. 'Vrsmarty tr' metro station is nearby.<br />
+45 sq.m., 4 beds, one room, a fully-equipped kitchen, a bathroom and a toilet.<br />
+Prices: 50-70 &#8364; / night / apartment * <br /> <a href='http://www.budapestrooms.com/aranykez1/index.php'>more information and reservation</a> <br /><div style='text-align:center;'><img src='http://www.budapestrooms.com/panel/bas_logo.gif' style='width:110px;height:110px' /></div></div>]]></description>
+    <Point>
+     <coordinates>19.0509903430939,47.4951829703894</coordinates>
+    </Point>
+   </Placemark>
+   <Placemark id="placemark-14">
+    <styleUrl>#2</styleUrl>
+    <name>Aranykéz 2-room apartment in Budapest</name>
+    <description><![CDATA[<div style='width:350px; text-align:left;'> <img src='http://www.budapestrooms.com/aranykez2/apartment_aranykez_2.jpg' style='float:left; width:100px; height:100px; margin-right:4px;' /> Situated in the very heart of the City. Close to the major sights, the Chain Bridge, the pedestrian street called 'Vácitca' and the 'Gerbaud' cafeteria. 'Vrsmarty tr' metro station is nearby.<br />
+65 sq.m., 6 beds, two separate rooms, a fully-equipped kitchen, a bathroom and a toilet.<br />
+Prices: 60-99 &#8364; / night / apartment * <br /> <a href='http://www.budapestrooms.com/aranykez2/index.php'>more information and reservation</a> <br /><div style='text-align:center;'><img src='http://www.budapestrooms.com/panel/bas_logo.gif' style='width:110px;height:110px' /></div></div>]]></description>
+    <Point>
+     <coordinates>19.0509903430939,47.4951829703894</coordinates>
+    </Point>
+   </Placemark>
+   <Placemark id="placemark-15">
+    <styleUrl>#2</styleUrl>
+    <name>Városház apartment in Budapest</name>
+    <description><![CDATA[<div style='width:350px; text-align:left;'> <img src='http://www.budapestrooms.com/varoshaz/apartment_varoshaz_1.jpg' style='float:left; width:100px; height:100px; margin-right:4px;' /> Situated in the very heart of Budapest. Close to the pedestrian street and the major sights, the National Museum, the Great Synagogue and the Danube Corso. 'Astoria', 'Deák tér' and 'Ferenciek tere' metro station are nearby.<br />
+100 sq.m., 8 beds, 3 separate rooms,fully-equipped kitchen and bathroom with toilet.<br />
+Prices: 70-130 &#8364; / night / apartment * <br /> <a href='http://budapestrooms.com/varoshaz/index.php'>more information and reservation</a> <br /><div style='text-align:center;'><img src='http://www.budapestrooms.com/panel/bas_logo.gif' style='width:110px;height:110px' /></div></div>]]></description>
+    <Point>
+     <coordinates>19.0542304515839,47.4952047172696</coordinates>
+    </Point>
+   </Placemark>
+   <Placemark id="placemark-16">
+    <styleUrl>#2</styleUrl>
+    <name>Váci utca apartment in Budapest</name>
+    <description><![CDATA[<div style='width:350px; text-align:left;'> <img src='http://www.budapestrooms.com/vaci/apartment_vaci_2.jpg' style='float:left; width:100px; height:100px; margin-right:4px;' /> Situated in the very heart of Budapest. Close to the Central Market Hall and Erzsébet bridge. 'Ferenciek tere' metro station is nearby.<br />
+35 sq.m., 4 beds, one room, kitchen and bathroom with toilet.<br />
+Prices: 50-70 &#8364; / night / apartment * <br /> <a href='http://www.budapestrooms.com/varoshaz/index.php'>more information and reservation</a> <br /><div style='text-align:center;'><img src='http://www.budapestrooms.com/panel/bas_logo.gif' style='width:110px;height:110px' /></div></div>]]></description>
+    <Point>
+     <coordinates>19.0543270111084,47.4929719905613</coordinates>
+    </Point>
+   </Placemark>
+   <Placemark id="placemark-18">
+    <styleUrl>#2</styleUrl>
+    <name>Margit apartment in Budapest</name>
+    <description><![CDATA[<div style='width:350px; text-align:left;'> <img src='http://www.budapestrooms.com/margit/apartment_margit_1.jpg' style='float:left; width:100px; height:100px; margin-right:4px;' /> Situated in the very heart of the City Centre, close to the Royal Palace and to the other major sights: the Matthias Church, the Fishermen's Bastion, the Margit Island and the Parliament. The nearest metro station is 'Moszkva tér'. <br />
+35 sq.m., one room (studio), 4 beds, fully equipped kitchen, bathroom with toilet and shower. <br />
+Prices: 40-60 &#8364; / night / apartment * <br /> <a href='http://www.budapestrooms.com/margit/index.php'>more information and reservation</a> <br /><div style='text-align:center;'><img src='http://www.budapestrooms.com/panel/bas_logo.gif' style='width:110px;height:110px' /></div></div>]]></description>
+    <Point>
+     <coordinates>19.0299618244171,47.5098745597511</coordinates>
+    </Point>
+   </Placemark>
+  </Folder>
+  <Folder>
+   <name>Hotels</name>
+   <Placemark id="placemark-19">
+    <styleUrl>#3</styleUrl>
+    <name>Hotel Mary      in Budapest</name>
+    <description><![CDATA[<div style='width:350px; text-align:left;'> <img src='http://hotels.budapestrooms.com/hotels/queenmary/queenmary_photo5.jpg' style='float:left; width:100px; height:100px; margin-right:4px;' /> 3 stars<br />
+In the very heart of the City centre. 'Blaha Lujza tér' metro station is nearby. <br />
+26 rooms<br />
+<br />
+Prices: from 58 &#8364; / night / double room with buffet breakfast <br /> <a href='http://hotels.budapestrooms.com/hotels/queenmary.htm'>more information and reservation</a> <br /><div style='text-align:center;'><img src='http://www.budapestrooms.com/panel/bas_logo.gif' style='width:110px;height:110px' /></div></div>]]></description>
+    <Point>
+     <coordinates>19.0672874450684,47.5003294808891</coordinates>
+    </Point>
+   </Placemark>
+   <Placemark id="placemark-20">
+    <styleUrl>#3</styleUrl>
+    <name>Hotel Ambra        in Budapest</name>
+    <description><![CDATA[<div style='width:350px; text-align:left;'> <img src='http://hotels.budapestrooms.com/hotels/ambra/ambra_photo1.jpg' style='float:left; width:100px; height:100px; margin-right:4px;' /> a new 4-star hotel close to the Opera, the Basilica and 'Deák tér' metro station., next to the famous Great Boulevard. 5 minutes from the centre. <br />
+21 rooms<br />
+<br />
+Prices: from 89 &#8364; / night / double room with breakfast <br /> <a href='http://hotels.budapestrooms.com/hotels/ambra.htm'>more information and reservation</a> <br /><div style='text-align:center;'><img src='http://www.budapestrooms.com/panel/bas_logo.gif' style='width:110px;height:110px' /></div></div>]]></description>
+    <Point>
+     <coordinates>19.0624272823334,47.5003294808891</coordinates>
+    </Point>
+   </Placemark>
+   <Placemark id="placemark-21">
+    <styleUrl>#3</styleUrl>
+    <name>Hotel Astoria        in Budapest</name>
+    <description><![CDATA[<div style='width:350px; text-align:left;'> <img src='http://hotels.budapestrooms.com/hotels/astoria/astoria_photo1.jpg' style='float:left; width:100px; height:100px; margin-right:4px;' /> 'Astoria' is one of the most prestigeous hotels in Budapest and Hungary. Close to the National Museum, the Great Synagogue and the Central Market Hall. 5 minutes from the pedestrian area, in the very heart of the City centre. <br />
+131 rooms<br />
+<br />
+Prices: from 96 &#8364; / night / double room with breakfast <br /> <a href='http://hotels.budapestrooms.com/hotels/astoria.htm'>more information and reservation</a> <br /><div style='text-align:center;'><img src='http://www.budapestrooms.com/panel/bas_logo.gif' style='width:110px;height:110px' /></div></div>]]></description>
+    <Point>
+     <coordinates>19.0597128868103,47.4939941272322</coordinates>
+    </Point>
+   </Placemark>
+   <Placemark id="placemark-22">
+    <styleUrl>#3</styleUrl>
+    <name>Hotel Corvin      in Budapest</name>
+    <description><![CDATA[<div style='width:350px; text-align:left;'> <img src='http://hotels.budapestrooms.com/hotels/corvin/corvin_photo1.jpg' style='float:left; width:100px; height:100px; margin-right:4px;' /> Hotel Corvin, 3 stars<br />
+12 minutes from the centre by metro, line No 3., near 'Ferenc körút' metro station. <br />
+40 rooms.<br />
+<br />
+Prices: from 66 &#8364; /night /double room with breakfast <br /> <a href='http://hotels.budapestrooms.com/hotels/corvin.htm'>more information and reservation</a> <br /><div style='text-align:center;'><img src='http://www.budapestrooms.com/panel/bas_logo.gif' style='width:110px;height:110px' /></div></div>]]></description>
+    <Point>
+     <coordinates>19.0705490112305,47.4835180958413</coordinates>
+    </Point>
+   </Placemark>
+   <Placemark id="placemark-23">
+    <styleUrl>#3</styleUrl>
+    <name>Hotel Sissi      in Budapest</name>
+    <description><![CDATA[<div style='width:350px; text-align:left;'> <img src='http://hotels.budapestrooms.com/hotels/sissi/sissi_photo1.jpg' style='float:left; width:100px; height:100px; margin-right:4px;' /> Hotel Sissi, a 3-star hotel located <br />
+12 minutes from the centre by metro, line No 2, near 'Ferenc körút' metro station. <br />
+44 rooms.<br />
+<br />
+Prices: from 69 &#8364; / night / double room with breakfast <br /> <a href='http://hotels.budapestrooms.com/hotels/sissi.htm'>more information and reservation</a> <br /><div style='text-align:center;'><img src='http://www.budapestrooms.com/panel/bas_logo.gif' style='width:110px;height:110px' /></div></div>]]></description>
+    <Point>
+     <coordinates>19.0705490112305,47.4835180958413</coordinates>
+    </Point>
+   </Placemark>
+   <Placemark id="placemark-24">
+    <styleUrl>#3</styleUrl>
+    <name>Hotel Gellért        in Budapest</name>
+    <description><![CDATA[<div style='width:350px; text-align:left;'> <img src='http://hotels.budapestrooms.com/hotels/gellert/gellert_photo3.jpg' style='float:left; width:100px; height:100px; margin-right:4px;' /> Hotel Gellért, 4 stars<br />
+The 4-star Hotel Gellert is one of the leading hotels in Budapest and Hungary.<br />
+Close to the Gellért Hill and the Central Market Hall<br />
+10 minutes from the pedestrian area.<br />
+234 rooms<br />
+<br />
+Prices: from 140 &#8364; / night / double room with breakfast <br /> <a href='http://hotels.budapestrooms.com/hotels/gellert.htm'>more information and reservation</a> <br /><div style='text-align:center;'><img src='http://www.budapestrooms.com/panel/bas_logo.gif' style='width:110px;height:110px' /></div></div>]]></description>
+    <Point>
+     <coordinates>19.0527284145355,47.4845621677957</coordinates>
+    </Point>
+   </Placemark>
+   <Placemark id="placemark-25">
+    <styleUrl>#3</styleUrl>
+    <name>Hotel Papilon      in Budapest</name>
+    <description><![CDATA[<div style='width:350px; text-align:left;'> <img src='http://hotels.budapestrooms.com/hotels/papillon/papillon_photo2.jpg' style='float:left; width:100px; height:100px; margin-right:4px;' /> Hotel Papillon, 3 stars<br />
+Close to 'Margit Island' and 'Buda Castle'. 'Moszkva tér' metro station is nearby. 12 minutes, 4 stops from the pedestrian area by metro. <br />
+20 rooms<br />
+<br />
+Prices: from 39 &#8364; /night /double room with breakfast <br /> <a href='http://hotels.budapestrooms.com/hotels/papillon.htm'>more information and reservation</a> <br /><div style='text-align:center;'><img src='http://www.budapestrooms.com/panel/bas_logo.gif' style='width:110px;height:110px' /></div></div>]]></description>
+    <Point>
+     <coordinates>19.0316569805145,47.5129326764673</coordinates>
+    </Point>
+   </Placemark>
+   <Placemark id="placemark-26">
+    <styleUrl>#3</styleUrl>
+    <name>Hotel Victor      in Budapest</name>
+    <description><![CDATA[<div style='width:350px; text-align:left;'> <img src='http://hotels.budapestrooms.com/hotels/victor/victor_photo1.jpg' style='float:left; width:100px; height:100px; margin-right:4px;' /> Hotel Victor, 3 stars<br />
+Close to 'Westend City Center '.<br />
+'Lehel tér' metro station is nearby. 12 minutes, 5 stops from the pedestrian area by metro.<br />
+26 rooms<br />
+<br />
+Prices: from 45 &#8364; / night / double room with breakfast <br /> <a href='http://hotels.budapestrooms.com/hotels/victor.htm'>more information and reservation</a> <br /><div style='text-align:center;'><img src='http://www.budapestrooms.com/panel/bas_logo.gif' style='width:110px;height:110px' /></div></div>]]></description>
+    <Point>
+     <coordinates>19.0559041500092,47.5182223628332</coordinates>
+    </Point>
+   </Placemark>
+   <Placemark id="placemark-27">
+    <styleUrl>#3</styleUrl>
+    <name>Hotel Grif Junior  in Budapest</name>
+    <description><![CDATA[<div style='width:350px; text-align:left;'> <img src='http://hotels.budapestrooms.com/hotels/griffjunior/griffjunior_photo1.jpg' style='float:left; width:100px; height:100px; margin-right:4px;' /> Hotel Griff Junior, 1 star <br />
+20 minutes, 8 stops from the centre on a No. 49. tram<br />
+The hotel has 219 comfortable rooms, 30 of which are double-or three-bedded with shower. 129 are three-or four-bedded with wash-basin.<br />
+<br />
+Prices: from 25 &#8364; / night / double room with breakfast <br /> <a href='http://hotels.budapestrooms.com/hotels/griffjunior.htm'>more information and reservation</a> <br /><div style='text-align:center;'><img src='http://www.budapestrooms.com/panel/bas_logo.gif' style='width:110px;height:110px' /></div></div>]]></description>
+    <Point>
+     <coordinates>19.0267753601074,47.4696169110046</coordinates>
+    </Point>
+   </Placemark>
+   <Placemark id="placemark-28">
+    <styleUrl>#3</styleUrl>
+    <name>Hotel Mediteran        in Budapest</name>
+    <description><![CDATA[<div style='width:350px; text-align:left;'> <img src='http://hotels.budapestrooms.com/hotels/mediterran/mediterran_photo3.jpg' style='float:left; width:100px; height:100px; margin-right:4px;' /> Hotel Mediterran, 4 stars <br />
+In Buda, close to Erzsébet Bridge and Budapest Congress Centre , by the approach from Vienna. <br />
+'BAH' traffic junction is nearby. The center is 10 minutes by public transport.<br />
+40 rooms<br />
+<br />
+Prices: from 75 &#8364; / night / double room with breakfast <br /> <a href='http://hotels.budapestrooms.com/hotels/mediterran.htm'>more information and reservation</a> <br /><div style='text-align:center;'><img src='http://www.budapestrooms.com/panel/bas_logo.gif' style='width:110px;height:110px' /></div></div>]]></description>
+    <Point>
+     <coordinates>19.0255415439606,47.4849609398018</coordinates>
+    </Point>
+   </Placemark>
+   <Placemark id="placemark-29">
+    <styleUrl>#3</styleUrl>
+    <name>Hotel Gold        in Budapest</name>
+    <description><![CDATA[<div style='width:350px; text-align:left;'> <img src='http://hotels.budapestrooms.com/hotels/gold/gold_photo2.jpg' style='float:left; width:100px; height:100px; margin-right:4px;' /> Hotel Gold, a new 4-star hotel with low prices. 10 minutes from the centre on a 78 bus. Close to Erzsébet bridge and Budapest Congress Centre on Buda side. <br />
+21 rooms<br />
+<br />
+Prices: from 79 &#8364; / night / double room with breakfast <br /> <a href='http://hotels.budapestrooms.com/hotels/gold.htm'>more information and reservation</a> <br /><div style='text-align:center;'><img src='http://www.budapestrooms.com/panel/bas_logo.gif' style='width:110px;height:110px' /></div></div>]]></description>
+    <Point>
+     <coordinates>19.0348970890045,47.4887527478028</coordinates>
+    </Point>
+   </Placemark>
+   <Placemark id="placemark-30">
+    <styleUrl>#3</styleUrl>
+    <name>Hotel Flandria  in Budapest</name>
+    <description><![CDATA[<div style='width:350px; text-align:left;'> <img src='http://hotels.budapestrooms.com/hotels/flandria/flandria_photo5.jpg' style='float:left; width:100px; height:100px; margin-right:4px;' /> Hotel Flandria, 1 star<br />
+Close to 'City Park' park, in a peaceful area. From 'Árpád híd' metro station it is a 16 minutes' walk. Metro and bus (No. 4.) also available.<br />
+120 rooms equipped with wash-basin, refrigerator and TV.<br />
+<br />
+Prices: from 29.90 &#8364; / night / double room with breakfast <br /> <a href='http://hotels.budapestrooms.com/hotels/flandria.htm'>more information and reservation</a> <br /><div style='text-align:center;'><img src='http://www.budapestrooms.com/panel/bas_logo.gif' style='width:110px;height:110px' /></div></div>]]></description>
+    <Point>
+     <coordinates>19.0826511383057,47.5283292529834</coordinates>
+    </Point>
+   </Placemark>
+   <Placemark id="placemark-31">
+    <styleUrl>#3</styleUrl>
+    <name>Hotel Ventura      in Budapest</name>
+    <description><![CDATA[<div style='width:350px; text-align:left;'> <img src='http://hotels.budapestrooms.com/hotels/ventura/ventura_photo1.jpg' style='float:left; width:100px; height:100px; margin-right:4px;' /> Hotel Ventura, 3 stars<br />
+20 minutes from the centre on a No. 47. tram. <br />
+149 rooms.<br />
+<br />
+Prices: from 68 &#8364; /night /double room with breakfast <br /> <a href='http://hotels.budapestrooms.com/hotels/ventura.htm'>more information and reservation</a> <br /><div style='text-align:center;'><img src='http://www.budapestrooms.com/panel/bas_logo.gif' style='width:110px;height:110px' /></div></div>]]></description>
+    <Point>
+     <coordinates>19.0387487411499,47.4538476323371</coordinates>
+    </Point>
+   </Placemark>
+   <Placemark id="placemark-32">
+    <styleUrl>#3</styleUrl>
+    <name>Hotel Budapest      in Budapest</name>
+    <description><![CDATA[<div style='width:350px; text-align:left;'> <img src='http://hotels.budapestrooms.com/hotels/budapest/budapest_photo1.jpg' style='float:left; width:100px; height:100px; margin-right:4px;' /> Hotel Budapest, 3 stars<br />
+Close to Moszkva tér traffic junction. 25 minutes from the pedestrian area.<br />
+289 rooms.<br />
+<br />
+Prices: from 66 &#8364; / night / double room with breakfast <br /> <a href='http://hotels.budapestrooms.com/hotels/budapest.htm'>more information and reservation</a> <br /><div style='text-align:center;'><img src='http://www.budapestrooms.com/panel/bas_logo.gif' style='width:110px;height:110px' /></div></div>]]></description>
+    <Point>
+     <coordinates>19.0131711959839,47.509925288259</coordinates>
+    </Point>
+   </Placemark>
+   <Placemark id="placemark-33">
+    <styleUrl>#3</styleUrl>
+    <name>Hotel Erzsébet      in Budapest</name>
+    <description><![CDATA[<div style='width:350px; text-align:left;'> <img src='http://hotels.budapestrooms.com/hotels/erzsebet/erzsebet_photo2.jpg' style='float:left; width:100px; height:100px; margin-right:4px;' /> Hotel Erzsébet, 3 stars<br />
+This recently renovated hotel is in the heart of the city. Close to the Inner City Franciscan Church, the Erzsébet Bridge and the Central Market Hall. 3 minutes from the pedestrian area, in the very heart of the City centre.<br />
+123 rooms<br />
+<br />
+Prices: from 86 &#8364; / night / double room with breakfast <br /> <a href='http://hotels.budapestrooms.com/hotels/erzsebet.htm'>more information and reservation</a> <br /><div style='text-align:center;'><img src='http://www.budapestrooms.com/panel/bas_logo.gif' style='width:110px;height:110px' /></div></div>]]></description>
+    <Point>
+     <coordinates>19.0563011169434,47.4925297834248</coordinates>
+    </Point>
+   </Placemark>
+   <Placemark id="placemark-34">
+    <styleUrl>#3</styleUrl>
+    <name>Hotel Best Western Grand Hotel Hungaria        in Budapest</name>
+    <description><![CDATA[<div style='width:350px; text-align:left;'> <img src='http://hotels.budapestrooms.com/hotels/bestwestern/bestwestern_photo1.jpg' style='float:left; width:100px; height:100px; margin-right:4px;' /> Best Western Hotel Hungaria,<br />
+4 stars Hungary's largest hotel.<br />
+Close to the Keleti train station and the Great Boulevard. 12 minutes from the pedestrian area, close to the City centre. The nearest metro stop: 'Keleti'. <br />
+499 rooms <br />
+<br />
+Prices: from 92 &#8364; / night / double room with breakfast <br /> <a href='http://hotels.budapestrooms.com/hotels/bestwestern.htm'>more information and reservation</a> <br /><div style='text-align:center;'><img src='http://www.budapestrooms.com/panel/bas_logo.gif' style='width:110px;height:110px' /></div></div>]]></description>
+    <Point>
+     <coordinates>19.0789175033569,47.499633644173</coordinates>
+    </Point>
+   </Placemark>
+   <Placemark id="placemark-35">
+    <styleUrl>#3</styleUrl>
+    <name>Hotel Flamenco        in Budapest</name>
+    <description><![CDATA[<div style='width:350px; text-align:left;'> <img src='http://hotels.budapestrooms.com/hotels/flamenco/flamenco_photo1.jpg' style='float:left; width:100px; height:100px; margin-right:4px;' /> Danubius Hotel Flamenco<br />
+The 4-star Congress Park Hotel Flamenco is one of the biggest hotels in Budapest and Hungary. Close to the Gellért Hill and the Citadel. 15 minutes from the pedestrian area on a No. 7 bus.<br />
+355 rooms<br />
+<br />
+Prices: from 82 &#8364; / night / double room with breakfast <br /> <a href='http://hotels.budapestrooms.com/hotels/flamenco.htm'>more information and reservation</a> <br /><div style='text-align:center;'><img src='http://www.budapestrooms.com/panel/bas_logo.gif' style='width:110px;height:110px' /></div></div>]]></description>
+    <Point>
+     <coordinates>19.0397894382477,47.4782176605243</coordinates>
+    </Point>
+   </Placemark>
+   <Placemark id="placemark-36">
+    <styleUrl>#3</styleUrl>
+    <name>Hotel Touring    in Budapest</name>
+    <description><![CDATA[<div style='width:350px; text-align:left;'> <img src='http://hotels.budapestrooms.com/hotels/touring/touring_photo2.jpg' style='float:left; width:100px; height:100px; margin-right:4px;' /> Hotel Touring, 2 stars<br />
+Close to 'Aquincum'.<br />
+'Békásmegyer' HÉV (suburban train) station is nearby. 40 minutes from the centre of the City by HÉV and metro. <br />
+136 rooms<br />
+<br />
+Prices: from 26 &#8364; / single room, 41 &#8364; / night / double room with breakfast <br /> <a href='http://hotels.budapestrooms.com/hotels/touring.htm'>more information and reservation</a> <br /><div style='text-align:center;'><img src='http://www.budapestrooms.com/panel/bas_logo.gif' style='width:110px;height:110px' /></div></div>]]></description>
+    <Point>
+     <coordinates>19.0605497360229,47.594501136571</coordinates>
+    </Point>
+   </Placemark>
+   <Placemark id="placemark-37">
+    <styleUrl>#3</styleUrl>
+    <name>Hotel Platanus      in Budapest</name>
+    <description><![CDATA[<div style='width:350px; text-align:left;'> <img src='http://hotels.budapestrooms.com/hotels/platanus/platanus_photo4.jpg' style='float:left; width:100px; height:100px; margin-right:4px;' /> Hotel Platanus, 3 stars<br />
+10 minutes from the centre by metro, line No 3. Close to 'Népliget' metro station ('Népliget' is one of the largest parks in Budapest).<br />
+133 rooms<br />
+<br />
+Prices: from 50 &#8364; / night / double room with breakfast <br /> <a href='http://hotels.budapestrooms.com/hotels/platanus.htm'>more information and reservation</a> <br /><div style='text-align:center;'><img src='http://www.budapestrooms.com/panel/bas_logo.gif' style='width:110px;height:110px' /></div></div>]]></description>
+    <Point>
+     <coordinates>19.100546836853,47.4785802244373</coordinates>
+    </Point>
+   </Placemark>
+   <Placemark id="placemark-38">
+    <styleUrl>#3</styleUrl>
+    <name>Hotel Zugló    in Budapest</name>
+    <description><![CDATA[<div style='width:350px; text-align:left;'> <img src='http://hotels.budapestrooms.com/hotels/zuglo/zuglo_photo5.jpg' style='float:left; width:100px; height:100px; margin-right:4px;' /> Hotel Zugló, 2 stars<br />
+Close to 'City Park' and M 3 highway.'Örs vezér tere' metro station is not far. 12 minutes, 5 stops from the pedestrian area by metro. <br />
+72 rooms<br />
+<br />
+Prices: from 35 &#8364; / night / double room with breakfast <br /> <a href='http://hotels.budapestrooms.com/hotels/zuglo.htm'>more information and reservation</a> <br /><div style='text-align:center;'><img src='http://www.budapestrooms.com/panel/bas_logo.gif' style='width:110px;height:110px' /></div></div>]]></description>
+    <Point>
+     <coordinates>19.1050958633423,47.520997423365</coordinates>
+    </Point>
+   </Placemark>
+   <Placemark id="placemark-39">
+    <styleUrl>#3</styleUrl>
+    <name>Hotel Taverna        in Budapest</name>
+    <description><![CDATA[<div style='width:350px; text-align:left;'> <img src='http://hotels.budapestrooms.com/hotels/taverna/taverna_photo1.jpg' style='float:left; width:100px; height:100px; margin-right:4px;' /> Hotel Taverna, 4 stars<br />
+A truly central location - right in the middle of Váci utca, a shopping street in vogue. 'Deák tér' and 'Ferenciek tere' metro stations nearby. Close to Vörösmarty square and the Chain bridge. <br />
+226 rooms<br />
+<br />
+Prices: from 153 &#8364; / night / double room with breakfast <br /> <a href='http://hotels.budapestrooms.com/hotels/taverna.htm'>more information and reservation</a> <br /><div style='text-align:center;'><img src='http://www.budapestrooms.com/panel/bas_logo.gif' style='width:110px;height:110px' /></div></div>]]></description>
+    <Point>
+     <coordinates>19.0531468391418,47.4930952279522</coordinates>
+    </Point>
+   </Placemark>
+   <Placemark id="placemark-40">
+    <styleUrl>#3</styleUrl>
+    <name>Hotel Vila Korda      in Budapest</name>
+    <description><![CDATA[<div style='width:350px; text-align:left;'> <img src='http://hotels.budapestrooms.com/hotels/korda/korda_photo1.jpg' style='float:left; width:100px; height:100px; margin-right:4px;' /> Hotel Villa Korda , 3-star, elegant hotel above the city with great view. Close to 'Pálvölgyi Cave'. The downtown can be reached in 15 minutes by car, 30 min with public transportation. <br />
+<br />
+21 rooms.<br />
+<br />
+Prices: from 39 &#8364; / night / double room with breakfast <br /> <a href='http://hotels.budapestrooms.com/hotels/korda.htm'>more information and reservation</a> <br /><div style='text-align:center;'><img src='http://www.budapestrooms.com/panel/bas_logo.gif' style='width:110px;height:110px' /></div></div>]]></description>
+    <Point>
+     <coordinates>19.0140509605408,47.5318354179428</coordinates>
+    </Point>
+   </Placemark>
+   <Placemark id="placemark-41">
+    <styleUrl>#3</styleUrl>
+    <name>Hotel Stadion      in Budapest</name>
+    <description><![CDATA[<div style='width:350px; text-align:left;'> <img src='http://hotels.budapestrooms.com/hotels/stadion/stadion_photo1.jpg' style='float:left; width:100px; height:100px; margin-right:4px;' /> Hotel Stadion, 3 stars<br />
+20 minutes from the pedestrian area, near Budapest's largest sports centre the Puskás Ferenc Stadium, the Budapest Arena and the Budapest Fair Centre (BNV). The nearest metro stop: 'Népstadion'.<br />
+<br />
+Prices: from 70 &#8364; / night / double room with breakfast <br /> <a href='http://hotels.budapestrooms.com/hotels/stadion.htm'>more information and reservation</a> <br /><div style='text-align:center;'><img src='http://www.budapestrooms.com/panel/bas_logo.gif' style='width:110px;height:110px' /></div></div>]]></description>
+    <Point>
+     <coordinates>19.10395860672,47.5002135087435</coordinates>
+    </Point>
+   </Placemark>
+   <Placemark id="placemark-42">
+    <styleUrl>#3</styleUrl>
+    <name>Hotel Le Meridien          in Budapest</name>
+    <description><![CDATA[<div style='width:350px; text-align:left;'> <img src='http://hotels.budapestrooms.com/hotels/lemeridien/lemeridien_photo1.jpg' style='float:left; width:100px; height:100px; margin-right:4px;' /> Le Meridien, 5 stars<br />
+In the very heart of the City centre.<br />
+'Deák tér' metro station is nearby.<br />
+192 rooms, 26 spacious de luxe bedrooms<br />
+<br />
+Prices: from 159 &#8364; / night / double room with buffet breakfast <br /> <a href='http://hotels.budapestrooms.com/hotels/lemeridien.htm'>more information and reservation</a> <br /><div style='text-align:center;'><img src='http://www.budapestrooms.com/panel/bas_logo.gif' style='width:110px;height:110px' /></div></div>]]></description>
+    <Point>
+     <coordinates>19.0521597862244,47.4972996245101</coordinates>
+    </Point>
+   </Placemark>
+  </Folder>
+  <Folder>
+   <name>Sights</name>
+   <Placemark id="placemark-43">
+    <styleUrl>#4</styleUrl>
+    <name>The Houses of Parliament</name>
+    <description><![CDATA[<div style='width:350px; text-align:left;'> <img src='http://cityguide.budapestrooms.com/photos/parlament.jpg' style='float:left; width:100px; height:100px; margin-right:4px;' /> After long discussion the construction of Parliament began in 1885 according to plans by Imre Steindl. Completed in 1904 it is one of Europe's most splendid Parliament buildings, reflecting its designer's taste and the nation's demands for representation. At the same time it is one of the landmarks of the capital. The neo-Gothic palace is 268 m long and its dome is 96 m high. The outer walls are decorated with statues of Hungarian monarchs and military commanders. <br /> <a href='http://cityguide.budapestrooms.com/sights/index.htm#house'>more information and reservation</a> <br /><div style='text-align:center;'><img src='http://www.budapestrooms.com/panel/bas_logo.gif' style='width:110px;height:110px' /></div></div>]]></description>
+    <Point>
+     <coordinates>19.046516418457,47.5071931259671</coordinates>
+    </Point>
+   </Placemark>
+   <Placemark id="placemark-44">
+    <styleUrl>#4</styleUrl>
+    <name>Buda Castle</name>
+    <description><![CDATA[<div style='width:350px; text-align:left;'> <img src='http://cityguide.budapestrooms.com/photos/sights/budda.jpg' style='float:left; width:100px; height:100px; margin-right:4px;' /> This was the residence of Hungarian kings. The fortification system and palace, built in the 13th century following the Mongol invasion, was destroyed and rebuilt many times, and being renewed from time to time symbolizes the country itself. Built on medieval foundations, the Renaissance structures were destroyed by the Turks. Later, the Baroque Palace burned down, then its reconstructed buildings were damaged during the War of Independence (1848). In the late 19 th century Miklós Ybl oversaw the reconstruction and enlargement of the Palace, which was completed in the neo-Baroque style by Alajos Hauszmann. <br /> <a href='http://cityguide.budapestrooms.com/sights/index.htm#Buda'>more information and reservation</a> <br /><div style='text-align:center;'><img src='http://www.budapestrooms.com/panel/bas_logo.gif' style='width:110px;height:110px' /></div></div>]]></description>
+    <Point>
+     <coordinates>19.0407228469849,47.4956034084781</coordinates>
+    </Point>
+   </Placemark>
+   <Placemark id="placemark-45">
+    <styleUrl>#4</styleUrl>
+    <name>Fishermen's Bastion</name>
+    <description><![CDATA[<div style='width:350px; text-align:left;'> <img src='http://cityguide.budapestrooms.com/photos/fisherman.jpg' style='float:left; width:100px; height:100px; margin-right:4px;' /> As part of the expansive plans for the reconstruction of Castle Hill in the late 19th century was that segment of the city-wall that stands behind Matthias Church.<br />
+Between 1901 and 1905 the existing parts of the fortress were connected by neo-Romanesque corridors, terraces and towers following designs by Frigyes Schulek. The Fishermen's Bastion has become one of the capital's landmarks, offering a panoramic view of Pest. <br /> <a href='http://cityguide.budapestrooms.com/sights/index.htm#Fisherman'>more information and reservation</a> <br /><div style='text-align:center;'><img src='http://www.budapestrooms.com/panel/bas_logo.gif' style='width:110px;height:110px' /></div></div>]]></description>
+    <Point>
+     <coordinates>19.0355515480042,47.5016124056575</coordinates>
+    </Point>
+   </Placemark>
+   <Placemark id="placemark-46">
+    <styleUrl>#4</styleUrl>
+    <name>St. Matthias Church</name>
+    <description><![CDATA[<div style='width:350px; text-align:left;'> <img src='http://cityguide.budapestrooms.com/photos/sights/mathias.jpg' style='float:left; width:100px; height:100px; margin-right:4px;' /> This was the coronation church of Hungarian kings since King Matthias. The records of 1247 first mention this church as the main church of Buda Castle. The originally French building in early Gothic style has been consistently enlarged and rebuilt over the centuries. In 1526, when the Turks conquered Buda, the church was transformed into a mosque. After the reconquest of the city (1686) the church belonged to the Franciscans and later to the Jesuits. Between the years 1874 and 1896, Frigyes Schulek completely reconstructed the Church of Our Lady in the neo-Gothic style. <br /> <a href='http://cityguide.budapestrooms.com/sights/index.htm#Matthias'>more information and reservation</a> <br /><div style='text-align:center;'><img src='http://www.budapestrooms.com/panel/bas_logo.gif' style='width:110px;height:110px' /></div></div>]]></description>
+    <Point>
+     <coordinates>19.0348649024963,47.501887831746</coordinates>
+    </Point>
+   </Placemark>
+   <Placemark id="placemark-47">
+    <styleUrl>#4</styleUrl>
+    <name>The Millenary Monument</name>
+    <description><![CDATA[<div style='width:350px; text-align:left;'> <img src='http://cityguide.budapestrooms.com/photos/sights/millenary_monument.jpg' style='float:left; width:100px; height:100px; margin-right:4px;' /> The spectacular ensemble of statues erected to commemorate the thousandth anniversary of the Magyar Conquest is situated at the end of Budapest's most beautiful avenue (Andrássy Street). The monument was designed by Albert Schickedanz and Fülöp Herczog. Many of the statues representing Hungarian Monarchs and Princes of Transylvania were made by György Zala. At the center of the Monument there is a column surrounded by seven figures - leaders of the seven Hungarian tribes. <br /> <a href='http://cityguide.budapestrooms.com/sights/sights2.htm#Millenary'>more information and reservation</a> <br /><div style='text-align:center;'><img src='http://www.budapestrooms.com/panel/bas_logo.gif' style='width:110px;height:110px' /></div></div>]]></description>
+    <Point>
+     <coordinates>19.0779733657837,47.5149833989931</coordinates>
+    </Point>
+   </Placemark>
+   <Placemark id="placemark-48">
+    <styleUrl>#4</styleUrl>
+    <name>The Chain Bridge</name>
+    <description><![CDATA[<div style='width:350px; text-align:left;'> <img src='http://cityguide.budapestrooms.com/photos/chain_bridge.jpg' style='float:left; width:100px; height:100px; margin-right:4px;' /> In 1832, count István Széchenyi, 'the greatest Hungarian' began to organize the construction of the bridge. While travelling in England, Széchenyi became personally acquainted with William Thierney Clark, who was commissioned to draft the plans for the bridge, and his namesake Adam Clark was asked to direct the construction , which was finished in 1849. The retreating German troops blew up the Chain Bridge in January 1945. This vital element of Budapest's cityscape was restored on the 100 th anniversary of its inauguration. <br /> <a href='http://cityguide.budapestrooms.com/sights/sights2.htm#Chain'>more information and reservation</a> <br /><div style='text-align:center;'><img src='http://www.budapestrooms.com/panel/bas_logo.gif' style='width:110px;height:110px' /></div></div>]]></description>
+    <Point>
+     <coordinates>19.0435552597046,47.4989377982346</coordinates>
+    </Point>
+   </Placemark>
+   <Placemark id="placemark-49">
+    <styleUrl>#4</styleUrl>
+    <name>The Opera House</name>
+    <description><![CDATA[<div style='width:350px; text-align:left;'> <img src='http://cityguide.budapestrooms.com/photos/sights/opera.jpg' style='float:left; width:100px; height:100px; margin-right:4px;' /> The construction of the Opera, completed in 1884, was executed according to plans by Miklós Ybl. An ornate interior and exterior in the neo-Renaissance style serves the needs of the metropolis. Fine art works from leading Hungarian artists decorate the building. The technical equipment was supplied by the Austrian Asphaleia Company. The Opera House was renewed on the occasion of the 100 th anniversary of its opening. <br /> <a href='http://cityguide.budapestrooms.com/sights/sights2.htm#Opera'>more information and reservation</a> <br /><div style='text-align:center;'><img src='http://www.budapestrooms.com/panel/bas_logo.gif' style='width:110px;height:110px' /></div></div>]]></description>
+    <Point>
+     <coordinates>19.0587902069092,47.5023879438442</coordinates>
+    </Point>
+   </Placemark>
+   <Placemark id="placemark-50">
+    <styleUrl>#4</styleUrl>
+    <name>The Synagogue in Dohány Street</name>
+    <description><![CDATA[<div style='width:350px; text-align:left;'> <img src='http://cityguide.budapestrooms.com/photos/sights/synagogue.jpg' style='float:left; width:100px; height:100px; margin-right:4px;' /> The Synagogue of Pest is one of the most beautiful and largest in Europe. The Austrian Ludwig Förster was commissioned to design the building which was erected between 1854 and 1859, and displays Romantic and Morisco motifs. The three flat-celling halls of the Synagogue are of equal height. The celling and women's gallery are supported by cast-iron columns, testifying for the structure's advanced technical level. Heroes' Chapel was raised behind the Synagogue in 1931, and the Jewish Museum in 1932. <br /> <a href='http://cityguide.budapestrooms.com/sights/sights3.htm#Synagogue'>more information and reservation</a> <br /><div style='text-align:center;'><img src='http://www.budapestrooms.com/panel/bas_logo.gif' style='width:110px;height:110px' /></div></div>]]></description>
+    <Point>
+     <coordinates>19.0605282783508,47.4958643683572</coordinates>
+    </Point>
+   </Placemark>
+   <Placemark id="placemark-51">
+    <styleUrl>#4</styleUrl>
+    <name>St. Stephen's Basilica</name>
+    <description><![CDATA[<div style='width:350px; text-align:left;'> <img src='http://cityguide.budapestrooms.com/photos/sights/basilica2.jpg' style='float:left; width:100px; height:100px; margin-right:4px;' /> Though Budapest's biggest cathedral is not a basilica in the architectural sense tradition and the authority bestowed by the Pope have earned it this denotation. Its construction was begun in the neo-Classic style but later modified by Miklós Ibl according to architectural models from the Italian Renaissance. Dedicated in 1905, with a dome 96 m high Basilica holds up to 8500 persons. St. Stephen's statue of Carrara marble by Alajos Stróbl stands in the Sanctuary. <br /> <a href='http://cityguide.budapestrooms.com/sights/sights2.htm#Stephen'>more information and reservation</a> <br /><div style='text-align:center;'><img src='http://www.budapestrooms.com/panel/bas_logo.gif' style='width:110px;height:110px' /></div></div>]]></description>
+    <Point>
+     <coordinates>19.0541338920593,47.5009093377744</coordinates>
+    </Point>
+   </Placemark>
+   <Placemark id="placemark-52">
+    <styleUrl>#4</styleUrl>
+    <name>Váci Street</name>
+    <description><![CDATA[<div style='width:350px; text-align:left;'> <img src='http://cityguide.budapestrooms.com/photos/sights/vaci_street.jpg' style='float:left; width:100px; height:100px; margin-right:4px;' /> The heart of Budapest is Váci Street between Vörösmarty Square and Elizabeth Bridge. The street gained its status in the mid-19 th century when the original small buildings and shops were replaced by neo-Classical and Eclectic apartments, department-store, international trade-centre and hotel located here, making Váci Street another Symbol of Budapest.<br />
+Remember: Váci út and Váci utca are two different streets . While 'Váci utca' ('Váci street') is the famous pedestrian street in the centre, 'Váci út' is a wide main street in a suburb. <br /> <a href='http://cityguide.budapestrooms.com/sights/sights3.htm#Vaci'>more information and reservation</a> <br /><div style='text-align:center;'><img src='http://www.budapestrooms.com/panel/bas_logo.gif' style='width:110px;height:110px' /></div></div>]]></description>
+    <Point>
+     <coordinates>19.0510225296021,47.4959078615442</coordinates>
+    </Point>
+   </Placemark>
+   <Placemark id="placemark-53">
+    <styleUrl>#4</styleUrl>
+    <name>Elizabeth Bridge</name>
+    <description><![CDATA[<div style='width:350px; text-align:left;'> <img src='http://cityguide.budapestrooms.com/photos/sights/elizabeth_bridge.jpg' style='float:left; width:100px; height:100px; margin-right:4px;' /> The original construction of the bridge between 1897 and 1903 was carried out according to the plans by Aurél Czekelius. Many houses and squares had to be destroyed at the Pest end of the bridge, today's Kossuth Lajos Street was straightened, and the bridge-gate and the two Eclectic 'Klotild-Palaces', were also built. The beatiful bridge, the world's longest chain-bridge until 1926, was blown up in 1945 by the retreating German troops. Designed by Pál Sávoly, it was rebuilt as a cable-bridge in 1963.<br />
+^^ Top <br /> <a href='http://cityguide.budapestrooms.com/sights/sights4.htm#Elizabeth'>more information and reservation</a> <br /><div style='text-align:center;'><img src='http://www.budapestrooms.com/panel/bas_logo.gif' style='width:110px;height:110px' /></div></div>]]></description>
+    <Point>
+     <coordinates>19.049391746521,47.4910219015866</coordinates>
+    </Point>
+   </Placemark>
+   <Placemark id="placemark-54">
+    <styleUrl>#4</styleUrl>
+    <name>The Hungarian National Museum</name>
+    <description><![CDATA[<div style='width:350px; text-align:left;'> <img src='http://cityguide.budapestrooms.com/photos/sights/national_museum.jpg' style='float:left; width:100px; height:100px; margin-right:4px;' /> The Museum was built in 1847 according to plans by Mihály Pollack. Treasures of Hungarian history, including the coronation insignia are displayed here. The staircase of the Museum is adorned by the frescoes of famous Hungarian painters. In the garden, besides the statues of eminent representatives of Hungarian culture, are ancient relics, such as the column from the Forum Romanum. The museum is also one of the symbols of the War of Independence of 1848-49. <br /> <a href='http://cityguide.budapestrooms.com/sights/sights4.htm#National'>more information and reservation</a> <br /><div style='text-align:center;'><img src='http://www.budapestrooms.com/panel/bas_logo.gif' style='width:110px;height:110px' /></div></div>]]></description>
+    <Point>
+     <coordinates>19.0625023841858,47.4909059088827</coordinates>
+    </Point>
+   </Placemark>
+   <Placemark id="placemark-55">
+    <styleUrl>#4</styleUrl>
+    <name>The Museum of Fine Arts</name>
+    <description><![CDATA[<div style='width:350px; text-align:left;'> <img src='http://cityguide.budapestrooms.com/photos/sights/museum_fine_arts2.jpg' style='float:left; width:100px; height:100px; margin-right:4px;' /> To the left of the Millenary Monument stands the Museum of Fine Arts by architect Albert Schickedanz. The neo-Classical building was raised in 1906 and is one of the last great structures in the Hungarian Historic style. The Museum was founded with donations of collections, foremost from the Eszterházy family. The Museum later enlarged its collection with further acquisitions. Most notably, the \'Old Picture Gallery\' holds masterpieces by Spanish painters like Murillo, El Greco and Goya. It contains also a special Egyptian exhibit. <br /> <a href='http://cityguide.budapestrooms.com/sights/sights5.htm#Fine'>more information and reservation</a> <br /><div style='text-align:center;'><img src='http://www.budapestrooms.com/panel/bas_logo.gif' style='width:110px;height:110px' /></div></div>]]></description>
+    <Point>
+     <coordinates>19.0771150588989,47.5155775863051</coordinates>
+    </Point>
+   </Placemark>
+   <Placemark id="placemark-56">
+    <styleUrl>#4</styleUrl>
+    <name>Széchenyi Bath</name>
+    <description><![CDATA[<div style='width:350px; text-align:left;'> <img src='http://cityguide.budapestrooms.com/photos/sights/szechenyi_bath.jpg' style='float:left; width:100px; height:100px; margin-right:4px;' /> The largest thermal bath of Budapest. The neo-baroque baths were built in 1913. Its thermal springs were discovered in 1879 - they are the deepest and warmest thermal wells in Budapest. It is a vast complex of indoor and outdoor pools, the premier medicinal bath of Pest, situated in the middle of the City Park. <br /> <a href='http://cityguide.budapestrooms.com/sights/sights5.htm#Szechenyi'>more information and reservation</a> <br /><div style='text-align:center;'><img src='http://www.budapestrooms.com/panel/bas_logo.gif' style='width:110px;height:110px' /></div></div>]]></description>
+    <Point>
+     <coordinates>19.0819644927979,47.5183745240026</coordinates>
+    </Point>
+   </Placemark>
+   <Placemark id="placemark-57">
+    <styleUrl>#4</styleUrl>
+    <name>Gellért Bath</name>
+    <description><![CDATA[<div style='width:350px; text-align:left;'> <img src='http://cityguide.budapestrooms.com/photos/sights/gellert2.jpg' style='float:left; width:100px; height:100px; margin-right:4px;' /> The best-known and most prestigious thermal bath and swimming-pool of Budapest with its famous sparkling bath, open-air pool with artificial wawes and full medical services. It was built in 1918, near Gellért Hill and the Szabadság Bridge. The Art-Nouveau main hall is topped by a vaulted glass roof. The gallery surrounding the pool is supported by monumental Roman-style columns. The spa is decorated with a wealth of original Art-Nouveau furnishings, artistic mosaics, sculptures, and stained glass windows.<br />
+Next to the Gellert Bath you can find Gellert Hotel. Sophisticated guests, who appreciate traditional architecture and dedicated service will honour this preserved jewel of construction art and at the same time enjoy the unique historical atmosphere of the Hotel Gellert. If you want to reserve room in Gellert Hotel. <br /> <a href='http://cityguide.budapestrooms.com/sights/sights5.htm#Gellert'>more information and reservation</a> <br /><div style='text-align:center;'><img src='http://www.budapestrooms.com/panel/bas_logo.gif' style='width:110px;height:110px' /></div></div>]]></description>
+    <Point>
+     <coordinates>19.0525245666504,47.4838588716076</coordinates>
+    </Point>
+   </Placemark>
+   <Placemark id="placemark-58">
+    <styleUrl>#4</styleUrl>
+    <name>Citadel</name>
+    <description><![CDATA[<div style='width:350px; text-align:left;'> <img src='http://cityguide.budapestrooms.com/photos/sights/citadel2.jpg' style='float:left; width:100px; height:100px; margin-right:4px;' /> It is a white-stoned fortress from the 19 th century on the top of Gellért Hill, crowned by the 14 m tall Liberation Monument, a striking statue of a woman holding a palm leaf of victory. The fortress was built in 1851 by the Austrians as a symbol of their power over the Hungarians after the 1848-49 Revolution and War of Independence. The Monument was raised by the Russians in 1947. You can enjoy from here a wonderful panorama of the whole city. <br /> <a href='http://cityguide.budapestrooms.com/sights/sights6.htm#Citadell'>more information and reservation</a> <br /><div style='text-align:center;'><img src='http://www.budapestrooms.com/panel/bas_logo.gif' style='width:110px;height:110px' /></div></div>]]></description>
+    <Point>
+     <coordinates>19.0453791618347,47.4870635057724</coordinates>
+    </Point>
+   </Placemark>
+   <Placemark id="placemark-59">
+    <styleUrl>#4</styleUrl>
+    <name>National Theater</name>
+    <description><![CDATA[<div style='width:350px; text-align:left;'> <img src='http://cityguide.budapestrooms.com/photos/sights/national_theater.jpg' style='float:left; width:100px; height:100px; margin-right:4px;' /> The old National Theater (1837) was destroyed in the 2nd WW. During a long period a 'temporary' building served as a national theater. In March 2002 the new extravagant and eclectic theater opened its gate for the public. It has a wonderful garden. <br /> <a href='http://cityguide.budapestrooms.com/sights/sights6.htm#NationalTheater'>more information and reservation</a> <br /><div style='text-align:center;'><img src='http://www.budapestrooms.com/panel/bas_logo.gif' style='width:110px;height:110px' /></div></div>]]></description>
+    <Point>
+     <coordinates>19.071192741394,47.4713284708183</coordinates>
+    </Point>
+   </Placemark>
+  </Folder>
+  <Folder>
+   <name>Airports</name>
+   <Placemark id="placemark-66">
+    <styleUrl>#5</styleUrl>
+    <name>Ferihegy International Airport in Budapest</name>
+    <description><![CDATA[<div style='width:350px; text-align:left;'> <img src='http://cityguide.budapestrooms.com/photos/transport/budapest-ferihegy_airport.jpg' style='float:left; width:100px; height:100px; margin-right:4px;' /> The International airport serving the Hungarian capital city of Budapest, and the largest of the country's five international airports. It is also the second largest airport in the new EU member states. The airport offers international connections primarily within Europe, but also to Asia, the Middle East, and North America. In 2007, the airport served 8.6 million passengers. <br /> <a href='http://cityguide.budapestrooms.com/transport.htm'>more information and reservation</a> <br /><div style='text-align:center;'><img src='http://www.budapestrooms.com/panel/bas_logo.gif' style='width:110px;height:110px' /></div></div>]]></description>
+    <Point>
+     <coordinates>19.2507934570312,47.4355191531953</coordinates>
+    </Point>
+   </Placemark>
+  </Folder>
+  <Folder>
+   <name>Transport</name>
+   <Placemark id="placemark-64">
+    <styleUrl>#6</styleUrl>
+    <name>Keleti railway station in Budapest</name>
+    <description><![CDATA[<div style='width:350px; text-align:left;'> <img src='http://cityguide.budapestrooms.com/photos/transport/keleti.jpg' style='float:left; width:100px; height:100px; margin-right:4px;' /> The building was constructed in eclectic style between 1881 and 1884 and was one of the most modern railway stations of Europe in that time. It was planned by Gyula Rochlitz and János Feketeházy. The station's length is 93 m, the platform length is 80 m, underground depth is 14 m. <br /> <a href='http://cityguide.budapestrooms.com/transport.htm'>more information and reservation</a> <br /><div style='text-align:center;'><img src='http://www.budapestrooms.com/panel/bas_logo.gif' style='width:110px;height:110px' /></div></div>]]></description>
+    <Point>
+     <coordinates>19.0629100799561,47.5138384825173</coordinates>
+    </Point>
+   </Placemark>
+   <Placemark id="placemark-63">
+    <styleUrl>#6</styleUrl>
+    <name>Nyugati railway station in Budapest</name>
+    <description><![CDATA[<div style='width:350px; text-align:left;'> <img src='http://cityguide.budapestrooms.com/photos/transport/nyugati.jpg' style='float:left; width:100px; height:100px; margin-right:4px;' /> The station was planned by August de Serres and was built by the Eiffel company. It was opened on October 28, 1877. Previously another station stood in its place, the end station of Hungary's first railway line, the Pest&#8211;Vác line (constructed in 1846). This building was pulled down in order to construct the Nagykörút. <br /> <a href='http://cityguide.budapestrooms.com/transport.htm'>more information and reservation</a> <br /><div style='text-align:center;'><img src='http://www.budapestrooms.com/panel/bas_logo.gif' style='width:110px;height:110px' /></div></div>]]></description>
+    <Point>
+     <coordinates>19.0847969055176,47.5005034386272</coordinates>
+    </Point>
+   </Placemark>
+   <Placemark id="placemark-65">
+    <styleUrl>#6</styleUrl>
+    <name>Déli railway station in Budapest</name>
+    <description><![CDATA[<div style='width:350px; text-align:left;'> <img src='http://cityguide.budapestrooms.com/photos/transport/deli.jpg' style='float:left; width:100px; height:100px; margin-right:4px;' /> Déli pályaudvar or Southern Railway Station is the third largest railway station of Budapest, after Budapest keleti pályaudvar and Budapest nyugati pályaudvar. It can be found in the 1st district. <br /> <a href='http://cityguide.budapestrooms.com/transport.htm'>more information and reservation</a> <br /><div style='text-align:center;'><img src='http://www.budapestrooms.com/panel/bas_logo.gif' style='width:110px;height:110px' /></div></div>]]></description>
+    <Point>
+     <coordinates>19.0283203125,47.4930227354043</coordinates>
+    </Point>
+   </Placemark>
+  </Folder>
+ </Document>
+</kml>
