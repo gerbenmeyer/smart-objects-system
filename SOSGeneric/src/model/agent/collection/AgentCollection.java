@@ -29,7 +29,8 @@ public final class AgentCollection implements AgentCollectionView {
 	/**
 	 * Constructs a new AgentCollection object.
 	 * 
-	 * @param factory an AgentFactory used for creating new agents
+	 * @param factory
+	 *            an AgentFactory used for creating new agents
 	 */
 	public AgentCollection(AgentFactory factory) {
 		this.factory = factory;
@@ -38,9 +39,11 @@ public final class AgentCollection implements AgentCollectionView {
 	}
 
 	/**
-	 * Creates a new agent from a PropertiesObject and adds it to the collection.
+	 * Creates a new agent from a PropertiesObject and adds it to the
+	 * collection.
 	 * 
-	 * @param po the PropertiesObject to be added
+	 * @param po
+	 *            the PropertiesObject to be added
 	 */
 	public synchronized void putAgentFromPropertiesObject(PropertiesObject po) {
 		if (Settings.getProperty(Settings.PAUSE_AGENT_EXECUTION_WHEN_PUTTING_AGENTS).equals("true")) {
@@ -52,39 +55,48 @@ public final class AgentCollection implements AgentCollectionView {
 		Agent a;
 		if (!hasKey) {
 			a = factory.createAgent(po, this);
-//			if (Settings.getProperty(Settings.AGENT_PROBLEM_DETECTION_ENABLED).equals(Boolean.toString(true))) {
-//				Property statusProperty = Property.createProperty(PropertyType.STATUS, "Status", AgentStatus.UNKNOWN
-//						.toString());
-//				statusProperty.setAgentCollectionView(this);
-//				statusProperty.setAgentView(a);
-//				a.putProperty(statusProperty);
-//			}
+			// if
+			// (Settings.getProperty(Settings.AGENT_PROBLEM_DETECTION_ENABLED).equals(Boolean.toString(true)))
+			// {
+			// Property statusProperty =
+			// Property.createProperty(PropertyType.STATUS, "Status",
+			// AgentStatus.UNKNOWN
+			// .toString());
+			// statusProperty.setAgentCollectionView(this);
+			// statusProperty.setAgentView(a);
+			// a.putProperty(statusProperty);
+			// }
 		} else {
 			a = agentsMap.get(id);
 		}
 
 		a.putProperties(po, this, a, true);
 
-		if (!a.isGarbage()){
+		if (!a.isGarbage()) {
 			if (!hasKey) {
-				put(a);	
+				put(a);
+			} else {
+				indexer.update(a);
 			}
-			indexer.update(a);
 		}
 	}
+
 	/**
 	 * Adds an agent to the collection.
 	 * 
-	 * @param agent the agent to be added to the collection
+	 * @param agent
+	 *            the agent to be added to the collection
 	 */
 	public void put(Agent agent) {
 		agentsMap.put(agent.getID(), agent);
+		indexer.update(agent);
 	}
 
 	/**
 	 * True if the collection contains a certain identifier.
 	 * 
-	 * @param id the identifier of an agent
+	 * @param id
+	 *            the identifier of an agent
 	 * @return true or false
 	 */
 	public boolean containsKey(String id) {
@@ -92,7 +104,8 @@ public final class AgentCollection implements AgentCollectionView {
 	}
 
 	/**
-	 * @param id the identifier of an agent
+	 * @param id
+	 *            the identifier of an agent
 	 * @return the AgentView of an agent
 	 */
 	public AgentView get(String id) {
@@ -102,7 +115,8 @@ public final class AgentCollection implements AgentCollectionView {
 	/**
 	 * Removes an agent from the collection when it is in it.
 	 * 
-	 * @param id the identifier of an agent
+	 * @param id
+	 *            the identifier of an agent
 	 */
 	public void remove(String id) {
 		Agent a = agentsMap.remove(id);
