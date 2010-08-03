@@ -57,7 +57,7 @@ public class StatusProperty extends Property {
 	}
 	
 	public String getIcon(){
-		return getAgentView().getStatus().toString().toLowerCase() + ".png";
+		return status.toString().toLowerCase() + ".png";
 	}
 
 	@Override
