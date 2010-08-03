@@ -1,0 +1,257 @@
+body{
+	font-family: Arial;
+	font-size: 12px;
+	padding: 0px;
+	margin: 0px;
+	height: 800px;
+}
+
+img {
+	border-width: 0px;
+	vertical-align: bottom;
+}
+
+#header_canvas{
+	position: absolute;
+	top: 10px;
+	left: 10px;
+	right: 10px;
+	color: #375285;
+	background-color: white;
+	border: 1px solid #666;
+	opacity: 0.8;
+	padding: 20px;
+}
+
+#header_canvas h1 {
+	font-size: 16px;
+	margin: 0px 7px;
+	padding: 0px;
+	display: inline;
+}
+
+#header_canvas h1 a {
+	color: #375285;
+}
+
+#header_canvas h2 {
+	font-size: 10px;
+	margin: 0px 50px;
+	padding: 0px;
+}
+
+p {
+	margin: 10px;
+}
+
+h2{
+	display: block;
+	margin: 0px auto;
+	padding: 5px;
+	margin: 5px;
+	color: #375285;
+	font-size: 14px;
+}
+
+h3{
+	margin: 8px 10px;
+	color: #375285;
+	font-size: 13px;
+}
+
+a {
+	color: black;
+}
+
+#menu_canvas{
+	position: absolute;
+	left: 10px;
+	top: 90px;
+	width: 150px;
+	height: auto;
+	max-height: 70%;
+	display: block;
+	overflow: auto;
+	background-color: white;
+	padding: 5px;
+	border: 1px solid #666;
+	opacity: 0.8;
+}
+
+#details_canvas{
+	position: absolute;
+	right: 10px;
+	top: 90px;
+	width: 350px;
+	bottom: 30px;
+	display: none;
+	overflow: auto;
+	background-color: white;
+	padding: 5px;
+	border: 1px solid #666;
+	opacity: 0.8;
+}
+
+#hidden_frame{
+	position: absolute;
+	left: 1px;
+	top: 1px;
+	width: 1px;
+	height: 1px;
+	display: block;
+	overflow: auto;
+	background-color: yellow;	
+	display: none;	
+}
+
+#map_canvas{
+	display: block;
+	height: 600px;
+}
+
+.labels{
+     color: black;
+	 background-color: white;
+     font-family: "Lucida Grande", "Arial", sans-serif;
+     font-size: 10px;
+     text-align: center;
+     overflow: hidden;
+     padding: 0px 1px;
+     width: 48px;     
+     top: 0px;
+     left: -25px;
+     opacity: 0.6;
+     height: 13px;
+     border: 1px solid black;
+}
+
+div.block{
+	overflow: auto;
+	max-height: 200px;
+}
+
+div.propertyheader{
+	border: 1px solid #bbb;
+	display: block;
+	background-color: #dae8f9;
+	padding: 1px;
+	margin: 0px;
+	overflow: hidden;
+}
+
+div.property{
+	border-left: 1px solid #bbb;
+	border-right: 1px solid #bbb;
+	border-bottom: 1px solid #bbb;
+	display: block;
+	padding: 1px;
+	margin: 0px; 
+	overflow: hidden;
+}
+
+div.linked_property:hover{
+	cursor: pointer;
+	background-color: #dae8f9;
+}
+
+div.menu_name{
+	display: inline-block;
+	padding: 2px;
+	overflow: hidden;
+}
+
+div.linked_property > div.menu_name{
+	text-decoration: underline;
+}
+
+div.linked_property > div.propertyname{
+	text-decoration: underline;
+}
+
+div.propertyicon{
+	display: inline-block;
+	padding: 2px;
+	width: 16px;
+	overflow: hidden;
+}
+	
+div.propertyname{
+	display: inline-block;
+	padding: 2px;
+	width: 100px;
+	overflow: hidden;
+	text-overflow: ellipsis;
+	-o-text-overflow: ellipsis;
+}
+
+div.propertyvalue{
+	display: inline-block;
+	padding: 2px;
+	overflow: hidden;
+	width: 180px;
+	overflow: hidden;
+	text-overflow: ellipsis;
+	-o-text-overflow: ellipsis;	
+}
+
+div.filter_text{
+	display: inline-block;
+	margin: 3px 3px 3px 4px;
+}
+
+div.historytoggle {
+	float:right;
+}
+
+div.history {
+	float: right;
+	display: none;
+	background-color: white;
+	border-style: solid;
+	border-width: 2px;
+	border-color: black;
+	width: 300px;
+}
+
+div.history .propertyname{
+	width: 50px;
+}
+
+div.history .propertyvalue{
+	width: 180px;
+}
+
+#details_canvas.overview {
+	width: 170px;
+}
+/*
+div.overview .propertyheader{
+	width: 50px;
+}
+
+div.overview .propertyname{
+	width: 50px;
+}
+
+div.overview .propertyvalue{
+	width: 180px;
+}*/
+/*
+div.history .propertyheader{
+	border: 1px solid #bbb;
+	display: block;
+	background-color: #dae8f9;
+	padding: 1px;
+	margin: 0px;
+	overflow: hidden;
+}
+
+div.history .property{
+	border-left: 1px solid #bbb;
+	border-right: 1px solid #bbb;
+	border-bottom: 1px solid #bbb;
+	display: block;
+	padding: 1px;
+	margin: 0px; 
+	overflow: hidden;
+}*/
