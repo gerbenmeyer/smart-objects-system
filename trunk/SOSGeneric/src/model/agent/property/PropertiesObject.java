@@ -9,7 +9,6 @@ import model.agent.AgentView;
 import model.agent.collection.AgentCollectionView;
 import model.agent.property.properties.DependenciesProperty;
 import model.agent.property.properties.LocationProperty;
-import util.comparators.StringComparator;
 import util.enums.AgentStatus;
 import util.enums.GoogleLocationType;
 import util.enums.PropertyType;
@@ -505,7 +504,7 @@ public class PropertiesObject {
 	public String getArffAttributesString() {
 		String attributes = "";
 		Vector<String> propertiesKeySet = new Vector<String>(properties.keySet());
-		Collections.sort(propertiesKeySet, new StringComparator());
+		Collections.sort(propertiesKeySet);
 
 		for (String propertyKey : propertiesKeySet) {
 			Property p = properties.get(propertyKey);
@@ -527,7 +526,7 @@ public class PropertiesObject {
 	public String getArffInstanceString() {
 		String instance = "";
 		Vector<String> propertiesKeySet = new Vector<String>(properties.keySet());
-		Collections.sort(propertiesKeySet, new StringComparator());
+		Collections.sort(propertiesKeySet);
 
 		for (String propertyKey : propertiesKeySet) {
 			Property p = properties.get(propertyKey);

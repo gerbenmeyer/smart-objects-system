@@ -58,7 +58,7 @@ public class SearchAgent extends Agent {
 			ids.remove(ids.size()-1);
 		}
 
-		detailsPane.addTableHeader("", Capitalize.capitalize(Settings.getProperty(Settings.KEYWORD_DEEPLINK)));
+		detailsPane.addDataHeader("", Capitalize.capitalize(Settings.getProperty(Settings.KEYWORD_DEEPLINK)));
 
 		boolean showStatus = Settings.getProperty(Settings.AGENT_PROBLEM_DETECTION_ENABLED).equals(
 				Boolean.toString(true));
@@ -67,7 +67,7 @@ public class SearchAgent extends Agent {
 			AgentView pov = getAgentCollectionView().get(id);
 			if (pov == null) {
 				//TODO: This is just here for debugging purposes
-				detailsPane.addTableRow("unknown.png", "Agent not found!", "");
+				detailsPane.addDataRow("unknown.png", "Agent not found!", "");
 				continue;
 			}
 			if (pov.getType().equals("")) {
@@ -80,7 +80,7 @@ public class SearchAgent extends Agent {
 
 			String statusIcon = showStatus ? pov.getStatus().toString().toLowerCase() + ".png" : "";
 
-			detailsPane.addTableRowLink(pov.getIcon(), pov.getLabel(), statusIcon, pov.getID()
+			detailsPane.addDataRowLink(pov.getIcon(), pov.getLabel(), statusIcon, pov.getID()
 					+ ".html");
 		}
 	}

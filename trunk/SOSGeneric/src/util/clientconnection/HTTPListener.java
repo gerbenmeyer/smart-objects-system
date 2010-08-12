@@ -27,18 +27,31 @@ import com.sun.net.httpserver.Authenticator.Result;
 import com.sun.net.httpserver.Authenticator.Retry;
 import com.sun.net.httpserver.Authenticator.Success;
 
+/**
+ * The HTTPListener listens for HTTP client connections and handles the request.
+ * 
+ * @author W.H. Mook
+ */
 public class HTTPListener implements HttpHandler {
 	private AgentCollectionView agentCollectionView;
 
 	private final String errorPage = "<!DOCTYPE html>\n<html>\n"
-			+ HtmlTool.createHeadBody("File not found", null, new StringBuffer(HtmlTool.createHeader1("File not found!")), null, null).toString()
-			+ "\n</html>";
+		+ HtmlTool.createHeadBody("File not found", null, new StringBuffer(HtmlTool.createHeader1("File not found!")), null, null).toString()
+		+ "\n</html>";
 
 	private String htmlDir1;
 	private String htmlDir2;
 
 	HTTPAuthenticator authenticator = null;
 
+	/**
+	 * Constructs a new HTTPListener instance, with an AgentCollectionView to request data from agents and
+	 * a usernames/passwords hash which is used for construction of a {@link #HTTPAuthenticator}.
+	 * The listening port is read from the Settings of the project, as is the directory for accessing resources.
+	 * 
+	 * @param acv the view
+	 * @param passwords the hash
+	 */
 	public HTTPListener(AgentCollectionView acv, HashMap<String, String> passwords) {
 		super();
 		this.agentCollectionView = acv;
@@ -71,6 +84,12 @@ public class HTTPListener implements HttpHandler {
 
 	}
 
+	/**
+	 * Decodes an URL and returns its query parameters in a HashMap. 
+	 * 
+	 * @param msg the URL
+	 * @return the hash
+	 */
 	private HashMap<String, String> decodeQuery(String msg) {
 		HashMap<String, String> params = new HashMap<String, String>();
 		String[] msgParams = msg.split("&");
@@ -87,6 +106,12 @@ public class HTTPListener implements HttpHandler {
 		return params;
 	}
 
+	/**
+	 * Creates an URL with parameters from a HashMap with keys/values.
+	 * 
+	 * @param params the parameters
+	 * @return the URL
+	 */
 	private String encodeQuery(HashMap<String, String> params) {
 		String query = "";
 		for (String key : params.keySet()) {
@@ -105,6 +130,11 @@ public class HTTPListener implements HttpHandler {
 		return query;
 	}
 
+	/**
+	 * Handles a HTTP request by gathering data from the AgentCollection or serving static resources.
+	 * 
+	 * @param t the request
+	 */
 	@Override
 	public void handle(HttpExchange t) throws IOException {
 
@@ -198,7 +228,7 @@ public class HTTPListener implements HttpHandler {
 					// TODO: Use other property then hidden for this!
 					if (pov.isHidden()) {
 						if (Settings.getProperty(Settings.SHOW_OVERVIEW_LISTS).equals("true")) {
-							mapContent.addCustomScript("parent.details_canvas.innerHTML = 'Loading ...';\n");
+							mapContent.addCustomScript("parent.document.getElementById('details_canvas').innerHTML = 'Loading ...';\n");
 							mapContent.addCustomScript("parent.setDetailsSize(true);\n");
 							mapContent.addCustomScript("parent.loadDetails('" + agentCode + "_details.html"
 									+ (!paramString.isEmpty() ? "?" + paramString : "") + "');\n");
@@ -207,7 +237,7 @@ public class HTTPListener implements HttpHandler {
 						}
 					} else {
 						if (Settings.getProperty(Settings.SHOW_AGENT_DETAILS).equals("true")) {
-							mapContent.addCustomScript("parent.details_canvas.innerHTML = 'Loading ...';\n");
+							mapContent.addCustomScript("parent.document.getElementById('details_canvas').innerHTML = 'Loading ...';\n");
 							mapContent.addCustomScript("parent.setDetailsSize("
 									+ Settings.getProperty(Settings.SHOW_AGENT_DETAILS_SMALL).equals(
 											Boolean.toString(true)) + ");\n");

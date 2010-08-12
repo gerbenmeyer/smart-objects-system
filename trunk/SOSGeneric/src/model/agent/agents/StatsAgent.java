@@ -58,12 +58,12 @@ public class StatsAgent extends Agent {
 	public void generateDetailsPaneContent(HtmlDetailsPaneContentGenerator detailsPane, HashMap<String, String> params) {
 		detailsPane.addHeader("Statistics");
 		detailsPane.addSubHeader("Index");
-		detailsPane.addTableHeader("", "Property");
-		detailsPane.addTableRow("#", "Agent types: " + getAgentCollectionView().getIndex().getAgentTypes().size(), "");
-		detailsPane.addTableRow("#", "Agent IDs: " + getAgentCollectionView().getIndex().getAgentIDs().size(), "");
-		detailsPane.addTableRow("#", "Keywords: " + getAgentCollectionView().getIndex().getKeywords().size(), "");
-		detailsPane.addTableRow("#", "Entries: " + entries, "");
-		detailsPane.addTableRow("", "Act: " + executionWaitTime+" s", "");
+		detailsPane.addDataHeader("", "Property");
+		detailsPane.addDataRow("#", "Agent types: " + getAgentCollectionView().getIndex().getAgentTypes().size(), "");
+		detailsPane.addDataRow("#", "Agent IDs: " + getAgentCollectionView().getIndex().getAgentIDs().size(), "");
+		detailsPane.addDataRow("#", "Keywords: " + getAgentCollectionView().getIndex().getKeywords().size(), "");
+		detailsPane.addDataRow("#", "Entries: " + entries, "");
+		detailsPane.addDataRow("", "Act: " + executionWaitTime+" s", "");
 	}
 
 	@Override

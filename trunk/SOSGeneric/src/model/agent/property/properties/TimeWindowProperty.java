@@ -4,9 +4,10 @@ import model.agent.property.Property;
 import util.enums.PropertyType;
 
 /**
+ * A Property implementation holding a time window.
+ * This is used for defining a period of time.
  * 
  * @author Gerben G. Meyer
- * 
  */
 public class TimeWindowProperty extends Property {
 
@@ -14,24 +15,32 @@ public class TimeWindowProperty extends Property {
 	private TimeProperty endTime = new TimeProperty();
 
 	/**
+	 * Constructs a named TimeWindowProperty.
 	 * 
-	 * @param name
-	 * @param pov
-	 * @param pocv
+	 * @param name the name
 	 */
 	public TimeWindowProperty(String name) {
 		super(name, PropertyType.TIMEWINDOW);
 	}
 
 	/**
+	 * Constructs a named TimeWindowProperty with a value.
 	 * 
-	 * @param value
+	 * @param name the name
+	 * @param value the value
 	 */
 	public TimeWindowProperty(String name, String value) {
 		this(name);
 		parseString(value);
 	}
 
+	/**
+	 * Constructs a named TimeWindowProperty using two TimeProperties.
+	 * 
+	 * @param name the name
+	 * @param startValue the start TimeProperty
+	 * @param endValue the end TimeProperty
+	 */
 	public TimeWindowProperty(String name, TimeProperty startValue, TimeProperty endValue) {
 		this(name);
 		setStartTime(startValue);
@@ -39,15 +48,18 @@ public class TimeWindowProperty extends Property {
 	}
 
 	/**
-	 * @return the startTime
+	 * Gets the starting time of this TimeWindowProperty.
+	 * 
+	 * @return the time
 	 */
 	public TimeProperty getStartTime() {
 		return startTime;
 	}
 
 	/**
-	 * @param startTime
-	 *            the startTime to set
+	 * Sets the starting time of this TimeWindowProperty.
+	 * 
+	 * @param startTime the start time
 	 */
 	public void setStartTime(TimeProperty startTime) {
 		this.startTime = startTime;
@@ -55,15 +67,18 @@ public class TimeWindowProperty extends Property {
 	}
 
 	/**
-	 * @return the endTime
+	 * Gets the end time of this TimeWindowProperty.
+	 * 
+	 * @return the time
 	 */
 	public TimeProperty getEndTime() {
 		return endTime;
 	}
 
 	/**
-	 * @param endTime
-	 *            the endTime to set
+	 * Sets the ending time of this TimeWindowProperty.
+	 * 
+	 * @param endTime the end time
 	 */
 	public void setEndTime(TimeProperty endTime) {
 		this.endTime = endTime;
@@ -71,9 +86,6 @@ public class TimeWindowProperty extends Property {
 	}
 
 	@Override
-	/*
-	 * *
-	 */
 	public String toString() {
 		return startTime.toString() + " - " + endTime.toString();
 	}

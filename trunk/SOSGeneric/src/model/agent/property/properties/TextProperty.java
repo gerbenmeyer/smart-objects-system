@@ -4,24 +4,28 @@ import model.agent.property.Property;
 import util.enums.PropertyType;
 
 /**
+ * A Property implementation holding text.
  * 
  * @author Gerben G. Meyer
- * 
  */
 public class TextProperty extends Property {
 
 	private String text;
 
 	/**
+	 * Constructs a named TextProperty.
 	 * 
-	 * @param name
+	 * @param name the name
 	 */
 	public TextProperty(String name) {
 		super(name, PropertyType.TEXT);
 	}
 
 	/**
-	 * @param text
+	 * Constructs a named TextProperty with a value.
+	 * 
+	 * @param name the name
+	 * @param text the text value
 	 */
 	public TextProperty(String name, String text) {
 		this(name);
@@ -29,6 +33,8 @@ public class TextProperty extends Property {
 	}
 
 	/**
+	 * Gets the text of this TextProperty.
+	 * 
 	 * @return the text
 	 */
 	public String getText() {
@@ -36,8 +42,9 @@ public class TextProperty extends Property {
 	}
 
 	/**
-	 * @param text
-	 *            the text to set
+	 * Sets the text of this TextProperty.
+	 * 
+	 * @param text the text
 	 */
 	public void setText(String text) {
 		this.text = text;
@@ -71,5 +78,4 @@ public class TextProperty extends Property {
 	public String toInformativeString() {
 		return toString();
 	}
-
 }
