@@ -20,22 +20,22 @@ import util.xmltool.KeyDataVector;
 import util.xmltool.XMLTool;
 
 /**
+ * XMLServerClientHandler handles the XML requests sent to the server by a client.
  * 
  * @author Gerben G. Meyer
- * 
  */
 public class XMLServerClientHandler extends Thread {
 
 	private Socket clientSocket = null;
 	private PrintWriter pw = null;
 	private BufferedReader br = null;
-
 	private SOSServer server;
 
 	/**
+	 * Constructs a new XMLServerClientHandler instance for a server and a socket.
 	 * 
-	 * @param server
-	 * @param clientSocket
+	 * @param server the server
+	 * @param clientSocket the socket
 	 */
 	public XMLServerClientHandler(SOSServer server, Socket clientSocket) {
 		super();
@@ -46,7 +46,7 @@ public class XMLServerClientHandler extends Thread {
 	}
 
 	/**
-	 * 
+	 * Start handling the requests from the socket.
 	 */
 	public void run() {
 		String clientUsername = "unknown";
@@ -92,8 +92,10 @@ public class XMLServerClientHandler extends Thread {
 	}
 
 	/**
+	 * Execute a requested command on the server.
 	 * 
-	 * @param cmd
+	 * @param cmd the command
+	 * @return the result
 	 */
 	private String executeCommand(XMLServerCommand cmd) {
 		try {
@@ -107,10 +109,10 @@ public class XMLServerClientHandler extends Thread {
 				return getAgentIDs(cmd.getParameter());
 			}
 			if (cmd.getName().equals(XMLServerCommand.GET_LOCATION_INFO)) {
-				return getLocationInfo(cmd.getParameter());
+				return getLocation(cmd.getParameter());
 			}
 			if (cmd.getName().equals(XMLServerCommand.PUT_LOCATION_INFO)) {
-				return putLocationInfo(cmd.getParameter());
+				return putLocation(cmd.getParameter());
 			}
 			if (cmd.getName().equals(XMLServerCommand.GET_LOCATION_COLLECTION)) {
 				return getLocationCollection(cmd.getParameter());
@@ -131,9 +133,10 @@ public class XMLServerClientHandler extends Thread {
 	// --------------------------------------------------------------------------------
 
 	/**
+	 * Get an agent from the server and convert it to XML.
 	 * 
-	 * @param xml
-	 * @return
+	 * @param xml the XML request
+	 * @return the result
 	 */
 	private String getAgent(String xml) {
 		String id = xml;
@@ -146,9 +149,10 @@ public class XMLServerClientHandler extends Thread {
 	}
 
 	/**
+	 * Add an agent to the server.
 	 * 
-	 * @param xml
-	 * @return
+	 * @param xml the XML request
+	 * @return the result
 	 */
 	private String putAgent(String xml) {
 		try {
@@ -157,14 +161,14 @@ public class XMLServerClientHandler extends Thread {
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
-
 		return "done";
 	}
 
 	/**
+	 * Get the identifiers of all agents on the server.
 	 * 
-	 * @param xml
-	 * @return
+	 * @param xml the XML request
+	 * @return the result
 	 */
 	private String getAgentIDs(String xml) {
 		Vector<String> codes = server.getAgentCollection().getIndex().getAgentIDs();
@@ -180,14 +184,14 @@ public class XMLServerClientHandler extends Thread {
 	}
 
 	/**
+	 * Get the location of an address from the server.
 	 * 
-	 * @param xml
-	 * @return
+	 * @param xml the XML request
+	 * @return the result
 	 */
-	private String getLocationInfo(String xml) {
+	private String getLocation(String xml) {
 		String address = xml;
-
-		LocationProperty li = server.getLocations().getLocationInfo(address);
+		LocationProperty li = server.getLocations().getLocation(address);
 		if (li == null) {
 			return "error";
 		} else {
@@ -196,21 +200,22 @@ public class XMLServerClientHandler extends Thread {
 	}
 
 	/**
-	 * 
-	 * @param xml
-	 * @return
+	 * Adds a location to the server.
+	 *
+	 * @param xml the XML request
+	 * @return the result
 	 */
-	private String putLocationInfo(String xml) {
+	private String putLocation(String xml) {
 		LocationProperty li = (LocationProperty) LocationProperty.fromXML(xml);
-
 		server.getLocations().putLocationInfo(li);
 		return "done";
 	}
 
 	/**
+	 * Get the collection of locations on the server.
 	 * 
-	 * @param xml
-	 * @return
+	 * @param xml the XML request
+	 * @return the result
 	 */
 	private String getLocationCollection(String xml) {
 		String path = Settings.getProperty(Settings.LOCATIONS_DATA_DIR) + "locationdata.xml";
@@ -218,9 +223,10 @@ public class XMLServerClientHandler extends Thread {
 	}
 
 	/**
+	 * Train the status of an Agent on the server.
 	 * 
-	 * @param xml
-	 * @return
+	 * @param xml the XML request
+	 * @return the result
 	 */
 	private String addTrainingInstance(String xml) {
 		String agentCode = "";
@@ -242,7 +248,6 @@ public class XMLServerClientHandler extends Thread {
 		} else {
 			return "error";
 		}
-
 		return "done";
 	}
 }

@@ -23,17 +23,13 @@ import util.xmltool.KeyDataVector;
 import util.xmltool.XMLTool;
 
 /**
+ * The LocationCollection holds a collection of LocationProperties. 
+ * It is used for caching locations, so they won't have to be geocoded on every occurrence.
  * 
  * @author Gerben G. Meyer
- * 
  */
 public class LocationCollection extends HashMap<String, LocationProperty> {
 
-	// singleton //
-
-	/**
-	 * 
-	 */
 	private static final long serialVersionUID = -7444940490537223100L;
 
 	private final String BASE_GEOCODER_URL = "http://maps.google.com/maps/api/geocode/xml";
@@ -47,18 +43,26 @@ public class LocationCollection extends HashMap<String, LocationProperty> {
 	private long doNotUseV2TillThisTimeInMillis = 0;
 	
 	/**
-	 * 
+	 * Constructs a LocationCollection instance.
 	 */
 	public LocationCollection() {
 		super();
 	}
 	
+	/**
+	 * Reads and parses the local XML file with locations.
+	 */
 	public void readLocationsFromXML(){
 		String locationDir = Settings.getProperty(Settings.LOCATIONS_DATA_DIR) + "locationdata.xml";
 		String xml = XMLTool.xmlFromFile(locationDir);
 		handleXMLLocationCollection(xml);
 	}
 
+	/**
+	 * Parses the XML formatted string.
+	 * 
+	 * @param xml the xml
+	 */
 	public void handleXMLLocationCollection(String xml) {
 		xml = XMLTool.removeRootTag(xml);
 		KeyDataVector prop = XMLTool.XMLToProperties(xml);
@@ -68,6 +72,11 @@ public class LocationCollection extends HashMap<String, LocationProperty> {
 		}
 	}
 
+	/**
+	 * Parses the XML formatted string into LocationProperties and stores them in the collection.
+	 * 
+	 * @param xml the xml
+	 */
 	private void handleXMLLocationInfo(String xml) {
 		LocationProperty location = (LocationProperty) LocationProperty.fromXML(xml);
 
@@ -80,11 +89,13 @@ public class LocationCollection extends HashMap<String, LocationProperty> {
 	}
 
 	/**
+	 * Gets the LocationProperty of an address from the collection if it exists,
+	 * or look it up (and store it for later use).
 	 * 
-	 * @param address
-	 * @return
+	 * @param address the address to lookup
+	 * @return the location
 	 */
-	public LocationProperty getLocationInfo(String address) {
+	public LocationProperty getLocation(String address) {
 		String normAddress = Property.normalize(address);
 		LocationProperty result = this.get(normAddress);
 		if (result == null) { // street not known
@@ -96,6 +107,11 @@ public class LocationCollection extends HashMap<String, LocationProperty> {
 		return result;
 	}
 
+	/**
+	 * Adds a location to the collection.
+	 * 
+	 * @param location the location
+	 */
 	public synchronized void putLocationInfo(LocationProperty location) {
 
 		// store result
@@ -116,6 +132,13 @@ public class LocationCollection extends HashMap<String, LocationProperty> {
 
 	}
 
+	/**
+	 * Lookup a location from a geocoder.
+	 * If the first geocoder times out, a backup geocoder is used.
+	 * 
+	 * @param address the address to look up
+	 * @return the location
+	 */
 	private synchronized LocationProperty locationLookup(String address) {
 		boolean hasGeo = false;
 		String orgAddress = address;

@@ -8,44 +8,73 @@ import model.agent.property.Property;
 import util.enums.PropertyType;
 
 /**
+ * A Property implementation holding a time. 
  * 
  * @author Gerben G. Meyer
- * 
  */
 public class TimeProperty extends Property {
 
 	private GregorianCalendar dateTime = new GregorianCalendar();
 
+	/**
+	 * Time pattern 1.
+	 */
 	public final static String formatPattern1 = "dd-MM-yy HH:mm";
+	/**
+	 * Time pattern 2.
+	 */
 	public final static String formatPattern2 = "MM/dd/yy HH:mm";
 
+	/**
+	 * Constructs a named TimeProperty.
+	 * 
+	 * @param name the name
+	 */
 	public TimeProperty(String name) {
 		super(name, PropertyType.TIME);
 	}
 
+	/**
+	 * Constructs a named TimeProperty with a value.
+	 * 
+	 * @param name the name
+	 * @param value the value in the format of {@link #formatPattern1} or {@link #formatPattern2}
+	 */
 	public TimeProperty(String name, String value) {
 		this(name);
 		parseString(value);
 	}
 	
+	/**
+	 * Constructs a named TimeProperty with a value using a GregorianCalendar.
+	 * 
+	 * @param name the name
+	 * @param value the calendar
+	 */
 	public TimeProperty(String name, GregorianCalendar value){
 		this(name);
 		setDateTime(value);
 	}
 
+	/**
+	 * Constructs an unnamed TimeProperty using the time of construction as time.
+	 */
 	public TimeProperty() {
 		this("");
 		dateTime = new GregorianCalendar();
 	}
 
 	/**
-	 * @return the date
+	 * Gets the time of this TimeProperty.
+	 * 
+	 * @return the calendar
 	 */
 	public GregorianCalendar getDateTime() {
 		return dateTime;
 	}
 
 	/**
+	 * Sets the time of this TimeProperty using a GregorianCalendar.
 	 * 
 	 * @param dateTime
 	 */
@@ -55,24 +84,31 @@ public class TimeProperty extends Property {
 	}
 
 	/**
-	 * @param dateTime
-	 *            the date to set
+	 * Sets the time of this TimeProperty using values for each field.
+	 * 
+	 * @param year the year
+	 * @param month the month
+	 * @param dayOfMonth the day of the month
+	 * @param hourOfDay the hour
+	 * @param minute the minute
 	 */
 	public void setDateTime(int year, int month, int dayOfMonth, int hourOfDay, int minute) {
 		this.dateTime = new GregorianCalendar(year, month - 1, dayOfMonth, hourOfDay, minute);
 		mutateHistory();
 	}
-
-	@Override
-	/*
-	 * *
-	 */
-	public String toString() {
-		return new SimpleDateFormat(formatPattern1).format(this.dateTime.getTime());
-	}
 	
+	/**
+	 * Returns a formatted string with the time of calling as time.
+	 * 
+	 * @return
+	 */
 	public static String nowString(){
 		return new SimpleDateFormat(formatPattern1).format(new GregorianCalendar().getTime());
+	}
+
+	@Override
+	public String toString() {
+		return new SimpleDateFormat(formatPattern1).format(this.dateTime.getTime());
 	}
 
 	@Override
@@ -146,5 +182,4 @@ public class TimeProperty extends Property {
 //
 //		return text;
 	}
-
 }

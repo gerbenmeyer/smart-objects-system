@@ -168,7 +168,7 @@ public abstract class Agent extends PropertiesObject implements
 		}
 
 		detailsPane.addSubHeader("Training");
-		detailsPane.addTableHeader("", "Training", "Status");
+		detailsPane.addDataHeader("", "Training", "Status");
 		String url = getID() + ".html?learnstatus=";
 		String trainingCode = "";
 		trainingCode += HtmlTool.createLink(url + AgentStatus.OK.toString(),
@@ -180,6 +180,6 @@ public abstract class Agent extends PropertiesObject implements
 		trainingCode += " ";
 		trainingCode += HtmlTool.createLink(url + AgentStatus.ERROR.toString(),
 				HtmlTool.createImage("error.png", "error", 16), "hidden_frame");
-		detailsPane.addTableRow("info.png", "Provide status", trainingCode, "");
+		detailsPane.addDataRow("info.png", "Provide status", trainingCode, "");
 	}
 }

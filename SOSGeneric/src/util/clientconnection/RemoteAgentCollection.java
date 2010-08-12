@@ -17,24 +17,24 @@ import util.xmltool.KeyDataVector;
 import util.xmltool.XMLTool;
 
 /**
+ * The RemoteAgentCollection is used for remote Agent retrieval and putting.
+ * This is an abstraction layer between a client and the server.
  * 
  * @author Gerben G. Meyer
- * 
  */
 public class RemoteAgentCollection implements AgentCollectionView {
 
 	private Map<String, AgentView> agents = Collections.synchronizedMap(new HashMap<String, AgentView>());
-
 	private XMLServerConnection connection;
-	
 	private AgentIndex index;
 
 	/**
+	 * Constructs a new RemoteAgentCollection instance for a certain server.
 	 * 
-	 * @param serverAddress
-	 * @param serverPort
-	 * @param username
-	 * @param password
+	 * @param serverAddress the server address
+	 * @param serverPort the server port
+	 * @param username a valid username
+	 * @param password the password for the user
 	 */
 	public RemoteAgentCollection(String serverAddress, int serverPort, String username, String password) {
 		super();
@@ -42,8 +42,8 @@ public class RemoteAgentCollection implements AgentCollectionView {
 	}
 
 	/**
- * 
- */
+	 * Synchronizes this collection with the one on the server.
+	 */
 	public void synchronizeWithServer() {
 		connection.connect();
 
@@ -80,9 +80,10 @@ public class RemoteAgentCollection implements AgentCollectionView {
 	}
 
 	/**
+	 * Trains an Agent with a certain status.
 	 * 
-	 * @param agentCode
-	 * @param utility
+	 * @param agentCode the agent's identifier
+	 * @param status the status
 	 */
 	public void addTrainingInstance(String agentCode, AgentStatus status) {
 		connection.connect();
@@ -92,15 +93,15 @@ public class RemoteAgentCollection implements AgentCollectionView {
 		properties.add(new KeyData("AgentCode", "" + agentCode));
 		properties.add(new KeyData("Status", "" + status));
 
-		connection
-				.sendCommandToServer(new XMLServerCommand(XMLServerCommand.ADD_TRAINING_INSTANCE, XMLTool.PropertiesToXML(properties)));
+		connection.sendCommandToServer(new XMLServerCommand(XMLServerCommand.ADD_TRAINING_INSTANCE, XMLTool.PropertiesToXML(properties)));
 
 		connection.disconnect();
 	}
 
 	/**
+	 * Sends a PropertiesObject to the server.
 	 * 
-	 * @param o
+	 * @param o the object
 	 */
 	public void sendObjectToServer(PropertiesObject o) {
 		connection.connect();
@@ -109,16 +110,15 @@ public class RemoteAgentCollection implements AgentCollectionView {
 	}
 
 	/**
+	 * Sends a collection of PropertiesObjects to the server.
 	 * 
-	 * @param world
+	 * @param objects the objects
 	 */
 	public void sendObjectsToServer(Collection<PropertiesObject> objects) {
 		connection.connect();
-
 		for (PropertiesObject o : objects) {
 			connection.sendCommandToServer(new XMLServerCommand(XMLServerCommand.PUT_AGENT, o.toXML()));
 		}
-
 		connection.disconnect();
 
 	}
@@ -137,5 +137,4 @@ public class RemoteAgentCollection implements AgentCollectionView {
 	public AgentIndexView getIndex() {
 		return index;
 	}
-
 }

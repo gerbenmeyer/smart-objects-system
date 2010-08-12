@@ -8,6 +8,11 @@ import java.net.Socket;
 
 import util.xmltool.XMLTool;
 
+/**
+ * XMLServerConnection is used to connect a client to a server and send commands to the server.
+ * 
+ * @author G.G. Meyer
+ */
 public class XMLServerConnection {
 	private Socket sock;
 	private PrintWriter output;
@@ -20,6 +25,14 @@ public class XMLServerConnection {
 	
 	private boolean connected = false;
 
+	/**
+	 * Constructs a new XMLServerConnection instance to a certain server.
+	 * 
+	 * @param serverAddress the server address
+	 * @param serverPort the server port
+	 * @param username a valid username for the server
+	 * @param password the user's password
+	 */
 	public XMLServerConnection(String serverAddress, int serverPort, String username, String password) {
 		super();
 		this.serverAddress = serverAddress;
@@ -28,6 +41,9 @@ public class XMLServerConnection {
 		this.password = password;
 	}
 
+	/**
+	 * Build the connection.
+	 */
 	public void connect(){
 		if (connected){
 			return;
@@ -44,6 +60,9 @@ public class XMLServerConnection {
 		}
 	}
 	
+	/**
+	 * Disconnect the connection.
+	 */
 	public void disconnect(){
 		try {
 			input.close();
@@ -59,11 +78,11 @@ public class XMLServerConnection {
 		}
 		connected = false;
 	}
-	
 	/**
+	 * Sends an XMLServerCommand to the server for handling.
 	 * 
-	 * @param command
-	 * @return
+	 * @param command the command
+	 * @return the result
 	 */
 	public synchronized String sendCommandToServer(XMLServerCommand command) {
 		if (!connected){
@@ -101,6 +120,4 @@ public class XMLServerConnection {
 		}
 		return result;
 	}
-	
-
 }

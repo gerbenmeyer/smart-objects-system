@@ -265,9 +265,9 @@ function drawMap() {
 }
 function setDetailsSize(small){
 	if (small) {
-		details_canvas.className = 'overview';
+		document.getElementById('details_canvas').className = 'overview';
 	} else {
-		details_canvas.className = '';
+		document.getElementById('details_canvas').className = '';
 	}
 }
 function loadDetails(url) {

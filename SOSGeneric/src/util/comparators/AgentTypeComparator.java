@@ -6,9 +6,9 @@ package util.comparators;
 import java.util.Comparator;
 
 /**
- * @author Gerben G. Meyer
+ * Comparator to sort Agents, based on their type.
  * 
- *         Comparator to sort WorldObjects, based on their codes
+ * @author Gerben G. Meyer
  */
 public class AgentTypeComparator implements Comparator<String> {
 

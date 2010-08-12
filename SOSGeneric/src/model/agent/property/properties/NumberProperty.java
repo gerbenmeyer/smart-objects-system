@@ -4,21 +4,28 @@ import model.agent.property.Property;
 import util.enums.PropertyType;
 
 /**
+ * A Property implementation holding a number. 
  * 
  * @author Gerben G. Meyer
- * 
  */
 public class NumberProperty extends Property {
 
 	private double number;
 
+	/**
+	 * Constructs a named NumberProperty instance.
+	 * 
+	 * @param name the name
+	 */
 	public NumberProperty(String name) {
 		super(name,PropertyType.NUMBER);
 	}
 
 	/**
+	 * Constructs a named NumberProperty instance with a value 
 	 * 
-	 * @param number
+	 * @param name the name
+	 * @param value the value
 	 */
 	public NumberProperty(String name, double value) {
 		this(name);
@@ -26,6 +33,8 @@ public class NumberProperty extends Property {
 	}
 
 	/**
+	 * Returns the double value of this NumberProperty.
+	 * 
 	 * @return the number
 	 */
 	public double getNumber() {
@@ -33,8 +42,9 @@ public class NumberProperty extends Property {
 	}
 
 	/**
-	 * @param number
-	 *            the number to set
+	 * Sets the double value of this NumberProperty.
+	 * 
+	 * @param number the number to be set
 	 */
 	public void setNumber(double number) {
 		this.number = number;

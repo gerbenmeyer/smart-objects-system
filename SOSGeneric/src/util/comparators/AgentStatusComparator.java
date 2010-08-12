@@ -10,14 +10,19 @@ import model.agent.collection.AgentCollectionView;
 import util.enums.AgentStatus;
 
 /**
- * @author Gerben G. Meyer
+ * Comparator to sort Agents, based on their statuses.
  * 
- *         Comparator to sort WorldObjects, based on their codes
+ * @author Gerben G. Meyer
  */
 public class AgentStatusComparator implements Comparator<String> {
 
 	private AgentCollectionView propertyObjectCollectionView;
 
+	/**
+	 * Constructs a new AgentStatusComparator. An AgentCollectionView is needed to retrieve the agent status.
+	 * 
+	 * @param agentsView the view
+	 */
 	public AgentStatusComparator(AgentCollectionView agentsView) {
 		this.propertyObjectCollectionView = agentsView;
 	}
@@ -52,7 +57,6 @@ public class AgentStatusComparator implements Comparator<String> {
 		}
 		
 		int diff = 0;
-
 		if (statusValue1 > statusValue2) {
 			diff = -1;
 		}
@@ -63,9 +67,6 @@ public class AgentStatusComparator implements Comparator<String> {
 		if (diff == 0){
 			return label1.compareTo(label2);
 		}
-		
-		
 		return diff;
 	}
-	
 }
