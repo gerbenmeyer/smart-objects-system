@@ -8,7 +8,7 @@ import java.util.Properties;
  * It provides a number of static strings as property keys.
  * 
  * @author W.H. Mook
- * @author G.G. Meyer
+ * @author Gerben G. Meyer
  *
  */
 

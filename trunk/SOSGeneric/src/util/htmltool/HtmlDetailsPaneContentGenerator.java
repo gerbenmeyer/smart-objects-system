@@ -5,7 +5,7 @@ import com.tecnick.htmlutils.htmlentities.HTMLEntities;
 /**
  * HtmlDetailsPaneContentGenerator generates HTML content for the details pane, making use of {@link #HtmlTool}.
  * 
- * @author G.G. Meyer
+ * @author Gerben G. Meyer
  */
 public class HtmlDetailsPaneContentGenerator {
 

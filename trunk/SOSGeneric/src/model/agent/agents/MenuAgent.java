@@ -16,7 +16,7 @@ import util.htmltool.HtmlTool;
 /**
  * Agent for generating the menu.
  * 
- * @author G.G. Meyer
+ * @author Gerben G. Meyer
  *
  */
 public class MenuAgent extends Agent {

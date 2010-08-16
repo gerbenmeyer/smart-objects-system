@@ -4,7 +4,7 @@ package util.enums;
  * The possible statuses of an Agent.
  * Also contains some small logic for prioritizing statuses.
  * 
- * @author G.G. Meyer
+ * @author Gerben G. Meyer
  */
 public enum AgentStatus {
 	//The statuses and their values.

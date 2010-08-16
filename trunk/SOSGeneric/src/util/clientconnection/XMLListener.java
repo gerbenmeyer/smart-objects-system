@@ -9,7 +9,7 @@ import main.Settings;
 /**
  * A listener which delegates received XML based requests.
  * 
- * @author G.G. Meyer
+ * @author Gerben G. Meyer
  */
 public class XMLListener {
 	

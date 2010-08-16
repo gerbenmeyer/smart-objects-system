@@ -6,7 +6,7 @@ import model.agent.index.AgentIndexView;
 /**
  * An interface to get read access to a collection of agents
  * 
- * @author G.G. Meyer
+ * @author Gerben G. Meyer
  *
  */
 public interface AgentCollectionView {

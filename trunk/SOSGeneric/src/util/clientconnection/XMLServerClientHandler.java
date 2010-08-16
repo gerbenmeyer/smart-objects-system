@@ -10,10 +10,10 @@ import java.util.Vector;
 import main.SOSServer;
 import main.Settings;
 import model.agent.AgentView;
+import model.agent.classification.Classifier;
+import model.agent.classification.ClassifierCollection;
 import model.agent.property.PropertiesObject;
 import model.agent.property.properties.LocationProperty;
-import model.agent.utility.Relation;
-import model.agent.utility.RelationCollection;
 import util.enums.AgentStatus;
 import util.xmltool.KeyData;
 import util.xmltool.KeyDataVector;
@@ -243,7 +243,7 @@ public class XMLServerClientHandler extends Thread {
 		}
 		AgentView av = server.getAgentCollection().get(agentCode);
 		if (av != null) {
-			Relation r = RelationCollection.getInstance().getRelation(av.getType(), av.getArffAttributesString());
+			Classifier r = ClassifierCollection.getInstance().getRelation(av.getType(), av.getArffAttributesString());
 			r.addInstance(av.getArffInstanceString(), status);
 		} else {
 			return "error";

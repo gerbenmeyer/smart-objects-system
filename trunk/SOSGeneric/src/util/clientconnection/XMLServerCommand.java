@@ -7,7 +7,7 @@ import util.xmltool.XMLTool;
 /**
  * An XMLServerCommand is used to construct XML requests for client-server communication.
  * 
- * @author G.G. Meyer
+ * @author Gerben G. Meyer
  */
 public class XMLServerCommand {
 

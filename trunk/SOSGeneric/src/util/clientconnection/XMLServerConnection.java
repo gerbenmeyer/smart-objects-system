@@ -11,7 +11,7 @@ import util.xmltool.XMLTool;
 /**
  * XMLServerConnection is used to connect a client to a server and send commands to the server.
  * 
- * @author G.G. Meyer
+ * @author Gerben G. Meyer
  */
 public class XMLServerConnection {
 	private Socket sock;

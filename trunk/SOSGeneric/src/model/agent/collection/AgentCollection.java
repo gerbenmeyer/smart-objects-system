@@ -55,17 +55,6 @@ public final class AgentCollection implements AgentCollectionView {
 		Agent a;
 		if (!hasKey) {
 			a = factory.createAgent(po, this);
-			// if
-			// (Settings.getProperty(Settings.AGENT_PROBLEM_DETECTION_ENABLED).equals(Boolean.toString(true)))
-			// {
-			// Property statusProperty =
-			// Property.createProperty(PropertyType.STATUS, "Status",
-			// AgentStatus.UNKNOWN
-			// .toString());
-			// statusProperty.setAgentCollectionView(this);
-			// statusProperty.setAgentView(a);
-			// a.putProperty(statusProperty);
-			// }
 		} else {
 			a = agentsMap.get(id);
 		}

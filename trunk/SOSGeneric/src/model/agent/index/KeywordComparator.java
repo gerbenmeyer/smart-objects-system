@@ -3,9 +3,9 @@ package model.agent.index;
 import java.util.Comparator;
 
 /**
- * A comperator for comparing keywords to be used whith an AgentIndex.
+ * A comparator for comparing keywords to be used with an AgentIndex.
  * 
- * @author G.G. Meyer
+ * @author Gerben G. Meyer
  */
 public class KeywordComparator implements Comparator<String> {
 

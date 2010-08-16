@@ -12,6 +12,13 @@ import model.agent.collection.AgentCollectionView;
 import util.comparators.AgentStatusComparator;
 import util.enums.PropertyType;
 
+/**
+ * This class is used for indexing a agent collection, in order to enable
+ * searching for agents
+ * 
+ * @author Gerben G. Meyer
+ * 
+ */
 public class AgentIndex implements AgentIndexView {
 
 	private Vector<String> agentIDs = new Vector<String>();
@@ -27,16 +34,19 @@ public class AgentIndex implements AgentIndexView {
 	private Vector<String> blackListStartsWith = new Vector<String>();
 	private Vector<String> blackListEquals = new Vector<String>();
 	private Vector<String> blackListContains = new Vector<String>();
-	
+
 	private AgentCollectionView acv;
 
 	/**
 	 * Constructs a new AgentIndex
+	 * 
+	 * @param acv
+	 *            the agent collection which has to be indexed
 	 */
 	public AgentIndex(AgentCollectionView acv) {
 		super();
 		this.acv = acv;
-		
+
 		blackListStartsWith.add("http:");
 		blackListStartsWith.add("https:");
 
@@ -64,14 +74,6 @@ public class AgentIndex implements AgentIndexView {
 		return agentTypes;
 	}
 
-	// public String getSearchStringAgentType(String type) {
-	// return "type:" + type.toLowerCase();
-	// }
-	//
-	// public String getSearchStringAgentStatus(AgentStatus status) {
-	// return "status:" + status.toString().toLowerCase();
-	// }
-
 	public Set<String> getKeywords() {
 		return keywordMatrix.keySet();
 	}
@@ -85,8 +87,10 @@ public class AgentIndex implements AgentIndexView {
 	/**
 	 * Search for agents which contains a list of keywords
 	 * 
-	 * @param keywords the keywords to be matched
-	 * @return a Vector with the identifiers of the agents that match the keywords
+	 * @param keywords
+	 *            the keywords to be matched
+	 * @return a Vector with the identifiers of the agents that match the
+	 *         keywords
 	 */
 	private Vector<String> getAgentsWithKeywords(String[] keywords) {
 		if (keywords.length <= 0) {
@@ -110,18 +114,19 @@ public class AgentIndex implements AgentIndexView {
 			result.retainAll(subResult);
 		}
 		Collections.sort(result, new AgentStatusComparator(acv));
-		
-		while (result.size() > 10001){
-			result.remove(result.size()-1);
+
+		while (result.size() > 10001) {
+			result.remove(result.size() - 1);
 		}
-		
+
 		return result;
 	}
 
 	/**
 	 * Adds an agent to the AgentIndex and processes it.
 	 * 
-	 * @param agent the agent to be added
+	 * @param agent
+	 *            the agent to be added
 	 */
 	public void add(AgentView agent) {
 		String agentID = agent.getID();
@@ -228,17 +233,13 @@ public class AgentIndex implements AgentIndexView {
 				}
 			}
 		}
-
-		// System.out.println("AgentIDs: " + agentIDs.size() + "; AgentTypes: "
-		// + agentTypes.size() + "; Keywords: "
-		// + keywordMatrix.size());
 	}
 
 	/**
-	 * Removes an agent form the AgentIndex.
-	 * Also removes all of its keywords.
+	 * Removes an agent form the AgentIndex. Also removes all of its keywords.
 	 * 
-	 * @param agent the agent to be removed
+	 * @param agent
+	 *            the agent to be removed
 	 */
 	public void remove(AgentView agent) {
 		String agentID = agent.getID();
@@ -265,15 +266,13 @@ public class AgentIndex implements AgentIndexView {
 		for (String keyword : keywordsToRemove) {
 			keywordMatrix.remove(keyword);
 		}
-		// System.out.println("AgentIDs: " + agentIDs.size() + "; AgentTypes: "
-		// + agentTypes.size() + "; Keywords: "
-		// + keywordMatrix.size());
 	}
 
 	/**
 	 * Updates an agent's keywords
 	 * 
-	 * @param agent the agent to be updated 
+	 * @param agent
+	 *            the agent to be updated
 	 */
 	public void update(AgentView agent) {
 		remove(agent);

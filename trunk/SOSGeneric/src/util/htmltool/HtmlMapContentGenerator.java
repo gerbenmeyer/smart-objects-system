@@ -7,7 +7,7 @@ import com.tecnick.htmlutils.htmlentities.HTMLEntities;
 /**
  * HtmlMapContentGenerator provides methods for building a map using Goolge maps.
  * 
- * @author G.G. Meyer
+ * @author Gerben G. Meyer
  */
 public class HtmlMapContentGenerator {
 
