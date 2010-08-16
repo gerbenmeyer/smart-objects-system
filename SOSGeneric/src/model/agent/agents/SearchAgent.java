@@ -16,7 +16,7 @@ import util.htmltool.HtmlTool;
 /**
  * Agent for searching and generating search data.
  * 
- * @author G.G. Meyer
+ * @author Gerben G. Meyer
  *
  */
 public class SearchAgent extends Agent {

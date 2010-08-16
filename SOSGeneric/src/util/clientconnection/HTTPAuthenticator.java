@@ -7,7 +7,7 @@ import com.sun.net.httpserver.BasicAuthenticator;
 /**
  * This is a BasicAuthenticator implementation which is used for authenticating web users. 
  * 
- * @author G.G. Meyer
+ * @author Gerben G. Meyer
  */
 public class HTTPAuthenticator extends BasicAuthenticator {
 

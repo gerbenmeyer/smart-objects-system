@@ -6,7 +6,7 @@ import java.util.Vector;
 /**
  * This interface must be implemented by searchable agents. 
  * 
- * @author G.G. Meyer
+ * @author Gerben G. Meyer
  */
 public interface AgentIndexView {
 	/**

@@ -3,10 +3,10 @@ package model.agent;
 import java.util.HashMap;
 
 import main.Settings;
+import model.agent.classification.Classifier;
+import model.agent.classification.ClassifierCollection;
 import model.agent.collection.AgentCollectionView;
 import model.agent.property.PropertiesObject;
-import model.agent.utility.Relation;
-import model.agent.utility.RelationCollection;
 import util.enums.AgentStatus;
 import util.htmltool.HtmlDetailsPaneContentGenerator;
 import util.htmltool.HtmlMapContentGenerator;
@@ -72,7 +72,7 @@ public abstract class Agent extends PropertiesObject implements
 	 */
 	public void teachStatus(AgentStatus status) {
 		try {
-			Relation r = RelationCollection.getInstance().getRelation(
+			Classifier r = ClassifierCollection.getInstance().getRelation(
 					this.getType(), getArffAttributesString());
 			r.addInstance(getArffInstanceString(), status);
 		} catch (Exception e) {
@@ -88,7 +88,7 @@ public abstract class Agent extends PropertiesObject implements
 		AgentStatus status = AgentStatus.UNKNOWN;
 		if (Settings.getProperty(Settings.AGENT_PROBLEM_DETECTION_ENABLED).equals(Boolean.toString(true))) {
 			try {
-				Relation r = RelationCollection.getInstance().getRelation(
+				Classifier r = ClassifierCollection.getInstance().getRelation(
 						this.getType(), getArffAttributesString());
 				status = r.getStatus(getArffInstanceString());
 			} catch (Exception e) {

@@ -6,7 +6,7 @@ import model.agent.property.PropertiesObject;
 /**
  * This class is used to create new agents.
  * 
- * @author G.G. Meyer
+ * @author Gerben G. Meyer
  *
  */
 public abstract class AgentFactory {

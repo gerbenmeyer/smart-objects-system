@@ -19,8 +19,10 @@ public class AgentsProcessor implements Runnable {
 	/**
 	 * Constructs a new AgentsProcessor.
 	 * 
-	 * @param agents the agents to be processed
-	 * @param index the AgentIndex to be updated after processing an agent
+	 * @param agents
+	 *            the agents to be processed
+	 * @param index
+	 *            the AgentIndex to be updated after processing an agent
 	 */
 	public AgentsProcessor(AgentCollection agents, AgentIndex index) {
 		this.agents = agents;
@@ -43,12 +45,8 @@ public class AgentsProcessor implements Runnable {
 	}
 
 	/**
-	 * TODO provide proper comments
-	 * The inner loop is used to run (n) agents. The (i) runs from 0 to n, n
-	 * times 1 is added to the iterator. The iterator is a sliding window on the
-	 * linked list. The choice for a while loop instead of a for, was made to
-	 * ensure checking of the conditions continuously, allowing termination of
-	 * the loop at any time.
+	 * Runs the agent processor, by executing every agent in a round-robin
+	 * manner.
 	 */
 	public void run() {
 		// AgentProcessor processor = null;
@@ -66,8 +64,8 @@ public class AgentsProcessor implements Runnable {
 					if (diff > 60000) {
 						agentsPerMinute = agentsProcessed / (diff / 60000);
 					}
-					System.out.println("Execution of " + agents.getIndex().getAgentIDs().size() + " agents paused (average execution speed: "
-							+ agentsPerMinute + " agents/min)");
+					System.out.println("Execution of " + agents.getIndex().getAgentIDs().size()
+							+ " agents paused (average execution speed: " + agentsPerMinute + " agents/min)");
 					paused = true;
 					agentsProcessed = 0;
 				}
@@ -99,7 +97,7 @@ public class AgentsProcessor implements Runnable {
 						iterator--;
 						continue;
 					}
-					
+
 					String oldStatus = agent.toXML();
 
 					// insert agent into the processor.
@@ -128,10 +126,10 @@ public class AgentsProcessor implements Runnable {
 						} catch (InterruptedException e) {
 						}
 					}
-					
+
 					String newStatus = agent.toXML();
-					
-					if (!oldStatus.equals(newStatus)){
+
+					if (!oldStatus.equals(newStatus)) {
 						index.update(agent);
 					}
 				}

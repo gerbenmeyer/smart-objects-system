@@ -11,7 +11,7 @@ import util.htmltool.HtmlMapContentGenerator;
 /**
  * Agent for generating stats.
  * 
- * @author G.G. Meyer
+ * @author Gerben G. Meyer
  *
  */
 public class StatsAgent extends Agent {

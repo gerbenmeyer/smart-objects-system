@@ -7,7 +7,7 @@ import util.enums.PropertyType;
 /**
  * A Property implementation holding a status. 
  * 
- * @author G.G. Meyer
+ * @author Gerben G. Meyer
  */
 public class StatusProperty extends Property {
 
