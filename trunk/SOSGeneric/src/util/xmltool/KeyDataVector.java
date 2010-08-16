@@ -8,24 +8,19 @@ package util.xmltool;
 import java.util.Vector;
 
 /**
+ * An extension of Vector with the purpose of holding KeyData objects.
+ * Provides methods for easy management of the KeyData.
  * 
- * @author Gerben Meyer
- * 
- * @param <A>
- * @param <B>
+ * @author Gerben G. Meyer
  */
 public class KeyDataVector extends Vector<KeyData> {
 
-
-	/**
-	 * 
-	 */
 	private static final long serialVersionUID = 1L;
 
 	/**
-	 * Gets all keys used in this vector
+	 * Get all keys used in this KeyDataVector.
 	 * 
-	 * @return Vector of keys
+	 * @return the keys
 	 */
 	public Vector<String> getKeys() {
 		Vector<String> keys = new Vector<String>();
@@ -36,10 +31,10 @@ public class KeyDataVector extends Vector<KeyData> {
 	}
 
 	/**
-	 * Get the value for a certain key
+	 * Get the value for a certain key.
 	 * 
-	 * @param key
-	 * @return
+	 * @param key the key
+	 * @return the value
 	 */
 	public String getValue(String key) {
 		for (KeyData kd : this) {
@@ -52,10 +47,10 @@ public class KeyDataVector extends Vector<KeyData> {
 
 	/**
 	 * Sets the value for a certain key, replaces the value if the key already
-	 * exists, otherwise it will add it
+	 * exists, otherwise it will be added.
 	 * 
-	 * @param key
-	 * @param value
+	 * @param key the key
+	 * @param value the value
 	 */
 	public void setValue(String key, String value) {
 		for (KeyData kd : this) {
@@ -68,9 +63,9 @@ public class KeyDataVector extends Vector<KeyData> {
 	}
 
 	/**
-	 * Removes the entries from the problemdata with key key
+	 * Removes the KeyData object with a certain key from the collection.
 	 * 
-	 * @param key
+	 * @param key the key to be removed
 	 */
 	public void deleteKey(String key) {
 		Vector<KeyData> toDelete = new Vector<KeyData>();
@@ -82,6 +77,11 @@ public class KeyDataVector extends Vector<KeyData> {
 		this.removeAll(toDelete);
 	}
 	
+	/**
+	 * The text representation of this KeyDataVector.
+	 * 
+	 * @return the text
+	 */
 	public String toString(){
 		String result = "";
 		for (KeyData item: this){
@@ -90,5 +90,4 @@ public class KeyDataVector extends Vector<KeyData> {
 		}
 		return result;
 	}
-
 }
