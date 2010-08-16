@@ -4,6 +4,7 @@ import java.util.HashMap;
 
 import main.Settings;
 import model.agent.property.Property;
+import util.Capitalize;
 import util.enums.AgentStatus;
 import util.enums.GoogleLocationType;
 import util.enums.PropertyType;
@@ -151,7 +152,7 @@ public class LocationProperty extends Property {
 		String result = "";
 		String[] split = this.address.split(",");
 		if (split.length >= 3) {
-			result = ", " + capitalizeFirstLetters(split[1].trim());
+			result = ", " + Capitalize.capitalizeLine(split[1].trim());
 		}
 		return this.addressName + result;
 	}
@@ -160,7 +161,7 @@ public class LocationProperty extends Property {
 	public void parseString(String str) {
 		String[] split = str.split(seperator);
 		if (split.length >= 5) {
-			this.addressName = capitalizeFirstLetters(split[0].trim());
+			this.addressName = Capitalize.capitalizeLine(split[0].trim());
 			this.address = split[1].trim();
 			this.type = GoogleLocationType.valueOf(split[2].trim());
 			this.latitude = Double.parseDouble(split[3].trim());
@@ -238,30 +239,6 @@ public class LocationProperty extends Property {
 		return distance;
 	}
 
-	/**
-	 * Capitalizes the first letter of each word of a string.
-	 * 
-	 * @param input the input
-	 * @return the capitalized sentence.
-	 */
-	private String capitalizeFirstLetters(String input) {
-		String output = "";
-		boolean firstLetter = true;
-
-		for (int i = 0; i < input.length(); i++) {
-			if (firstLetter) {
-				output += Character.toUpperCase(input.charAt(i));
-				firstLetter = false;
-			} else {
-				if (input.charAt(i) == ' ') {
-					firstLetter = true;
-				}
-				output += Character.toLowerCase(input.charAt(i));
-			}
-		}
-		return output;
-	}
-	
 	public String getIcon(){
 		String icon = "location.png";
 		if (getAgentView() != null) {

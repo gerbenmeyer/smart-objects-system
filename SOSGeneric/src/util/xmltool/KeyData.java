@@ -10,9 +10,9 @@ import java.net.URLDecoder;
 import java.net.URLEncoder;
 
 /**
+ * Data structure holding a key value pair used in XML.
  * 
  * @author Gerben Meyer
- * 
  */
 public class KeyData {
 
@@ -20,10 +20,10 @@ public class KeyData {
 	private String value;
 
 	/**
-	 * Constructor
+	 * Constructs a new KeyData instance.
 	 * 
-	 * @param tag
-	 * @param value
+	 * @param key the key
+	 * @param value the value
 	 */
 	public KeyData( String key , String value ) {
 		super();
@@ -32,26 +32,27 @@ public class KeyData {
 	}
 
 	/**
-	 * Same as getKey
+	 * Same as {@link #getKey()}.
 	 * 
-	 * @return Returns the key.
+	 * @return the key
 	 */
 	public String getTag() {
 		return getKey();
 	}
 
 	/**
-	 * Same as setKey
+	 * Same as {@link #setKey(String)}.
 	 * 
-	 * @param tag
-	 *            The key to set.
+	 * @param tag the key to set
 	 */
 	public void setTag( String tag ) {
 		setKey( tag );
 	}
 
 	/**
-	 * @return Returns the key.
+	 * Get the key of this KeyData.
+	 * 
+	 * @return the key.
 	 */
 	public String getKey() {
 		try {
@@ -63,8 +64,9 @@ public class KeyData {
 	}
 
 	/**
-	 * @param key
-	 *            The key to set.
+	 * Set the key of this KeyData.
+	 * 
+	 * @param key the key to set
 	 */
 	public void setKey( String key ) {
 		try {
@@ -75,7 +77,9 @@ public class KeyData {
 	}
 
 	/**
-	 * @return Returns the value.
+	 * Get the value of this KeyData.
+	 * 
+	 * @return the value
 	 */
 	public String getValue() {
 		try {
@@ -87,8 +91,9 @@ public class KeyData {
 	}
 
 	/**
-	 * @param value
-	 *            The value to set.
+	 * Set the value of this KeyData.
+	 * 
+	 * @param value the value to set
 	 */
 	public void setValue( String value ) {
 		try {
@@ -98,6 +103,11 @@ public class KeyData {
 		}
 	}
 	
+	/**
+	 * The text representation of this KeyData.
+	 * 
+	 * @return the key and value
+	 */
 	public String toString(){
 		return getKey()+":"+getValue();
 	}
@@ -105,5 +115,4 @@ public class KeyData {
 //	public boolean equals( KeyData< Object ,  Object > kd){
 //		return kd.getKey().equals(this.getKey()) && kd.getValue().equals(this.getValue());
 //	}
-
 }

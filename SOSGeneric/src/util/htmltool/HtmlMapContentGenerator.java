@@ -196,7 +196,7 @@ public class HtmlMapContentGenerator {
 		HashMap<String, String> scriptAttributes = new HashMap<String, String>();
 		scriptAttributes.put("type", "text/javascript");
 		scriptAttributes.put("src", "http://maps.google.com/maps/api/js?sensor=false");
-		content.append(HtmlTool.createScript("", scriptAttributes));
+		content.append(HtmlTool.createEmptyScript(scriptAttributes));
 		return content;
 	}
 
