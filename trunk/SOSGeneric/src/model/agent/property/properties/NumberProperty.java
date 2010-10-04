@@ -48,7 +48,6 @@ public class NumberProperty extends Property {
 	 */
 	public void setNumber(double number) {
 		this.number = number;
-		mutateHistory();
 	}
 
 	@Override
@@ -64,7 +63,6 @@ public class NumberProperty extends Property {
 	@Override
 	public void parseString(String str) {
 		this.number = Double.parseDouble(str);
-		mutateHistory();
 	}
 
 	public static String parseHint() {
@@ -72,12 +70,12 @@ public class NumberProperty extends Property {
 	}
 
 	@Override
-	public String arffAttributeDeclaration() {
+	public String getArffAttributeDeclaration() {
 		return "@ATTRIBUTE " + getName() + " NUMERIC";
 	}
 
 	@Override
-	public String arffData() {
+	public String getArffData() {
 		return Double.toString(getNumber());
 	}
 }

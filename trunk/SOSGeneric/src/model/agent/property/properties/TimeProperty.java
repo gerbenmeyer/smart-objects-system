@@ -80,7 +80,6 @@ public class TimeProperty extends Property {
 	 */
 	public void setDateTime(GregorianCalendar dateTime) {
 		this.dateTime = dateTime;
-		mutateHistory();
 	}
 
 	/**
@@ -94,13 +93,12 @@ public class TimeProperty extends Property {
 	 */
 	public void setDateTime(int year, int month, int dayOfMonth, int hourOfDay, int minute) {
 		this.dateTime = new GregorianCalendar(year, month - 1, dayOfMonth, hourOfDay, minute);
-		mutateHistory();
 	}
 	
 	/**
-	 * Returns a formatted string with the time of calling as time.
+	 * Returns a formatted string with the current time.
 	 * 
-	 * @return
+	 * @return the time
 	 */
 	public static String nowString(){
 		return new SimpleDateFormat(formatPattern1).format(new GregorianCalendar().getTime());
@@ -123,7 +121,6 @@ public class TimeProperty extends Property {
 				e.printStackTrace();
 			}
 		}
-		mutateHistory();
 	}
 
 	public static String parseHint() {
@@ -135,12 +132,12 @@ public class TimeProperty extends Property {
 	}
 
 	@Override
-	public String arffAttributeDeclaration() {
+	public String getArffAttributeDeclaration() {
 		return "@ATTRIBUTE " + getName() + " NUMERIC";
 	}
 
 	@Override
-	public String arffData() {
+	public String getArffData() {
 		long date = this.dateTime.getTimeInMillis();
 		long now = new GregorianCalendar().getTimeInMillis();
 		double diffHours = (date - now) / (60.0 * 60.0 * 1000.0);

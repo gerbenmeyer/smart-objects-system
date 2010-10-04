@@ -3,7 +3,7 @@ package model.agent.agents;
 import java.util.HashMap;
 
 import model.agent.Agent;
-import model.agent.collection.AgentCollectionView;
+import util.enums.PropertyType;
 import util.htmltool.HtmlDetailsPaneContentGenerator;
 import util.htmltool.HtmlMapContentGenerator;
 
@@ -21,9 +21,18 @@ public abstract class IndexAgent extends Agent {
 	 * 
 	 * @param id the identifier for the agent
 	 * @param pocv the collectionView for (read) access to other agents
+	 * @param agentStorage the storage to be used for this Agent
 	 */
-	public IndexAgent(String id, AgentCollectionView pocv) {
-		super(id, pocv);
+	public IndexAgent(String id) {
+		super(id);
+	}
+	
+	@Override
+	public void initialize() {
+		super.initialize();
+		if (get(Agent.HIDDEN).isEmpty()) {
+			set(PropertyType.BOOLEAN, Agent.HIDDEN, Boolean.toString(true));
+		}
 	}
 
 	@Override

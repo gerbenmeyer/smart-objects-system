@@ -49,7 +49,6 @@ public class StatusProperty extends Property {
 	 */
 	public void setStatus(AgentStatus status) {
 		this.status = status;
-		mutateHistory();
 	}
 
 	@Override
@@ -60,7 +59,6 @@ public class StatusProperty extends Property {
 	@Override
 	public void parseString(String str) {
 		this.status = AgentStatus.valueOf(str);
-		mutateHistory();
 	}
 
 	public static String parseHint() {
@@ -74,5 +72,15 @@ public class StatusProperty extends Property {
 	@Override
 	public String toInformativeString() {
 		return "Status: " + status.toString();
+	}
+
+	@Override
+	public String getArffAttributeDeclaration() {
+		return null;
+	}
+
+	@Override
+	public String getArffData() {
+		return null;
 	}
 }

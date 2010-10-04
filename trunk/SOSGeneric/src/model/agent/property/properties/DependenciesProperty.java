@@ -3,7 +3,10 @@ package model.agent.property.properties;
 import java.util.HashMap;
 import java.util.Vector;
 
-import model.agent.AgentView;
+import model.agent.Agent;
+import model.agent.AgentViewable;
+import model.agent.collection.AgentCollection;
+import model.agent.collection.AgentCollectionViewable;
 import model.agent.property.Property;
 import util.enums.AgentStatus;
 import util.enums.PropertyType;
@@ -154,18 +157,17 @@ public class DependenciesProperty extends Property {
 	@Override
 	public String toInformativeString() {
 		String result = "";
+		AgentCollectionViewable acv = AgentCollection.getInstance();
 		for (String id : list) {
-			if (getAgentCollectionView() != null) {
-				AgentView depPov = getAgentCollectionView().get(id);
-				if (depPov != null) {
-					if (!result.isEmpty()) {
-						result += ", ";
-					}
-					if (depPov.getLabel().isEmpty()) {
-						result += depPov.getID();
-					} else {
-						result += depPov.getLabel();
-					}
+			AgentViewable depPov = acv.get(id);
+			if (depPov != null) {
+				if (!result.isEmpty()) {
+					result += ", ";
+				}
+				if (depPov.get(Agent.LABEL).isEmpty()) {
+					result += depPov.getID();
+				} else {
+					result += depPov.get(Agent.LABEL);
 				}
 			}
 		}
@@ -183,7 +185,7 @@ public class DependenciesProperty extends Property {
 		includeCurrentLocationInRoute.parseString(values[4]);
 		usableForTraining.parseString(values[5]);
 
-		for (int i = 4; i < values.length; i++) {
+		for (int i = 6; i < values.length; i++) {
 			list.add(values[i]);
 		}
 		// getHistory().update(this);
@@ -198,7 +200,7 @@ public class DependenciesProperty extends Property {
 	
 
 	@Override
-	public String arffAttributeDeclaration() {
+	public String getArffAttributeDeclaration() {
 		if (!usableForTraining.getValue()) {
 			return null;
 		}
@@ -209,13 +211,14 @@ public class DependenciesProperty extends Property {
 	}
 
 	@Override
-	public String arffData() {
+	public String getArffData() {
 		if (!usableForTraining.getValue()) {
 			return null;
 		}
 		AgentStatus status = AgentStatus.UNKNOWN;
+		AgentCollectionViewable acv = AgentCollection.getInstance();
 		for (String id : list) {
-			AgentView pov = getAgentCollectionView().get(id);
+			AgentViewable pov = acv.get(id);
 			if (pov != null) {
 				try {
 					AgentStatus newValue = pov.getStatus();
@@ -229,19 +232,16 @@ public class DependenciesProperty extends Property {
 
 	@Override
 	public void toScript(HtmlMapContentGenerator mapContent, HashMap<String, String> params) {
+		AgentCollectionViewable acv = AgentCollection.getInstance();
 		if (getAgentView() == null) {
 			System.err.println("DependenciesProperty: Unable to create script, agentView is null");
-			return;
-		}
-		if (getAgentCollectionView() == null) {
-			System.err.println("DependenciesProperty: Unable to create script, agentCollectionView is null");
 			return;
 		}
 
 		if (drawOnMap.getValue() && !list.isEmpty()) {
 			if (drawAsRoute.getValue() && hideFinishedObjectsInRoute.getValue()
 					&& includeCurrentLocationInRoute.getValue()) {
-				LocationProperty curLocation = new LocationProperty("", getAgentView().getLocation());
+				LocationProperty curLocation = new LocationProperty("", getAgentView().get(Agent.LOCATION));
 				if (!curLocation.isNull()) {
 					mapContent.addMapDirection(curLocation.getLatitude(), curLocation
 							.getLongitude(), "finished", drawRouteAsPolyLines.getValue());
@@ -249,18 +249,18 @@ public class DependenciesProperty extends Property {
 			}
 
 			for (String id : list) {
-				AgentView pov = getAgentCollectionView().get(id);
-				if (pov != null && !pov.getLocation().isEmpty()) {
+				AgentViewable pov = acv.get(id);
+				if (pov != null && !pov.get(Agent.LOCATION).isEmpty()) {
 
-					boolean hidden = pov.getPropertyValue("Hidden").equals(Boolean.toString(true));
+					boolean hidden = pov.get("Hidden").equals(Boolean.toString(true));
 
-					LocationProperty lp = new LocationProperty("", pov.getLocation());
+					LocationProperty lp = new LocationProperty("", pov.get(Agent.LOCATION));
 					lp.setAgentView(pov);
 					if (!lp.isNull()) {
 						lp.toScript(mapContent, params, hidden ? 16 : 32, false);
 
 						if (drawAsRoute.getValue()) {
-							boolean finished = pov.getPropertyValue("Finished").equals(Boolean.toString(true));
+							boolean finished = pov.get("Finished").equals(Boolean.toString(true));
 							if (!(hideFinishedObjectsInRoute.getValue() && finished)) {
 								mapContent.addMapDirection(lp.getLatitude(), lp
 										.getLongitude(), finished ? "finished" : "unfinished", drawRouteAsPolyLines

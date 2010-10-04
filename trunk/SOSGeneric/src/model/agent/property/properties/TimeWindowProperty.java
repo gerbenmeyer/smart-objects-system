@@ -63,7 +63,6 @@ public class TimeWindowProperty extends Property {
 	 */
 	public void setStartTime(TimeProperty startTime) {
 		this.startTime = startTime;
-		mutateHistory();
 	}
 
 	/**
@@ -82,7 +81,6 @@ public class TimeWindowProperty extends Property {
 	 */
 	public void setEndTime(TimeProperty endTime) {
 		this.endTime = endTime;
-		mutateHistory();
 	}
 
 	@Override
@@ -97,7 +95,6 @@ public class TimeWindowProperty extends Property {
 			startTime = new TimeProperty("",split[0].trim());
 			endTime = new TimeProperty("",split[1].trim());
 		}
-		mutateHistory();
 	}
 
 	public static String parseHint() {
@@ -109,13 +106,13 @@ public class TimeWindowProperty extends Property {
 	}
 
 	@Override
-	public String arffAttributeDeclaration() {
+	public String getArffAttributeDeclaration() {
 		return "@ATTRIBUTE " + getName() + "End NUMERIC";
 	}
 
 	@Override
-	public String arffData() {
-		return endTime.arffData();
+	public String getArffData() {
+		return endTime.getArffData();
 	}
 
 	@Override

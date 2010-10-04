@@ -43,6 +43,11 @@ public class Settings {
 	public final static String DEFAULT_CLUSTERING = "default_clustering";
 
 	public final static String KEYWORD_DEEPLINK = "keyword_deeplink";
+	
+	public final static String DATABASE_HOST = "database_host";
+	public final static String DATABASE_USER = "database_user";
+	public final static String DATABASE_PASSWORD = "database_password";
+	public final static String DATABASE_NAME = "database_name";
 
 	private static Properties settings;
 	

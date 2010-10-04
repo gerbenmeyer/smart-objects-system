@@ -13,49 +13,7 @@ import util.htmltool.HtmlMapContentGenerator;
  * This interface must be implemented by every agent to provide a number of getters 
  */
 
-public interface AgentView {
-	/**
-	 * Get the identifier of this agent.
-	 * 
-	 * @return the ID
-	 */
-	public String getID();
-	/**
-	 * Get the label of this agent.
-	 * 
-	 * @return the label
-	 */
-	public String getLabel();
-	/**
-	 * Get the status of this agent.
-	 * 
-	 * @return the AgentStatus
-	 */
-	public AgentStatus getStatus();
-	/**
-	 * Get the type of this agent.
-	 * 
-	 * @return the type
-	 */
-	public String getType();
-	/**
-	 * Get the description of this agent.
-	 * 
-	 * @return the description
-	 */
-	public String getDescription();
-	/**
-	 * Get the location of this agent.
-	 * 
-	 * @return the location
-	 */
-	public String getLocation();
-	/**
-	 * True if this agent is set to be hidden in the view.
-	 * 
-	 * @return the boolean
-	 */
-	public boolean isHidden();
+public interface AgentViewable {
 	/**
 	 * Get the type of a certain property of this agent.
 	 * 
@@ -64,12 +22,20 @@ public interface AgentView {
 	 */
 	public PropertyType getPropertyType(String name);
 	/**
+	 * @return the identifier
+	 */
+	public String getID();
+	/**
+	 * @return the status of the agent
+	 */
+	public AgentStatus getStatus();
+	/**
 	 * Get the value of a certain property of this agent.
 	 * 
 	 * @param name the name of the property
 	 * @return the value
 	 */
-	public String getPropertyValue(String name);
+	public String get(String name);
 	/**
 	 * Get the humanly readable representation of a certain property of this agent.
 	 * 

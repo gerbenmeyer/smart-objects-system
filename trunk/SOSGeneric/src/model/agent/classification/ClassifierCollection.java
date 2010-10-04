@@ -41,7 +41,7 @@ public class ClassifierCollection {
 	 *            The type of the agent
 	 * @param arffAttributes
 	 *            ARFF representation of the attributes of the agent
-	 * @return
+	 * @return the classifier
 	 */
 	public Classifier getRelation(String agentType, String arffAttributes) {
 		String key = agentType + "_" + Integer.toString(arffAttributes.hashCode());

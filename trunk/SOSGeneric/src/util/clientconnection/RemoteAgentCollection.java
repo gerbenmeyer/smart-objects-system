@@ -3,14 +3,13 @@ package util.clientconnection;
 import java.util.Collection;
 import java.util.Collections;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
+import java.util.Vector;
 
-import model.agent.AgentView;
-import model.agent.agents.EmptyAgent;
-import model.agent.collection.AgentCollectionView;
-import model.agent.index.AgentIndex;
-import model.agent.index.AgentIndexView;
-import model.agent.property.PropertiesObject;
+import model.agent.Agent;
+import model.agent.AgentViewable;
+import model.agent.collection.AgentCollectionViewable;
 import util.enums.AgentStatus;
 import util.xmltool.KeyData;
 import util.xmltool.KeyDataVector;
@@ -22,11 +21,10 @@ import util.xmltool.XMLTool;
  * 
  * @author Gerben G. Meyer
  */
-public class RemoteAgentCollection implements AgentCollectionView {
+public class RemoteAgentCollection implements AgentCollectionViewable {
 
-	private Map<String, AgentView> agents = Collections.synchronizedMap(new HashMap<String, AgentView>());
+	private Map<String, AgentViewable> agents = Collections.synchronizedMap(new HashMap<String, AgentViewable>());
 	private XMLServerConnection connection;
-	private AgentIndex index;
 
 	/**
 	 * Constructs a new RemoteAgentCollection instance for a certain server.
@@ -41,43 +39,43 @@ public class RemoteAgentCollection implements AgentCollectionView {
 		this.connection = new XMLServerConnection(serverAddress, serverPort, username, password);
 	}
 
-	/**
-	 * Synchronizes this collection with the one on the server.
-	 */
-	public void synchronizeWithServer() {
-		connection.connect();
-
-		// objects
-		agents.clear();
-		
-		index = new AgentIndex(this);
-
-		String result = connection.sendCommandToServer(new XMLServerCommand(XMLServerCommand.GET_AGENT_IDS, ""));
-
-		if (result != "error" && result != "unknown") {
-
-			KeyDataVector prop = XMLTool.XMLToProperties(result);
-
-			for (KeyData item : prop) {
-
-				if (item.getTag().equals("Code")) {
-					String code = XMLTool.removeRootTag(item.getValue());
-
-					String objectResult = connection.sendCommandToServer(new XMLServerCommand(XMLServerCommand.GET_AGENT, code));
-					if (objectResult != "error" && objectResult != "unknown") {
-						EmptyAgent a = new EmptyAgent("",this);
-						a.putProperties(PropertiesObject.fromXML(objectResult),this,a);
-						agents.put(code, a);
-						index.update(a);
-					}
-
-				} else {
-					System.err.println("Unknown data in xml: " + item.getTag());
-				}
-			}
-		}
-		connection.disconnect();
-	}
+//	/**
+//	 * Synchronizes this collection with the one on the server.
+//	 */
+//	public void synchronizeWithServer() {
+//		connection.connect();
+//
+//		// objects
+//		agents.clear();
+//		
+//		index = new AgentIndexMemory(this);
+//
+//		String result = connection.sendCommandToServer(new XMLServerCommand(XMLServerCommand.GET_AGENT_IDS, ""));
+//
+//		if (result != "error" && result != "unknown") {
+//
+//			KeyDataVector prop = XMLTool.XMLToProperties(result);
+//
+//			for (KeyData item : prop) {
+//
+//				if (item.getTag().equals("Code")) {
+//					String code = XMLTool.removeRootTag(item.getValue());
+//
+//					String objectResult = connection.sendCommandToServer(new XMLServerCommand(XMLServerCommand.GET_AGENT, code));
+//					if (objectResult != "error" && objectResult != "unknown") {
+//						Agent a = EmptyAgent.fromXML(objectResult);
+////						a.putProperties(MemoryPropertiesObject.fromXML(objectResult),this,a);
+//						agents.put(code, a);
+//						index.update(a);
+//					}
+//
+//				} else {
+//					System.err.println("Unknown data in xml: " + item.getTag());
+//				}
+//			}
+//		}
+//		connection.disconnect();
+//	}
 
 	/**
 	 * Trains an Agent with a certain status.
@@ -99,24 +97,24 @@ public class RemoteAgentCollection implements AgentCollectionView {
 	}
 
 	/**
-	 * Sends a PropertiesObject to the server.
+	 * Sends an Agent to the server.
 	 * 
-	 * @param o the object
+	 * @param a the agent
 	 */
-	public void sendObjectToServer(PropertiesObject o) {
+	public void sendObjectToServer(Agent a) {
 		connection.connect();
-		connection.sendCommandToServer(new XMLServerCommand(XMLServerCommand.PUT_AGENT, o.toXML()));
+		connection.sendCommandToServer(new XMLServerCommand(XMLServerCommand.PUT_AGENT, a.toXML()));
 		connection.disconnect();
 	}
 
 	/**
-	 * Sends a collection of PropertiesObjects to the server.
+	 * Sends a collection of Agents to the server.
 	 * 
-	 * @param objects the objects
+	 * @param agents the agents
 	 */
-	public void sendObjectsToServer(Collection<PropertiesObject> objects) {
+	public void sendObjectsToServer(Collection<Agent> agents) {
 		connection.connect();
-		for (PropertiesObject o : objects) {
+		for (Agent o : agents) {
 			connection.sendCommandToServer(new XMLServerCommand(XMLServerCommand.PUT_AGENT, o.toXML()));
 		}
 		connection.disconnect();
@@ -129,12 +127,30 @@ public class RemoteAgentCollection implements AgentCollectionView {
 	}
 
 	@Override
-	public AgentView get(String id) {
+	public AgentViewable get(String id) {
 		return agents.get(id);
 	}
 
 	@Override
-	public AgentIndexView getIndex() {
-		return index;
+	public int getSize() {
+		return agents.size();
+	}
+
+	@Override
+	public List<String> getTypes() {
+		Vector<String> vec = new Vector<String>();
+		for (AgentViewable agent : agents.values()) {
+			String agentType = agent.get(Agent.TYPE);
+			if (!vec.contains(agentType)) {
+				vec.add(agentType);
+			}
+		}
+		return vec;
+	}
+
+	@Override
+	public AgentViewable getNumber(int number) {
+		// TODO Auto-generated method stub
+		return null;
 	}
 }

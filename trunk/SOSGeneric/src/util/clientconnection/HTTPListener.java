@@ -12,9 +12,10 @@ import java.net.URLEncoder;
 import java.util.HashMap;
 
 import main.Settings;
-import model.agent.AgentView;
+import model.agent.Agent;
+import model.agent.AgentViewable;
 import model.agent.agents.IndexAgent;
-import model.agent.collection.AgentCollectionView;
+import model.agent.collection.AgentCollectionViewable;
 import util.htmltool.HtmlDetailsPaneContentGenerator;
 import util.htmltool.HtmlMapContentGenerator;
 import util.htmltool.HtmlTool;
@@ -33,7 +34,7 @@ import com.sun.net.httpserver.Authenticator.Success;
  * @author W.H. Mook
  */
 public class HTTPListener implements HttpHandler {
-	private AgentCollectionView agentCollectionView;
+	private AgentCollectionViewable agentCollectionView;
 
 	private final String errorPage = "<!DOCTYPE html>\n<html>\n"
 		+ HtmlTool.createHeadBody("File not found", null, new StringBuffer(HtmlTool.createHeader1("File not found!")), null, null).toString()
@@ -46,13 +47,13 @@ public class HTTPListener implements HttpHandler {
 
 	/**
 	 * Constructs a new HTTPListener instance, with an AgentCollectionView to request data from agents and
-	 * a usernames/passwords hash which is used for construction of a {@link #HTTPAuthenticator}.
+	 * a usernames/passwords hash which is used for construction of a {@link HTTPAuthenticator}.
 	 * The listening port is read from the Settings of the project, as is the directory for accessing resources.
 	 * 
 	 * @param acv the view
 	 * @param passwords the hash
 	 */
-	public HTTPListener(AgentCollectionView acv, HashMap<String, String> passwords) {
+	public HTTPListener(AgentCollectionViewable acv, HashMap<String, String> passwords) {
 		super();
 		this.agentCollectionView = acv;
 
@@ -214,19 +215,19 @@ public class HTTPListener implements HttpHandler {
 			if (extension.equals("html") && !agentCode.isEmpty() && agentCollectionView.containsKey(agentCode)) {
 				// System.out.println("This is an agent: " + agentCode +
 				// ", details: " + details);
-				AgentView pov = agentCollectionView.get(agentCode);
+				AgentViewable av = agentCollectionView.get(agentCode);
 				StringBuffer html;
-				if (pov instanceof IndexAgent) {
-					html = ((IndexAgent) pov).generatePage(params);
+				if (av instanceof IndexAgent) {
+					html = ((IndexAgent) av).generatePage(params);
 				} else if (details) {
 					HtmlDetailsPaneContentGenerator detailsPane = new HtmlDetailsPaneContentGenerator();
-					pov.generateDetailsPaneContent(detailsPane, params);
+					av.generateDetailsPaneContent(detailsPane, params);
 					html = detailsPane.createHtml();
 				} else {
 					HtmlMapContentGenerator mapContent = new HtmlMapContentGenerator(agentCode);
 
 					// TODO: Use other property then hidden for this!
-					if (pov.isHidden()) {
+					if (Boolean.parseBoolean(av.get(Agent.HIDDEN))) {
 						if (Settings.getProperty(Settings.SHOW_OVERVIEW_LISTS).equals("true")) {
 							mapContent.addCustomScript("parent.document.getElementById('details_canvas').innerHTML = 'Loading ...';\n");
 							mapContent.addCustomScript("parent.setDetailsSize(true);\n");
@@ -248,7 +249,7 @@ public class HTTPListener implements HttpHandler {
 						}
 					}
 
-					pov.generateMapContent(mapContent, params);
+					av.generateMapContent(mapContent, params);
 
 					html = mapContent.createHtml();
 				}
