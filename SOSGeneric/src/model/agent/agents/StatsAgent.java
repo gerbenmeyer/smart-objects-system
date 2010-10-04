@@ -4,9 +4,11 @@ import java.util.HashMap;
 import java.util.Vector;
 
 import model.agent.Agent;
-import model.agent.collection.AgentCollectionView;
+import model.agent.collection.AgentCollection;
+import util.enums.PropertyType;
 import util.htmltool.HtmlDetailsPaneContentGenerator;
 import util.htmltool.HtmlMapContentGenerator;
+import data.index.AgentIndex;
 
 /**
  * Agent for generating stats.
@@ -27,18 +29,27 @@ public class StatsAgent extends Agent {
 	 * 
 	 * @param id the identifier for the agent
 	 * @param pocv the collectionView for (read) access to other agents
+	 * @param agentStorage the storage to be used for this Agent 
 	 */
-	public StatsAgent(String id, AgentCollectionView pocv) {
-		super(id, pocv);
+	public StatsAgent(String id) {
+		super(id);
+	}
+	
+	@Override
+	public void initialize() {
+		super.initialize();
+		if (get(Agent.HIDDEN).isEmpty()) {
+			set(PropertyType.BOOLEAN, Agent.HIDDEN, Boolean.toString(true));
+		}
 	}
 
 	@Override
 	public void act() throws Exception {
 		int newEntries = 0;
 		
-		Vector<String> keywords = new Vector<String>(getAgentCollectionView().getIndex().getKeywords());
+		Vector<String> keywords = new Vector<String>(AgentIndex.getInstance().getKeywords());
 		for (String keyword: keywords){
-			newEntries += getAgentCollectionView().getIndex().searchAgents(keyword).size();
+			newEntries += AgentIndex.getInstance().searchAgents(keyword).size();
 			
 		}
 		entries = newEntries;
@@ -59,9 +70,9 @@ public class StatsAgent extends Agent {
 		detailsPane.addHeader("Statistics");
 		detailsPane.addSubHeader("Index");
 		detailsPane.addDataHeader("", "Property");
-		detailsPane.addDataRow("#", "Agent types: " + getAgentCollectionView().getIndex().getAgentTypes().size(), "");
-		detailsPane.addDataRow("#", "Agent IDs: " + getAgentCollectionView().getIndex().getAgentIDs().size(), "");
-		detailsPane.addDataRow("#", "Keywords: " + getAgentCollectionView().getIndex().getKeywords().size(), "");
+		detailsPane.addDataRow("#", "Agent types: " + AgentCollection.getInstance().getTypes().size(), "");
+		detailsPane.addDataRow("#", "Agent IDs: " + AgentCollection.getInstance().getSize(), "");
+		detailsPane.addDataRow("#", "Keywords: " + AgentIndex.getInstance().getKeywords().size(), "");
 		detailsPane.addDataRow("#", "Entries: " + entries, "");
 		detailsPane.addDataRow("", "Act: " + executionWaitTime+" s", "");
 	}

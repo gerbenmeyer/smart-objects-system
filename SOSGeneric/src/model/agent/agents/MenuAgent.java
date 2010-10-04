@@ -2,13 +2,14 @@ package model.agent.agents;
 
 import java.util.Collections;
 import java.util.HashMap;
-import java.util.Vector;
+import java.util.List;
 
 import main.Settings;
 import model.agent.Agent;
-import model.agent.collection.AgentCollectionView;
+import model.agent.collection.AgentCollection;
 import util.Capitalize;
 import util.comparators.AgentTypeComparator;
+import util.enums.PropertyType;
 import util.htmltool.HtmlDetailsPaneContentGenerator;
 import util.htmltool.HtmlMapContentGenerator;
 import util.htmltool.HtmlTool;
@@ -26,9 +27,18 @@ public class MenuAgent extends Agent {
 	 * 
 	 * @param id the identifier for the agent
 	 * @param pocv the collectionView for (read) access to other agents
+	 * @param agentStorage the storage to be used for this Agent 
 	 */
-	public MenuAgent(String id, AgentCollectionView pocv) {
-		super(id, pocv);
+	public MenuAgent(String id) {
+		super(id);
+	}
+	
+	@Override
+	public void initialize() {
+		super.initialize();
+		if (get(Agent.HIDDEN).isEmpty()) {
+			set(PropertyType.BOOLEAN, Agent.HIDDEN, Boolean.toString(true));
+		}
 	}
 
 	@Override
@@ -37,7 +47,7 @@ public class MenuAgent extends Agent {
 
 	@Override
 	public void generateDetailsPaneContent(HtmlDetailsPaneContentGenerator detailsPane, HashMap<String, String> params) {
-		Vector<String> types = getAgentCollectionView().getIndex().getAgentTypes();
+		List<String> types = AgentCollection.getInstance().getTypes();
 
 		Collections.sort(types, new AgentTypeComparator());
 		String menu = HtmlTool
@@ -48,12 +58,25 @@ public class MenuAgent extends Agent {
 
 		boolean showStatus = Settings.getProperty(Settings.AGENT_PROBLEM_DETECTION_ENABLED).equals(
 				Boolean.toString(true));
+		
+		//FIXME not generic, as all_icon_menu.png is not available in the SOSGeneric project
+		if (showStatus) {
+			menu += "<div class=\"property linked_property\" onclick=\"document.getElementById('hidden_frame').src = 'search.html?q=all'"
+					+ " + document.getElementById('overview_filter').value;\"><div class=\"propertyicon\">"
+					+ HtmlTool.createImage("all_icon_menu.png", "all", 16)
+					+ "</div><div class=\"menu_name\">All</div></div>";
+		} else {
+			menu += "<div class=\"property linked_property\" onclick=\"document.getElementById('hidden_frame').src = 'search.html?q=all';\">"
+					+ "<div class=\"propertyicon\">"
+					+ HtmlTool.createImage("all_icon_menu.png", "all", 16)
+					+ "</div><div class=\"menu_name\">All</div></div>";
+		}
 
 		for (String type : types) {
 			if (showStatus) {
 				menu += "<div class=\"property linked_property\" onclick=\"document.getElementById('hidden_frame').src = 'search.html?q=type:"
 						+ type.toLowerCase()
-						+ " ' + document.getElementById('overview_filter').value;\"><div class=\"propertyicon\">"
+						+ "%20' + document.getElementById('overview_filter').value;\"><div class=\"propertyicon\">"
 						+ HtmlTool.createImage(type.toLowerCase() + "_icon_menu.png", type.toLowerCase(), 16)
 						+ "</div><div class=\"menu_name\">" + Capitalize.capitalize(type) + "</div></div>";
 			} else {

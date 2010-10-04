@@ -3,6 +3,7 @@ package model.agent.property.properties;
 import java.util.HashMap;
 
 import main.Settings;
+import model.agent.Agent;
 import model.agent.property.Property;
 import util.Capitalize;
 import util.enums.AgentStatus;
@@ -62,7 +63,6 @@ public class LocationProperty extends Property {
 	 */
 	public void setAddressName(String addressName) {
 		this.addressName = addressName;
-		mutateHistory();
 	}
 
 	/**
@@ -81,7 +81,6 @@ public class LocationProperty extends Property {
 	 */
 	public void setAddress(String address) {
 		this.address = Property.normalize(address);
-		mutateHistory();
 	}
 
 	/**
@@ -100,7 +99,6 @@ public class LocationProperty extends Property {
 	 */
 	public void setLocationType(GoogleLocationType type) {
 		this.type = type;
-		mutateHistory();
 	}
 
 	/**
@@ -119,7 +117,6 @@ public class LocationProperty extends Property {
 	 */
 	public void setLongitude(double longitude) {
 		this.longitude = longitude;
-		mutateHistory();
 	}
 
 	/**
@@ -138,7 +135,6 @@ public class LocationProperty extends Property {
 	 */
 	public void setLatitude(double latitude) {
 		this.latitude = latitude;
-		mutateHistory();
 	}
 
 	@Override
@@ -167,7 +163,6 @@ public class LocationProperty extends Property {
 			this.latitude = Double.parseDouble(split[3].trim());
 			this.longitude = Double.parseDouble(split[4].trim());
 		}
-		mutateHistory();
 	}
 
 	public static String parseHint() {
@@ -294,8 +289,8 @@ public class LocationProperty extends Property {
 		String shadowIcon = null;
 		int shadowSize = 48;
 
-		if (!getAgentView().getPropertyValue("Movement").isEmpty()) {
-			shadowIcon = "angle/" + getAgentView().getPropertyValue("Movement") + ".png";
+		if (!getAgentView().get("Movement").isEmpty()) {
+			shadowIcon = "angle/" + getAgentView().get("Movement") + ".png";
 		}
 		if (getName().equals("SourceLocation")) {
 			mapIcon = "source.png";
@@ -308,42 +303,44 @@ public class LocationProperty extends Property {
 			smallIcon = "destination_icon.png";
 			shadowIcon = null;
 		}
+		
+		AgentStatus status = getAgentView().getStatus();
 
-		int zIndex = -getAgentView().getStatus().getValue();
-		boolean finished = getAgentView().getPropertyValue("Finished").equals(Boolean.toString(true));
-		if (finished && getAgentView().getStatus() == AgentStatus.OK) {
+		int zIndex = -status.getValue();
+		boolean finished = getAgentView().get("Finished").equals(Boolean.toString(true));
+		if (finished && status == AgentStatus.OK) {
 			zIndex = AgentStatus.UNKNOWN.getValue();
 		}
 		zIndex++;
-		boolean label = !getAgentView().getPropertyValue("Hidden").equals(Boolean.toString(true))
-				&& (getAgentView().getStatus() == AgentStatus.WARNING || getAgentView().getStatus() == AgentStatus.ERROR);
+		boolean label = !getAgentView().get("Hidden").equals(Boolean.toString(true))
+				&& (status == AgentStatus.WARNING || status == AgentStatus.ERROR);
 
 		boolean showDetails = Settings.getProperty(Settings.SHOW_AGENT_DETAILS).equals("true");
 
 		if (shadowIcon != null && !shadowIcon.isEmpty()) {
-			mapContent.addMapMarker(latitude, longitude, getAgentView().getLabel(),
-					getAgentView().getDescription(), mapIcon, mapIconSize, shadowIcon, shadowSize, smallIcon,
+			mapContent.addMapMarker(latitude, longitude, getAgentView().get(Agent.LABEL),
+					getAgentView().get(Agent.DESCRIPTION), mapIcon, mapIconSize, shadowIcon, shadowSize, smallIcon,
 					(showDetails ? getAgentView().getID() : null), zIndex, label, openInfoWindowOnLoad, "?"
 							+ Settings.getProperty(Settings.KEYWORD_DEEPLINK) + "=" + getAgentView().getID(), getAgentView().getID());
 		} else {
 			mapContent.addMapMarkerWithoutShadow(latitude, longitude, getAgentView()
-					.getLabel(), getAgentView().getDescription(), mapIcon, mapIconSize, smallIcon,
+					.get(Agent.LABEL), getAgentView().get(Agent.DESCRIPTION), mapIcon, mapIconSize, smallIcon,
 					(showDetails ? getAgentView().getID() : null), zIndex, label, openInfoWindowOnLoad, "?"
 							+ Settings.getProperty(Settings.KEYWORD_DEEPLINK) + "=" + getAgentView().getID(), getAgentView().getID());
 		}
 	}
 
 	@Override
-	public String arffAttributeDeclaration() {
+	public String getArffAttributeDeclaration() {
 		return "@ATTRIBUTE " + getName() + " NUMERIC";
 	}
 
 	@Override
-	public String arffData() {
+	public String getArffData() {
 		double distance = 0.0;
 
 		try {
-			LocationProperty lp = new LocationProperty("", getAgentView().getLocation());
+			LocationProperty lp = new LocationProperty("", getAgentView().get(Agent.LOCATION));
 			distance = this.distanceTo(lp);
 		} catch (Exception e) {
 		}

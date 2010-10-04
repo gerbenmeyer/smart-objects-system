@@ -4,15 +4,13 @@ import java.io.BufferedReader;
 import java.io.InputStreamReader;
 import java.io.PrintWriter;
 import java.net.Socket;
-import java.util.Arrays;
-import java.util.Vector;
 
 import main.SOSServer;
 import main.Settings;
-import model.agent.AgentView;
+import model.agent.Agent;
+import model.agent.AgentViewable;
 import model.agent.classification.Classifier;
 import model.agent.classification.ClassifierCollection;
-import model.agent.property.PropertiesObject;
 import model.agent.property.properties.LocationProperty;
 import util.enums.AgentStatus;
 import util.xmltool.KeyData;
@@ -105,9 +103,9 @@ public class XMLServerClientHandler extends Thread {
 			if (cmd.getName().equals(XMLServerCommand.PUT_AGENT)) {
 				return putAgent(cmd.getParameter());
 			}
-			if (cmd.getName().equals(XMLServerCommand.GET_AGENT_IDS)) {
-				return getAgentIDs(cmd.getParameter());
-			}
+//			if (cmd.getName().equals(XMLServerCommand.GET_AGENT_IDS)) {
+//				return getAgentIDs(cmd.getParameter());
+//			}
 			if (cmd.getName().equals(XMLServerCommand.GET_LOCATION_INFO)) {
 				return getLocation(cmd.getParameter());
 			}
@@ -140,7 +138,7 @@ public class XMLServerClientHandler extends Thread {
 	 */
 	private String getAgent(String xml) {
 		String id = xml;
-		AgentView av = server.getAgentCollection().get(id);
+		AgentViewable av = server.getAgentCollection().get(id);
 		if (av == null) {
 			return "error";
 		} else {
@@ -156,32 +154,35 @@ public class XMLServerClientHandler extends Thread {
 	 */
 	private String putAgent(String xml) {
 		try {
-			PropertiesObject o = PropertiesObject.fromXML(xml);
-			server.getAgentCollection().putAgentFromPropertiesObject(o);
+			Agent agent = server.getFactory().fromXML(xml, true);
+			if (agent != null) {
+				agent.initialize();
+				server.getAgentCollection().put(agent);
+			}
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
 		return "done";
 	}
 
-	/**
-	 * Get the identifiers of all agents on the server.
-	 * 
-	 * @param xml the XML request
-	 * @return the result
-	 */
-	private String getAgentIDs(String xml) {
-		Vector<String> codes = server.getAgentCollection().getIndex().getAgentIDs();
-		String[] sortedCodes = codes.toArray(new String[codes.size()]);
-		Arrays.sort(sortedCodes);
-
-		KeyDataVector properties = new KeyDataVector();
-		for (String code : sortedCodes) {
-			properties.add(new KeyData("Code", "" + code));
-		}
-
-		return XMLTool.PropertiesToXML(properties);
-	}
+//	/**
+//	 * Get the identifiers of all agents on the server.
+//	 * 
+//	 * @param xml the XML request
+//	 * @return the result
+//	 */
+//	private String getAgentIDs(String xml) {
+//		List<String> codes = server.getAgentCollection().getIDs();
+//		String[] sortedCodes = codes.toArray(new String[codes.size()]);
+//		Arrays.sort(sortedCodes);
+//
+//		KeyDataVector properties = new KeyDataVector();
+//		for (String code : sortedCodes) {
+//			properties.add(new KeyData("Code", "" + code));
+//		}
+//
+//		return XMLTool.PropertiesToXML(properties);
+//	}
 
 	/**
 	 * Get the location of an address from the server.
@@ -241,9 +242,9 @@ public class XMLServerClientHandler extends Thread {
 				status = AgentStatus.valueOf(XMLTool.removeRootTag(item.getValue()));
 			}
 		}
-		AgentView av = server.getAgentCollection().get(agentCode);
+		AgentViewable av = server.getAgentCollection().get(agentCode);
 		if (av != null) {
-			Classifier r = ClassifierCollection.getInstance().getRelation(av.getType(), av.getArffAttributesString());
+			Classifier r = ClassifierCollection.getInstance().getRelation(av.get(Agent.TYPE), av.getArffAttributesString());
 			r.addInstance(av.getArffInstanceString(), status);
 		} else {
 			return "error";

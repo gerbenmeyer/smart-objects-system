@@ -48,7 +48,6 @@ public class BooleanProperty extends Property {
 	 */
 	public void setValue(boolean value) {
 		this.value = value;
-		mutateHistory();
 	}
 
 	@Override
@@ -64,7 +63,6 @@ public class BooleanProperty extends Property {
 	@Override
 	public void parseString(String str) {
 		this.value = Boolean.parseBoolean(str);
-		mutateHistory();
 	}
 
 	public static String parseHint() {
@@ -72,13 +70,13 @@ public class BooleanProperty extends Property {
 	}
 
 	@Override
-	public String arffAttributeDeclaration() {
+	public String getArffAttributeDeclaration() {
 		return "@ATTRIBUTE " + getName() + " {" + Boolean.toString(true) + ","
 				+ Boolean.toString(false) + "}";
 	}
 
 	@Override
-	public String arffData() {
+	public String getArffData() {
 		return Boolean.toString(getValue());
 	}
 }

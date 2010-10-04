@@ -1,15 +1,12 @@
-/**
- * 
- */
 package model.agent.property;
 
 import java.text.Normalizer;
 import java.util.HashMap;
 
-import model.agent.AgentView;
-import model.agent.collection.AgentCollectionView;
+import model.agent.AgentViewable;
 import model.agent.property.properties.BooleanProperty;
 import model.agent.property.properties.DependenciesProperty;
+import model.agent.property.properties.HistoryProperty;
 import model.agent.property.properties.LocationProperty;
 import model.agent.property.properties.NumberProperty;
 import model.agent.property.properties.StatusProperty;
@@ -34,9 +31,8 @@ public abstract class Property {
 
 	private PropertyType propertyType = PropertyType.UNKNOWN;
 	private String name;
-	private AgentCollectionView agentCollectionView;
-	private AgentView agentView;
-	private PropertyHistory history = null;
+//	private AgentCollectionViewable agentCollectionView;
+	private AgentViewable agentView;
 	private boolean hidden = false;
 
 	/**
@@ -52,49 +48,12 @@ public abstract class Property {
 	}
 
 	/**
-	 * Enables recording history of this property.
-	 */
-	public void recordHistory() {
-		recordHistory(new PropertyHistory(this));
-	}
-
-	/**
-	 * Enables recording history of this property using an existing history.
-	 * 
-	 * @param history the history object to be used for recording changes
-	 */
-	public void recordHistory(PropertyHistory history) {
-		this.history = history;
-		if (this.history != null) {
-			this.history.mutate();
-		}
-	}
-
-	/**
-	 * True if history is being recorded for this property.
-	 * 
-	 * @return true or false
-	 */
-	public boolean recordingHistory() {
-		return history != null;
-	}
-
-	/**
 	 * Gets the AgentView of the agent to which this property belongs to.
 	 * 
 	 * @return the AgentView
 	 */
-	public AgentView getAgentView() {
+	public AgentViewable getAgentView() {
 		return agentView;
-	}
-
-	/**
-	 * Sets the AgentCollectionView for this property.
-	 * 
-	 * @param acv the AgentCollectionView to be set
-	 */
-	public void setAgentCollectionView(AgentCollectionView acv) {
-		this.agentCollectionView = acv;
 	}
 
 	/**
@@ -102,35 +61,8 @@ public abstract class Property {
 	 * 
 	 * @param av the AgentView to be set
 	 */
-	public void setAgentView(AgentView av) {
+	public void setAgentView(AgentViewable av) {
 		this.agentView = av;
-	}
-
-	/**
-	 * Get the history of this property.
-	 * 
-	 * @return the history
-	 */
-	public PropertyHistory getHistory() {
-		return history;
-	}
-
-	/**
-	 * A protected method to be called when a property has been changed.
-	 */
-	protected void mutateHistory() {
-		if (history != null) {
-			history.mutate();
-		}
-	}
-
-	/**
-	 * Gets the AgentCollectionView of this property.
-	 * 
-	 * @return the AgentCollectionView
-	 */
-	public AgentCollectionView getAgentCollectionView() {
-		return agentCollectionView;
 	}
 
 	/**
@@ -185,23 +117,20 @@ public abstract class Property {
 	public static String parseHint() {
 		return "";
 	}
+	
 	/**
 	 * Get the Arff attributes declaration of this property.
 	 * 
 	 * @return the Arff attributes data
 	 */
-	public String arffAttributeDeclaration() {
-		return null;
-	}
+	public abstract String getArffAttributeDeclaration();
 
 	/**
 	 * Get the Arff data of this property.
 	 * 
 	 * @return the Arff data
 	 */
-	public String arffData() {
-		return null;
-	}
+	public abstract String getArffData();
 
 	/**
 	 * Get the XML representation of this property.
@@ -267,41 +196,28 @@ public abstract class Property {
 		return p;
 	}
 	
-	/**
-	 * Creates a new Property instance without a name and history recording.
-	 * 
-	 * @param type the type of property
-	 * @param value the value of the property
-	 * @return a fresh Property
-	 */
-	public static Property createProperty(PropertyType type, String value) {
-		return createProperty(type, "", value, false);
-	}
+//	/**
+//	 * Creates a new Property instance without a name and history recording.
+//	 * 
+//	 * @param type the type of property
+//	 * @param value the value of the property
+//	 * @return a fresh Property
+//	 */
+//	public static Property createProperty(PropertyType type, String value) {
+//		return createProperty(type, "", value);
+//	}
 	
-	/**
-	 * Creates a new Property instance without history recording.
-	 * 
-	 * @param type the type of property
-	 * @param name the name of the property
-	 * @param value the value of the property
-	 * @return a fresh Property
-	 */
-	public static Property createProperty(PropertyType type, String name,
-			String value) {
-		return createProperty(type, name, value, false);
-	}
-	
+
 	/**
 	 * Creates a new Property instance.
 	 * 
 	 * @param type the type of Property
 	 * @param name the name of the property
 	 * @param value the value of the property
-	 * @param recordHistory true if history should be recorded for this property
 	 * @return a fresh Property
 	 */
 	public static Property createProperty(PropertyType type, String name,
-			String value, boolean recordHistory) {
+			String value) {
 		Property p = null;
 		switch (type) {
 		case BOOLEAN:
@@ -328,6 +244,9 @@ public abstract class Property {
 		case DEPENDENCIES:
 			p = new DependenciesProperty(name);
 			break;
+		case HISTORY:
+			p = new HistoryProperty(name);
+			break;
 		default:
 			System.err.println("Unknown property type: " + type);
 			break;
@@ -335,9 +254,9 @@ public abstract class Property {
 		if (p != null) {
 			if (value.length() > 0) {
 				try {
-					if (recordHistory) {
-						p.recordHistory();
-					}
+//					if (recordHistory) {
+//						p.recordHistory();
+//					}
 					p.parseString(value);
 				} catch (Exception e) {
 					e.printStackTrace();
@@ -362,32 +281,29 @@ public abstract class Property {
 	 * 
 	 * @return the HTML string
 	 */
-	public String toHistoryHTML() {
-		if (recordingHistory()) {
-			String historyId = "history"
-					+ Math.round((Math.random() * 1000000));
-			if (recordingHistory()) {
-				return "<div class=\"historytoggle\"><img src=\"clock.png\" title=\"Toggle history\" width=\"16\" height=\"16\" onclick=\"if (document.getElementById('"
-						+ historyId
-						+ "').style.display =='none') { document.getElementById('"
-						+ historyId
-						+ "').style.display = 'inline'; } else { document.getElementById('"
-						+ historyId
-						+ "').style.display = 'none'; }; \"/></div>"
-						+ "<div class=\"history\" id=\""
-						+ historyId
-						+ "\" style=\"display: none\">"
-						+ "<h3>History</h3>"
-						+ "<div class=\"propertyheader\">"
-						+ "<div class=\"propertyicon\"></div>"
-						+ "<div class=\"propertyname\">Time</div>"
-						+ "<div class=\"propertyvalue\">Name</div>"
-						+ "</div>"
-						+ history.toHTML() + "</div>";
-			}
-		}
-		return "";
-	}
+//	public String toHistoryHTML() {
+//		if (recordingHistory()) {
+//			String historyId = "history" + Math.round((Math.random() * 1000000));
+//			return "<div class=\"historytoggle\"><img src=\"clock.png\" title=\"Toggle history\" width=\"16\" height=\"16\" onclick=\"if (document.getElementById('"
+//					+ historyId
+//					+ "').style.display =='none') { document.getElementById('"
+//					+ historyId
+//					+ "').style.display = 'inline'; } else { document.getElementById('"
+//					+ historyId
+//					+ "').style.display = 'none'; }; \"/></div>"
+//					+ "<div class=\"history\" id=\""
+//					+ historyId
+//					+ "\" style=\"display: none\">"
+//					+ "<h3>History</h3>"
+//					+ "<div class=\"propertyheader\">"
+//					+ "<div class=\"propertyicon\"></div>"
+//					+ "<div class=\"propertyname\">Time</div>"
+//					+ "<div class=\"propertyvalue\">Name</div>"
+//					+ "</div>"
+//					+ getHistory().toHTML() + "</div>";
+//		}
+//		return "";
+//	}
 
 	/**
 	 * Returns the property specific javascript to be used for map generation.

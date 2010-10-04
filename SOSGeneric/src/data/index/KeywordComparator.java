@@ -1,4 +1,4 @@
-package model.agent.index;
+package data.index;
 
 import java.util.Comparator;
 
@@ -9,14 +9,14 @@ import java.util.Comparator;
  */
 public class KeywordComparator implements Comparator<String> {
 
-	private AgentIndexView index;
+	private AgentIndex index;
 	
 	/**
 	 * Constructs a new KeywordComparator
 	 * 
 	 * @param index an AgentIndexView
 	 */
-	public KeywordComparator(AgentIndexView index){
+	public KeywordComparator(AgentIndex index){
 		this.index = index;
 	}
 	

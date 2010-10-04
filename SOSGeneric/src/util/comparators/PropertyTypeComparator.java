@@ -25,6 +25,10 @@ public class PropertyTypeComparator implements Comparator<Property> {
 				return 1;
 			} else if (arg1.getPropertyType() == PropertyType.DEPENDENCIES) {
 				return -1;
+			} else if (arg0.getPropertyType() == PropertyType.HISTORY) {
+				return 1;
+			} else if (arg1.getPropertyType() == PropertyType.HISTORY) {
+				return -1;
 			} else {
 				return arg0.getPropertyType().toString().compareTo(arg1.getPropertyType().toString());
 			}

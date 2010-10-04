@@ -2,10 +2,9 @@ package model.agent.agents;
 
 import java.util.HashMap;
 
+import model.agent.Agent;
 import util.htmltool.HtmlDetailsPaneContentGenerator;
 import util.htmltool.HtmlMapContentGenerator;
-import model.agent.Agent;
-import model.agent.collection.AgentCollectionView;
 
 /**
  * This is a useless agent, without any behaviour.
@@ -21,9 +20,10 @@ public class EmptyAgent extends Agent {
 	 * 
 	 * @param id the identifier for the agent
 	 * @param pocv the collectionView for (read) access to other agents
+	 * @param agentStorage 
 	 */
-	public EmptyAgent(String id, AgentCollectionView pocv) {
-		super(id, pocv);
+	public EmptyAgent(String id) {
+		super(id);
 	}
 
 	@Override

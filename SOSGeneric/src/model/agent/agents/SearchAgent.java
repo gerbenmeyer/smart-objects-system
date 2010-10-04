@@ -5,13 +5,15 @@ import java.util.Vector;
 
 import main.Settings;
 import model.agent.Agent;
-import model.agent.AgentView;
-import model.agent.collection.AgentCollectionView;
+import model.agent.AgentViewable;
+import model.agent.collection.AgentCollection;
 import model.agent.property.properties.LocationProperty;
 import util.Capitalize;
+import util.enums.PropertyType;
 import util.htmltool.HtmlDetailsPaneContentGenerator;
 import util.htmltool.HtmlMapContentGenerator;
 import util.htmltool.HtmlTool;
+import data.index.AgentIndex;
 
 /**
  * Agent for searching and generating search data.
@@ -26,9 +28,18 @@ public class SearchAgent extends Agent {
 	 * 
 	 * @param id the identifier for the agent
 	 * @param pocv the collectionView for (read) access to other agents
+	 * @param agentStorage the storage to be used for this Agent
 	 */
-	public SearchAgent(String id, AgentCollectionView pocv) {
-		super(id, pocv);
+	public SearchAgent(String id) {
+		super(id);
+	}
+	
+	@Override
+	public void initialize() {
+		super.initialize();
+		if (get(Agent.HIDDEN).isEmpty()) {
+			set(PropertyType.BOOLEAN, Agent.HIDDEN, Boolean.toString(true));
+		}
 	}
 
 	@Override
@@ -49,7 +60,7 @@ public class SearchAgent extends Agent {
 
 		detailsPane.addHeader(title);
 
-		Vector<String> ids = getAgentCollectionView().getIndex().searchAgents(search.replace('+', ' '));
+		Vector<String> ids = AgentIndex.getInstance().searchAgents(search.replace('+', ' '));
 		
 		if (ids.size() > 10000){
 			detailsPane.addParagraph(HtmlTool.createImage("warning.png", "Warning")+" Too many agents, only showing first 10,000.");
@@ -64,23 +75,23 @@ public class SearchAgent extends Agent {
 				Boolean.toString(true));
 
 		for (String id : ids) {
-			AgentView pov = getAgentCollectionView().get(id);
+			AgentViewable pov = AgentCollection.getInstance().get(id);
 			if (pov == null) {
 				//TODO: This is just here for debugging purposes
 				detailsPane.addDataRow("unknown.png", "Agent not found!", "");
 				continue;
 			}
-			if (pov.getType().equals("")) {
+			if (pov.get(Agent.TYPE).equals("")) {
 				continue;
 			}
-			boolean hidden = pov.isHidden();
+			boolean hidden = Boolean.parseBoolean(pov.get(Agent.HIDDEN));
 			if (hidden) {
 				continue;
 			}
 
 			String statusIcon = showStatus ? pov.getStatus().toString().toLowerCase() + ".png" : "";
 
-			detailsPane.addDataRowLink(pov.getIcon(), pov.getLabel(), statusIcon, pov.getID()
+			detailsPane.addDataRowLink(pov.getIcon(), pov.get(Agent.LABEL), statusIcon, pov.getID()
 					+ ".html");
 		}
 	}
@@ -95,32 +106,27 @@ public class SearchAgent extends Agent {
 		mapContent.clearMapContent();
 		mapContent.clearMapData();
 
-		Vector<String> ids = getAgentCollectionView().getIndex().searchAgents(search.replace('+', ' '));
-		while (ids.size() > 10000){
-			ids.remove(ids.size()-1);
-		}
-		for (String id : ids) {
-			AgentView pov = getAgentCollectionView().get(id);
-			if (pov == null) {
+		Vector<String> ids = AgentIndex.getInstance().searchAgents(search.replace('+', ' '));
+		for (int i = 0; i < Math.min(ids.size(), 10000); i++) {
+			AgentViewable av = AgentCollection.getInstance().get(ids.get(i));
+			if (av == null) {
 				continue;
 			}
-			if (pov.getType().equals("")) {
+			if (av.get(Agent.TYPE).equals("")) {
 				continue;
 			}
-			boolean hidden = pov.getPropertyValue("Hidden").equals(Boolean.toString(true));
+			boolean hidden = av.get("Hidden").equals(Boolean.toString(true));
 			if (hidden) {
 				continue;
 			}
 
-			String location = pov.getLocation();
+			String location = av.get(Agent.LOCATION);
 			if (!location.isEmpty()) {
 				LocationProperty lp = new LocationProperty("", location);
-				lp.setAgentCollectionView(getAgentCollectionView());
-				lp.setAgentView(pov);
+				lp.setAgentView(av);
 				lp.toScript(mapContent, params);
 			}
 		}
-
 		mapContent.drawMap();
 	}
 

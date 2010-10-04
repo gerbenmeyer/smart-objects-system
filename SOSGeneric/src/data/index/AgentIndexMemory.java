@@ -1,4 +1,4 @@
-package model.agent.index;
+package data.index;
 
 import java.util.Collections;
 import java.util.HashMap;
@@ -7,8 +7,9 @@ import java.util.Set;
 import java.util.Vector;
 
 import main.Settings;
-import model.agent.AgentView;
-import model.agent.collection.AgentCollectionView;
+import model.agent.Agent;
+import model.agent.AgentViewable;
+import model.agent.collection.AgentCollectionViewable;
 import util.comparators.AgentStatusComparator;
 import util.enums.PropertyType;
 
@@ -19,9 +20,9 @@ import util.enums.PropertyType;
  * @author Gerben G. Meyer
  * 
  */
-public class AgentIndex implements AgentIndexView {
+public class AgentIndexMemory extends AgentIndex {
 
-	private Vector<String> agentIDs = new Vector<String>();
+//	private Vector<String> agentIDs = new Vector<String>();
 	private Vector<String> agentTypes = new Vector<String>();
 
 	private Map<String, Vector<String>> keywordMatrix = Collections
@@ -35,7 +36,7 @@ public class AgentIndex implements AgentIndexView {
 	private Vector<String> blackListEquals = new Vector<String>();
 	private Vector<String> blackListContains = new Vector<String>();
 
-	private AgentCollectionView acv;
+	private AgentCollectionViewable acv;
 
 	/**
 	 * Constructs a new AgentIndex
@@ -43,7 +44,7 @@ public class AgentIndex implements AgentIndexView {
 	 * @param acv
 	 *            the agent collection which has to be indexed
 	 */
-	public AgentIndex(AgentCollectionView acv) {
+	public AgentIndexMemory(AgentCollectionViewable acv) {
 		super();
 		this.acv = acv;
 
@@ -66,9 +67,9 @@ public class AgentIndex implements AgentIndexView {
 
 	}
 
-	public Vector<String> getAgentIDs() {
-		return agentIDs;
-	}
+//	public Vector<String> getAgentIDs() {
+//		return agentIDs;
+//	}
 
 	public Vector<String> getAgentTypes() {
 		return agentTypes;
@@ -128,19 +129,19 @@ public class AgentIndex implements AgentIndexView {
 	 * @param agent
 	 *            the agent to be added
 	 */
-	public void add(AgentView agent) {
+	public void add(AgentViewable agent) {
 		String agentID = agent.getID();
 		if (agentID.isEmpty()) {
 			return;
 		}
-		if (!agentIDs.contains(agentID)) {
-			agentIDs.add(agentID);
-		}
-		if (agent.isHidden()) {
+//		if (!agentIDs.contains(agentID)) {
+//			agentIDs.add(agentID);
+//		}
+		if (Boolean.parseBoolean(agent.get(Agent.HIDDEN))) {
 			return;
 		}
 
-		String agentType = agent.getType().trim().toLowerCase();
+		String agentType = agent.get(Agent.TYPE).trim().toLowerCase();
 		String agentStatus = agent.getStatus().toString().trim().toLowerCase();
 
 		String searchType = "type:" + agentType;
@@ -164,7 +165,7 @@ public class AgentIndex implements AgentIndexView {
 		}
 
 		// add type to vector
-		if (!agent.getType().isEmpty()) {
+		if (!agent.get(Agent.TYPE).isEmpty()) {
 			if (!agentTypes.contains(agentType)) {
 				agentTypes.add(agentType);
 			}
@@ -194,7 +195,7 @@ public class AgentIndex implements AgentIndexView {
 				continue;
 			}
 
-			String search = agent.getPropertyValue(propKey);
+			String search = agent.get(propKey);
 			search = search.replaceAll(htmlTagsRegex, " ");
 			search = search.replaceAll(urlRegex, " ");
 			search = search.replaceAll(whiteSpaceRegex, " ");
@@ -241,14 +242,14 @@ public class AgentIndex implements AgentIndexView {
 	 * @param agent
 	 *            the agent to be removed
 	 */
-	public void remove(AgentView agent) {
+	public void remove(AgentViewable agent) {
 		String agentID = agent.getID();
 		if (agentID.isEmpty()) {
 			return;
 		}
-		while (agentIDs.contains(agentID)) {
-			agentIDs.remove(agentID);
-		}
+//		while (agentIDs.contains(agentID)) {
+//			agentIDs.remove(agentID);
+//		}
 		Vector<String> keywordsToRemove = new Vector<String>();
 		Vector<String> keywords = new Vector<String>(keywordMatrix.keySet());
 		for (String keyword : keywords) {
@@ -268,13 +269,8 @@ public class AgentIndex implements AgentIndexView {
 		}
 	}
 
-	/**
-	 * Updates an agent's keywords
-	 * 
-	 * @param agent
-	 *            the agent to be updated
-	 */
-	public void update(AgentView agent) {
+	@Override
+	public void update(AgentViewable agent) {
 		remove(agent);
 		add(agent);
 	}

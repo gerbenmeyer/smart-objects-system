@@ -48,7 +48,6 @@ public class TextProperty extends Property {
 	 */
 	public void setText(String text) {
 		this.text = text;
-		mutateHistory();
 	}
 
 	@Override
@@ -63,7 +62,6 @@ public class TextProperty extends Property {
 	@Override
 	public void parseString(String str) {
 		this.text = str;
-		mutateHistory();
 	}
 
 	public static String parseHint() {
@@ -77,5 +75,15 @@ public class TextProperty extends Property {
 	@Override
 	public String toInformativeString() {
 		return toString();
+	}
+
+	@Override
+	public String getArffAttributeDeclaration() {
+		return null;
+	}
+
+	@Override
+	public String getArffData() {
+		return null;
 	}
 }

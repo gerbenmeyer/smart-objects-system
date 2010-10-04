@@ -4,7 +4,6 @@ import java.util.HashMap;
 
 import main.Settings;
 import model.agent.agents.IndexAgent;
-import model.agent.collection.AgentCollectionView;
 import util.htmltool.HtmlMapPageGenerator;
 import util.htmltool.HtmlTool;
 
@@ -22,9 +21,10 @@ public class NormalIndexAgent extends IndexAgent {
 	 * 
 	 * @param id the identifier for the agent
 	 * @param pocv the collectionView for (read) access to other agents
+	 * @param agentStorage the storage to be used for this Agent 
 	 */
-	public NormalIndexAgent(String id, AgentCollectionView pocv) {
-		super(id, pocv);
+	public NormalIndexAgent(String id) {
+		super(id);
 	}
 
 	@Override

@@ -1,33 +1,33 @@
 package main;
 
-
 import java.util.HashMap;
 import java.util.Properties;
 
 import model.agent.Agent;
-import model.agent.agents.MenuAgent;
-import model.agent.agents.SearchAgent;
-import model.agent.agents.StatsAgent;
-import model.agent.agents.index.MobileIndexAgent;
-import model.agent.agents.index.NormalIndexAgent;
 import model.agent.collection.AgentCollection;
+import model.agent.collection.AgentCollectionMutable;
 import model.agent.collection.AgentFactory;
-import model.agent.property.Property;
 import model.locations.LocationCollection;
 import util.clientconnection.HTTPListener;
 import util.clientconnection.XMLListener;
-import util.enums.PropertyType;
+import data.agents.AgentCollectionStorage;
+import data.agents.AgentCollectionStorageMySQL;
+import data.agents.AgentStorage;
+import data.agents.AgentStorageMySQL;
+import data.index.AgentIndex;
+import data.index.AgentIndexMySQL;
 
 /**
- * 
  * @author Gerben G. Meyer
  * 
  */
 public abstract class SOSServer {
 
-	private AgentCollection agentCollection;
+	private AgentCollectionMutable agentCollection;
 	private LocationCollection locations;
 	private HashMap<String,String> passwords;
+	private AgentFactory factory;
+	
 	/**
 	 * The SOS Server. It instantiates the AgentCollection class which runs all
 	 * Agents and AgentProcessors.
@@ -38,40 +38,32 @@ public abstract class SOSServer {
 	 */
 	public SOSServer(Properties settings, AgentFactory factory, HashMap<String,String> passwords) {
 		super();
-
 		this.passwords = passwords;
-		
+		this.factory = factory;
 		new Settings(settings);
 
 		this.locations = new LocationCollection();
 		this.locations.readLocationsFromXML();
+		AgentCollectionStorage.setInstance(new AgentCollectionStorageMySQL());
 		this.agentCollection = new AgentCollection(factory);
+		AgentIndex.setInstance(new AgentIndexMySQL());
+		AgentStorage.setInstance(new AgentStorageMySQL());
 
-		Agent indexAgent = new NormalIndexAgent("index", agentCollection);
-		indexAgent.putProperty(Property.createProperty(PropertyType.BOOLEAN, "Divine", Boolean.toString(true)));
-		indexAgent.setHidden(true);
-		agentCollection.put(indexAgent);
-
-		Agent mobileAgent = new MobileIndexAgent("mobile", agentCollection);
-		mobileAgent.putProperty(Property.createProperty(PropertyType.BOOLEAN, "Divine", Boolean.toString(true)));
-		mobileAgent.setHidden(true);
-		agentCollection.put(mobileAgent);
-
-		Agent menuAgent = new MenuAgent("menu", agentCollection);
-		menuAgent.putProperty(Property.createProperty(PropertyType.BOOLEAN, "Divine", Boolean.toString(true)));
-		menuAgent.setHidden(true);
-		agentCollection.put(menuAgent);
-		
-		Agent searchAgent = new SearchAgent("search", agentCollection);
-		searchAgent.putProperty(Property.createProperty(PropertyType.BOOLEAN, "Divine", Boolean.toString(true)));
-		searchAgent.setHidden(true);
-		agentCollection.put(searchAgent);
-
-		Agent statsAgent = new StatsAgent("stats", agentCollection);
-		statsAgent.putProperty(Property.createProperty(PropertyType.BOOLEAN, "Divine", Boolean.toString(true)));
-		statsAgent.setHidden(true);
-		agentCollection.put(statsAgent);
-		
+		Agent a = factory.createAgent("index");
+		a.initialize();
+		agentCollection.put(a);
+		Agent b = factory.createAgent("mobile");
+		b.initialize();
+		agentCollection.put(b);
+		Agent c = factory.createAgent("menu");
+		c.initialize();
+		agentCollection.put(c);
+		Agent d = factory.createAgent("search");
+		d.initialize();
+		agentCollection.put(d);
+		Agent e = factory.createAgent("stats");
+		e.initialize();		
+		agentCollection.put(e);
 	}
 	/**
 	 * Starts the server's listeners 
@@ -85,7 +77,7 @@ public abstract class SOSServer {
 	 * 
 	 * @return the AgentCollection
 	 */
-	public AgentCollection getAgentCollection() {
+	public AgentCollectionMutable getAgentCollection() {
 		return agentCollection;
 	}
 	/**
@@ -94,5 +86,8 @@ public abstract class SOSServer {
 	 */
 	public LocationCollection getLocations() {
 		return locations;
+	}
+	public AgentFactory getFactory() {
+		return factory;
 	}
 }

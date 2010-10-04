@@ -3,7 +3,7 @@ package util.htmltool;
 import com.tecnick.htmlutils.htmlentities.HTMLEntities;
 
 /**
- * HtmlDetailsPaneContentGenerator generates HTML content for the details pane, making use of {@link #HtmlTool}.
+ * HtmlDetailsPaneContentGenerator generates HTML content for the details pane, making use of {@link HtmlTool}.
  * 
  * @author Gerben G. Meyer
  */
@@ -101,8 +101,8 @@ public class HtmlDetailsPaneContentGenerator {
 	 * @param name the name of the data
 	 * @param statusIcon the status icon
 	 */
-	public void addDataRow(String icon, String name, String statusIcon) {
-		addDataRow(icon, name, null, statusIcon);
+	public void addDataRow(String icon, String name, String value) {
+		addDataRow(icon, name, value, "");
 	}
 
 	/**

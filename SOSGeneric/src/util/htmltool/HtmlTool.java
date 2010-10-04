@@ -124,7 +124,7 @@ public class HtmlTool {
 	 * 
 	 * @param url the path to the image
 	 * @param text the title of the image
-	 * @param size the size of the image
+	 * @param attributes the attribues of the image
 	 * @return the image HTML code
 	 */
 	public static String createImage(String url, String text, HashMap<String, String> attributes) {
