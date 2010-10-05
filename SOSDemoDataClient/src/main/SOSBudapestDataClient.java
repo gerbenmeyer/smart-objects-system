@@ -5,8 +5,9 @@ import java.net.HttpURLConnection;
 import java.net.URL;
 import java.util.Collection;
 
-import model.agent.property.PropertiesObject;
+import model.agent.Agent;
 import util.clientconnection.RemoteAgentCollection;
+import util.enums.PropertyType;
 import utils.kml.KMLParser;
 import utils.settings.BudapestClientSettings;
 
@@ -26,7 +27,7 @@ public class SOSBudapestDataClient {
 		// a KML parser
 		KMLParser kmlp = null;
 		// a collection which can hold all the PropertiesObjects
-		Collection<PropertiesObject> pos = null;
+		Collection<Agent> agents = null;
 
 		// create new KML file parser, via http
 		try {
@@ -49,51 +50,51 @@ public class SOSBudapestDataClient {
 		// if KML file parses is created successfully, parse the KML
 		if (kmlp != null) {
 			try {
-				pos = kmlp.parse();
+				agents = kmlp.parse();
 			} catch (Exception e) {
 				e.printStackTrace();
 			}
 		}
 
 		// if KML parsing was successful, process the result, and send the objects to the server
-		if (pos != null) {
+		if (agents != null) {
 			// data post-processing
-			for (PropertiesObject po : pos) {
+			for (Agent a : agents) {
 				// type
-				String type = po.getType();
+				String type = a.get(Agent.TYPE);
 				if (type.equals("Apartments")) {
-					po.setType("Apartment");
+					a.set(PropertyType.TEXT,Agent.TYPE,"Apartment");
 				} else if (type.equals("Apartment rooms")) {
-					po.setType("Apartment");
+					a.set(PropertyType.TEXT,Agent.TYPE,"Apartment");
 				} else if (type.equals("Hotels")) {
-					po.setType("Hotel");
+					a.set(PropertyType.TEXT,Agent.TYPE,"Hotel");
 				} else if (type.equals("Sights")) {
-					po.setType("Attraction");
+					a.set(PropertyType.TEXT,Agent.TYPE,"Attraction");
 				} else if (type.equals("Airports")) {
-					po.setType("Airport");
+					a.set(PropertyType.TEXT,Agent.TYPE,"Airport");
 				} else if (type.equals("Transport")) {
-					po.setType("Trainstation");
+					a.set(PropertyType.TEXT,Agent.TYPE,"Trainstation");
 				}
 
 				// label
-				String label = po.getLabel();
+				String label = a.get(Agent.LABEL);
 				label = label.replaceAll("\\s*in Budapest", "");
-				po.setLabel(label);
+				a.set(PropertyType.TEXT,Agent.LABEL,label);
 
 				// description
-				String description = po.getDescription();
+				String description = a.get(Agent.DESCRIPTION);
 				description = description
 						.replaceAll(
 								"<img src='http://www.budapestrooms.com/panel/bas_logo.gif' style='width:110px;height:110px' />",
 								"");
 				description = description.replaceAll("<\\/?div.*?>", "");
 				description = description.replaceAll("<a.*?\\/a>", "");
-				po.setDescription(description);
+				a.set(PropertyType.TEXT,Agent.DESCRIPTION,description);
 			}
 			// send objects to server
-			remoteAgentCollection.sendObjectsToServer(pos);
+			remoteAgentCollection.sendObjectsToServer(agents);
 			
-			System.out.println(pos.size()+" objects sent to server!");
+			System.out.println(agents.size()+" objects sent to server!");
 		}
 		
 		
