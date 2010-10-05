@@ -8,6 +8,7 @@ import model.agent.Agent;
 import model.agent.AgentViewable;
 import model.agent.collection.AgentCollection;
 import model.agent.property.properties.LocationProperty;
+import util.BenchMarker;
 import util.Capitalize;
 import util.enums.PropertyType;
 import util.htmltool.HtmlDetailsPaneContentGenerator;
@@ -48,6 +49,8 @@ public class SearchAgent extends Agent {
 
 	@Override
 	public void generateDetailsPaneContent(HtmlDetailsPaneContentGenerator detailsPane, HashMap<String, String> params) {
+		BenchMarker bm = new BenchMarker("SearchAgent PaneContent");
+		
 		String search = "";
 		if (params.containsKey("q")) {
 			search = params.get("q");
@@ -59,8 +62,12 @@ public class SearchAgent extends Agent {
 		title = "Search: " + title;
 
 		detailsPane.addHeader(title);
+		
+		bm.start();
 
 		Vector<String> ids = AgentIndex.getInstance().searchAgents(search.replace('+', ' '));
+		
+		bm.taskFinished("Fetching agent IDs");
 		
 		if (ids.size() > 10000){
 			detailsPane.addParagraph(HtmlTool.createImage("warning.png", "Warning")+" Too many agents, only showing first 10,000.");
@@ -73,19 +80,12 @@ public class SearchAgent extends Agent {
 
 		boolean showStatus = Settings.getProperty(Settings.AGENT_PROBLEM_DETECTION_ENABLED).equals(
 				Boolean.toString(true));
-
+		
 		for (String id : ids) {
 			AgentViewable pov = AgentCollection.getInstance().get(id);
 			if (pov == null) {
 				//TODO: This is just here for debugging purposes
 				detailsPane.addDataRow("unknown.png", "Agent not found!", "");
-				continue;
-			}
-			if (pov.get(Agent.TYPE).equals("")) {
-				continue;
-			}
-			boolean hidden = Boolean.parseBoolean(pov.get(Agent.HIDDEN));
-			if (hidden) {
 				continue;
 			}
 
@@ -94,10 +94,14 @@ public class SearchAgent extends Agent {
 			detailsPane.addDataRowLink(pov.getIcon(), pov.get(Agent.LABEL), statusIcon, pov.getID()
 					+ ".html");
 		}
+		bm.taskFinished("Iterating agents");
+		bm.stop();
 	}
 
 	@Override
 	public void generateMapContent(HtmlMapContentGenerator mapContent, HashMap<String, String> params) {
+		BenchMarker bm = new BenchMarker("SearchAgent MapContent");
+		
 		String search = "";
 		if (params.containsKey("q")) {
 			search = params.get("q");
@@ -105,18 +109,16 @@ public class SearchAgent extends Agent {
 
 		mapContent.clearMapContent();
 		mapContent.clearMapData();
-
+		
+		bm.start();
+		
 		Vector<String> ids = AgentIndex.getInstance().searchAgents(search.replace('+', ' '));
+		
+		bm.taskFinished("Fetching agent IDs");
+		
 		for (int i = 0; i < Math.min(ids.size(), 10000); i++) {
 			AgentViewable av = AgentCollection.getInstance().get(ids.get(i));
 			if (av == null) {
-				continue;
-			}
-			if (av.get(Agent.TYPE).equals("")) {
-				continue;
-			}
-			boolean hidden = av.get("Hidden").equals(Boolean.toString(true));
-			if (hidden) {
 				continue;
 			}
 
@@ -127,6 +129,8 @@ public class SearchAgent extends Agent {
 				lp.toScript(mapContent, params);
 			}
 		}
+		bm.taskFinished("Iterating agents");
+		bm.stop();
 		mapContent.drawMap();
 	}
 

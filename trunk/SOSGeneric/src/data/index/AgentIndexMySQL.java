@@ -39,9 +39,10 @@ public class AgentIndexMySQL extends AgentIndex {
 			// exclude hidden
 			+ "WHERE agent_id NOT IN (SELECT DISTINCT agent_id FROM `properties` WHERE type = 'BOOLEAN' and name = 'Hidden' and value = 'true') AND " + filters
 			// exclude some more propteries
-			+ "type = 'TEXT' AND name != 'ID' AND name != 'Label' AND name != 'DisplayCode' "
+			+ "type = 'TEXT' "
 			//TODO move limit to settings
-			+ "AND value LIKE '%"+query.trim()+"%' LIMIT 10001;";
+			+ (!query.trim().isEmpty()?"AND value LIKE '%"+query.trim()+"%' ":"")+ "LIMIT 10001;";
+		
 		Vector<String> ids = new Vector<String>();
 		Statement stm = null;
 		try {
