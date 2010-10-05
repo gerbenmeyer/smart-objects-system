@@ -3,15 +3,23 @@ package agents;
 import java.util.HashMap;
 
 import model.agent.Agent;
-import model.agent.AgentView;
-import model.agent.collection.AgentCollectionView;
+import model.agent.AgentViewable;
+import model.agent.collection.AgentCollection;
+import util.enums.PropertyType;
 import util.htmltool.HtmlDetailsPaneContentGenerator;
 import util.htmltool.HtmlMapContentGenerator;
 
 public class BudapestHomeAgent extends Agent {
 
-	public BudapestHomeAgent(String id, AgentCollectionView agentCollectionView) {
-		super(id, agentCollectionView);
+	public BudapestHomeAgent(String id) {
+		super(id);
+	}
+	
+	@Override
+	public void initialize() {
+		super.initialize();
+		//this agent is hidden
+		set(PropertyType.BOOLEAN, Agent.HIDDEN, Boolean.toString(true));
 	}
 
 	public void act() throws Exception {
@@ -34,8 +42,8 @@ public class BudapestHomeAgent extends Agent {
 		mapContent.setCenter(47.5, 19.07);
 		mapContent.setZoom(13);
 		//show all agents by using the always existing search agent to search for all agents
-		AgentView av = getAgentCollectionView().get("search");
-		params.put("q", "type:all");
+		AgentViewable av = AgentCollection.getInstance().get("search");
+		params.put("q", "all");
 		av.generateMapContent(mapContent, params);
 	}
 
@@ -43,8 +51,8 @@ public class BudapestHomeAgent extends Agent {
 	@Override
 	public void generateDetailsPaneContent(HtmlDetailsPaneContentGenerator detailsPane, HashMap<String, String> params) {
 		//show all agents by using the always existing search agent to search for all agents
-		AgentView av = getAgentCollectionView().get("search");
-		params.put("q", "type:all");
+		AgentViewable av = AgentCollection.getInstance().get("search");
+		params.put("q", "all");
 		av.generateDetailsPaneContent(detailsPane, params);
 	}
 

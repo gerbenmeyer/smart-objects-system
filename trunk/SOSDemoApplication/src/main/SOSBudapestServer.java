@@ -25,8 +25,8 @@ public class SOSBudapestServer extends SOSServer {
 		super(settings, new BudapestAgentFactory(), new HashMap<String, String>());
 
 		//add the home agent to the agent collection
-		Agent homeAgent = new BudapestHomeAgent("home", getAgentCollection());
-		homeAgent.setHidden(true);
+		Agent homeAgent = new BudapestHomeAgent("home");
+		homeAgent.initialize();
 		getAgentCollection().put(homeAgent);
 
 		//run the server
