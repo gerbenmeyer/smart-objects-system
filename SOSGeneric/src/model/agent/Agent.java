@@ -12,9 +12,7 @@ import model.agent.classification.ClassifierCollection;
 import model.agent.property.Property;
 import model.agent.property.properties.DependenciesProperty;
 import model.agent.property.properties.HistoryProperty;
-import model.agent.property.properties.LocationProperty;
 import util.enums.AgentStatus;
-import util.enums.GoogleLocationType;
 import util.enums.PropertyType;
 import util.htmltool.HtmlDetailsPaneContentGenerator;
 import util.htmltool.HtmlMapContentGenerator;
@@ -354,15 +352,6 @@ public abstract class Agent implements AgentMutable {
 			return AgentStorage.getInstance().delete(getID());
 		}
 		return true;
-	}
-
-	public void setLocation(double latitude, double longitude) {
-		LocationProperty lp = new LocationProperty("Location");
-		lp.setLatitude(latitude);
-		lp.setLongitude(longitude);
-		lp.setHidden(true);
-		lp.setLocationType(GoogleLocationType.ROOFTOP);
-		putProperty(lp);
 	}
 
 	public String getArffAttributesString() {
