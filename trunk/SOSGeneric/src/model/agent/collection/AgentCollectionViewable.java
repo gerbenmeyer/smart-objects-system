@@ -29,14 +29,6 @@ public interface AgentCollectionViewable {
 	public AgentViewable get(String id);
 	
 	/**
-	 * Gets the view of an agent at a certain position in the collection.
-	 * 
-	 * @param id the identifier of the agent
-	 * @return the view
-	 */
-	public AgentViewable getNumber(int number);
-	
-	/**
 	 * Returns the types of agents in this collection.
 	 * 
 	 * @return a collection with the types
@@ -49,4 +41,11 @@ public interface AgentCollectionViewable {
 	 * @return the number
 	 */
 	public int getSize();
+	
+	/**
+	 * Returns the ids of agents in this collection
+	 * 
+	 * @return the ids
+	 */
+	public List<String> getIDs();
 }

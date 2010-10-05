@@ -70,56 +70,9 @@ public class AgentIndexMySQL extends AgentIndex {
 		return Collections.emptySet();
 	}
 
-//	@Override
-//	public Vector<String> getAgentIDs() {
-//		Vector<String> ids = new Vector<String>();
-//		Statement stm = null;
-//		try {
-//			stm = conn.connection.createStatement();
-//			String sql = "SELECT DISTINCT agent_id FROM properties;";
-//			ResultSet result = stm.executeQuery(sql);
-//			while (result.next()) {
-//				ids.add(result.getString(1));
-//			}
-//		} catch (SQLException e) {
-//			e.printStackTrace();
-//		} finally {
-//		    if (stm != null) {
-//		        try {
-//		        	stm.close();
-//		        } catch (SQLException sqlEx) { }
-//		        stm = null;
-//		    }
-//		}
-//		return ids;
-//	}
-//
-//	@Override
-//	public Vector<String> getAgentTypes() {
-//		Vector<String> types = new Vector<String>();
-//		Statement stm = null;
-//		try {
-//			stm = conn.connection.createStatement();
-//			String sql = "SELECT DISTINCT value FROM properties WHERE agent_id NOT IN (SELECT DISTINCT agent_id FROM `properties` WHERE type = 'BOOLEAN' and name = 'Hidden' and value = 'true') AND name = 'Type';";
-//			ResultSet result = stm.executeQuery(sql);
-//			while (result.next()) {
-//				types.add(result.getString(1));
-//			}
-//		} catch (SQLException e) {
-//			e.printStackTrace();
-//		} finally {
-//		    if (stm != null) {
-//		        try {
-//		        	stm.close();
-//		        } catch (SQLException sqlEx) { }
-//		        stm = null;
-//		    }
-//		}
-//		return types;
-//	}
-
 	@Override
 	public void update(AgentViewable agent) {
 		
 	}
+
 }

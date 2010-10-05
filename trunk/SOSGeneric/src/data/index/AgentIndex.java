@@ -29,24 +29,14 @@ public abstract class AgentIndex {
 	 * @return a Vector with the identifiers of agents which contain the search string 
 	 */
 	public abstract Vector<String> searchAgents(String search);
+
 	/**
 	 * All keywords in this AgentIndex
 	 * 
 	 * @return a Set with the keywords
 	 */
 	public abstract Set<String> getKeywords();
-//	/**
-//	 * Get all agent identifiers in this AgentIndex.
-//	 * 
-//	 * @return the agent identifiers
-//	 */
-//	public abstract Vector<String> getAgentIDs();
-//	/**
-//	 * Get all agent types in this AgentIndex.
-//	 * 
-//	 * @return the agent types
-//	 */
-//	public abstract Vector<String> getAgentTypes();
+
 	/**
 	 * Updates the agentIndex if necessary.
 	 * 

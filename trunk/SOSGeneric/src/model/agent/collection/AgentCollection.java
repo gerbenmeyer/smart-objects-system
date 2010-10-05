@@ -18,7 +18,6 @@ public class AgentCollection implements AgentCollectionMutable {
 	public AgentCollection(AgentFactory factory) {
 		super();
 		this.factory = factory;
-		//this.agentsProcessor = new AgentsProcessor(this);
 		instance = this;
 	}
 	
@@ -54,13 +53,9 @@ public class AgentCollection implements AgentCollectionMutable {
 	public List<String> getTypes() {
 		return AgentCollectionStorage.getInstance().getTypes();
 	}
-
-	@Override
-	public AgentViewable getNumber(int number) {
-		String id = AgentCollectionStorage.getInstance().getIdFromNumber(number);
-		if (!id.equals("")) {
-			return factory.createAgent(id);	
-		}
-		return null;
+	
+	public List<String> getIDs() {
+		return AgentCollectionStorage.getInstance().getIDs();
 	}
+
 }

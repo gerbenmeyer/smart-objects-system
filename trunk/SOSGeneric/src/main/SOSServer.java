@@ -7,6 +7,7 @@ import model.agent.Agent;
 import model.agent.collection.AgentCollection;
 import model.agent.collection.AgentCollectionMutable;
 import model.agent.collection.AgentFactory;
+import model.agent.execution.AgentsProcessor;
 import model.locations.LocationCollection;
 import util.clientconnection.HTTPListener;
 import util.clientconnection.XMLListener;
@@ -64,6 +65,8 @@ public abstract class SOSServer {
 		Agent e = factory.createAgent("stats");
 		e.initialize();		
 		agentCollection.put(e);
+		
+		new AgentsProcessor();
 	}
 	/**
 	 * Starts the server's listeners 

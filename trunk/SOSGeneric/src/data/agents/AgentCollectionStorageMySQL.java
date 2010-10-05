@@ -121,15 +121,16 @@ public class AgentCollectionStorageMySQL extends AgentCollectionStorage {
 		return types;
 	}
 
-	public String getIdFromNumber(int number) {
-		String id = "";
+	@Override
+	public List<String> getIDs() {
+		Vector<String> ids = new Vector<String>();
 		Statement stm = null;
 		try {
 			stm = conn.connection.createStatement();
-			String sql = "SELECT DISTINCT agent_id FROM `properties` ORDER BY agent_id LIMIT "+number+", 1";
+			String sql = "SELECT DISTINCT agent_id FROM properties;";
 			ResultSet result = stm.executeQuery(sql);
-			if (result.first()) {
-				id = result.getString("agent_id");
+			while (result.next()) {
+				ids.add(result.getString(1));
 			}
 		} catch (SQLException e) {
 			e.printStackTrace();
@@ -141,6 +142,7 @@ public class AgentCollectionStorageMySQL extends AgentCollectionStorage {
 		        stm = null;
 		    }
 		}
-		return id;
+		return ids;
 	}
+
 }

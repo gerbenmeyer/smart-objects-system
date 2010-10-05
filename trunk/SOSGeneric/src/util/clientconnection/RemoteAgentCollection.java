@@ -149,8 +149,8 @@ public class RemoteAgentCollection implements AgentCollectionViewable {
 	}
 
 	@Override
-	public AgentViewable getNumber(int number) {
-		// TODO Auto-generated method stub
-		return null;
+	public List<String> getIDs() {
+		return new Vector<String>(agents.keySet());
 	}
+
 }
