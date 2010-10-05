@@ -11,9 +11,9 @@ public abstract class AgentCollectionStorage {
 	public abstract int getSize();
 
 	public abstract List<String> getTypes();
-
-	public abstract String getIdFromNumber(int number);
 	
+	public abstract List<String> getIDs();
+
 	public static AgentCollectionStorage getInstance(){
 		return instance;
 	}

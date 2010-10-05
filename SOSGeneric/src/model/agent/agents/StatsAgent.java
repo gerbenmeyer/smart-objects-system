@@ -1,14 +1,12 @@
 package model.agent.agents;
 
 import java.util.HashMap;
-import java.util.Vector;
 
 import model.agent.Agent;
 import model.agent.collection.AgentCollection;
 import util.enums.PropertyType;
 import util.htmltool.HtmlDetailsPaneContentGenerator;
 import util.htmltool.HtmlMapContentGenerator;
-import data.index.AgentIndex;
 
 /**
  * Agent for generating stats.
@@ -18,12 +16,10 @@ import data.index.AgentIndex;
  */
 public class StatsAgent extends Agent {
 	
-	private int entries = 0;
-	private double executionWaitTime = 0;
-	
-	private long lastExecutionMillis = 0;
-	
 
+	private final static String LAST_EXECUTION_MILLIS =  "LastExecutionMillis";
+	private final static String EXECUTION_WAIT_TIME =  "ExecutionWaitTime";
+	
 	/**
 	 * Constructs a new StatsAgent object.
 	 * 
@@ -38,31 +34,18 @@ public class StatsAgent extends Agent {
 	@Override
 	public void initialize() {
 		super.initialize();
-		if (get(Agent.HIDDEN).isEmpty()) {
-			set(PropertyType.BOOLEAN, Agent.HIDDEN, Boolean.toString(true));
-		}
+		set(PropertyType.BOOLEAN, Agent.HIDDEN, Boolean.toString(true));
+		set(PropertyType.NUMBER, LAST_EXECUTION_MILLIS, ""+System.currentTimeMillis());
+		set(PropertyType.NUMBER, EXECUTION_WAIT_TIME, ""+0.0);
 	}
 
 	@Override
 	public void act() throws Exception {
-		int newEntries = 0;
-		
-		Vector<String> keywords = new Vector<String>(AgentIndex.getInstance().getKeywords());
-		for (String keyword: keywords){
-			newEntries += AgentIndex.getInstance().searchAgents(keyword).size();
-			
-		}
-		entries = newEntries;
-		
-		if (lastExecutionMillis == 0){
-			lastExecutionMillis = System.currentTimeMillis();
-		}
-		
-		executionWaitTime = (System.currentTimeMillis() - lastExecutionMillis) / 1000.0;
-		
-		lastExecutionMillis = System.currentTimeMillis();
-		
-		
+		double lastExecutionMillis = Double.parseDouble(get(LAST_EXECUTION_MILLIS));
+		double executionWaitTime = (System.currentTimeMillis() - lastExecutionMillis) / 1000.0;
+		set(PropertyType.NUMBER, EXECUTION_WAIT_TIME, ""+executionWaitTime);
+		set(PropertyType.NUMBER, LAST_EXECUTION_MILLIS, ""+System.currentTimeMillis());
+		save();
 	}
 
 	@Override
@@ -72,9 +55,7 @@ public class StatsAgent extends Agent {
 		detailsPane.addDataHeader("", "Property");
 		detailsPane.addDataRow("#", "Agent types: " + AgentCollection.getInstance().getTypes().size(), "");
 		detailsPane.addDataRow("#", "Agent IDs: " + AgentCollection.getInstance().getSize(), "");
-		detailsPane.addDataRow("#", "Keywords: " + AgentIndex.getInstance().getKeywords().size(), "");
-		detailsPane.addDataRow("#", "Entries: " + entries, "");
-		detailsPane.addDataRow("", "Act: " + executionWaitTime+" s", "");
+		detailsPane.addDataRow("", "Act: " + get(EXECUTION_WAIT_TIME)+" s", "");
 	}
 
 	@Override
