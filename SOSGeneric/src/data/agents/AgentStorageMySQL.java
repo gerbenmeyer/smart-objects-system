@@ -27,7 +27,7 @@ public class AgentStorageMySQL extends AgentStorage {
 		ResultSet propertyResult = null;
 		try {
 			stm = conn.connection.createStatement();
-			String propertySQL = "SELECT type,value FROM properties WHERE agent_id = '"+id+"' AND name = '"+name+"';";
+			String propertySQL = "SELECT type,value FROM properties WHERE agent_id = '"+id+"' AND name = '"+name+"' LIMIT 1;";
 			propertyResult = stm.executeQuery(propertySQL);
 			if(propertyResult.first()) {
 				p = Property.createProperty(PropertyType.valueOf(propertyResult.getString("type")), name, propertyResult.getString("value"));
@@ -54,7 +54,7 @@ public class AgentStorageMySQL extends AgentStorage {
 		ResultSet propertyResult = null;
 		try {
 			stm = conn.connection.createStatement();
-			String propertySQL = "SELECT value FROM properties WHERE agent_id = '"+id+"' AND name = '"+name+"';";
+			String propertySQL = "SELECT value FROM properties WHERE agent_id = '"+id+"' AND name = '"+name+"' LIMIT 1;";
 			propertyResult = stm.executeQuery(propertySQL);
 			if(propertyResult.first()) {
 				return propertyResult.getString("value");

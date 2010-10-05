@@ -18,7 +18,7 @@ public class AgentCollection implements AgentCollectionMutable {
 	public AgentCollection(AgentFactory factory) {
 		super();
 		this.factory = factory;
-		this.agentsProcessor = new AgentsProcessor(this);
+		//this.agentsProcessor = new AgentsProcessor(this);
 		instance = this;
 	}
 	

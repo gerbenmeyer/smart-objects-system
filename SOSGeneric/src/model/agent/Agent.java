@@ -332,7 +332,7 @@ public abstract class Agent implements AgentMutable {
 	}
 
 	public void removeProperty(String name) {
-		// TODO remove from both, or either one?
+		// FIXME remove from both, or either one?
 		buffer.remove(name);
 		if (AgentStorage.getInstance() != null) {
 			AgentStorage.getInstance().removeProperty(getID(), name);
@@ -356,30 +356,6 @@ public abstract class Agent implements AgentMutable {
 		return true;
 	}
 
-	// public void setDescription(String description) {
-	// putProperty(Property.createProperty(PropertyType.TEXT, "Description",
-	// description));
-	// }
-	//
-	// public void setHidden(boolean hidden) {
-	// putProperty(Property.createProperty(PropertyType.BOOLEAN, "Hidden",
-	// Boolean.toString(hidden)));
-	// }
-	//
-	// public void setID(String id) {
-	// getID() = id;
-	// putProperty(Property.createProperty(PropertyType.TEXT, "ID", id));
-	// }
-	//
-	// public void setLabel(String label) {
-	// putProperty(Property.createProperty(PropertyType.TEXT, "Label", label));
-	// }
-	//
-	// public void setLocation(String location) {
-	// putProperty(Property.createProperty(PropertyType.LOCATION, "Location",
-	// location));
-	// }
-
 	public void setLocation(double latitude, double longitude) {
 		LocationProperty lp = new LocationProperty("Location");
 		lp.setLatitude(latitude);
@@ -388,31 +364,6 @@ public abstract class Agent implements AgentMutable {
 		lp.setLocationType(GoogleLocationType.ROOFTOP);
 		putProperty(lp);
 	}
-
-	// public boolean setPropertyValue(String name, String value) {
-	// Property p = getProperty(name);
-	// if (p != null) {
-	// if (value.length() > 0 && !p.toString().equals(value)) {
-	// try {
-	// p.parseString(value);
-	// putProperty(p);
-	// } catch (Exception e) {
-	// return false;
-	// }
-	// }
-	// return true;
-	// }
-	// return false;
-	// }
-
-	// public void setStatus(AgentStatus status) {
-	// putProperty(Property.createProperty(PropertyType.STATUS, "Status",
-	// status.toString()));
-	// }
-
-	// public void setType(String type) {
-	// putProperty(Property.createProperty(PropertyType.TEXT, "Type", type));
-	// }
 
 	public String getArffAttributesString() {
 		String attributes = "";
@@ -498,10 +449,6 @@ public abstract class Agent implements AgentMutable {
 		}
 		return status;
 	}
-
-	// public boolean isHidden() {
-	// return get("Hidden").equals(Boolean.toString(true));
-	// }
 
 	public String toXML() {
 		String xml = "";
