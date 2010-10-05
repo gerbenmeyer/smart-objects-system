@@ -346,4 +346,13 @@ public class LocationProperty extends Property {
 		}
 		return "" + distance;
 	}
+	
+	public static String getCoordinate(double latitude, double longitude) {
+		LocationProperty lp = new LocationProperty("");
+		lp.setLocationType(GoogleLocationType.ROOFTOP);
+		lp.setHidden(true);
+		lp.setLatitude(latitude);
+		lp.setLongitude(longitude);
+		return lp.toString();
+	}
 }

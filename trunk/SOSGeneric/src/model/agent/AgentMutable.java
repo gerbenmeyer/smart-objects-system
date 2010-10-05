@@ -40,14 +40,6 @@ public interface AgentMutable extends AgentViewable {
 	public HashMap<String, Property> getProperties();
 
 	/**
-	 * Set the location of this PropertyObject using latitude and longitude.
-	 * 
-	 * @param latitude the latitude of the location
-	 * @param longitude the longitude of the location
-	 */
-	public void setLocation(double latitude, double longitude);
-
-	/**
 	 * Replaces a property or adds it to this PropertyObject.
 	 * 
 	 * @param newP the new property
