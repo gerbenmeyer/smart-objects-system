@@ -49,7 +49,7 @@ public class SearchAgent extends Agent {
 
 	@Override
 	public void generateDetailsPaneContent(HtmlDetailsPaneContentGenerator detailsPane, HashMap<String, String> params) {
-		BenchMarker bm = new BenchMarker("SearchAgent PaneContent");
+		BenchMarker bm = new BenchMarker("SearchAgent PaneContent", false);
 		
 		String search = "";
 		if (params.containsKey("q")) {
@@ -82,16 +82,16 @@ public class SearchAgent extends Agent {
 				Boolean.toString(true));
 		
 		for (String id : ids) {
-			AgentViewable pov = AgentCollection.getInstance().get(id);
-			if (pov == null) {
-				//TODO: This is just here for debugging purposes
+			AgentViewable av = AgentCollection.getInstance().get(id);
+			if (av == null) {
+				//FIXME: This is just here for debugging purposes
 				detailsPane.addDataRow("unknown.png", "Agent not found!", "");
 				continue;
 			}
 
-			String statusIcon = showStatus ? pov.getStatus().toString().toLowerCase() + ".png" : "";
+			String statusIcon = showStatus ? av.getStatus().toString().toLowerCase() + ".png" : "";
 
-			detailsPane.addDataRowLink(pov.getIcon(), pov.get(Agent.LABEL), statusIcon, pov.getID()
+			detailsPane.addDataRowLink(av.getIcon(), av.get(Agent.LABEL), statusIcon, av.getID()
 					+ ".html");
 		}
 		bm.taskFinished("Iterating agents");
@@ -100,7 +100,7 @@ public class SearchAgent extends Agent {
 
 	@Override
 	public void generateMapContent(HtmlMapContentGenerator mapContent, HashMap<String, String> params) {
-		BenchMarker bm = new BenchMarker("SearchAgent MapContent");
+		BenchMarker bm = new BenchMarker("SearchAgent MapContent", false);
 		
 		String search = "";
 		if (params.containsKey("q")) {
