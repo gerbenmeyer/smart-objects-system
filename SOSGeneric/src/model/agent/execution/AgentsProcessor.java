@@ -13,6 +13,8 @@ public class AgentsProcessor implements Runnable {
 	private static int delayMilliseconds = 10;
 	private long agentExecutionEnabledFromTimeStampInMillis = 0;
 	private boolean paused = false;
+	
+	private static AgentsProcessor instance;
 
 	/**
 	 * Constructs a new AgentsProcessor.
@@ -23,7 +25,16 @@ public class AgentsProcessor implements Runnable {
 	 *            the AgentIndex to be updated after processing an agent
 	 */
 	public AgentsProcessor() {
+		instance = this;
 		(new Thread(this)).start();
+	}
+	
+	/**
+	 * 
+	 * @return the instance
+	 */
+	public static AgentsProcessor getInstance(){
+		return instance;
 	}
 
 	/**
@@ -52,9 +63,8 @@ public class AgentsProcessor implements Runnable {
 		long startTime = System.currentTimeMillis();
 
 		while (true) {
-
 			List<String> ids = AgentCollection.getInstance().getIDs();
-
+			
 			for (String id : ids) {
 
 				if (new GregorianCalendar().getTimeInMillis() < agentExecutionEnabledFromTimeStampInMillis) {
@@ -129,6 +139,11 @@ public class AgentsProcessor implements Runnable {
 				} catch (InterruptedException e) {
 
 				}
+			}
+			try {
+				Thread.sleep(delayMilliseconds);
+			} catch (InterruptedException e) {
+
 			}
 		}
 	}

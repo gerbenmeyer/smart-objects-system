@@ -11,6 +11,7 @@ import model.agent.Agent;
 import model.agent.AgentViewable;
 import model.agent.classification.Classifier;
 import model.agent.classification.ClassifierCollection;
+import model.agent.collection.AgentCollection;
 import model.agent.property.properties.LocationProperty;
 import util.enums.AgentStatus;
 import util.xmltool.KeyData;
@@ -138,7 +139,7 @@ public class XMLServerClientHandler extends Thread {
 	 */
 	private String getAgent(String xml) {
 		String id = xml;
-		AgentViewable av = server.getAgentCollection().get(id);
+		AgentViewable av = AgentCollection.getInstance().get(id);
 		if (av == null) {
 			return "error";
 		} else {
@@ -242,7 +243,7 @@ public class XMLServerClientHandler extends Thread {
 				status = AgentStatus.valueOf(XMLTool.removeRootTag(item.getValue()));
 			}
 		}
-		AgentViewable av = server.getAgentCollection().get(agentCode);
+		AgentViewable av = AgentCollection.getInstance().get(agentCode);
 		if (av != null) {
 			Classifier r = ClassifierCollection.getInstance().getRelation(av.get(Agent.TYPE), av.getArffAttributesString());
 			r.addInstance(av.getArffInstanceString(), status);

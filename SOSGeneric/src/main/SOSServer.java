@@ -67,6 +67,8 @@ public abstract class SOSServer {
 		agentCollection.put(e);
 		
 		new AgentsProcessor();
+		
+		
 	}
 	/**
 	 * Starts the server's listeners 

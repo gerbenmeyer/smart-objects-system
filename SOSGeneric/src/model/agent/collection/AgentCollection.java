@@ -9,19 +9,18 @@ import model.agent.execution.AgentsProcessor;
 import data.agents.AgentCollectionStorage;
 
 public class AgentCollection implements AgentCollectionMutable {
-	
+
 	private static AgentCollection instance;
-	private AgentsProcessor agentsProcessor;
-	
+
 	private AgentFactory factory;
-	
+
 	public AgentCollection(AgentFactory factory) {
 		super();
 		this.factory = factory;
 		instance = this;
 	}
-	
-	public static AgentCollectionViewable getInstance(){
+
+	public static AgentCollectionViewable getInstance() {
 		return instance;
 	}
 
@@ -36,16 +35,19 @@ public class AgentCollection implements AgentCollectionMutable {
 		}
 		return agent;
 	}
-	
+
 	public void put(Agent agent) {
 		if (Settings.getProperty(Settings.PAUSE_AGENT_EXECUTION_WHEN_PUTTING_AGENTS).equals("true")) {
-			agentsProcessor .pause();
+			AgentsProcessor processor = AgentsProcessor.getInstance();
+			if (processor != null){
+				processor.pause();
+			}
 		}
 		if (!agent.isGarbage()) {
 			agent.save();
 		}
 	}
-	
+
 	public int getSize() {
 		return AgentCollectionStorage.getInstance().getSize();
 	}
@@ -53,7 +55,7 @@ public class AgentCollection implements AgentCollectionMutable {
 	public List<String> getTypes() {
 		return AgentCollectionStorage.getInstance().getTypes();
 	}
-	
+
 	public List<String> getIDs() {
 		return AgentCollectionStorage.getInstance().getIDs();
 	}
