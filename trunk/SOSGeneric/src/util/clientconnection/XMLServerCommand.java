@@ -14,6 +14,7 @@ public class XMLServerCommand {
 	public final static String GET_AGENT = "getAgent";
 	public final static String PUT_AGENT = "putAgent";
 	public final static String GET_AGENT_IDS = "getAgentIDS";
+	public final static String GET_AGENT_TYPES = "getAgentTypes";
 	public final static String GET_LOCATION_INFO = "getLocationInfo";
 	public final static String PUT_LOCATION_INFO = "putLocationInfo";
 	public final static String GET_LOCATION_COLLECTION = "getLocationCollection";

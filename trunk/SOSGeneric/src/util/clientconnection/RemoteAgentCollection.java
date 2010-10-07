@@ -1,15 +1,15 @@
 package util.clientconnection;
 
 import java.util.Collection;
-import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 import java.util.Vector;
 
 import model.agent.Agent;
 import model.agent.AgentViewable;
-import model.agent.collection.AgentCollectionViewable;
+import model.agent.agents.EmptyAgent;
+import model.agent.collection.AgentCollectionMutable;
+import model.agent.property.Property;
 import util.enums.AgentStatus;
 import util.xmltool.KeyData;
 import util.xmltool.KeyDataVector;
@@ -21,9 +21,9 @@ import util.xmltool.XMLTool;
  * 
  * @author Gerben G. Meyer
  */
-public class RemoteAgentCollection implements AgentCollectionViewable {
+public class RemoteAgentCollection implements AgentCollectionMutable {
 
-	private Map<String, AgentViewable> agents = Collections.synchronizedMap(new HashMap<String, AgentViewable>());
+//	private Map<String, AgentViewable> agents = Collections.synchronizedMap(new HashMap<String, AgentViewable>());
 	private XMLServerConnection connection;
 
 	/**
@@ -39,43 +39,25 @@ public class RemoteAgentCollection implements AgentCollectionViewable {
 		this.connection = new XMLServerConnection(serverAddress, serverPort, username, password);
 	}
 
-//	/**
-//	 * Synchronizes this collection with the one on the server.
-//	 */
-//	public void synchronizeWithServer() {
-//		connection.connect();
-//
-//		// objects
-//		agents.clear();
-//		
-//		index = new AgentIndexMemory(this);
-//
-//		String result = connection.sendCommandToServer(new XMLServerCommand(XMLServerCommand.GET_AGENT_IDS, ""));
-//
-//		if (result != "error" && result != "unknown") {
-//
-//			KeyDataVector prop = XMLTool.XMLToProperties(result);
-//
-//			for (KeyData item : prop) {
-//
-//				if (item.getTag().equals("Code")) {
-//					String code = XMLTool.removeRootTag(item.getValue());
-//
-//					String objectResult = connection.sendCommandToServer(new XMLServerCommand(XMLServerCommand.GET_AGENT, code));
-//					if (objectResult != "error" && objectResult != "unknown") {
-//						Agent a = EmptyAgent.fromXML(objectResult);
-////						a.putProperties(MemoryPropertiesObject.fromXML(objectResult),this,a);
-//						agents.put(code, a);
-//						index.update(a);
-//					}
-//
-//				} else {
-//					System.err.println("Unknown data in xml: " + item.getTag());
-//				}
-//			}
-//		}
-//		connection.disconnect();
-//	}
+	@Override
+	public List<String> getIDs() {
+		connection.connect();
+		Vector<String> ids = new Vector<String>();
+		String result = connection.sendCommandToServer(new XMLServerCommand(XMLServerCommand.GET_AGENT_IDS, ""));
+		if (result != "error" && result != "unknown") {
+			KeyDataVector prop = XMLTool.XMLToProperties(result);
+			for (KeyData item : prop) {
+				if (item.getTag().equals(Agent.ID)) {
+					String id = XMLTool.removeRootTag(item.getValue());
+					ids.add(id);
+				} else {
+					System.err.println("Unknown data in xml: " + item.getTag());
+				}
+			}
+		}
+		connection.disconnect();
+		return ids;
+	}
 
 	/**
 	 * Trains an Agent with a certain status.
@@ -101,9 +83,10 @@ public class RemoteAgentCollection implements AgentCollectionViewable {
 	 * 
 	 * @param a the agent
 	 */
-	public void sendObjectToServer(Agent a) {
+	@Override
+	public void put(Agent agent) {
 		connection.connect();
-		connection.sendCommandToServer(new XMLServerCommand(XMLServerCommand.PUT_AGENT, a.toXML()));
+		connection.sendCommandToServer(new XMLServerCommand(XMLServerCommand.PUT_AGENT, agent.toXML()));
 		connection.disconnect();
 	}
 
@@ -112,7 +95,7 @@ public class RemoteAgentCollection implements AgentCollectionViewable {
 	 * 
 	 * @param agents the agents
 	 */
-	public void sendObjectsToServer(Collection<Agent> agents) {
+	public void put(Collection<Agent> agents) {
 		connection.connect();
 		for (Agent o : agents) {
 			connection.sendCommandToServer(new XMLServerCommand(XMLServerCommand.PUT_AGENT, o.toXML()));
@@ -123,34 +106,62 @@ public class RemoteAgentCollection implements AgentCollectionViewable {
 
 	@Override
 	public boolean containsKey(String id) {
-		return agents.containsKey(id);
+		return get(id) != null;
 	}
 
 	@Override
 	public AgentViewable get(String id) {
-		return agents.get(id);
+		connection.connect();
+		Agent agent = null;
+		String objectResult = connection.sendCommandToServer(new XMLServerCommand(XMLServerCommand.GET_AGENT, id));
+		if (objectResult != "error" && objectResult != "unknown") {
+			agent = fromXML(objectResult);
+		}
+		connection.disconnect();	
+		return agent;
 	}
 
 	@Override
 	public int getSize() {
-		return agents.size();
+		return getIDs().size();
 	}
 
 	@Override
 	public List<String> getTypes() {
-		Vector<String> vec = new Vector<String>();
-		for (AgentViewable agent : agents.values()) {
-			String agentType = agent.get(Agent.TYPE);
-			if (!vec.contains(agentType)) {
-				vec.add(agentType);
+		connection.connect();
+		Vector<String> types = new Vector<String>();
+		String result = connection.sendCommandToServer(new XMLServerCommand(XMLServerCommand.GET_AGENT_TYPES, ""));
+		if (result != "error" && result != "unknown") {
+			KeyDataVector prop = XMLTool.XMLToProperties(result);
+			for (KeyData item : prop) {
+				if (item.getTag().equals(Agent.TYPE)) {
+					String type = XMLTool.removeRootTag(item.getValue());
+					types.add(type);
+				} else {
+					System.err.println("Unknown data in xml: " + item.getTag());
+				}
 			}
 		}
-		return vec;
+		connection.disconnect();
+		return types;
 	}
 
-	@Override
-	public List<String> getIDs() {
-		return new Vector<String>(agents.keySet());
+	private Agent fromXML(String xml) {
+		xml = XMLTool.removeRootTag(xml);
+		KeyDataVector propertiesXML = XMLTool.XMLToProperties(xml);
+		
+		HashMap<String, Property> properties = new HashMap<String, Property>();
+		for (KeyData k : propertiesXML) {
+			Property p = Property.fromXML(k.getValue());
+			properties.put(p.getName(), p);
+		}
+		
+		Agent agent = null;
+		if (properties.containsKey(Agent.ID)) {
+			agent = new EmptyAgent(properties.get(Agent.ID).toString());
+			agent.putProperties(properties);
+		}
+		return agent;
 	}
 
 }
