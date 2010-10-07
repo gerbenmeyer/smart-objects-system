@@ -4,6 +4,8 @@ import java.io.BufferedReader;
 import java.io.InputStreamReader;
 import java.io.PrintWriter;
 import java.net.Socket;
+import java.util.Collections;
+import java.util.List;
 
 import main.SOSServer;
 import main.Settings;
@@ -104,9 +106,12 @@ public class XMLServerClientHandler extends Thread {
 			if (cmd.getName().equals(XMLServerCommand.PUT_AGENT)) {
 				return putAgent(cmd.getParameter());
 			}
-//			if (cmd.getName().equals(XMLServerCommand.GET_AGENT_IDS)) {
-//				return getAgentIDs(cmd.getParameter());
-//			}
+			if (cmd.getName().equals(XMLServerCommand.GET_AGENT_IDS)) {
+				return getAgentIDs(cmd.getParameter());
+			}
+			if (cmd.getName().equals(XMLServerCommand.GET_AGENT_TYPES)) {
+				return getAgentTypes(cmd.getParameter());
+			}			
 			if (cmd.getName().equals(XMLServerCommand.GET_LOCATION_INFO)) {
 				return getLocation(cmd.getParameter());
 			}
@@ -146,7 +151,44 @@ public class XMLServerClientHandler extends Thread {
 			return av.toXML();
 		}
 	}
+	
+	/**
+	 * Get all agent IDs from the server and convert it to XML.
+	 * 
+	 * @param xml the XML request
+	 * @return the result
+	 */
+	private String getAgentIDs(String xml) {
+		List<String> ids = AgentCollection.getInstance().getIDs();
+		Collections.sort(ids);
 
+		KeyDataVector properties = new KeyDataVector();
+		for (String id : ids) {
+			properties.add(new KeyData(Agent.ID, id));
+		}
+
+		return XMLTool.PropertiesToXML(properties);
+	}	
+
+	
+	/**
+	 * Get all agent types from the server and convert it to XML.
+	 * 
+	 * @param xml the XML request
+	 * @return the result
+	 */
+	private String getAgentTypes(String xml) {
+		List<String> types = AgentCollection.getInstance().getTypes();
+		Collections.sort(types);
+
+		KeyDataVector properties = new KeyDataVector();
+		for (String type : types) {
+			properties.add(new KeyData(Agent.TYPE, type));
+		}
+
+		return XMLTool.PropertiesToXML(properties);
+	}	
+	
 	/**
 	 * Add an agent to the server.
 	 * 

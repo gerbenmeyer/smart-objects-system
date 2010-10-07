@@ -92,7 +92,7 @@ public class SOSBudapestDataClient {
 				a.set(PropertyType.TEXT,Agent.DESCRIPTION,description);
 			}
 			// send objects to server
-			remoteAgentCollection.sendObjectsToServer(agents);
+			remoteAgentCollection.put(agents);
 			
 			System.out.println(agents.size()+" objects sent to server!");
 		}
