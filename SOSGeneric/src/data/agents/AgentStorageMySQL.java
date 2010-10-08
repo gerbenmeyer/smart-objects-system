@@ -31,10 +31,6 @@ public class AgentStorageMySQL extends AgentStorage {
 			propertyResult = stm.executeQuery(propertySQL);
 			if(propertyResult.first()) {
 				p = Property.createProperty(PropertyType.valueOf(propertyResult.getString("type")), name, propertyResult.getString("value"));
-//				AgentViewable av = AgentCollection.getInstance().get(id);
-//				if (av != null) {
-//					p.setAgentView(av);
-//				}
 			}
 		} catch (SQLException e) {
 			e.printStackTrace();

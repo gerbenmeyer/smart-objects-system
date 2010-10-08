@@ -22,26 +22,29 @@ public class AgentIndexMySQL extends AgentIndex {
 	
 	@Override
 	public Vector<String> searchAgents(String search) {
+		
 		String filters = "";
 		String query = new String(search);
-		// TODO only 'type' and 'all' can be used as filter at the moment
-		// 'status' is missing
-		if (search.trim().equals("all")) {
-			query = "";
-		} else {
-			Matcher m = Pattern.compile("type:([^\\s]*)").matcher(query);
-			if (m.find()) {
-				filters = "agent_id IN (SELECT DISTINCT agent_id FROM `properties` WHERE type = 'TEXT' and name = 'Type' and value = '" + m.group(1) + "') AND ";
-				query = query.replaceAll(m.group(), "");
-			}
+		//match type		
+		Matcher m1 = Pattern.compile("type:([^\\s]*)").matcher(query);
+		if (m1.find()) {
+			filters += "agent_id IN (SELECT DISTINCT agent_id FROM `properties` WHERE type = 'TEXT' and name = 'Type' and value = '" + m1.group(1) + "') AND ";
+			query = query.replaceAll(m1.group(), "");
 		}
+		//match status
+		Matcher m2 = Pattern.compile("status:([^\\s]*)").matcher(query);
+		if (m2.find()) {
+			filters += "agent_id IN (SELECT DISTINCT agent_id FROM `properties` WHERE type = 'STATUS' and name = 'Status' and value = '" + m2.group(1) + "') AND ";
+			query = query.replaceAll(m2.group(), "");
+		}		
+		//match other properties
 		String sql = "SELECT DISTINCT agent_id FROM properties "
 			// exclude hidden
 			+ "WHERE agent_id NOT IN (SELECT DISTINCT agent_id FROM `properties` WHERE type = 'BOOLEAN' and name = 'Hidden' and value = 'true') AND " + filters
 			// exclude some more propteries
 			+ "type = 'TEXT' "
 			//TODO move limit to settings
-			+ (!query.trim().isEmpty()?"AND value LIKE '%"+query.trim()+"%' ":"")+ "LIMIT 10001;";
+			+ (!query.trim().isEmpty()?"AND value LIKE '%"+query.trim()+"%' ":"")+ "LIMIT 5001;";
 		
 		Vector<String> ids = new Vector<String>();
 		Statement stm = null;
