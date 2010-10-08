@@ -60,17 +60,19 @@ public class MenuAgent extends Agent {
 		boolean showStatus = Settings.getProperty(Settings.AGENT_PROBLEM_DETECTION_ENABLED).equals(
 				Boolean.toString(true));
 		
-		//FIXME not generic, as all_icon_menu.png is not available in the SOSGeneric project
-		if (showStatus) {
-			menu += "<div class=\"property linked_property\" onclick=\"document.getElementById('hidden_frame').src = 'search.html?q='"
-					+ " + document.getElementById('overview_filter').value;\"><div class=\"propertyicon\">"
-					+ HtmlTool.createImage("all_icon_menu.png", "all", 16)
-					+ "</div><div class=\"menu_name\">All</div></div>";
-		} else {
-			menu += "<div class=\"property linked_property\" onclick=\"document.getElementById('hidden_frame').src = 'search.html?q=';\">"
-					+ "<div class=\"propertyicon\">"
-					+ HtmlTool.createImage("all_icon_menu.png", "all", 16)
-					+ "</div><div class=\"menu_name\">All</div></div>";
+		if (Settings.getProperty(Settings.SHOW_ALL_OBJECTS).equals("true")) {
+			//FIXME not generic, as all_icon_menu.png is not available in the SOSGeneric project
+			if (showStatus) {
+				menu += "<div class=\"property linked_property\" onclick=\"document.getElementById('hidden_frame').src = 'search.html?q='"
+						+ " + document.getElementById('overview_filter').value;\"><div class=\"propertyicon\">"
+						+ HtmlTool.createImage("all_icon_menu.png", "all", 16)
+						+ "</div><div class=\"menu_name\">All</div></div>";
+			} else {
+				menu += "<div class=\"property linked_property\" onclick=\"document.getElementById('hidden_frame').src = 'search.html?q=';\">"
+						+ "<div class=\"propertyicon\">"
+						+ HtmlTool.createImage("all_icon_menu.png", "all", 16)
+						+ "</div><div class=\"menu_name\">All</div></div>";
+			}
 		}
 
 		for (String type : types) {
