@@ -58,8 +58,12 @@ public class SearchAgent extends Agent {
 		String title = search.replace('+', ' ');
 		title = title.replace("type:", "");
 		title = title.replace("status:", "");
+		
+		if (title.trim().isEmpty()){
+			title = "everyting";
+		}
 
-		title = "Search: " + title;
+		title = "Search: " + title.toLowerCase();
 
 		detailsPane.addHeader(title);
 		
@@ -69,10 +73,10 @@ public class SearchAgent extends Agent {
 		
 		bm.taskFinished("Fetching agent IDs");
 		
-		if (ids.size() > 10000){
-			detailsPane.addParagraph(HtmlTool.createImage("warning.png", "Warning")+" Too many agents, only showing first 10,000.");
+		if (ids.size() > 5000){
+			detailsPane.addParagraph(HtmlTool.createImage("warning.png", "Warning")+" Too many "+Settings.getProperty(Settings.KEYWORD_DEEPLINK)+"s, only showing first 5000.");
 		}
-		while (ids.size() > 10000){
+		while (ids.size() > 5000){
 			ids.remove(ids.size()-1);
 		}
 
@@ -116,7 +120,7 @@ public class SearchAgent extends Agent {
 		
 		bm.taskFinished("Fetching agent IDs");
 		
-		for (int i = 0; i < Math.min(ids.size(), 10000); i++) {
+		for (int i = 0; i < Math.min(ids.size(), 5000); i++) {
 			AgentViewable av = AgentCollection.getInstance().get(ids.get(i));
 			if (av == null) {
 				continue;

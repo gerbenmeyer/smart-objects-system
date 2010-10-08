@@ -9,6 +9,7 @@ import model.agent.Agent;
 import model.agent.collection.AgentCollection;
 import util.Capitalize;
 import util.comparators.AgentTypeComparator;
+import util.enums.AgentStatus;
 import util.enums.PropertyType;
 import util.htmltool.HtmlDetailsPaneContentGenerator;
 import util.htmltool.HtmlMapContentGenerator;
@@ -61,12 +62,12 @@ public class MenuAgent extends Agent {
 		
 		//FIXME not generic, as all_icon_menu.png is not available in the SOSGeneric project
 		if (showStatus) {
-			menu += "<div class=\"property linked_property\" onclick=\"document.getElementById('hidden_frame').src = 'search.html?q=all'"
+			menu += "<div class=\"property linked_property\" onclick=\"document.getElementById('hidden_frame').src = 'search.html?q='"
 					+ " + document.getElementById('overview_filter').value;\"><div class=\"propertyicon\">"
 					+ HtmlTool.createImage("all_icon_menu.png", "all", 16)
 					+ "</div><div class=\"menu_name\">All</div></div>";
 		} else {
-			menu += "<div class=\"property linked_property\" onclick=\"document.getElementById('hidden_frame').src = 'search.html?q=all';\">"
+			menu += "<div class=\"property linked_property\" onclick=\"document.getElementById('hidden_frame').src = 'search.html?q=';\">"
 					+ "<div class=\"propertyicon\">"
 					+ HtmlTool.createImage("all_icon_menu.png", "all", 16)
 					+ "</div><div class=\"menu_name\">All</div></div>";
@@ -99,12 +100,12 @@ public class MenuAgent extends Agent {
 		if (showStatus) {
 			menu += "<div class=\"filter_text\">Display:</div>"
 					+ "<select id=\"overview_filter\" onchange=\"document.getElementById('hidden_frame').src = 'search.html?q=type:'+document.getElementById('hidden_frame').contentDocument.URL.match(/type:([\\w]+)/)[1]+' '+this.value;\">"
-					+ " <option value=\"\">Everything</option>" + " <option value=\"status:error\" "
-					+ (defaultScript.contains("status:error") ? "selected=\"selected\"" : "") + ">Errors</option>"
-					+ " <option value=\"status:warning\" "
-					+ (defaultScript.contains("status:warning") ? "selected=\"selected\"" : "") + ">Warnings</option>"
-					+ " <option value=\"status:unknown\" "
-					+ (defaultScript.contains("status:unknown") ? "selected=\"selected\"" : "") + ">Unknowns</option>"
+					+ " <option value=\"\">Everything</option>" + " <option value=\"status:"+AgentStatus.ERROR.toString()+"\" "
+					+ (defaultScript.contains("status:"+AgentStatus.ERROR.toString()+"") ? "selected=\"selected\"" : "") + ">Errors</option>"
+					+ " <option value=\"status:"+AgentStatus.WARNING.toString()+"\" "
+					+ (defaultScript.contains("status:"+AgentStatus.WARNING.toString()+"") ? "selected=\"selected\"" : "") + ">Warnings</option>"
+					+ " <option value=\"status:"+AgentStatus.UNKNOWN.toString()+"\" "
+					+ (defaultScript.contains("status:"+AgentStatus.UNKNOWN.toString()+"") ? "selected=\"selected\"" : "") + ">Unknowns</option>"
 					+ "</select>";
 		}
 		

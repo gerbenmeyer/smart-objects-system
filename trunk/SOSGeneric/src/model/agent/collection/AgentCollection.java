@@ -2,6 +2,9 @@ package model.agent.collection;
 
 import java.util.List;
 
+import util.enums.AgentStatus;
+import util.enums.PropertyType;
+
 import main.Settings;
 import model.agent.Agent;
 import model.agent.AgentViewable;
@@ -44,6 +47,11 @@ public class AgentCollection implements AgentCollectionMutable {
 			}
 		}
 		if (!agent.isGarbage()) {
+			boolean showStatus = Settings.getProperty(Settings.AGENT_PROBLEM_DETECTION_ENABLED).equals(
+					Boolean.toString(true));
+			if (showStatus){
+				agent.set(PropertyType.STATUS, Agent.STATUS, AgentStatus.UNKNOWN.toString());
+			}
 			agent.save();
 		}
 	}
