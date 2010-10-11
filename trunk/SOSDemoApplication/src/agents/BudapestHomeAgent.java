@@ -43,7 +43,7 @@ public class BudapestHomeAgent extends Agent {
 		mapContent.setZoom(13);
 		//show all agents by using the always existing search agent to search for all agents
 		AgentViewable av = AgentCollection.getInstance().get("search");
-		params.put("q", "all");
+		params.put("q", "");
 		av.generateMapContent(mapContent, params);
 	}
 
@@ -52,7 +52,7 @@ public class BudapestHomeAgent extends Agent {
 	public void generateDetailsPaneContent(HtmlDetailsPaneContentGenerator detailsPane, HashMap<String, String> params) {
 		//show all agents by using the always existing search agent to search for all agents
 		AgentViewable av = AgentCollection.getInstance().get("search");
-		params.put("q", "all");
+		params.put("q", "");
 		av.generateDetailsPaneContent(detailsPane, params);
 	}
 
