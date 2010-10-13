@@ -446,6 +446,6 @@ public abstract class Agent implements AgentMutable {
 		for (Property p : getProperties().values()) {
 			xml += p.toXML();
 		}
-		return XMLTool.addRootTag(xml, "PropertyObject");
+		return XMLTool.addRootTag(xml, "Agent");
 	}
 }

@@ -27,8 +27,6 @@ public class MenuAgent extends Agent {
 	 * Constructs a new MenuAgent object.
 	 * 
 	 * @param id the identifier for the agent
-	 * @param pocv the collectionView for (read) access to other agents
-	 * @param agentStorage the storage to be used for this Agent 
 	 */
 	public MenuAgent(String id) {
 		super(id);

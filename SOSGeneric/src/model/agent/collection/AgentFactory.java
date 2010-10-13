@@ -21,11 +21,9 @@ import util.xmltool.XMLTool;
 public abstract class AgentFactory {
 
 	/**
-	 * TODO fix doc description
-	 * Creates a new agent based on its properties.
+	 * Creates a new agent based on its unique identifier.
 	 * 
-	 * @param po the PropertiesObject to be used as a template for the agent
-	 * @param acv an AgentCollectionView
+	 * @param agentID the identifier of the agent
 	 * @return a fresh Agent
 	 */
 	public Agent createAgent(String agentID) {
@@ -45,25 +43,32 @@ public abstract class AgentFactory {
 	}
 
 	/**
-	 * This method should be implemented by every application specific agent factory.
-	 * Called by {@link #createAgent(PropertiesObjectStore, AgentCollectionViewable)} when not one of the default agents is being created.
+	 * This method should be implemented by every application specific AgentFactory.
+	 * Called by {@link #createAgent(String)} when not one of the default agents is being created.
 	 * 
-	 * @param po the PropertiesObject to be used as a template for the agent
+	 * @param agentID the identifier of the agent
 	 * @return a fresh Agent
 	 */
 	protected abstract Agent createSpecificAgent(String agentID);
 	
 
 	/**
-	 * Converts the xml representation of a PropertiesObject to a PropertiesObject instance.
+	 * Converts the xml representation of an Agent to an Agent instance, without recording its history.
 	 * 
 	 * @param xml the representation
-	 * @return the Property
+	 * @return the Agent
 	 */
 	public Agent fromXML(String xml) {
 		return fromXML(xml, false);
 	}
-	
+
+	/**
+	 * Converts the xml representation of an Agent to an Agent instance.
+	 * 
+	 * @param xml the xml representation
+	 * @param recordHistory true if the history of this Agent should be recorded
+	 * @return the Agent
+	 */
 	public Agent fromXML(String xml, boolean recordHistory) {
 		xml = XMLTool.removeRootTag(xml);
 		KeyDataVector propertiesXML = XMLTool.XMLToProperties(xml);

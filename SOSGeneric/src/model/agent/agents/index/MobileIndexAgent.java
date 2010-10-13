@@ -20,8 +20,6 @@ public class MobileIndexAgent extends IndexAgent {
 	 * Constructs a new MobileIndexAgent object.
 	 * 
 	 * @param id the identifier for the agent
-	 * @param pocv the collectionView for (read) access to other agents
-	 * @param agentStorage the storage to be used for this Agent 
 	 */
 	public MobileIndexAgent(String id) {
 		super(id);

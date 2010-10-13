@@ -17,7 +17,7 @@ import util.enums.AgentStatus;
  */
 public class AgentStatusComparator implements Comparator<String> {
 
-	private AgentCollectionViewable propertyObjectCollectionView;
+	private AgentCollectionViewable agentCollectionView;
 
 	/**
 	 * Constructs a new AgentStatusComparator. An AgentCollectionView is needed to retrieve the agent status.
@@ -25,13 +25,13 @@ public class AgentStatusComparator implements Comparator<String> {
 	 * @param agentsView the view
 	 */
 	public AgentStatusComparator(AgentCollectionViewable agentsView) {
-		this.propertyObjectCollectionView = agentsView;
+		this.agentCollectionView = agentsView;
 	}
 	
 	@Override
 	public int compare(String id0, String id1) {
-		AgentViewable av1 = propertyObjectCollectionView.get(id0);
-		AgentViewable av2 = propertyObjectCollectionView.get(id1);
+		AgentViewable av1 = agentCollectionView.get(id0);
+		AgentViewable av2 = agentCollectionView.get(id1);
 
 		int statusValue1 = -1;
 		String label1 = "";

@@ -2,31 +2,49 @@ package model.agent.collection;
 
 import java.util.List;
 
-import util.enums.AgentStatus;
-import util.enums.PropertyType;
-
 import main.Settings;
 import model.agent.Agent;
 import model.agent.AgentViewable;
 import model.agent.execution.AgentsProcessor;
+import util.enums.AgentStatus;
+import util.enums.PropertyType;
 import data.agents.AgentCollectionStorage;
 
+/**
+ * This class represents all agents available to the application.
+ * 
+ * @author W.H. Mook
+ */
 public class AgentCollection implements AgentCollectionMutable {
 
+	/**
+	 * The instance.
+	 */
 	private static AgentCollection instance;
 
 	private AgentFactory factory;
 
+	/**
+	 * Constructs a new AgentCollection object.
+	 * An AgentFactory is needed to reconstruct agents from the storage. 
+	 * 
+	 * @param factory the factory
+	 */
 	public AgentCollection(AgentFactory factory) {
 		super();
 		this.factory = factory;
 		instance = this;
 	}
 
+	/**
+	 * Get the instance of AgentCollectionViewable for this application.
+	 * 
+	 * @return the instance
+	 */
 	public static AgentCollectionViewable getInstance() {
 		return instance;
 	}
-
+	
 	public boolean containsKey(String id) {
 		return AgentCollectionStorage.getInstance().containsKey(id);
 	}

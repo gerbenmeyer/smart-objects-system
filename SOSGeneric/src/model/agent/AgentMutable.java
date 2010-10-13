@@ -4,11 +4,17 @@ import java.util.HashMap;
 
 import model.agent.property.Property;
 import util.enums.PropertyType;
+import data.agents.AgentCollectionStorage;
 
+/**
+ * This interface ensures that an Agent has the methods to be mutated. 
+ * 
+ * @author W.H. Mook
+ */
 public interface AgentMutable extends AgentViewable {
 
 	/**
-	 * Gets a property contained in this PropertyObject. 
+	 * Gets a property of this Agent. 
 	 * 
 	 * @param name the name of the property
 	 * @return the property
@@ -16,44 +22,44 @@ public interface AgentMutable extends AgentViewable {
 	public Property getProperty(String name);
 	
 	/**
-	 * TODO!!!
-	 * @param pt
-	 * @param name
-	 * @param value
+	 * Sets the property for this Agent.
+	 * 
+	 * @param pt the type of property
+	 * @param name the name of the property
+	 * @param value the value of the property
 	 */
 	public void set(PropertyType pt, String name, String value);
 
 	/**
-	 * Adds the properties of an existing PropertyObject to this PropertyObject, and sets the corresponding AgentCollectionView, AgentView and record history.
+	 * Adds properties to this Agent.
 	 * 
-	 * @param o the existing PropertyObject
-	 * @param acv the AgentCollectionView
-	 * @param av the AgentView
+	 * @param properties the properties to be added
 	 */
 	public void putProperties(HashMap<String, Property> properties);
 
 	/**
-	 * Gets the properties of this PropertyObject.
+	 * Gets the properties of this Agent.
 	 * 
 	 * @return properties the properties
 	 */
 	public HashMap<String, Property> getProperties();
 
 	/**
-	 * Replaces a property or adds it to this PropertyObject.
+	 * Replaces a property or adds it to this Agent.
 	 * 
 	 * @param newP the new property
 	 */
 	public void putProperty(Property newP);
+	
 	/**
-	 * Removes a property from this PropertyObject.
+	 * Removes a property from this Agent.
 	 * 
 	 * @param name the name of the property
 	 */
 	public void removeProperty(String name);
 
 	/**
-	 * Add an identifier to a dependencies property of this PropertyObject.
+	 * Add an identifier to a dependencies property of this Agent.
 	 * 
 	 * @param name the name dependencies property
 	 * @param id the id to be added
@@ -62,7 +68,7 @@ public interface AgentMutable extends AgentViewable {
 	public boolean addIDToDependenciesProperty(String name, String id);
 	
 	/**
-	 * Removes an identifier from a dependencies property of this PropertyObject.
+	 * Removes an identifier from a dependencies property of this Agent.
 	 * 
 	 * @param name the name dependencies property
 	 * @param id the id to be removed
@@ -70,7 +76,17 @@ public interface AgentMutable extends AgentViewable {
 	 */
 	public boolean removeIDFromDependenciesProperty(String name, String id);
 	
+	/**
+	 * Saves the agent in the {@link AgentCollectionStorage}
+	 * 
+	 * @return if the save action was successful
+	 */
 	public boolean save();
 	
+	/**
+	 * Deletes the agent. It is removed from the collection and its properties are deleted.
+	 * 
+	 * @return if the delete action was successful
+	 */
 	public boolean delete();
 }

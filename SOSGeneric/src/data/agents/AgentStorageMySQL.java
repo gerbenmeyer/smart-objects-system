@@ -11,11 +11,18 @@ import model.agent.property.Property;
 import util.db.MySQLConnection;
 import util.enums.PropertyType;
 
+/**
+ * AgentStorageMySQL handles the storage of agent properties using a MySQL database.
+ * 
+ * @author W.H. Mook
+ */
 public class AgentStorageMySQL extends AgentStorage {
 	
 	private MySQLConnection conn = null;
-	
 
+	/**
+	 * Construct a new AgentStorageMySQL object.
+	 */
 	public AgentStorageMySQL() {
 		super();
 		this.conn = MySQLConnection.getInstance();
@@ -173,10 +180,10 @@ public class AgentStorageMySQL extends AgentStorage {
 	}
 	
 	/**
-	 * Inserts or updates the properties of a PropertyObject, with or without recording history.
+	 * Inserts or updates the properties of an Agent.
 	 * 
-	 * @param po the PropertyObject
-	 * @param recordHistory true or false
+	 * @param id the identifier of the agent
+	 * @param properties the properties to be inserted or updated
 	 * @throws SQLException
 	 */
 	private void insertOrUpdateProperties(String id, HashMap<String, Property> properties) throws SQLException {

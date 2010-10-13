@@ -28,8 +28,6 @@ public class SearchAgent extends Agent {
 	 * Constructs a new SearchAgent object.
 	 * 
 	 * @param id the identifier for the agent
-	 * @param pocv the collectionView for (read) access to other agents
-	 * @param agentStorage the storage to be used for this Agent
 	 */
 	public SearchAgent(String id) {
 		super(id);

@@ -8,20 +8,34 @@ import java.sql.Statement;
 
 import main.Settings;
 
+/**
+ * This singleton class holds the connection to a MySQL database.
+ * Only one instance may be present per application.
+ * 
+ * @author W.H. Mook
+ */
 public class MySQLConnection {
 
 	private final static String[] tables = new String[] {"agents", "properties"};
 	private static MySQLConnection instance = null;
 
 	public Connection connection = null;
-	
+
+	/**
+	 * Get the instance of MySQLConnection for this application.
+	 * 
+	 * @return the instance
+	 */
 	public static MySQLConnection getInstance() {
 		if (instance == null) {
 			instance = new MySQLConnection();
 		}
 		return instance;
 	}
-	
+
+	/**
+	 * Constructs a new MySQLConnection object.
+	 */
 	private MySQLConnection() {
         try {
             Class.forName("com.mysql.jdbc.Driver").newInstance();
@@ -38,6 +52,13 @@ public class MySQLConnection {
         }
     }
 	
+	/**
+	 * Check if all required tables exist in the database, with the possibility to automatically create them. 
+	 * 
+	 * @param autoCreate true if automatic creation should happen
+	 * @return true if all required tables are present, or have been created successfully
+	 * @throws SQLException
+	 */
 	private boolean checkTables(boolean autoCreate) throws SQLException {
 		boolean result = true;
 		DatabaseMetaData metaData = connection.getMetaData();
@@ -51,10 +72,24 @@ public class MySQLConnection {
 		return result;
 	}
 
+	/**
+	 * Check if a table exists.
+	 * 
+	 * @param metaData the Metadata of the database
+	 * @param tableName the name of the table
+	 * @return if the table exists in the database
+	 * @throws SQLException
+	 */
 	private boolean tableExists(DatabaseMetaData metaData, String tableName) throws SQLException {
 	    return connection.getMetaData().getTables(null, null, tableName, new String[] {"TABLE"}).first();
 	}
 	
+	/**
+	 * Creates the predefined table. 
+	 * 
+	 * @param tableName the name of the table to create.
+	 * @return success
+	 */
 	private boolean createTable(String tableName) {
 		Statement stm = null;
 		try {

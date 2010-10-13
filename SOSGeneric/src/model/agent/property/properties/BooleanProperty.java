@@ -42,7 +42,7 @@ public class BooleanProperty extends Property {
 	}
 
 	/**
-	 * Sets the value of this BooleanProperty and mutates its history.
+	 * Sets the value of this BooleanProperty.
 	 * 
 	 * @param value the boolean value
 	 */
