@@ -18,6 +18,7 @@ import util.htmltool.HtmlDetailsPaneContentGenerator;
 import util.htmltool.HtmlMapContentGenerator;
 import util.htmltool.HtmlTool;
 import util.xmltool.XMLTool;
+import data.agents.AgentCollectionStorage;
 import data.agents.AgentStorage;
 
 /**
@@ -338,7 +339,8 @@ public abstract class Agent implements AgentMutable {
 	}
 
 	public boolean save() {
-		if (AgentStorage.getInstance() != null) {
+		if (AgentCollectionStorage.getInstance() != null && AgentStorage.getInstance() != null) {
+			AgentCollectionStorage.getInstance().putAgent(this);
 			AgentStorage.getInstance().putProperties(getID(), buffer);
 			buffer.clear();
 			return true;

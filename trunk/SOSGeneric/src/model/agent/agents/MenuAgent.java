@@ -96,8 +96,8 @@ public class MenuAgent extends Agent {
 
 		menu += HtmlTool.createHeader2("Options");
 		menu += "<input id=\"clustering_enabled\" type=\"checkbox\" onclick=\"setClustering(this.checked)\" "
-				+ (defaultClustering.equals("true") ? "checked=\"checked\"" : "") + ">Cluster "
-				+ Settings.getProperty(Settings.KEYWORD_DEEPLINK) + "s</input><br/>";
+				+ (defaultClustering.equals("true") ? "checked=\"checked\"" : "") + "><label for=\"clustering_enabled\">Cluster "
+				+ Settings.getProperty(Settings.KEYWORD_DEEPLINK) + "s</label></input><br/>";
 
 		if (showStatus) {
 			menu += "<div class=\"filter_text\">Display:</div>"
