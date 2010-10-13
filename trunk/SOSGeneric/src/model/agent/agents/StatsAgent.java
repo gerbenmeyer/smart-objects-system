@@ -24,8 +24,6 @@ public class StatsAgent extends Agent {
 	 * Constructs a new StatsAgent object.
 	 * 
 	 * @param id the identifier for the agent
-	 * @param pocv the collectionView for (read) access to other agents
-	 * @param agentStorage the storage to be used for this Agent 
 	 */
 	public StatsAgent(String id) {
 		super(id);

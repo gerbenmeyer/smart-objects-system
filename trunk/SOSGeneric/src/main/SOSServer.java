@@ -19,8 +19,10 @@ import data.index.AgentIndex;
 import data.index.AgentIndexMySQL;
 
 /**
- * @author Gerben G. Meyer
+ * The main object to start the server.
+ * This class should be extended by every application.
  * 
+ * @author Gerben G. Meyer
  */
 public abstract class SOSServer {
 
@@ -67,9 +69,8 @@ public abstract class SOSServer {
 		agentCollection.put(e);
 		
 		new AgentsProcessor();
-		
-		
 	}
+	
 	/**
 	 * Starts the server's listeners 
 	 */
@@ -77,6 +78,7 @@ public abstract class SOSServer {
 		new HTTPListener(agentCollection,passwords);
 		new XMLListener(this);
 	}
+	
 	/**
 	 * Returns the AgentCollection currently present in the server.
 	 * 
@@ -85,6 +87,7 @@ public abstract class SOSServer {
 	public AgentCollectionMutable getAgentCollection() {
 		return agentCollection;
 	}
+	
 	/**
 	 * Returns the LocationCollection currently present in the server.
 	 * @return the LocationCollection
@@ -92,6 +95,12 @@ public abstract class SOSServer {
 	public LocationCollection getLocations() {
 		return locations;
 	}
+	
+	/**
+	 * Get the AgentFactory of this application.
+	 * 
+	 * @return the factory
+	 */
 	public AgentFactory getFactory() {
 		return factory;
 	}

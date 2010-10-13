@@ -95,11 +95,11 @@ public class HtmlDetailsPaneContentGenerator {
 	}
 
 	/**
-	 * Adds a data row with an icon, name and status icon to the content.
+	 * Adds a data row with an icon, name and value to the content.
 	 * 
 	 * @param icon the icon
 	 * @param name the name of the data
-	 * @param statusIcon the status icon
+	 * @param value the value of the data
 	 */
 	public void addDataRow(String icon, String name, String value) {
 		addDataRow(icon, name, value, "");

@@ -12,10 +12,18 @@ import java.util.regex.Pattern;
 import model.agent.AgentViewable;
 import util.db.MySQLConnection;
 
+/**
+ * AgentStorageMySQL handles searching using a MySQL database.
+ * 
+ * @author W.H. Mook
+ */
 public class AgentIndexMySQL extends AgentIndex {
 
 	private MySQLConnection conn = null;
 
+	/**
+	 * Construct a new AgentIndexMySQL object.
+	 */
 	public AgentIndexMySQL() {
 		conn = MySQLConnection.getInstance();
 	}

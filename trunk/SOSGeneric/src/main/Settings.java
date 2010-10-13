@@ -56,7 +56,6 @@ public class Settings {
 	 * 
 	 * @param settings the Properties to be used with this Settings  
 	 */
-	
 	public Settings(Properties settings){
 		Settings.settings = settings;
 	}

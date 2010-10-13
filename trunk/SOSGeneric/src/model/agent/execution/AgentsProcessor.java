@@ -7,6 +7,11 @@ import model.agent.Agent;
 import model.agent.AgentViewable;
 import model.agent.collection.AgentCollection;
 
+/**
+ * The AgentsProcessor controls the processing of agents.
+ * 
+ * @author G.G. Meyer
+ */
 public class AgentsProcessor implements Runnable {
 
 	private static int maxProcessingTimeMillis = 10000;
@@ -18,11 +23,6 @@ public class AgentsProcessor implements Runnable {
 
 	/**
 	 * Constructs a new AgentsProcessor.
-	 * 
-	 * @param agents
-	 *            the agents to be processed
-	 * @param index
-	 *            the AgentIndex to be updated after processing an agent
 	 */
 	public AgentsProcessor() {
 		instance = this;
@@ -30,6 +30,7 @@ public class AgentsProcessor implements Runnable {
 	}
 	
 	/**
+	 * Get the one instance of AgentsProcessor.
 	 * 
 	 * @return the instance
 	 */

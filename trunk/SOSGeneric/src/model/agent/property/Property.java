@@ -22,7 +22,7 @@ import util.xmltool.XMLTool;
 import com.tecnick.htmlutils.htmlentities.HTMLEntities;
 
 /**
- * An abstract class for holding and creating properties of a PropertyObject.
+ * An abstract class for holding and creating properties of an Agent.
  * All properties must extend this class.
  * 
  * @author Gerben G. Meyer
@@ -31,7 +31,6 @@ public abstract class Property {
 
 	private PropertyType propertyType = PropertyType.UNKNOWN;
 	private String name;
-//	private AgentCollectionViewable agentCollectionView;
 	private AgentViewable agentView;
 	private boolean hidden = false;
 
@@ -48,25 +47,25 @@ public abstract class Property {
 	}
 
 	/**
-	 * Gets the AgentView of the agent to which this property belongs to.
+	 * Gets the AgentViewable of the agent to which this property belongs to.
 	 * 
-	 * @return the AgentView
+	 * @return the AgentViewable
 	 */
 	public AgentViewable getAgentView() {
 		return agentView;
 	}
 
 	/**
-	 * Sets the AgentView for this property.
+	 * Sets the AgentViewable for this property.
 	 * 
-	 * @param av the AgentView to be set
+	 * @param av the AgentViewable to be set
 	 */
 	public void setAgentView(AgentViewable av) {
 		this.agentView = av;
 	}
 
 	/**
-	 * Gets the property type of this property.
+	 * Gets the property type of this Property.
 	 * 
 	 * @return the type
 	 */
@@ -75,7 +74,7 @@ public abstract class Property {
 	}
 
 	/**
-	 * Gets the name of this property.
+	 * Gets the name of this Property.
 	 * 
 	 * @return the name
 	 */
@@ -84,7 +83,7 @@ public abstract class Property {
 	}
 
 	/**
-	 * This returns the string representation of this property. Can be used for
+	 * This returns the string representation of this Property. Can be used for
 	 * serialization, in conjuction with the {@link #parseString(String str)}
 	 * method.
 	 * 
@@ -93,14 +92,14 @@ public abstract class Property {
 	public abstract String toString();
 
 	/**
-	 * Get the humanly readable representation of this property.
+	 * Get the humanly readable representation of this Property.
 	 * 
 	 * @return the informative string
 	 */
 	public abstract String toInformativeString();
 
 	/**
-	 * Parses a string representation into this property. Can be used for
+	 * Parses a string representation into this Property. Can be used for
 	 * serialization, in conjuction with the {@link #toString()} method.
 	 * 
 	 * @param str the string to be parsed
@@ -109,7 +108,7 @@ public abstract class Property {
 
 	/**
 	 * Gives the format in which the {@link #toString()} method gives the
-	 * representation of the property. This is also the format that is used by
+	 * representation of the Property. This is also the format that is used by
 	 * {@link #parseString(String str)}.
 	 * 
 	 * @return the string format
@@ -119,21 +118,21 @@ public abstract class Property {
 	}
 	
 	/**
-	 * Get the Arff attributes declaration of this property.
+	 * Get the Arff attributes declaration of this Property.
 	 * 
 	 * @return the Arff attributes data
 	 */
 	public abstract String getArffAttributeDeclaration();
 
 	/**
-	 * Get the Arff data of this property.
+	 * Get the Arff data of this Property.
 	 * 
 	 * @return the Arff data
 	 */
 	public abstract String getArffData();
 
 	/**
-	 * Get the XML representation of this property.
+	 * Get the XML representation of this Property.
 	 * 
 	 * @return the XML
 	 */
@@ -268,7 +267,7 @@ public abstract class Property {
 	}
 
 	/**
-	 * Get the icon of the property.
+	 * Get the icon of the Property.
 	 * 
 	 * @return the icon
 	 */
@@ -276,11 +275,11 @@ public abstract class Property {
 		return "info.png";
 	}
 
-	/**
-	 * Returns the HTML formatted string containing the history of this property.
-	 * 
-	 * @return the HTML string
-	 */
+//	/**
+//	 * Returns the HTML formatted string containing the history of this Property.
+//	 * 
+//	 * @return the HTML string
+//	 */
 //	public String toHistoryHTML() {
 //		if (recordingHistory()) {
 //			String historyId = "history" + Math.round((Math.random() * 1000000));
@@ -306,7 +305,7 @@ public abstract class Property {
 //	}
 
 	/**
-	 * Returns the property specific javascript to be used for map generation.
+	 * Returns the Property specific javascript to be used for map generation.
 	 * 
 	 * @param mapContent a content generator for the map
 	 * @param params the request parameters
@@ -330,7 +329,7 @@ public abstract class Property {
 	}
 
 	/**
-	 * True if this property should be hidden in the view.
+	 * True if this Property should be hidden in the view.
 	 * 
 	 * @return true or false
 	 */
@@ -339,7 +338,7 @@ public abstract class Property {
 	}
 
 	/**
-	 * set to true if this property should be hidden in the view.
+	 * Set to true if this Property should be hidden in the view.
 	 * 
 	 * @param hideHTML true or false
 	 */

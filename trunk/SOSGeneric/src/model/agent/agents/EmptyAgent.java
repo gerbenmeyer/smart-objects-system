@@ -11,7 +11,6 @@ import util.htmltool.HtmlMapContentGenerator;
  * 
  * @author Gerben G. Meyer, Rijksuniversiteit Groningen.
  * @version 24 jun 2010
- * 
  */
 public class EmptyAgent extends Agent {
 
@@ -19,8 +18,6 @@ public class EmptyAgent extends Agent {
 	 * Constructs a new EmptyAgent object.
 	 * 
 	 * @param id the identifier for the agent
-	 * @param pocv the collectionView for (read) access to other agents
-	 * @param agentStorage 
 	 */
 	public EmptyAgent(String id) {
 		super(id);

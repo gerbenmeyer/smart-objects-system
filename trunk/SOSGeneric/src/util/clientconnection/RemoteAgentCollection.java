@@ -81,7 +81,7 @@ public class RemoteAgentCollection implements AgentCollectionMutable {
 	/**
 	 * Sends an Agent to the server.
 	 * 
-	 * @param a the agent
+	 * @param agent the agent
 	 */
 	@Override
 	public void put(Agent agent) {
@@ -146,6 +146,12 @@ public class RemoteAgentCollection implements AgentCollectionMutable {
 		return types;
 	}
 
+	/**
+	 * Converts the xml representation of an Agent to an Agent instance.
+	 * 
+	 * @param xml the xml representation
+	 * @return the Agent
+	 */
 	private Agent fromXML(String xml) {
 		xml = XMLTool.removeRootTag(xml);
 		KeyDataVector propertiesXML = XMLTool.XMLToProperties(xml);

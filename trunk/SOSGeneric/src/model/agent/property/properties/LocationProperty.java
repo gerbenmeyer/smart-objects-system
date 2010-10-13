@@ -347,6 +347,13 @@ public class LocationProperty extends Property {
 		return "" + distance;
 	}
 	
+	/**
+	 * Get the string representation of a location.
+	 * 
+	 * @param latitude
+	 * @param longitude
+	 * @return the string representation
+	 */
 	public static String getCoordinate(double latitude, double longitude) {
 		LocationProperty lp = new LocationProperty("");
 		lp.setLocationType(GoogleLocationType.ROOFTOP);
