@@ -2,6 +2,8 @@ package data.agents;
 
 import java.util.List;
 
+import model.agent.Agent;
+
 public abstract class AgentCollectionStorage {
 	
 	private static AgentCollectionStorage instance;
@@ -13,6 +15,8 @@ public abstract class AgentCollectionStorage {
 	public abstract List<String> getTypes();
 	
 	public abstract List<String> getIDs();
+	
+	public abstract void putAgent(Agent agent);
 
 	public static AgentCollectionStorage getInstance(){
 		return instance;

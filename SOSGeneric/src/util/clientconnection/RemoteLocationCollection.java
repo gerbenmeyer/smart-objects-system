@@ -80,6 +80,10 @@ public class RemoteLocationCollection extends LocationCollection {
 		String locationResult = connection.sendCommandToServer(new XMLServerCommand(XMLServerCommand.GET_LOCATION_INFO, XMLTool
 				.PropertiesToXML(parameters)));
 		connection.disconnect();
-		return (LocationProperty) LocationProperty.fromXML(locationResult);
+		if (!locationResult.equals("error")) {
+			return (LocationProperty) LocationProperty.fromXML(locationResult);
+		} else {
+			return null;
+		}
 	}
 }
