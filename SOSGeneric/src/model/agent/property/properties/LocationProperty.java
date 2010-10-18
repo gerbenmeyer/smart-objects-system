@@ -10,9 +10,10 @@ import util.enums.AgentStatus;
 import util.enums.GoogleLocationType;
 import util.enums.PropertyType;
 import util.htmltool.HtmlMapContentGenerator;
+
 /**
  * 
- * A Property implementation representing a geograpic location. 
+ * A Property implementation representing a geograpic location.
  * 
  */
 public class LocationProperty extends Property {
@@ -24,13 +25,14 @@ public class LocationProperty extends Property {
 
 	private double latitude = 0.0;
 	private double longitude = 0.0;
-	
+
 	private String seperator = "-sep-";
 
 	/**
 	 * Constructs a named LocationProperty instance.
 	 * 
-	 * @param name the location name
+	 * @param name
+	 *            the location name
 	 */
 	public LocationProperty(String name) {
 		super(name, PropertyType.LOCATION);
@@ -39,8 +41,11 @@ public class LocationProperty extends Property {
 	/**
 	 * Constructs a named LocationProperty instance with an initial value.
 	 * 
-	 * @param name the location name
-	 * @param value the value, as defined by {@link #parseHint()} and outputted by {@link #toString()}
+	 * @param name
+	 *            the location name
+	 * @param value
+	 *            the value, as defined by {@link #parseHint()} and outputted by
+	 *            {@link #toString()}
 	 */
 	public LocationProperty(String name, String value) {
 		this(name);
@@ -58,8 +63,9 @@ public class LocationProperty extends Property {
 
 	/**
 	 * Sets the address name of this location.
-	 *
-	 * @param addressName the name
+	 * 
+	 * @param addressName
+	 *            the name
 	 */
 	public void setAddressName(String addressName) {
 		this.addressName = addressName;
@@ -76,8 +82,9 @@ public class LocationProperty extends Property {
 
 	/**
 	 * Sets the address of this location.
-	 *
-	 * @param address the address
+	 * 
+	 * @param address
+	 *            the address
 	 */
 	public void setAddress(String address) {
 		this.address = Property.normalize(address);
@@ -95,7 +102,8 @@ public class LocationProperty extends Property {
 	/**
 	 * Sets the type of this location.
 	 * 
-	 * @param type the type to set
+	 * @param type
+	 *            the type to set
 	 */
 	public void setLocationType(GoogleLocationType type) {
 		this.type = type;
@@ -113,7 +121,8 @@ public class LocationProperty extends Property {
 	/**
 	 * Sets the longitude of this location.
 	 * 
-	 * @param longitude the longitude to set
+	 * @param longitude
+	 *            the longitude to set
 	 */
 	public void setLongitude(double longitude) {
 		this.longitude = longitude;
@@ -131,7 +140,8 @@ public class LocationProperty extends Property {
 	/**
 	 * Sets the latitude of this location.
 	 * 
-	 * @param latitude the longitude to set
+	 * @param latitude
+	 *            the longitude to set
 	 */
 	public void setLatitude(double latitude) {
 		this.latitude = latitude;
@@ -139,8 +149,8 @@ public class LocationProperty extends Property {
 
 	@Override
 	public String toString() {
-		return this.addressName + seperator + this.address + seperator + this.getLocationType().toString() + seperator + this.latitude
-				+ seperator + this.longitude;
+		return this.addressName + seperator + this.address + seperator + this.getLocationType().toString() + seperator
+				+ this.latitude + seperator + this.longitude;
 	}
 
 	@Override
@@ -179,10 +189,11 @@ public class LocationProperty extends Property {
 	}
 
 	/**
-	 * Returns true if this location is near another location.
-	 * The threshold is set to 3 km.
+	 * Returns true if this location is near another location. The threshold is
+	 * set to 3 km.
 	 * 
-	 * @param lp the other location
+	 * @param lp
+	 *            the other location
 	 * @return true or false
 	 */
 	public boolean nearby(LocationProperty lp) {
@@ -206,7 +217,8 @@ public class LocationProperty extends Property {
 	/**
 	 * Returns the distance from this location to another location.
 	 * 
-	 * @param lp the other location
+	 * @param lp
+	 *            the other location
 	 * @return the distance in kilometers
 	 */
 	public double distanceTo(LocationProperty lp) {
@@ -234,7 +246,7 @@ public class LocationProperty extends Property {
 		return distance;
 	}
 
-	public String getIcon(){
+	public String getIcon() {
 		String icon = "location.png";
 		if (getAgentView() != null) {
 			icon = getAgentView().getIcon();
@@ -253,29 +265,38 @@ public class LocationProperty extends Property {
 	}
 
 	/**
-	 * Returns the LocationProperty specific javascript to be used for map generation.
-	 * Set openInfoWindowOnLoad to pop up the infoWindow when the page loads.
+	 * Returns the LocationProperty specific javascript to be used for map
+	 * generation. Set openInfoWindowOnLoad to pop up the infoWindow when the
+	 * page loads.
 	 * 
-	 * @param mapContent a content generator for the map
-	 * @param params the request parameters
-	 * @param openInfoWindowOnLoad true or false
+	 * @param mapContent
+	 *            a content generator for the map
+	 * @param params
+	 *            the request parameters
+	 * @param openInfoWindowOnLoad
+	 *            true or false
 	 */
-	public void toScript(HtmlMapContentGenerator mapContent, HashMap<String, String> params, boolean openInfoWindowOnLoad) {
+	public void toScript(HtmlMapContentGenerator mapContent, HashMap<String, String> params,
+			boolean openInfoWindowOnLoad) {
 		toScript(mapContent, params, 32, openInfoWindowOnLoad);
 	}
 
-
 	/**
-	 * Returns the LocationProperty specific javascript to be used for map generation.
-	 * Set mapIconSize to the desired size of the marker.
-	 * Set openInfoWindowOnLoad to pop up the infoWindow when the page loads.
+	 * Returns the LocationProperty specific javascript to be used for map
+	 * generation. Set mapIconSize to the desired size of the marker. Set
+	 * openInfoWindowOnLoad to pop up the infoWindow when the page loads.
 	 * 
-	 * @param mapContent a content generator for the map
-	 * @param params the request parameters
-	 * @param mapIconSize the size of the map icon
-	 * @param openInfoWindowOnLoad true or false
+	 * @param mapContent
+	 *            a content generator for the map
+	 * @param params
+	 *            the request parameters
+	 * @param mapIconSize
+	 *            the size of the map icon
+	 * @param openInfoWindowOnLoad
+	 *            true or false
 	 */
-	public void toScript(HtmlMapContentGenerator mapContent, HashMap<String, String> params, int mapIconSize, boolean openInfoWindowOnLoad) {
+	public void toScript(HtmlMapContentGenerator mapContent, HashMap<String, String> params, int mapIconSize,
+			boolean openInfoWindowOnLoad) {
 		if (isNull()) {
 			return;
 		}
@@ -286,48 +307,35 @@ public class LocationProperty extends Property {
 
 		String mapIcon = getAgentView().getMapMarkerImage();
 		String smallIcon = getAgentView().getIcon();
-		String shadowIcon = null;
-		int shadowSize = 48;
 
-		if (!getAgentView().get("Movement").isEmpty()) {
-			shadowIcon = "angle/" + getAgentView().get("Movement") + ".png";
-		}
 		if (getName().equals("SourceLocation")) {
 			mapIcon = "source.png";
 			smallIcon = "source_icon.png";
-			shadowIcon = null;
 		}
 
 		if (getName().equals("DestinationLocation")) {
 			mapIcon = "destination.png";
 			smallIcon = "destination_icon.png";
-			shadowIcon = null;
 		}
-		
+
 		AgentStatus status = getAgentView().getStatus();
 
 		int zIndex = -status.getValue();
-		boolean finished = getAgentView().get("Finished").equals(Boolean.toString(true));
-		if (finished && status == AgentStatus.OK) {
-			zIndex = AgentStatus.UNKNOWN.getValue();
-		}
+//		boolean finished = getAgentView().get("Finished").equals(Boolean.toString(true));
+//		if (finished && status == AgentStatus.OK) {
+//			zIndex = AgentStatus.UNKNOWN.getValue();
+//		}
 		zIndex++;
-		boolean label = !getAgentView().get("Hidden").equals(Boolean.toString(true))
+		boolean label = !getAgentView().get(Agent.HIDDEN).equals(Boolean.toString(true))
 				&& (status == AgentStatus.WARNING || status == AgentStatus.ERROR);
 
 		boolean showDetails = Settings.getProperty(Settings.SHOW_AGENT_DETAILS).equals("true");
 
-		if (shadowIcon != null && !shadowIcon.isEmpty()) {
-			mapContent.addMapMarker(latitude, longitude, getAgentView().get(Agent.LABEL),
-					getAgentView().get(Agent.DESCRIPTION), mapIcon, mapIconSize, shadowIcon, shadowSize, smallIcon,
-					(showDetails ? getAgentView().getID() : null), zIndex, label, openInfoWindowOnLoad, "?"
-							+ Settings.getProperty(Settings.KEYWORD_DEEPLINK) + "=" + getAgentView().getID(), getAgentView().getID());
-		} else {
-			mapContent.addMapMarkerWithoutShadow(latitude, longitude, getAgentView()
-					.get(Agent.LABEL), getAgentView().get(Agent.DESCRIPTION), mapIcon, mapIconSize, smallIcon,
-					(showDetails ? getAgentView().getID() : null), zIndex, label, openInfoWindowOnLoad, "?"
-							+ Settings.getProperty(Settings.KEYWORD_DEEPLINK) + "=" + getAgentView().getID(), getAgentView().getID());
-		}
+		mapContent.addMapMarker(latitude, longitude, getAgentView().get(Agent.LABEL), getAgentView().get(
+				Agent.DESCRIPTION), mapIcon, mapIconSize, smallIcon, (showDetails ? getAgentView().getID() : null),
+				zIndex, label, openInfoWindowOnLoad, "?" + Settings.getProperty(Settings.KEYWORD_DEEPLINK) + "="
+						+ getAgentView().getID(), getAgentView().getID());
+
 	}
 
 	@Override
@@ -346,7 +354,7 @@ public class LocationProperty extends Property {
 		}
 		return "" + distance;
 	}
-	
+
 	/**
 	 * Get the string representation of a location.
 	 * 

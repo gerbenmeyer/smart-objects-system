@@ -201,6 +201,8 @@ public class XMLServerClientHandler extends Thread {
 			if (agent != null) {
 				agent.initialize();
 				server.getAgentCollection().put(agent);
+			} else {
+				System.out.println("Agent is null!!!");
 			}
 		} catch (Exception e) {
 			e.printStackTrace();

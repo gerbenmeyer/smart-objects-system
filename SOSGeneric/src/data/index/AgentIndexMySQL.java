@@ -48,7 +48,7 @@ public class AgentIndexMySQL extends AgentIndex {
 		//match other properties
 		String sql = "SELECT DISTINCT id FROM `agents` "
 			// exclude hidden
-			+ "WHERE hidden != 1 " + filters
+			+ "WHERE hidden = 'false' " + filters
 			//TODO move limit to settings
 			+ (!query.trim().isEmpty()?"AND label LIKE '%"+query.trim()+"%' OR description LIKE '%"+query.trim()+"%' ":"")+ "LIMIT 5001;";
 		

@@ -100,12 +100,13 @@ public class MySQLConnection {
 					  +"`label` varchar(32) NOT NULL,"
 					  +"`description` text NOT NULL,"
 					  +"`status` enum('UNKNOWN','OK','WARNING','ERROR') NOT NULL,"
-					  +"`hidden` tinyint(1) NOT NULL DEFAULT '0',"
+					  +"`hidden` enum('false','true') NOT NULL DEFAULT 'false',"
 					  +"`type` varchar(32) NOT NULL,"
 					  +"PRIMARY KEY (`id`),"
 					  +"KEY `label` (`label`),"
 					  +"KEY `status` (`status`),"
-					  +"KEY `type` (`type`)"
+					  +"KEY `type` (`type`),"
+					  +"KEY `hidden` (`hidden`)"
 					  +") ENGINE=MyISAM DEFAULT CHARSET=latin1;";
 			} else if (tableName.equals("properties")) {
 				sql = "CREATE TABLE IF NOT EXISTS `properties` ("

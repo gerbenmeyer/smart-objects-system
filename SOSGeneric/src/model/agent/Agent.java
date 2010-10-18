@@ -3,6 +3,7 @@ package model.agent;
 import java.util.Collections;
 import java.util.HashMap;
 import java.util.HashSet;
+import java.util.Map;
 import java.util.Set;
 import java.util.Vector;
 
@@ -39,10 +40,11 @@ public abstract class Agent implements AgentMutable {
 	public final static String HIDDEN = "Hidden";
 	public final static String HISTORY = "History";
 
+	private HashMap<String, Property> readBuffer = new HashMap<String, Property>();
+	private HashMap<String, Property> writeBuffer = new HashMap<String, Property>();
+
 	private String id;
-
-	private HashMap<String, Property> buffer = new HashMap<String, Property>();
-
+	
 	/**
 	 * Constructs a new Agent object.
 	 * 
@@ -51,43 +53,31 @@ public abstract class Agent implements AgentMutable {
 	 */
 	public Agent(String id) {
 		this.id = id;
+		set(PropertyType.TEXT, Agent.ID, id);
+	}
+	
+
+	public void setReadBuffer(Map<String, Property> properties){
+		readBuffer.putAll(properties);
 	}
 
 	/**
 	 * Prepare a freshman agent.
 	 */
 	public void initialize() {
-		if (get(Agent.ID).isEmpty()) { 
-			set(PropertyType.TEXT, Agent.ID, this.id);
-		}
 		if (get(Agent.LABEL).isEmpty()) {
-			set(PropertyType.TEXT, Agent.LABEL, this.id);
+			set(PropertyType.TEXT, Agent.LABEL, get(Agent.ID));
 		}
+	}
+	
+	public String getID(){
+		return id;
 	}
 	
 	public void recordHistory(){
 		if (get(Agent.HISTORY).isEmpty()) {
 			set(PropertyType.HISTORY, Agent.HISTORY, "");
 		}
-	}
-	
-	/**
-	 * Get the identifier of this agent.
-	 * 
-	 * @return the identifier
-	 */
-	public String getID() {
-		return id;
-	}
-
-	/**
-	 * Set the identifier of this agent.
-	 * 
-	 * @param id the identifier
-	 */
-	public void setID(String id) {
-		this.id = id;
-		set(PropertyType.TEXT, Agent.ID, id);
 	}
 	
 	private HistoryProperty getHistory() {
@@ -264,7 +254,7 @@ public abstract class Agent implements AgentMutable {
 	}
 
 	public Property getProperty(String name) {
-		Property p = buffer.get(name);
+		Property p = readBuffer.get(name);
 		if (p == null && AgentStorage.getInstance() != null) {
 			p = AgentStorage.getInstance().getProperty(getID(), name);
 		}
@@ -276,7 +266,7 @@ public abstract class Agent implements AgentMutable {
 
 	public HashMap<String, Property> getProperties() {
 		HashMap<String, Property> properties = new HashMap<String, Property>();
-		properties.putAll(buffer);
+		properties.putAll(writeBuffer);
 		if (AgentStorage.getInstance() != null) {
 			HashMap<String, Property> dbProperties = AgentStorage.getInstance()
 					.getProperties(getID());
@@ -293,7 +283,7 @@ public abstract class Agent implements AgentMutable {
 
 	public Set<String> getPropertiesKeySet() {
 		Set<String> set = new HashSet<String>();
-		set.addAll(buffer.keySet());
+		set.addAll(writeBuffer.keySet());
 		if (AgentStorage.getInstance() != null) {
 			set.addAll(AgentStorage.getInstance().getPropertiesKeySet(getID()));
 		}
@@ -308,9 +298,14 @@ public abstract class Agent implements AgentMutable {
 
 	public void putProperty(Property p) {
 		p.setAgentView(this);
+		boolean oldExist = getProperty(p.getName()) != null;
 		String oldValue = get(p.getName());
-		buffer.put(p.getName(), p);
-		mutateHistory(p, oldValue);
+		String newValue = p.toString();
+		if (!oldValue.equals(newValue) || !oldExist){
+			writeBuffer.put(p.getName(), p);
+			readBuffer.put(p.getName(), p);	
+			mutateHistory(p, oldValue);
+		}
 	}
 
 	public boolean removeIDFromDependenciesProperty(String name, String id) {
@@ -332,17 +327,20 @@ public abstract class Agent implements AgentMutable {
 
 	public void removeProperty(String name) {
 		// FIXME remove from both, or either one?
-		buffer.remove(name);
+		writeBuffer.remove(name);
 		if (AgentStorage.getInstance() != null) {
 			AgentStorage.getInstance().removeProperty(getID(), name);
 		}
 	}
 
 	public boolean save() {
+		if (writeBuffer.isEmpty()){
+			return true;
+		}
 		if (AgentCollectionStorage.getInstance() != null && AgentStorage.getInstance() != null) {
 			AgentCollectionStorage.getInstance().putAgent(this);
-			AgentStorage.getInstance().putProperties(getID(), buffer);
-			buffer.clear();
+			AgentStorage.getInstance().putProperties(getID(), writeBuffer);
+			writeBuffer.clear();
 			return true;
 		}
 		return false;
