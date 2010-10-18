@@ -47,7 +47,7 @@ public class SearchAgent extends Agent {
 
 	@Override
 	public void generateDetailsPaneContent(HtmlDetailsPaneContentGenerator detailsPane, HashMap<String, String> params) {
-		BenchMarker bm = new BenchMarker("SearchAgent PaneContent", false);
+		BenchMarker bm = new BenchMarker("SearchAgent PaneContent", true);
 		
 		String search = "";
 		if (params.containsKey("q")) {
@@ -102,7 +102,7 @@ public class SearchAgent extends Agent {
 
 	@Override
 	public void generateMapContent(HtmlMapContentGenerator mapContent, HashMap<String, String> params) {
-		BenchMarker bm = new BenchMarker("SearchAgent MapContent", false);
+		BenchMarker bm = new BenchMarker("SearchAgent MapContent", true);
 		
 		String search = "";
 		if (params.containsKey("q")) {

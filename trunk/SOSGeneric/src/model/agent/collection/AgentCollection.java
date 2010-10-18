@@ -1,11 +1,13 @@
 package model.agent.collection;
 
 import java.util.List;
+import java.util.Map;
 
 import main.Settings;
 import model.agent.Agent;
 import model.agent.AgentViewable;
 import model.agent.execution.AgentsProcessor;
+import model.agent.property.Property;
 import util.enums.AgentStatus;
 import util.enums.PropertyType;
 import data.agents.AgentCollectionStorage;
@@ -51,8 +53,10 @@ public class AgentCollection implements AgentCollectionMutable {
 
 	public AgentViewable get(String id) {
 		Agent agent = null;
-		if (containsKey(id)) {
+		Map<String,Property> properties = AgentCollectionStorage.getInstance().get(id);
+		if (!properties.isEmpty()) {
 			agent = factory.createAgent(id);
+			agent.setReadBuffer(properties);
 		}
 		return agent;
 	}

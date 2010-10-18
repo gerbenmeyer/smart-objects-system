@@ -293,17 +293,12 @@ function setZoom(zoom){
 	map_.setZoom(zoom);
 }
 function addMarker(latitude, longitude, title, mapicon, mapiconsize,
-		shadowicon, shadowiconsize, smallicon, url, details, zindex, showlabel, openInfoWindowOnLoad, deeplink, id) {
+		smallicon, url, details, zindex, showlabel, openInfoWindowOnLoad, deeplink, id) {
 	var mapsw = mapiconsize / 2;
 	var mapsh = mapiconsize - 2;
 	var markerImage = new google.maps.MarkerImage(mapicon,
 			new google.maps.Size(mapiconsize, mapiconsize), null,
 			new google.maps.Point(mapsw, mapsh));
-	var shadowsw = shadowiconsize / 2;
-	var shadowswsh = (shadowiconsize - 2) - ((shadowiconsize - mapiconsize) / 2);
-	var shadowImage = new google.maps.MarkerImage(shadowicon,
-			new google.maps.Size(shadowiconsize, shadowiconsize), null,
-			new google.maps.Point(shadowsw, shadowswsh));
 	var labeltitle = title;
 	if (labeltitle.length > 7) {
 		labeltitle = '...' + labeltitle.substring(labeltitle.length - 7,
@@ -313,7 +308,6 @@ function addMarker(latitude, longitude, title, mapicon, mapiconsize,
 		position : new google.maps.LatLng(latitude, longitude),
 		title : '' + title + '',
 		icon : markerImage,
-		shadow: shadowImage,
 		zIndex : zindex,
 		labelText : '' + labeltitle + '',
 		labelClass : "labels", // the CSS class for the label

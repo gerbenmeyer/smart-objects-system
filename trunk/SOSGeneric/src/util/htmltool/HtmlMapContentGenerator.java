@@ -5,7 +5,8 @@ import java.util.HashMap;
 import com.tecnick.htmlutils.htmlentities.HTMLEntities;
 
 /**
- * HtmlMapContentGenerator provides methods for building a map using Goolge maps.
+ * HtmlMapContentGenerator provides methods for building a map using Goolge
+ * maps.
  * 
  * @author Gerben G. Meyer
  */
@@ -17,7 +18,8 @@ public class HtmlMapContentGenerator {
 	/**
 	 * Constructs a new HtmlMapContentGenerator instance with a title.
 	 * 
-	 * @param title the title of the page
+	 * @param title
+	 *            the title of the page
 	 */
 	public HtmlMapContentGenerator(String title) {
 		this.title = title;
@@ -27,7 +29,8 @@ public class HtmlMapContentGenerator {
 	/**
 	 * Adds a piece of HTML code to the content.
 	 * 
-	 * @param stuff the custom HTML
+	 * @param stuff
+	 *            the custom HTML
 	 */
 	public void addCustomScript(String stuff) {
 		script.append(stuff);
@@ -79,60 +82,36 @@ public class HtmlMapContentGenerator {
 	}
 
 	/**
-	 * Adds javascript which adds a marker with an empty shadow to the map.
-	 * 
-	 * @param latitude
-	 * @param longitude
-	 * @param title
-	 * @param details the details showed in the info window of the marker. Must be formatted as HTML.
-	 * @param mapicon
-	 * @param size
-	 * @param smallicon
-	 * @param url
-	 * @param zIndex
-	 * @param showlabel
-	 * @param openInfoWindowOnLoad
-	 * @param deeplink
-	 * @param id the identifier of the marker
-	 */
-	public void addMapMarkerWithoutShadow(double latitude, double longitude, String title, String details,
-			String mapicon, int size, String smallicon, String url, int zIndex, boolean showlabel,
-			boolean openInfoWindowOnLoad, String deeplink, String id) {
-		addMapMarker(latitude, longitude, title, details, mapicon, size, "empty.png", size, smallicon, url, zIndex,
-				showlabel, openInfoWindowOnLoad, deeplink, id);
-	}
-
-	/**
 	 * Adds javascript which adds a marker with a shadow to the map.
 	 * 
 	 * @param latitude
 	 * @param longitude
 	 * @param title
-	 * @param details the details showed in the info window of the marker. Must be formatted as HTML. 
+	 * @param details
+	 *            the details showed in the info window of the marker. Must be
+	 *            formatted as HTML.
 	 * @param mapicon
 	 * @param iconsize
-	 * @param shadowicon
-	 * @param shadowsize
 	 * @param smallicon
 	 * @param url
 	 * @param zIndex
 	 * @param showlabel
 	 * @param openInfoWindowOnLoad
 	 * @param deeplink
-	 * @param id the identifier of the marker
+	 * @param id
+	 *            the identifier of the marker
 	 */
 	public void addMapMarker(double latitude, double longitude, String title, String details, String mapicon,
-			int iconsize, String shadowicon, int shadowsize, String smallicon, String url, int zIndex,
-			boolean showlabel, boolean openInfoWindowOnLoad, String deeplink, String id) {
+			int iconsize, String smallicon, String url, int zIndex, boolean showlabel, boolean openInfoWindowOnLoad,
+			String deeplink, String id) {
 
 		title = convertToHtml(title);
 		details = convertToHtml(details);
 
 		script.append("parent.addMarker(" + latitude + "," + longitude + ",'" + title + "','" + mapicon + "',"
-				+ iconsize + ",'" + shadowicon + "'," + shadowsize + ",'" + smallicon + "','"
-				+ (url != null && !url.isEmpty() ? url : "") + "','" + details + "'," + zIndex + ", " + showlabel
-				+ ", " + openInfoWindowOnLoad + (deeplink != null && !deeplink.isEmpty() ? ", '" + deeplink + "'" : "")
-				+ ",'" + id + "');\n");
+				+ iconsize + ",'" + smallicon + "','" + (url != null && !url.isEmpty() ? url : "") + "','" + details
+				+ "'," + zIndex + ", " + showlabel + ", " + openInfoWindowOnLoad
+				+ (deeplink != null && !deeplink.isEmpty() ? ", '" + deeplink + "'" : "") + ",'" + id + "');\n");
 	}
 
 	/**
@@ -180,7 +159,8 @@ public class HtmlMapContentGenerator {
 	/**
 	 * Triggers an info window of a marker to pop up.
 	 * 
-	 * @param markerId the identifier of the marker
+	 * @param markerId
+	 *            the identifier of the marker
 	 */
 	public void popupInfoWindow(String markerId) {
 		script.append("google.maps.event.trigger(parent.markers['" + markerId + "'], 'click');\n");
@@ -201,9 +181,11 @@ public class HtmlMapContentGenerator {
 	}
 
 	/**
-	 * Converts text to HTML and javascript compatible text, inserting HTML entities where necessary.
+	 * Converts text to HTML and javascript compatible text, inserting HTML
+	 * entities where necessary.
 	 * 
-	 * @param text the input text
+	 * @param text
+	 *            the input text
 	 * @return the HTML compatible output
 	 */
 	private static String convertToHtml(String text) {
