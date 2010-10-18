@@ -1,7 +1,7 @@
 package model.agent.agents;
 
 import java.util.HashMap;
-import java.util.Vector;
+import java.util.List;
 
 import main.Settings;
 import model.agent.Agent;
@@ -10,11 +10,11 @@ import model.agent.collection.AgentCollection;
 import model.agent.property.properties.LocationProperty;
 import util.BenchMarker;
 import util.Capitalize;
+import util.db.MySQLConnection;
 import util.enums.PropertyType;
 import util.htmltool.HtmlDetailsPaneContentGenerator;
 import util.htmltool.HtmlMapContentGenerator;
 import util.htmltool.HtmlTool;
-import data.index.AgentIndex;
 
 /**
  * Agent for searching and generating search data.
@@ -47,8 +47,8 @@ public class SearchAgent extends Agent {
 
 	@Override
 	public void generateDetailsPaneContent(HtmlDetailsPaneContentGenerator detailsPane, HashMap<String, String> params) {
-		BenchMarker bm = new BenchMarker("SearchAgent PaneContent", true);
-		
+		BenchMarker bm = new BenchMarker("SearchAgent PaneContent", false);
+		MySQLConnection.getInstance().resetCounter();
 		String search = "";
 		if (params.containsKey("q")) {
 			search = params.get("q");
@@ -67,43 +67,35 @@ public class SearchAgent extends Agent {
 		
 		bm.start();
 
-		Vector<String> ids = AgentIndex.getInstance().searchAgents(search.replace('+', ' '));
+		List<AgentViewable> agents = AgentCollection.getInstance().searchAgents(search.replace('+', ' '));
 		
-		bm.taskFinished("Fetching agent IDs");
-		
-		if (ids.size() > 5000){
+		if (agents.size() > 5000){
 			detailsPane.addParagraph(HtmlTool.createImage("warning.png", "Warning")+" Too many "+Settings.getProperty(Settings.KEYWORD_DEEPLINK)+"s, only showing first 5000.");
 		}
-		while (ids.size() > 5000){
-			ids.remove(ids.size()-1);
+		while (agents.size() > 5000){
+			agents.remove(agents.size()-1);
 		}
 
 		detailsPane.addDataHeader("", Capitalize.capitalize(Settings.getProperty(Settings.KEYWORD_DEEPLINK)));
 
 		boolean showStatus = Settings.getProperty(Settings.AGENT_PROBLEM_DETECTION_ENABLED).equals(
 				Boolean.toString(true));
-		
-		for (String id : ids) {
-			AgentViewable av = AgentCollection.getInstance().get(id);
-			if (av == null) {
-				//FIXME: This is just here for debugging purposes
-				detailsPane.addDataRow("unknown.png", "Agent not found!", "");
-				continue;
-			}
 
+		bm.taskFinished("Fetching agents ("+MySQLConnection.getInstance().getCounter()+" queries)" );
+		for (AgentViewable av : agents) {
 			String statusIcon = showStatus ? av.getStatus().toString().toLowerCase() + ".png" : "";
-
 			detailsPane.addDataRowLink(av.getIcon(), av.get(Agent.LABEL), statusIcon, av.getID()
 					+ ".html");
 		}
-		bm.taskFinished("Iterating agents");
+		bm.taskFinished("Iterating agents ("+MySQLConnection.getInstance().getCounter()+" queries)" );
 		bm.stop();
+		;
 	}
 
 	@Override
 	public void generateMapContent(HtmlMapContentGenerator mapContent, HashMap<String, String> params) {
-		BenchMarker bm = new BenchMarker("SearchAgent MapContent", true);
-		
+		BenchMarker bm = new BenchMarker("SearchAgent MapContent", false);
+		MySQLConnection.getInstance().resetCounter();
 		String search = "";
 		if (params.containsKey("q")) {
 			search = params.get("q");
@@ -114,16 +106,11 @@ public class SearchAgent extends Agent {
 		
 		bm.start();
 		
-		Vector<String> ids = AgentIndex.getInstance().searchAgents(search.replace('+', ' '));
+		List<AgentViewable> agents = AgentCollection.getInstance().searchAgents(search.replace('+', ' '));
+		bm.taskFinished("Fetching agents ("+MySQLConnection.getInstance().getCounter()+" queries)" );
 		
-		bm.taskFinished("Fetching agent IDs");
-		
-		for (int i = 0; i < Math.min(ids.size(), 5000); i++) {
-			AgentViewable av = AgentCollection.getInstance().get(ids.get(i));
-			if (av == null) {
-				continue;
-			}
-
+		for (int i = 0; i < Math.min(agents.size(), 5000); i++) {
+			AgentViewable av = agents.get(i);
 			String location = av.get(Agent.LOCATION);
 			if (!location.isEmpty()) {
 				LocationProperty lp = new LocationProperty("", location);
@@ -131,7 +118,7 @@ public class SearchAgent extends Agent {
 				lp.toScript(mapContent, params);
 			}
 		}
-		bm.taskFinished("Iterating agents");
+		bm.taskFinished("Iterating agents ("+MySQLConnection.getInstance().getCounter()+" queries)" );
 		bm.stop();
 		mapContent.drawMap();
 	}

@@ -33,7 +33,7 @@ public class AgentStorageMySQL extends AgentStorage {
 		Statement stm = null;
 		ResultSet propertyResult = null;
 		try {
-			stm = conn.connection.createStatement();
+			stm = conn.getConnection().createStatement();
 			String propertySQL = "SELECT type,value FROM properties WHERE agent_id = '"+id+"' AND name = '"+name+"' LIMIT 1;";
 			propertyResult = stm.executeQuery(propertySQL);
 			if(propertyResult.first()) {
@@ -56,7 +56,7 @@ public class AgentStorageMySQL extends AgentStorage {
 		Statement stm = null;
 		ResultSet propertyResult = null;
 		try {
-			stm = conn.connection.createStatement();
+			stm = conn.getConnection().createStatement();
 			String propertySQL = "SELECT value FROM properties WHERE agent_id = '"+id+"' AND name = '"+name+"' LIMIT 1;";
 			propertyResult = stm.executeQuery(propertySQL);
 			if(propertyResult.first()) {
@@ -80,7 +80,7 @@ public class AgentStorageMySQL extends AgentStorage {
 		Statement stm = null;
 		ResultSet propertyResult = null;
 		try {
-			stm = conn.connection.createStatement();
+			stm = conn.getConnection().createStatement();
 			String propertySQL = "SELECT name,value,type FROM properties WHERE agent_id = '"+id+"';";
 			propertyResult = stm.executeQuery(propertySQL);
 			while (propertyResult.next()) {
@@ -112,7 +112,7 @@ public class AgentStorageMySQL extends AgentStorage {
 		Statement stm = null;
 		ResultSet propertyResult = null;
 		try {
-			stm = conn.connection.createStatement();
+			stm = conn.getConnection().createStatement();
 			String propertySQL = "SELECT name FROM properties WHERE agent_id = '"+id+"';";
 			propertyResult = stm.executeQuery(propertySQL);
 			while (propertyResult.next()) {
@@ -135,7 +135,7 @@ public class AgentStorageMySQL extends AgentStorage {
 	public void putProperty(String id, Property p) {
 		Statement stm = null;
 		try {
-			stm = conn.connection.createStatement();
+			stm = conn.getConnection().createStatement();
 			String propertySQL = "INSERT INTO properties (agent_id,type,name,value) VALUES "
 				+ "('"+id+"','"+p.getPropertyType().toString()+"','"+p.getName()+"','"+p.toString().replaceAll("'", "\\\\'")+"') "
 				+ "ON DUPLICATE KEY UPDATE value=VALUES(value),type=VALUES(type);";
@@ -163,7 +163,7 @@ public class AgentStorageMySQL extends AgentStorage {
 	public void removeProperty(String id, String name) {
 		Statement stm = null;
 		try {
-			stm = conn.connection.createStatement();
+			stm = conn.getConnection().createStatement();
 			String sql = "DELETE FROM properties WHERE agent_id = '"+id+"' AND name = '"+name+"';";
 			stm.executeUpdate(sql);
 		} catch (SQLException e) {
@@ -188,7 +188,7 @@ public class AgentStorageMySQL extends AgentStorage {
 	 */
 	private void insertOrUpdateProperties(String id, HashMap<String, Property> properties) throws SQLException {
 		if (properties.isEmpty()) return;
-		Statement stm = conn.connection.createStatement();
+		Statement stm = conn.getConnection().createStatement();
 		StringBuffer propertySQL = new StringBuffer("INSERT INTO properties (agent_id,type,name,value) VALUES ");
 		for (Property p : properties.values()) {
 			propertySQL.append("('"+id+"','"+p.getPropertyType().toString()+"','"+p.getName()+"','"+p.toString().replaceAll("'", "\\\\'")+"'),");
@@ -208,7 +208,7 @@ public class AgentStorageMySQL extends AgentStorage {
 	public boolean delete(String id) {
 		Statement stm = null;
 		try {
-			stm = conn.connection.createStatement();
+			stm = conn.getConnection().createStatement();
 			String sql = "DELETE FROM properties WHERE agent_id = '"+id+"';";
 			stm.executeUpdate(sql);
 		} catch (SQLException e) {

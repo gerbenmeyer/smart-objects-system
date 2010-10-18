@@ -40,6 +40,14 @@ public abstract class AgentCollectionStorage {
 	public abstract Map<String, Property> get(String id);
 
 	/**
+	 * Returns the main properties of a list of agent with a given id.
+	 * 
+	 * @param ids the identifiers
+	 * @return the list of with a map of properties
+	 */
+	public abstract List<Map<String, Property>> get(List<String> ids);
+
+	/**
 	 * Get the number of agents in the collection.
 	 * 
 	 * @return the size
@@ -67,6 +75,8 @@ public abstract class AgentCollectionStorage {
 	 *            the Agent to be added
 	 */
 	public abstract void putAgent(Agent agent);
+	
+	public abstract List<Map<String, Property>> searchAgents(String search);
 
 	/**
 	 * Get the instance of AgentCollectionStorage for this application.

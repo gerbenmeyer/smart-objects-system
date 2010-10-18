@@ -19,7 +19,8 @@ public class MySQLConnection {
 	private final static String[] tables = new String[] {"agents", "properties"};
 	private static MySQLConnection instance = null;
 
-	public Connection connection = null;
+	private Connection connection = null;
+	private int counter = 0;
 
 	/**
 	 * Get the instance of MySQLConnection for this application.
@@ -32,6 +33,19 @@ public class MySQLConnection {
 		}
 		return instance;
 	}
+	
+	public Connection getConnection(){
+		counter++;
+		return connection;
+	}
+	
+	public int getCounter(){
+		return counter;
+	}
+	
+	public void resetCounter(){
+		counter = 0;
+	}	
 
 	/**
 	 * Constructs a new MySQLConnection object.
@@ -102,6 +116,7 @@ public class MySQLConnection {
 					  +"`status` enum('UNKNOWN','OK','WARNING','ERROR') NOT NULL,"
 					  +"`hidden` enum('false','true') NOT NULL DEFAULT 'false',"
 					  +"`type` varchar(32) NOT NULL,"
+					  +"`location` varchar(200) NOT NULL,"
 					  +"PRIMARY KEY (`id`),"
 					  +"KEY `label` (`label`),"
 					  +"KEY `status` (`status`),"

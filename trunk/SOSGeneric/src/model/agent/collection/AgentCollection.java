@@ -2,6 +2,7 @@ package model.agent.collection;
 
 import java.util.List;
 import java.util.Map;
+import java.util.Vector;
 
 import main.Settings;
 import model.agent.Agent;
@@ -61,6 +62,20 @@ public class AgentCollection implements AgentCollectionMutable {
 		return agent;
 	}
 
+	public List<AgentViewable> get(List<String> ids) {
+		List<AgentViewable> agents = new Vector<AgentViewable>();
+		List<Map<String,Property>> list = AgentCollectionStorage.getInstance().get(ids);
+		
+		for(Map<String,Property> properties : list) {
+			if (!properties.isEmpty()) {
+				Agent agent = factory.createAgent(properties.get(Agent.ID).toString());
+				agent.setReadBuffer(properties);
+				agents.add(agent);
+			}
+		}
+		return agents;
+	}
+
 	public void put(Agent agent) {
 		if (Settings.getProperty(Settings.PAUSE_AGENT_EXECUTION_WHEN_PUTTING_AGENTS).equals("true")) {
 			AgentsProcessor processor = AgentsProcessor.getInstance();
@@ -89,5 +104,18 @@ public class AgentCollection implements AgentCollectionMutable {
 	public List<String> getIDs() {
 		return AgentCollectionStorage.getInstance().getIDs();
 	}
-
+	
+	public List<AgentViewable> searchAgents(String search) {
+		List<AgentViewable> agents = new Vector<AgentViewable>();
+		List<Map<String,Property>> list = AgentCollectionStorage.getInstance().searchAgents(search);
+		
+		for(Map<String,Property> properties : list) {
+			if (!properties.isEmpty()) {
+				Agent agent = factory.createAgent(properties.get(Agent.ID).toString());
+				agent.setReadBuffer(properties);
+				agents.add(agent);
+			}
+		}
+		return agents;
+	}
 }

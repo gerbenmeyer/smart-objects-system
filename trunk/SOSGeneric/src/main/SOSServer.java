@@ -15,8 +15,6 @@ import data.agents.AgentCollectionStorage;
 import data.agents.AgentCollectionStorageMySQL;
 import data.agents.AgentStorage;
 import data.agents.AgentStorageMySQL;
-import data.index.AgentIndex;
-import data.index.AgentIndexMySQL;
 
 /**
  * The main object to start the server.
@@ -49,7 +47,6 @@ public abstract class SOSServer {
 		this.locations.readLocationsFromXML();
 		AgentCollectionStorage.setInstance(new AgentCollectionStorageMySQL());
 		this.agentCollection = new AgentCollection(factory);
-		AgentIndex.setInstance(new AgentIndexMySQL());
 		AgentStorage.setInstance(new AgentStorageMySQL());
 
 		Agent a = factory.createAgent("index");
