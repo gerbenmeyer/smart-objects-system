@@ -170,4 +170,16 @@ public class RemoteAgentCollection implements AgentCollectionMutable {
 		return agent;
 	}
 
+	@Override
+	public List<AgentViewable> get(List<String> ids) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public List<AgentViewable> searchAgents(String search) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
 }

@@ -4,9 +4,12 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.HashMap;
+import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 import java.util.Vector;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 import model.agent.Agent;
 import model.agent.property.Property;
@@ -29,11 +32,12 @@ public class AgentCollectionStorageMySQL extends AgentCollectionStorage {
 		super();
 		this.conn = MySQLConnection.getInstance();
 	}
-	
+
+	@Override
 	public boolean containsKey(String id) {
 		Statement stm = null;
 		try {
-			stm = conn.connection.createStatement();
+			stm = conn.getConnection().createStatement();
 			String sql = "SELECT id FROM `agents` WHERE id = '"+id+"' LIMIT 1;";
 			ResultSet result = stm.executeQuery(sql);
 			return result.first();
@@ -50,24 +54,40 @@ public class AgentCollectionStorageMySQL extends AgentCollectionStorage {
 		}
 		return false;
 	}
-	
+
+	@Override
 	public Map<String, Property> get(String id) {
-		HashMap<String, Property> properties = new HashMap<String, Property>();
+		List<String> ids = new Vector<String>();
+		ids.add(id);
+		return get(ids).get(0);
+	}
+
+	@Override
+	public List<Map<String, Property>> get(List<String> ids) {
+		Vector<Map<String, Property>> agents = new Vector<Map<String, Property>>();
+		
+	    Iterator<String> iter = ids.iterator();
+	    StringBuffer buffer = new StringBuffer("'"+iter.next()+"'");
+	    while (iter.hasNext()) buffer.append(',').append("'"+iter.next()+"'");
+		
 		Statement stm = null;
 		try {
-			stm = conn.connection.createStatement();
-			String sql = "SELECT * FROM `agents` WHERE id = '"+id+"' LIMIT 1;";
+			stm = conn.getConnection().createStatement();
+			String sql = "SELECT * FROM `agents` WHERE id IN ("+buffer.toString()+") LIMIT "+ids.size()+";";
 			ResultSet result = stm.executeQuery(sql);
-			if(result.first()){
+			while(result.next()){
+				Map<String, Property> properties = new HashMap<String, Property>();
 				properties.put(Agent.ID,Property.createProperty(PropertyType.TEXT, Agent.ID, result.getString("id")));
 				properties.put(Agent.LABEL,Property.createProperty(PropertyType.TEXT, Agent.LABEL, result.getString("label")));
 				properties.put(Agent.DESCRIPTION,Property.createProperty(PropertyType.TEXT, Agent.DESCRIPTION, result.getString("description")));
 				properties.put(Agent.STATUS,Property.createProperty(PropertyType.STATUS, Agent.STATUS, result.getString("status")));
 				properties.put(Agent.HIDDEN,Property.createProperty(PropertyType.BOOLEAN, Agent.HIDDEN, result.getString("hidden")));
 				properties.put(Agent.TYPE,Property.createProperty(PropertyType.TEXT, Agent.TYPE, result.getString("type")));
+				properties.put(Agent.LOCATION,Property.createProperty(PropertyType.LOCATION, Agent.LOCATION, result.getString("location")));
+				agents.add(properties);
 			}
 		} catch (SQLException e) {
-			System.err.println("checking agent "+id+" failed");
+			System.err.println("fetching agents failed");
 			e.printStackTrace();
 		} finally {
 		    if (stm != null) {
@@ -77,14 +97,16 @@ public class AgentCollectionStorageMySQL extends AgentCollectionStorage {
 		        stm = null;
 		    }
 		}
-		return properties;
-	}	
-	
+	    
+		return agents;
+	}
+
+	@Override
 	public int getSize() {
 		int idsNumber = 0;
 		Statement stm = null;
 		try {
-			stm = conn.connection.createStatement();
+			stm = conn.getConnection().createStatement();
 			String sql = "SELECT COUNT(DISTINCT id) AS ids FROM `agents`;";
 			ResultSet result = stm.executeQuery(sql);
 			if (result.first()) {
@@ -102,12 +124,13 @@ public class AgentCollectionStorageMySQL extends AgentCollectionStorage {
 		}
 		return idsNumber;
 	}
-	
+
+	@Override
 	public List<String> getTypes() {
 		Vector<String> types = new Vector<String>();
 		Statement stm = null;
 		try {
-			stm = conn.connection.createStatement();
+			stm = conn.getConnection().createStatement();
 			// do not select hidden types
 			String sql = "SELECT DISTINCT type FROM `agents` WHERE hidden = 'false';";
 			ResultSet result = stm.executeQuery(sql);
@@ -127,11 +150,12 @@ public class AgentCollectionStorageMySQL extends AgentCollectionStorage {
 		return types;
 	}
 
+	@Override
 	public List<String> getIDs() {
 		Vector<String> ids = new Vector<String>();
 		Statement stm = null;
 		try {
-			stm = conn.connection.createStatement();
+			stm = conn.getConnection().createStatement();
 			String sql = "SELECT DISTINCT id FROM `agents`;";
 			ResultSet result = stm.executeQuery(sql);
 			while (result.next()) {
@@ -154,10 +178,10 @@ public class AgentCollectionStorageMySQL extends AgentCollectionStorage {
 	public void putAgent(Agent agent) {
 		Statement stm = null;
 		try {
-			stm = conn.connection.createStatement();
-			String agentSQL = "INSERT INTO `agents` (id,label,description,status,hidden,type) VALUES "
-				+ "('"+agent.getID()+"','"+agent.get(Agent.LABEL)+"','"+agent.get(Agent.DESCRIPTION)+"','"+agent.get(Agent.STATUS)+"','"+(agent.get(Agent.HIDDEN).isEmpty()?"false":agent.get(Agent.HIDDEN))+"','"+agent.get(Agent.TYPE)+"') "
-				+ "ON DUPLICATE KEY UPDATE label=VALUES(label),description=VALUES(description),status=VALUES(status),hidden=VALUES(hidden),type=VALUES(type);";
+			stm = conn.getConnection().createStatement();
+			String agentSQL = "INSERT INTO `agents` (id,label,description,status,hidden,type,location) VALUES "
+				+ "('"+agent.getID()+"','"+agent.get(Agent.LABEL)+"','"+agent.get(Agent.DESCRIPTION).replaceAll("'", "\\\\'")+"','"+agent.get(Agent.STATUS)+"','"+(agent.get(Agent.HIDDEN).isEmpty()?"false":agent.get(Agent.HIDDEN))+"','"+agent.get(Agent.TYPE)+"','"+agent.get(Agent.LOCATION).replaceAll("'", "\\\\'")+"') "
+				+ "ON DUPLICATE KEY UPDATE label=VALUES(label),description=VALUES(description),status=VALUES(status),hidden=VALUES(hidden),type=VALUES(type),location=VALUES(location);";
 			stm.executeUpdate(agentSQL);
 		} catch (SQLException e) {
 			e.printStackTrace();
@@ -169,5 +193,56 @@ public class AgentCollectionStorageMySQL extends AgentCollectionStorage {
 		        stm = null;
 		    }
 		}
+	}
+	
+	public List<Map<String, Property>> searchAgents(String search) {
+		String filters = "";
+		String query = new String(search);
+		//match type		
+		Matcher m1 = Pattern.compile("type:([^\\s]*)").matcher(query);
+		if (m1.find()) {
+			filters += "AND type = '" + m1.group(1) + "' ";
+			query = query.replaceAll(m1.group(), "");
+		}
+		//match status
+		Matcher m2 = Pattern.compile("status:([^\\s]*)").matcher(query);
+		if (m2.find()) {
+			filters += "AND status = '" + m2.group(1) + "' ";
+			query = query.replaceAll(m2.group(), "");
+		}		
+		//match other properties
+		String sql = "SELECT * FROM `agents` "
+			// exclude hidden
+			+ "WHERE hidden = 'false' " + filters
+			//TODO move limit to settings
+			+ (!query.trim().isEmpty()?"AND label LIKE '%"+query.trim()+"%' OR description LIKE '%"+query.trim()+"%' ":"")+ "LIMIT 5001;";
+		
+		List<Map<String, Property>> agents = new Vector<Map<String, Property>>();
+		Statement stm = null;
+		try {
+			stm = conn.getConnection().createStatement();
+			ResultSet result = stm.executeQuery(sql);
+			while (result.next()) {
+				HashMap<String, Property> properties = new HashMap<String, Property>();
+				properties.put(Agent.ID,Property.createProperty(PropertyType.TEXT, Agent.ID, result.getString("id")));
+				properties.put(Agent.LABEL,Property.createProperty(PropertyType.TEXT, Agent.LABEL, result.getString("label")));
+				properties.put(Agent.DESCRIPTION,Property.createProperty(PropertyType.TEXT, Agent.DESCRIPTION, result.getString("description")));
+				properties.put(Agent.STATUS,Property.createProperty(PropertyType.STATUS, Agent.STATUS, result.getString("status")));
+				properties.put(Agent.HIDDEN,Property.createProperty(PropertyType.BOOLEAN, Agent.HIDDEN, result.getString("hidden")));
+				properties.put(Agent.TYPE,Property.createProperty(PropertyType.TEXT, Agent.TYPE, result.getString("type")));
+				properties.put(Agent.LOCATION,Property.createProperty(PropertyType.LOCATION, Agent.LOCATION, result.getString("location")));
+				agents.add(properties);
+			}
+		} catch (SQLException e) {
+			e.printStackTrace();
+		} finally {
+		    if (stm != null) {
+		        try {
+		        	stm.close();
+		        } catch (SQLException sqlEx) { }
+		        stm = null;
+		    }
+		}
+		return agents;
 	}
 }

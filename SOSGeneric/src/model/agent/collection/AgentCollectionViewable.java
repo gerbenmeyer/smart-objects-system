@@ -29,6 +29,14 @@ public interface AgentCollectionViewable {
 	public AgentViewable get(String id);
 	
 	/**
+	 * Gets a list of agents with a certain identifier
+	 * 
+	 * @param ids a list with the ids
+	 * @return the list of agents
+	 */
+	public List<AgentViewable> get(List<String> ids);
+	
+	/**
 	 * Returns the types of agents in this collection.
 	 * 
 	 * @return a collection with the types
@@ -48,4 +56,12 @@ public interface AgentCollectionViewable {
 	 * @return the ids
 	 */
 	public List<String> getIDs();
+
+	/**
+	 * Searches the agents for a string.
+	 * 
+	 * @param search string to search for
+	 * @return a list with the agents which contain the search string 
+	 */
+	public List<AgentViewable> searchAgents(String search);
 }
