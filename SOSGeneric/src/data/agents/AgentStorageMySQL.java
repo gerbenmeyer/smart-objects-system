@@ -136,8 +136,9 @@ public class AgentStorageMySQL extends AgentStorage {
 		Statement stm = null;
 		try {
 			stm = conn.getConnection().createStatement();
+			String value = p.toString().replaceAll("\\\\'", "'").replaceAll("'", "\\\\'");
 			String propertySQL = "INSERT INTO properties (agent_id,type,name,value) VALUES "
-				+ "('"+id+"','"+p.getPropertyType().toString()+"','"+p.getName()+"','"+p.toString().replaceAll("'", "\\\\'")+"') "
+				+ "('"+id+"','"+p.getPropertyType().toString()+"','"+p.getName()+"','"+value+"') "
 				+ "ON DUPLICATE KEY UPDATE value=VALUES(value),type=VALUES(type);";
 			stm.executeUpdate(propertySQL);
 		} catch (SQLException e) {
@@ -191,14 +192,14 @@ public class AgentStorageMySQL extends AgentStorage {
 		Statement stm = conn.getConnection().createStatement();
 		StringBuffer propertySQL = new StringBuffer("INSERT INTO properties (agent_id,type,name,value) VALUES ");
 		for (Property p : properties.values()) {
-			propertySQL.append("('"+id+"','"+p.getPropertyType().toString()+"','"+p.getName()+"','"+p.toString().replaceAll("'", "\\\\'")+"'),");
+			String value = p.toString().replaceAll("\\\\'", "'").replaceAll("'", "\\\\'");
+			propertySQL.append("('"+id+"','"+p.getPropertyType().toString()+"','"+p.getName()+"','"+value+"'),");
 		}
 		propertySQL.deleteCharAt(propertySQL.length()-1);
 		propertySQL.append(" ON DUPLICATE KEY UPDATE value=VALUES(value);");
 		try{
 			stm.executeUpdate(propertySQL.toString());
 		} catch(Exception e){
-			System.err.println("Geen goede query: "+propertySQL.toString());
 			e.printStackTrace();
 		}
 		stm.close();
