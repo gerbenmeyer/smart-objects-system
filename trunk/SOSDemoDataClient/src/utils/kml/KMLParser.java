@@ -50,14 +50,14 @@ public class KMLParser {
 		NodeList places = (NodeList) xPath.evaluate("/kml:kml/kml:Document/kml:Folder/kml:Placemark", inputSource, XPathConstants.NODESET);
 
 		for (int i = 0; i < places.getLength(); i++) {
-			Agent agent = new EmptyAgent(null);
 			Node place = places.item(i);
 			String id = place.getAttributes().getNamedItem("id").getTextContent();
 			String folderName = ((Node)xPath.evaluate("kml:name", place.getParentNode(), XPathConstants.NODE)).getTextContent();
 			String name = ((Node)xPath.evaluate("kml:name", place, XPathConstants.NODE)).getTextContent();
 			String description = ((Node)xPath.evaluate("kml:description", place, XPathConstants.NODE)).getTextContent();
 			String[] coords = ((Node)xPath.evaluate("kml:Point/kml:coordinates", place, XPathConstants.NODE)).getTextContent().split(",");
-			agent.setID(id);
+			Agent agent = new EmptyAgent(id);
+			agent.initialize();
 			agent.set(PropertyType.TEXT,Agent.TYPE,HTMLEntities.unhtmlentities(folderName));
 			agent.set(PropertyType.TEXT,Agent.LABEL,HTMLEntities.unhtmlentities(name));
 			agent.set(PropertyType.TEXT,Agent.DESCRIPTION,HTMLEntities.unhtmlentities(description));
