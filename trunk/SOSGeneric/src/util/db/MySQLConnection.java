@@ -111,7 +111,7 @@ public class MySQLConnection {
 			if (tableName.equals("agents")) {
 				sql = "CREATE TABLE IF NOT EXISTS `agents` ("
 					  +"`id` varchar(32) NOT NULL,"
-					  +"`label` varchar(32) NOT NULL,"
+					  +"`label` varchar(128) NOT NULL,"
 					  +"`description` text NOT NULL,"
 					  +"`status` enum('UNKNOWN','OK','WARNING','ERROR') NOT NULL,"
 					  +"`hidden` enum('false','true') NOT NULL DEFAULT 'false',"
