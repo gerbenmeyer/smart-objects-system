@@ -14,6 +14,7 @@ import java.util.regex.Pattern;
 import model.agent.Agent;
 import model.agent.property.Property;
 import util.db.MySQLConnection;
+import util.enums.AgentStatus;
 import util.enums.PropertyType;
 
 /**
@@ -59,6 +60,10 @@ public class AgentCollectionStorageMySQL extends AgentCollectionStorage {
 	public Map<String, Property> get(String id) {
 		List<String> ids = new Vector<String>();
 		ids.add(id);
+		List<Map<String, Property>> list = get(ids);
+		if (list.isEmpty()) {
+			return new HashMap<String, Property>();
+		} 
 		return get(ids).get(0);
 	}
 
@@ -179,8 +184,11 @@ public class AgentCollectionStorageMySQL extends AgentCollectionStorage {
 		Statement stm = null;
 		try {
 			stm = conn.getConnection().createStatement();
+			String label = agent.get(Agent.LABEL).replaceAll("\\\\'", "'").replaceAll("'", "\\\\'");
+			String description = agent.get(Agent.DESCRIPTION).replaceAll("\\\\'", "'").replaceAll("'", "\\\\'");
+			String location = agent.get(Agent.LOCATION).replaceAll("\\\\'", "'").replaceAll("'", "\\\\'");
 			String agentSQL = "INSERT INTO `agents` (id,label,description,status,hidden,type,location) VALUES "
-				+ "('"+agent.getID()+"','"+agent.get(Agent.LABEL)+"','"+agent.get(Agent.DESCRIPTION).replaceAll("'", "\\\\'")+"','"+agent.get(Agent.STATUS)+"','"+(agent.get(Agent.HIDDEN).isEmpty()?"false":agent.get(Agent.HIDDEN))+"','"+agent.get(Agent.TYPE)+"','"+agent.get(Agent.LOCATION).replaceAll("'", "\\\\'")+"') "
+				+ "('"+agent.getID()+"','"+label+"','"+description+"','"+(agent.get(Agent.STATUS).isEmpty() ? AgentStatus.UNKNOWN.toString() : agent.get(Agent.STATUS))+"','"+(agent.get(Agent.HIDDEN).isEmpty() ? Boolean.toString(false) : agent.get(Agent.HIDDEN))+"','"+agent.get(Agent.TYPE)+"','"+location+"') "
 				+ "ON DUPLICATE KEY UPDATE label=VALUES(label),description=VALUES(description),status=VALUES(status),hidden=VALUES(hidden),type=VALUES(type),location=VALUES(location);";
 			stm.executeUpdate(agentSQL);
 		} catch (SQLException e) {
