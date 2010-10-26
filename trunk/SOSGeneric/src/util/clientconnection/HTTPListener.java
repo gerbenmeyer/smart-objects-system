@@ -40,9 +40,6 @@ public class HTTPListener implements HttpHandler {
 		+ HtmlTool.createHeadBody("File not found", null, new StringBuffer(HtmlTool.createHeader1("File not found!")), null, null).toString()
 		+ "\n</html>";
 
-	private String htmlDir1;
-	private String htmlDir2;
-
 	HTTPAuthenticator authenticator = null;
 
 	/**
@@ -61,16 +58,6 @@ public class HTTPListener implements HttpHandler {
 			authenticator = new HTTPAuthenticator(Settings.getProperty(Settings.APPLICATION_NAME), passwords);
 		}
 
-		this.htmlDir1 = Settings.getProperty(Settings.HTML_DATA_DIR);
-
-		this.htmlDir2 = this.getClass().getProtectionDomain().getCodeSource().getLocation().getPath();
-		if (htmlDir2.charAt(htmlDir2.length() - 1) == '/') {
-			htmlDir2 = htmlDir2.substring(0, htmlDir2.length() - 1);
-		}
-		while (htmlDir2.charAt(htmlDir2.length() - 1) != '/') {
-			htmlDir2 = htmlDir2.substring(0, htmlDir2.length() - 1);
-		}
-		htmlDir2 += "generichtml/";
 
 		int port = Integer.parseInt(Settings.getProperty(Settings.HTTP_PORT));
 		try {
@@ -180,20 +167,22 @@ public class HTTPListener implements HttpHandler {
 			String paramString = (encodeQuery(params));
 
 			t.getRequestBody();
-			byte[] bytes = new byte[0];
 
 			// display code
 			File file;
-			File altFile;
-			if (t.getRequestURI().getPath().equals("/")) {
-				file = new File(htmlDir1 + "index.html");
-				altFile = new File(htmlDir2 + "index.html");
-			} else if (t.getRequestURI().getPath().equals("/m")) {
-				file = new File(htmlDir1 + "mobile.html");
-				altFile = new File(htmlDir2 + "mobile.html");
+			InputStream inputStream = null;
+			String path = t.getRequestURI().getPath();
+			if (path.equals("/")) {
+				file = new File("index.html");
+			} else if (path.equals("/m")) {
+				file = new File("mobile.html");
+			} else if (path.endsWith(".html")) { 
+				file = new File(path);
 			} else {
-				file = new File(htmlDir1 + t.getRequestURI().getPath().substring(1));
-				altFile = new File(htmlDir2 + t.getRequestURI().getPath().substring(1));
+				file = new File(Settings.getProperty(Settings.HTML_DATA_DIR)+path.substring(1));
+				if (!file.isFile()) {
+					inputStream = this.getClass().getResourceAsStream("/resources/"+path.substring(1));
+				}
 			}
 
 			String filename = file.getName();
@@ -213,8 +202,7 @@ public class HTTPListener implements HttpHandler {
 			}
 
 			if (extension.equals("html") && !agentCode.isEmpty() && agentCollectionView.containsKey(agentCode)) {
-				// System.out.println("This is an agent: " + agentCode +
-				// ", details: " + details);
+				byte[] bytes = new byte[0];
 				AgentViewable av = agentCollectionView.get(agentCode);
 				StringBuffer html;
 				if (av instanceof IndexAgent) {
@@ -256,12 +244,25 @@ public class HTTPListener implements HttpHandler {
 				bytes = html.toString().getBytes();
 				t.getResponseHeaders().add("Content-Type", "text/html");
 				t.sendResponseHeaders(200, bytes.length);
-			} else if (altFile.isFile()) {
-				// System.out.println("This is NOT an agent: " + filename);
-				bytes = new byte[(int) altFile.length()];
-				InputStream is = new FileInputStream(altFile);
-				is.read(bytes);
+
+				OutputStream os = t.getResponseBody();
+				os.write(bytes);
+				os.close();
+			} else if (file.isFile() || inputStream != null) {
+				InputStream is;
+				if (file.isFile()) {
+					is = new FileInputStream(file);
+				} else {
+					is = inputStream;
+				}
+				int c;
+				t.sendResponseHeaders(200, 0);
+				OutputStream os = t.getResponseBody();
+				while ((c = is.read()) != -1) {
+	                os.write(c);
+	            }
 				is.close();
+				os.close();
 
 				if (filename.endsWith(".png")) {
 					t.getResponseHeaders().add("Content-Type", "image/png");
@@ -272,34 +273,15 @@ public class HTTPListener implements HttpHandler {
 				} else if (filename.endsWith(".css")) {
 					t.getResponseHeaders().add("Content-Type", "text/css");
 				}
-				t.sendResponseHeaders(200, bytes.length);
-			} else if (file.isFile()) {
-				// System.out.println("This is NOT an agent: " + filename);
-				bytes = new byte[(int) file.length()];
-				InputStream is = new FileInputStream(file);
-				is.read(bytes);
-				is.close();
-
-				if (filename.endsWith(".png")) {
-					t.getResponseHeaders().add("Content-Type", "image/png");
-				} else if (filename.endsWith(".html") || filename.endsWith(".htm")) {
-					t.getResponseHeaders().add("Content-Type", "text/html");
-				} else if (filename.endsWith(".js")) {
-					t.getResponseHeaders().add("Content-Type", "text/javascript");
-				} else if (filename.endsWith(".css")) {
-					t.getResponseHeaders().add("Content-Type", "text/css");
-				}
-				t.sendResponseHeaders(200, bytes.length);
 			} else {
 				System.out.println("This is NOT good: " + filename);
-				bytes = errorPage.getBytes();
 				t.getResponseHeaders().add("Content-Type", "text/html");
 				t.sendResponseHeaders(404, 0);
+				OutputStream os = t.getResponseBody();
+				os.write(errorPage.getBytes());
+				os.close();
 			}
 
-			OutputStream os = t.getResponseBody();
-			os.write(bytes);
-			os.close();
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
