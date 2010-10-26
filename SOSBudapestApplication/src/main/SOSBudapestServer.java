@@ -5,7 +5,6 @@ import java.io.FileInputStream;
 import java.util.HashMap;
 import java.util.Properties;
 
-import model.agent.Agent;
 import agents.BudapestAgentFactory;
 import agents.BudapestHomeAgent;
 
@@ -25,9 +24,7 @@ public class SOSBudapestServer extends SOSServer {
 		super(settings, new BudapestAgentFactory(), new HashMap<String, String>());
 
 		//add the home agent to the agent collection
-		Agent homeAgent = new BudapestHomeAgent("home");
-		homeAgent.initialize();
-		getAgentCollection().put(homeAgent);
+		getAgentCollection().put(new BudapestHomeAgent("home"));
 
 		//run the server
 		runServer();

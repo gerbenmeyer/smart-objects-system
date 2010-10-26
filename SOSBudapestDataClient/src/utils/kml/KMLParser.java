@@ -57,7 +57,6 @@ public class KMLParser {
 			String description = ((Node)xPath.evaluate("kml:description", place, XPathConstants.NODE)).getTextContent();
 			String[] coords = ((Node)xPath.evaluate("kml:Point/kml:coordinates", place, XPathConstants.NODE)).getTextContent().split(",");
 			Agent agent = new EmptyAgent(id);
-			agent.initialize();
 			agent.set(PropertyType.TEXT,Agent.TYPE,HTMLEntities.unhtmlentities(folderName));
 			agent.set(PropertyType.TEXT,Agent.LABEL,HTMLEntities.unhtmlentities(name));
 			agent.set(PropertyType.TEXT,Agent.DESCRIPTION,HTMLEntities.unhtmlentities(description));
