@@ -90,4 +90,8 @@ public abstract class SOSServer {
 	public AgentFactory getFactory() {
 		return factory;
 	}
+	
+	public static void main(String[] args) {
+		System.err.println("This project is usable as base only.");
+	}
 }

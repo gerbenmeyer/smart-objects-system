@@ -104,7 +104,6 @@ public class MySQLConnection {
 				}
 				stm = connection.createStatement();
 				stm.executeUpdate(sql);
-				System.out.println("created table `"+tableName+"`");
 			} catch (Exception e) {
 				System.err.println("creating table `"+tableName+"` failed");
 				e.printStackTrace();
@@ -127,11 +126,9 @@ public class MySQLConnection {
 			stm = connection.createStatement();
 			stm.executeUpdate(sql);
         	stm.close();
-			System.out.println("created database "+databaseName+"");
 			sql = "USE `"+databaseName+"`;";
 			stm = connection.createStatement();
 			stm.executeQuery(sql);
-			System.out.println("using database "+databaseName+"");
 		} catch (Exception e) {
 			System.err.println("creating database "+databaseName+" failed");
 			e.printStackTrace();

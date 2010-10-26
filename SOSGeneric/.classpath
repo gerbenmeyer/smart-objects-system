@@ -2,8 +2,8 @@
 <classpath>
 	<classpathentry kind="src" path="src"/>
 	<classpathentry kind="con" path="org.eclipse.jdt.launching.JRE_CONTAINER"/>
-	<classpathentry kind="lib" path="resources/weka.jar"/>
-	<classpathentry kind="lib" path="resources/htmlentities.jar"/>
-	<classpathentry kind="lib" path="resources/mysql-connector-java-5.1.13-bin.jar"/>
+	<classpathentry exported="true" kind="lib" path="lib/htmlentities.jar"/>
+	<classpathentry exported="true" kind="lib" path="lib/mysql-connector-java-5.1.13-bin.jar"/>
+	<classpathentry exported="true" kind="lib" path="lib/weka.jar"/>
 	<classpathentry kind="output" path="bin"/>
 </classpath>
