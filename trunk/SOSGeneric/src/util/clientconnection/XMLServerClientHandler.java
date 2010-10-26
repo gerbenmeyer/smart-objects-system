@@ -199,7 +199,6 @@ public class XMLServerClientHandler extends Thread {
 		try {
 			Agent agent = server.getFactory().fromXML(xml, true);
 			if (agent != null) {
-				agent.initialize();
 				server.getAgentCollection().put(agent);
 			} else {
 				System.out.println("Agent is null!!!");

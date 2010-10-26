@@ -30,16 +30,11 @@ public class MenuAgent extends Agent {
 	 */
 	public MenuAgent(String id) {
 		super(id);
-	}
-	
-	@Override
-	public void initialize() {
-		super.initialize();
 		if (get(Agent.HIDDEN).isEmpty()) {
 			set(PropertyType.BOOLEAN, Agent.HIDDEN, Boolean.toString(true));
 		}
 	}
-
+	
 	@Override
 	public void act() throws Exception {
 	}
