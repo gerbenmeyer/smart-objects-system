@@ -2,6 +2,7 @@ package agents;
 
 import java.util.HashMap;
 
+import main.Settings;
 import model.agent.Agent;
 import model.agent.AgentViewable;
 import model.agent.collection.AgentCollection;
@@ -13,13 +14,9 @@ public class BudapestHomeAgent extends Agent {
 
 	public BudapestHomeAgent(String id) {
 		super(id);
-	}
-	
-	@Override
-	public void initialize() {
-		super.initialize();
-		//this agent is hidden
-		set(PropertyType.BOOLEAN, Agent.HIDDEN, Boolean.toString(true));
+		if (get(Agent.HIDDEN).isEmpty()) {
+			set(PropertyType.BOOLEAN, Agent.HIDDEN, Boolean.toString(true));
+		}
 	}
 
 	public void act() throws Exception {
@@ -50,9 +47,13 @@ public class BudapestHomeAgent extends Agent {
 
 	@Override
 	public void generateDetailsPaneContent(HtmlDetailsPaneContentGenerator detailsPane, HashMap<String, String> params) {
-		//show all agents by using the always existing search agent to search for all agents
+		//show a welcome message
+		detailsPane.addHeader("Welcome to the "+Settings.getProperty(Settings.APPLICATION_NAME));
+		detailsPane.addParagraph("Here, you can get an overview of all the major attractions in Budapest. Furthermore, trainstations, the airport, and great places to stay can also be found here.");
+		
+		//show all attracctions by using the always existing search agent to search for all agents
 		AgentViewable av = AgentCollection.getInstance().get("search");
-		params.put("q", "");
+		params.put("q", "type:attraction");
 		av.generateDetailsPaneContent(detailsPane, params);
 	}
 
