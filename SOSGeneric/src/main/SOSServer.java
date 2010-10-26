@@ -3,7 +3,6 @@ package main;
 import java.util.HashMap;
 import java.util.Properties;
 
-import model.agent.Agent;
 import model.agent.collection.AgentCollection;
 import model.agent.collection.AgentCollectionMutable;
 import model.agent.collection.AgentFactory;
@@ -49,21 +48,11 @@ public abstract class SOSServer {
 		this.agentCollection = new AgentCollection(factory);
 		AgentStorage.setInstance(new AgentStorageMySQL());
 
-		Agent a = factory.createAgent("index");
-		a.initialize();
-		agentCollection.put(a);
-		Agent b = factory.createAgent("mobile");
-		b.initialize();
-		agentCollection.put(b);
-		Agent c = factory.createAgent("menu");
-		c.initialize();
-		agentCollection.put(c);
-		Agent d = factory.createAgent("search");
-		d.initialize();
-		agentCollection.put(d);
-		Agent e = factory.createAgent("stats");
-		e.initialize();		
-		agentCollection.put(e);
+		agentCollection.put(factory.createAgent("index"));
+		agentCollection.put(factory.createAgent("mobile"));
+		agentCollection.put(factory.createAgent("menu"));
+		agentCollection.put(factory.createAgent("search"));
+		agentCollection.put(factory.createAgent("stats"));
 		
 		new AgentsProcessor();
 	}
