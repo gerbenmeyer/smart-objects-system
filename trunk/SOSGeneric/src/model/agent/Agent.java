@@ -53,7 +53,7 @@ public abstract class Agent implements AgentMutable {
 	 */
 	public Agent(String id) {
 		this.id = id;
-		if (get(Agent.LABEL).isEmpty()) {
+		if (get(Agent.ID).isEmpty()) {
 			set(PropertyType.TEXT, Agent.ID, id);
 		}
 		if (get(Agent.LABEL).isEmpty()) {
