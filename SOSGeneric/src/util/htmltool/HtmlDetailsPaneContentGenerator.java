@@ -193,6 +193,15 @@ public class HtmlDetailsPaneContentGenerator {
 	}
 	
 	/**
+	 * Returns whether the pane is still empty
+	 *  
+	 * @return empty
+	 */
+	public boolean isEmpty(){
+		return html.length()==0;
+	}
+	
+	/**
 	 * Converts text to HTML compatible text, inserting HTML entities where necessary.
 	 * 
 	 * @param text the input text

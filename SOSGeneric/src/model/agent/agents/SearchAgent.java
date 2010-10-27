@@ -48,17 +48,17 @@ public class SearchAgent extends Agent {
 		if (params.containsKey("q")) {
 			search = params.get("q");
 		}
-		String title = search.replace('+', ' ');
-		title = title.replace("type:", "");
-		title = title.replace("status:", "");
 		
-		if (title.trim().isEmpty()){
-			title = "everyting";
+		if (detailsPane.isEmpty()){
+			String title = search.replace('+', ' ');
+			title = title.replace("type:", "");
+			title = title.replace("status:", "");
+			if (title.trim().isEmpty()){
+				title = "everyting";
+			}
+			title = "Search: " + title.toLowerCase();
+			detailsPane.addHeader(title);
 		}
-
-		title = "Search: " + title.toLowerCase();
-
-		detailsPane.addHeader(title);
 		
 		bm.start();
 
