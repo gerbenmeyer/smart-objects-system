@@ -3,11 +3,11 @@ package agents;
 import java.util.HashMap;
 
 import model.agent.Agent;
+import model.agent.AgentViewable;
 import model.agent.collection.AgentCollection;
 import model.agent.property.properties.LocationProperty;
 import util.htmltool.HtmlDetailsPaneContentGenerator;
 import util.htmltool.HtmlMapContentGenerator;
-import util.htmltool.HtmlTool;
 
 /**
  * 
@@ -58,10 +58,11 @@ public class BudapestObjectAgent extends Agent {
 	
 	@Override
 	public void generateDetailsPaneContent(HtmlDetailsPaneContentGenerator detailsPane, HashMap<String, String> params) {
-		//generate the details pane in the same way as the default agent does that
-		detailsPane.addHeader(HtmlTool.createImage(getIcon(), get(Agent.TYPE), 16) + " " + get(Agent.LABEL));
-		
-		detailsPane.addParagraph(get(Agent.DESCRIPTION));
+		//show all attracctions by using the always existing search agent to search for all agents
+		detailsPane.addHeader("More " + get(Agent.TYPE) + "s");
+		AgentViewable av = AgentCollection.getInstance().get("search");
+		params.put("q", "type:" + get(Agent.TYPE));
+		av.generateDetailsPaneContent(detailsPane, params);
 	}
 
 }
