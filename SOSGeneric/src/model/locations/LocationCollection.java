@@ -5,7 +5,7 @@ import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.net.URL;
 import java.net.URLEncoder;
-import java.util.HashMap;
+import java.util.Collection;
 
 import javax.xml.parsers.DocumentBuilderFactory;
 import javax.xml.xpath.XPath;
@@ -18,9 +18,7 @@ import model.agent.property.properties.LocationProperty;
 import org.w3c.dom.Document;
 
 import util.enums.GoogleLocationType;
-import util.xmltool.KeyData;
-import util.xmltool.KeyDataVector;
-import util.xmltool.XMLTool;
+import data.locations.LocationCollectionStorage;
 
 /**
  * The LocationCollection holds a collection of LocationProperties. 
@@ -28,9 +26,7 @@ import util.xmltool.XMLTool;
  * 
  * @author Gerben G. Meyer
  */
-public class LocationCollection extends HashMap<String, LocationProperty> {
-
-	private static final long serialVersionUID = -7444940490537223100L;
+public class LocationCollection implements LocationCollectionMutable {
 
 	private final String BASE_GEOCODER_URL = "http://maps.google.com/maps/api/geocode/xml";
 	private final String BASE_GEOCODER_BACKUP_URL = "http://maps.google.com/maps/geo";
@@ -49,87 +45,24 @@ public class LocationCollection extends HashMap<String, LocationProperty> {
 		super();
 	}
 	
-	/**
-	 * Reads and parses the local XML file with locations.
-	 */
-	public void readLocationsFromXML(){
-		String locationDir = Settings.getProperty(Settings.LOCATIONS_DATA_DIR) + "locationdata.xml";
-		String xml = XMLTool.xmlFromFile(locationDir);
-		handleXMLLocationCollection(xml);
-	}
-
-	/**
-	 * Parses the XML formatted string.
-	 * 
-	 * @param xml the xml
-	 */
-	public void handleXMLLocationCollection(String xml) {
-		xml = XMLTool.removeRootTag(xml);
-		KeyDataVector prop = XMLTool.XMLToProperties(xml);
-
-		for (KeyData item : prop) {
-			this.handleXMLLocationInfo(item.getValue());
-		}
-	}
-
-	/**
-	 * Parses the XML formatted string into LocationProperties and stores them in the collection.
-	 * 
-	 * @param xml the xml
-	 */
-	private void handleXMLLocationInfo(String xml) {
-		LocationProperty location = (LocationProperty) LocationProperty.fromXML(xml);
-
-		String address = location.getAddress().trim().toLowerCase();
-
-		LocationProperty result = this.get(address);
-		if (result == null) { // street not known
-			this.put(address, location);
-		}
-	}
-
-	/**
-	 * Gets the LocationProperty of an address from the collection if it exists,
-	 * or look it up (and store it for later use).
-	 * 
-	 * @param address the address to lookup
-	 * @return the location
-	 */
 	public LocationProperty getLocation(String address) {
 		String normAddress = Property.normalize(address);
-		LocationProperty result = this.get(normAddress);
-		if (result == null) { // street not known
+		LocationProperty result = LocationCollectionStorage.getInstance().getLocation(normAddress);
+		if (result == null) { // address unknown
 			result = locationLookup(normAddress);
 			if (result != null) {
-				putLocationInfo(result);
+				putLocation(result);
 			}
 		}
 		return result;
 	}
 
-	/**
-	 * Adds a location to the collection.
-	 * 
-	 * @param location the location
-	 */
-	public synchronized void putLocationInfo(LocationProperty location) {
+	public Collection<LocationProperty> getLocations() {
+		return LocationCollectionStorage.getInstance().getLocations();
+	}
 
-		// store result
-		if (!this.containsKey(location.getAddress())) {
-			// don't store address name
-			location.setAddressName("");
-
-			// new result, so add it to an XML file
-			this.put(location.getAddress(), location);
-
-			// create the xml of the newly learned instance
-			String xml = location.toXML();
-
-			// add this xml instance to the data file
-			String locationDir = Settings.getProperty(Settings.LOCATIONS_DATA_DIR) + "locationdata.xml";
-			XMLTool.addElementToRootInFile(locationDir, xml, "LocationCollection");
-		}
-
+	public synchronized void putLocation(LocationProperty location) {
+		LocationCollectionStorage.getInstance().putLocation(location);
 	}
 
 	/**

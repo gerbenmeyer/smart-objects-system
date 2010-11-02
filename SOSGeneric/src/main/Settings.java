@@ -21,7 +21,6 @@ public class Settings {
 	public final static String APPLICATION_VERSION = "application_version";
 
 	public final static String AGENTS_DATA_DIR = "agents_data_dir";
-	public final static String LOCATIONS_DATA_DIR = "locations_data_dir";
 	public final static String HTML_DATA_DIR = "html_data_dir";
 
 	public final static String XML_PORT = "xml_port";

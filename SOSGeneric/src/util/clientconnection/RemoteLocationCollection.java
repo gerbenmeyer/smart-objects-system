@@ -1,8 +1,12 @@
 package util.clientconnection;
 
+import java.util.Collection;
+import java.util.HashMap;
+import java.util.Vector;
+
 import model.agent.property.Property;
 import model.agent.property.properties.LocationProperty;
-import model.locations.LocationCollection;
+import model.locations.LocationCollectionViewable;
 import util.xmltool.KeyData;
 import util.xmltool.KeyDataVector;
 import util.xmltool.XMLTool;
@@ -13,13 +17,13 @@ import util.xmltool.XMLTool;
  * 
  * @author Gerben G. Meyer
  */
-public class RemoteLocationCollection extends LocationCollection {
+public class RemoteLocationCollection implements LocationCollectionViewable {
 
-	private static final long serialVersionUID = -2317679702202977997L;
 	private XMLServerConnection connection;
+	private HashMap<String, LocationProperty> locationsBuffer = new HashMap<String, LocationProperty>();
 
 	/**
-	 * Constructs a new RemoteLocationCollection instance for a certain server.
+	 * Constructs a new RemoteLocationCollection instance to a certain server.
 	 * 
 	 * @param serverAddress the server address
 	 * @param serverPort the server port
@@ -29,61 +33,52 @@ public class RemoteLocationCollection extends LocationCollection {
 	public RemoteLocationCollection(String serverAddress, int serverPort, String username, String password) {
 		super();
 		this.connection = new XMLServerConnection(serverAddress, serverPort, username, password);
+		syncLocations();
 	}
 
 	/**
-	 * Synchronizes this collection with the one on the server.
+	 * Get all locations from the server and buffer them.
 	 */
-	public void synchronizeWithServer() {
-		connection.connect();
-		clear();
-		String result = connection.sendCommandToServer(new XMLServerCommand(XMLServerCommand.GET_LOCATION_COLLECTION, ""));
-		if (result != "error" && result != "unknown") {
-			handleXMLLocationCollection(result);
+	private void syncLocations() {
+		locationsBuffer.clear();
+		Collection<LocationProperty> locations = getLocations();
+		for (LocationProperty location : locations) {
+			String address = Property.normalize(location.getAddress());
+			locationsBuffer.put(address, location);
 		}
-		connection.disconnect();
 	}
 
 	@Override
 	public synchronized LocationProperty getLocation(String address) {
 		String normAddress = Property.normalize(address);
-		LocationProperty result = this.get(normAddress);
-		if (result == null) { // street not known
-			result = locationLookup(normAddress);
-
-			if (result != null) {
-				putLocationInfo(result);
+		LocationProperty location = locationsBuffer.get(normAddress);
+		if (location == null) {
+			KeyDataVector parameters = new KeyDataVector();
+			parameters.add(new KeyData("Address", normAddress));
+			connection.connect();
+			String result = connection.sendCommandToServer(new XMLServerCommand(XMLServerCommand.GET_LOCATION_INFO, XMLTool
+					.PropertiesToXML(parameters)));
+			connection.disconnect();
+			if (!result.equals("error")) {
+				location = (LocationProperty) LocationProperty.fromXML(result);
+				locationsBuffer.put(normAddress, location);
 			}
 		}
-		return result;
+		return location;
 	}
-	
+
 	@Override
-	public synchronized void putLocationInfo(LocationProperty location){
-		// store result
-		if (!this.containsKey(location.getAddress())){
-			// don't store address name
-			location.setAddressName("");
-			// new result, so add it to an XML file
-			this.put(location.getAddress(), location);
-			connection.connect();
-			connection.sendCommandToServer(new XMLServerCommand(XMLServerCommand.PUT_LOCATION_INFO, location.toXML()));
-			connection.disconnect();
-		}
-
-	}
-
-	private LocationProperty locationLookup(String address) {
-		KeyDataVector parameters = new KeyDataVector();
-		parameters.add(new KeyData("Address", address));
+	public Collection<LocationProperty> getLocations() {
+		Collection<LocationProperty> locations = new Vector<LocationProperty>();
 		connection.connect();
-		String locationResult = connection.sendCommandToServer(new XMLServerCommand(XMLServerCommand.GET_LOCATION_INFO, XMLTool
-				.PropertiesToXML(parameters)));
+		String result = connection.sendCommandToServer(new XMLServerCommand(XMLServerCommand.GET_LOCATION_COLLECTION, ""));
 		connection.disconnect();
-		if (!locationResult.equals("error")) {
-			return (LocationProperty) LocationProperty.fromXML(locationResult);
-		} else {
-			return null;
+		if (result != "error" && result != "unknown") {
+			KeyDataVector prop = XMLTool.XMLToProperties(XMLTool.removeRootTag(result));
+			for (KeyData item : prop) {
+				locations.add((LocationProperty) LocationProperty.fromXML(item.getValue()));
+			}
 		}
+		return locations;
 	}
 }
