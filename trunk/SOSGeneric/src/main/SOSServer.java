@@ -8,12 +8,15 @@ import model.agent.collection.AgentCollectionMutable;
 import model.agent.collection.AgentFactory;
 import model.agent.execution.AgentsProcessor;
 import model.locations.LocationCollection;
+import model.locations.LocationCollectionViewable;
 import util.clientconnection.HTTPListener;
 import util.clientconnection.XMLListener;
 import data.agents.AgentCollectionStorage;
 import data.agents.AgentCollectionStorageMySQL;
 import data.agents.AgentStorage;
 import data.agents.AgentStorageMySQL;
+import data.locations.LocationCollectionStorage;
+import data.locations.LocationCollectionStorageMySQL;
 
 /**
  * The main object to start the server.
@@ -42,8 +45,8 @@ public abstract class SOSServer {
 		this.factory = factory;
 		new Settings(settings);
 
+		LocationCollectionStorage.setInstance(new LocationCollectionStorageMySQL());
 		this.locations = new LocationCollection();
-		this.locations.readLocationsFromXML();
 		AgentCollectionStorage.setInstance(new AgentCollectionStorageMySQL());
 		this.agentCollection = new AgentCollection(factory);
 		AgentStorage.setInstance(new AgentStorageMySQL());
@@ -78,7 +81,7 @@ public abstract class SOSServer {
 	 * Returns the LocationCollection currently present in the server.
 	 * @return the LocationCollection
 	 */
-	public LocationCollection getLocations() {
+	public LocationCollectionViewable getLocations() {
 		return locations;
 	}
 	

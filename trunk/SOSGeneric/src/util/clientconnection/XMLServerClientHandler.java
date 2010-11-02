@@ -4,6 +4,7 @@ import java.io.BufferedReader;
 import java.io.InputStreamReader;
 import java.io.PrintWriter;
 import java.net.Socket;
+import java.util.Collection;
 import java.util.Collections;
 import java.util.List;
 
@@ -115,11 +116,8 @@ public class XMLServerClientHandler extends Thread {
 			if (cmd.getName().equals(XMLServerCommand.GET_LOCATION_INFO)) {
 				return getLocation(cmd.getParameter());
 			}
-			if (cmd.getName().equals(XMLServerCommand.PUT_LOCATION_INFO)) {
-				return putLocation(cmd.getParameter());
-			}
 			if (cmd.getName().equals(XMLServerCommand.GET_LOCATION_COLLECTION)) {
-				return getLocationCollection(cmd.getParameter());
+				return getLocationCollection();
 			}
 			if (cmd.getName().equals(XMLServerCommand.ADD_TRAINING_INSTANCE)) {
 				return addTrainingInstance(cmd.getParameter());
@@ -245,26 +243,18 @@ public class XMLServerClientHandler extends Thread {
 	}
 
 	/**
-	 * Adds a location to the server.
-	 *
-	 * @param xml the XML request
-	 * @return the result
-	 */
-	private String putLocation(String xml) {
-		LocationProperty li = (LocationProperty) LocationProperty.fromXML(xml);
-		server.getLocations().putLocationInfo(li);
-		return "done";
-	}
-
-	/**
 	 * Get the collection of locations on the server.
 	 * 
 	 * @param xml the XML request
 	 * @return the result
 	 */
-	private String getLocationCollection(String xml) {
-		String path = Settings.getProperty(Settings.LOCATIONS_DATA_DIR) + "locationdata.xml";
-		return XMLTool.xmlFromFile(path);
+	private String getLocationCollection() {
+		Collection<LocationProperty> locations = server.getLocations().getLocations();
+		StringBuffer xml = new StringBuffer();
+		for (LocationProperty location : locations) {
+			xml.append(location.toXML());
+		}
+		return XMLTool.addRootTag(xml.toString(), "LocationCollection");
 	}
 
 	/**
