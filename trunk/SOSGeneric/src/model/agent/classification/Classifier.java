@@ -2,9 +2,7 @@ package model.agent.classification;
 
 import java.io.StringReader;
 
-import main.Settings;
 import util.enums.AgentStatus;
-import util.xmltool.XMLTool;
 import weka.classifiers.trees.LMT;
 import weka.core.Instance;
 import weka.core.Instances;
@@ -22,19 +20,12 @@ import weka.core.Instances;
 public class Classifier {
 
 	private String agentType;
-
-	private String dataLocation;
-	private String attributesLocation;
-	private String arffLocation;
-	private String modelLocation;
-
 	private LMT decisionAlgorithm;
 
-	private int numInstances = 0;
-
-	private boolean hasNewInstance = true;
-
 	private static double requiredConfidenceFactor = 4.0;
+	
+	private String arffData;
+	private String arffAttributes;
 
 	/**
 	 * Creates a new classifier.
@@ -44,22 +35,28 @@ public class Classifier {
 	 * @param arffAttributes
 	 *            ARFF representation of the attributes of the agents using this
 	 *            classifier
+	 * @param arffData existing data
 	 */
-	public Classifier(String agentType, String arffAttributes) {
+	public Classifier(String agentType, String arffAttributes, String arffData) {
+		this(agentType, arffAttributes, arffData, new LMT());
+	}
+	
+	/**
+	 * Creates a new Classifier with an existing LMT decision algorithm.
+	 * 
+	 * @param agentType
+	 *            the agent type which will use this classifier
+	 * @param arffAttributes
+	 *            ARFF representation of the attributes of the agents using this
+	 *            classifier
+	 * @param arffData existing data
+	 * @param decisionAlgorithm the decision algorithm
+	 */
+	public Classifier(String agentType, String arffAttributes, String arffData, LMT decisionAlgorithm) {
 		this.agentType = agentType;
-		arffAttributes += "\n@ATTRIBUTE Status {" + AgentStatus.UNKNOWN.toString() + "," + AgentStatus.OK.toString()
-				+ "," + AgentStatus.WARNING.toString() + "," + AgentStatus.ERROR.toString() + "}";
-
-		String hash = Integer.toString(arffAttributes.hashCode());
-
-		String path = Settings.getProperty(Settings.AGENTS_DATA_DIR);
-		this.dataLocation = path + agentType.toLowerCase() + "_" + hash + ".data";
-		this.attributesLocation = path + agentType.toLowerCase() + "_" + hash + ".attr";
-		this.arffLocation = path + agentType.toLowerCase() + "_" + hash + ".arff";
-		this.modelLocation = path + agentType.toLowerCase() + "_" + hash + ".txt";
-
-		XMLTool.xmlToFile(attributesLocation, arffAttributes);
-		numInstances = XMLTool.xmlFromFile(dataLocation).split("\n").length;
+		this.arffData = arffData;
+		this.arffAttributes = arffAttributes;
+		this.decisionAlgorithm = decisionAlgorithm;
 	}
 
 	/**
@@ -71,19 +68,19 @@ public class Classifier {
 	 * @param status
 	 *            The trained status
 	 */
-	public void addInstance(String arffInstance, AgentStatus status) {
-		synchronized (dataLocation) {
-			String current = XMLTool.xmlFromFile(dataLocation, 199);
-			arffInstance += "," + status.toString();
-			if (!current.isEmpty()) {
-				arffInstance += "\n";
+	public synchronized void addInstance(String arffInstance, AgentStatus status) {
+		this.arffData = arffInstance + "," + status.toString() +"\n"+ this.arffData;
+
+		if (getArffData().replaceAll("[^\\n]", "").length() > 10) {
+			try {
+				Instances instances = new Instances(new StringReader(this.toArff(true)));
+				instances.setClassIndex(instances.numAttributes() - 1);
+				decisionAlgorithm.buildClassifier(instances);
+			} catch (Exception e) {
+				e.printStackTrace();
 			}
-			current = arffInstance + current;
-			XMLTool.xmlToFile(dataLocation, current);
-			XMLTool.xmlToFile(arffLocation, toArff(true));
-			hasNewInstance = true;
-			numInstances++;
 		}
+		ClassifierCollection.getInstance().put(this);
 	}
 
 	/**
@@ -97,61 +94,42 @@ public class Classifier {
 	public AgentStatus getStatus(String arffInstance) {
 		AgentStatus result = AgentStatus.UNKNOWN;
 
-		if (numInstances <= 10) {
+		if (getArffData().replaceAll("[^\\n]", "").length() <= 10) {
 			return result;
 		}
+		try {
+			Instances blaat = new Instances(new StringReader(this.toArff(false) + "\n" + arffInstance + ","
+					+ result.toString()));
+			blaat.setClassIndex(blaat.numAttributes() - 1);
 
-		synchronized (dataLocation) {
+			Instance instance = blaat.instance(0);
 
-			try {
+			int classifyResult = (int) decisionAlgorithm.classifyInstance(instance);
+			double[] distribution = decisionAlgorithm.distributionForInstance(instance);
 
-				Instances blaat = new Instances(new StringReader(this.toArff(false) + "\n" + arffInstance + ","
-						+ result.toString()));
-				blaat.setClassIndex(blaat.numAttributes() - 1);
+			double bestPolicyValue = 0.0;
+			double secondBestPolicyValue = 0.0;
 
-				Instance instance = blaat.instance(0);
-
-				if (hasNewInstance) {
-
-					decisionAlgorithm = new LMT();
-					// decisionAlgorithm.setHiddenLayers("o");
-					Instances instances = new Instances(new StringReader(this.toArff(true)));
-					instances.setClassIndex(instances.numAttributes() - 1);
-					decisionAlgorithm.buildClassifier(instances);
-					XMLTool.xmlToFile(modelLocation, decisionAlgorithm.toString());
-
-					hasNewInstance = false;
-
+			for (int i = 0; i < distribution.length; i++) {
+				if (distribution[i] > bestPolicyValue) {
+					bestPolicyValue = distribution[i];
 				}
-
-				int classifyResult = (int) decisionAlgorithm.classifyInstance(instance);
-				double[] distribution = decisionAlgorithm.distributionForInstance(instance);
-
-				double bestPolicyValue = 0.0;
-				double secondBestPolicyValue = 0.0;
-
-				for (int i = 0; i < distribution.length; i++) {
-					if (distribution[i] > bestPolicyValue) {
-						bestPolicyValue = distribution[i];
-					}
-				}
-
-				for (int i = 0; i < distribution.length; i++) {
-					if (distribution[i] > secondBestPolicyValue && distribution[i] < bestPolicyValue) {
-						secondBestPolicyValue = distribution[i];
-					}
-				}
-
-				double confidenceFactor = bestPolicyValue / secondBestPolicyValue;
-
-				if (confidenceFactor >= requiredConfidenceFactor) {
-					result = AgentStatus.valueOf(blaat.attribute(blaat.numAttributes() - 1).value(classifyResult));
-				}
-
-			} catch (Exception e) {
-				e.printStackTrace();
 			}
 
+			for (int i = 0; i < distribution.length; i++) {
+				if (distribution[i] > secondBestPolicyValue && distribution[i] < bestPolicyValue) {
+					secondBestPolicyValue = distribution[i];
+				}
+			}
+
+			double confidenceFactor = bestPolicyValue / secondBestPolicyValue;
+
+			if (confidenceFactor >= requiredConfidenceFactor) {
+				result = AgentStatus.valueOf(blaat.attribute(blaat.numAttributes() - 1).value(classifyResult));
+			}
+
+		} catch (Exception e) {
+			e.printStackTrace();
 		}
 
 		return result;
@@ -167,22 +145,42 @@ public class Classifier {
 	 * @return the ARFF string
 	 */
 	public String toArff(boolean includeData) {
-		String result = "";
-		synchronized (dataLocation) {
-
-			result += "@RELATION " + agentType + "\n";
-			result += "\n";
-
-			result += XMLTool.xmlFromFile(attributesLocation) + "\n";
-
-			result += "\n";
-			result += "@DATA\n";
-			if (includeData) {
-				result += XMLTool.xmlFromFile(dataLocation);
-			}
-
+		String result = "@RELATION " + agentType + "\n"
+		+ "\n"
+		+ getArffAttributes() + "\n"
+		+ "\n"
+		+ "@DATA\n";
+		if (includeData) {
+			result += getArffData();
 		}
 		return result;
 	}
+	
+	/**
+	 * @return the agentType
+	 */
+	public String getAgentType() {
+		return agentType;
+	}
 
+	/**
+	 * @return the arffData
+	 */
+	public String getArffData() {
+		return arffData;
+	}
+
+	/**
+	 * @return the arffAttributes
+	 */
+	public String getArffAttributes() {
+		return arffAttributes;
+	}
+	
+	/**
+	 * @return the decisionAlgorithm
+	 */
+	public LMT getDecisionAlgorithm() {
+		return decisionAlgorithm;
+	}
 }

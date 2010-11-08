@@ -278,7 +278,7 @@ public class XMLServerClientHandler extends Thread {
 		}
 		AgentViewable av = AgentCollection.getInstance().get(agentCode);
 		if (av != null) {
-			Classifier r = ClassifierCollection.getInstance().getRelation(av.get(Agent.TYPE), av.getArffAttributesString());
+			Classifier r = ClassifierCollection.getInstance().get(av.get(Agent.TYPE), av.getArffAttributesString());
 			r.addInstance(av.getArffInstanceString(), status);
 		} else {
 			return "error";
