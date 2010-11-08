@@ -1,8 +1,6 @@
 package model.agent.classification;
 
-import java.util.Collections;
-import java.util.HashMap;
-import java.util.Map;
+import data.classification.ClassifierCollectionStorage;
 
 /**
  * This class represents a collection of classifiers.
@@ -14,11 +12,7 @@ public class ClassifierCollection {
 
 	private static ClassifierCollection relations = null;
 
-	private Map<String, Classifier> map;
-
-	private ClassifierCollection() {
-		map = Collections.synchronizedMap(new HashMap<String, Classifier>());
-	}
+	private ClassifierCollection() { }
 
 	/**
 	 * Returns the singleton classifier collection instance.
@@ -29,7 +23,6 @@ public class ClassifierCollection {
 		if (relations == null) {
 			relations = new ClassifierCollection();
 		}
-
 		return relations;
 	}
 
@@ -43,12 +36,21 @@ public class ClassifierCollection {
 	 *            ARFF representation of the attributes of the agent
 	 * @return the classifier
 	 */
-	public Classifier getRelation(String agentType, String arffAttributes) {
+	public Classifier get(String agentType, String arffAttributes) {
 		String key = agentType + "_" + Integer.toString(arffAttributes.hashCode());
-
-		if (!map.containsKey(key)) {
-			map.put(key, new Classifier(agentType, arffAttributes));
+		Classifier classifier = ClassifierCollectionStorage.getInstance().get(key);
+		if (classifier == null) {
+			classifier = new Classifier(agentType, arffAttributes, "");
 		}
-		return map.get(key);
+		return classifier;
+	}
+	
+	/**
+	 * Adds or replaces a Classifier in the collection.
+	 * 
+	 * @param classifier the classifier to add or update
+	 */
+	public void put(Classifier classifier) {
+		ClassifierCollectionStorage.getInstance().put(classifier);
 	}
 }

@@ -15,7 +15,7 @@ import main.Settings;
  */
 public class MySQLConnection {
 
-	private final static String[] tables = new String[] {"agents", "properties", "locations"};
+	private final static String[] tables = new String[] {"agents", "properties", "locations", "classification"};
 	private static MySQLConnection instance = null;
 
 	private Connection connection = null;
@@ -107,6 +107,14 @@ public class MySQLConnection {
 						+ "  `longitude` decimal(7,5) NOT NULL,"
 						+ "  PRIMARY KEY (`id`),"
 						+ "  UNIQUE KEY `address` (`address`)"
+						+ ") ENGINE=MyISAM DEFAULT CHARSET=latin1;";
+				} else if (tableName.equals("classification")) {
+					sql = "CREATE TABLE IF NOT EXISTS `classification` ("
+						+ "  `agent_type_hash` varchar(32) NOT NULL,"
+						+ "  `attributes` text NOT NULL,"
+						+ "  `data` mediumtext NOT NULL,"
+						+ "  `lmt` longblob NOT NULL,"
+						+ "  PRIMARY KEY (`agent_type_hash`)"
 						+ ") ENGINE=MyISAM DEFAULT CHARSET=latin1;";
 				} else {
 					throw new Exception("trying to create unknown table: "+tableName);

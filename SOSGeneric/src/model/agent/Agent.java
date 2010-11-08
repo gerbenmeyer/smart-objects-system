@@ -118,7 +118,7 @@ public abstract class Agent implements AgentMutable {
 	 */
 	public void teachStatus(AgentStatus status) {
 		try {
-			Classifier r = ClassifierCollection.getInstance().getRelation(
+			Classifier r = ClassifierCollection.getInstance().get(
 					get(Agent.TYPE), getArffAttributesString());
 			r.addInstance(getArffInstanceString(), status);
 		} catch (Exception e) {
@@ -135,9 +135,9 @@ public abstract class Agent implements AgentMutable {
 		if (Settings.getProperty(Settings.AGENT_PROBLEM_DETECTION_ENABLED)
 				.equals(Boolean.toString(true))) {
 			try {
-				Classifier r = ClassifierCollection.getInstance().getRelation(
+				Classifier classifier = ClassifierCollection.getInstance().get(
 						get(Agent.TYPE), getArffAttributesString());
-				status = r.getStatus(getArffInstanceString());
+				status = classifier.getStatus(getArffInstanceString());
 			} catch (Exception e) {
 			}
 		}
@@ -365,6 +365,13 @@ public abstract class Agent implements AgentMutable {
 				attributes += p.getArffAttributeDeclaration();
 			}
 		}
+		
+		if (!attributes.isEmpty()) {
+			attributes += "\n";
+		}
+		attributes+= "@ATTRIBUTE Status {" + AgentStatus.UNKNOWN.toString() + "," + AgentStatus.OK.toString()
+		+ "," + AgentStatus.WARNING.toString() + "," + AgentStatus.ERROR.toString() + "}";
+		
 		return attributes;
 	}
 

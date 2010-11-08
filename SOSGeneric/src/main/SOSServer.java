@@ -15,6 +15,8 @@ import data.agents.AgentCollectionStorage;
 import data.agents.AgentCollectionStorageMySQL;
 import data.agents.AgentStorage;
 import data.agents.AgentStorageMySQL;
+import data.classification.ClassifierCollectionStorage;
+import data.classification.ClassifierCollectionStorageMySQL;
 import data.locations.LocationCollectionStorage;
 import data.locations.LocationCollectionStorageMySQL;
 
@@ -56,6 +58,8 @@ public abstract class SOSServer {
 		agentCollection.put(factory.createAgent("menu"));
 		agentCollection.put(factory.createAgent("search"));
 		agentCollection.put(factory.createAgent("stats"));
+		
+		ClassifierCollectionStorage.setInstance(new ClassifierCollectionStorageMySQL());
 		
 		new AgentsProcessor();
 	}

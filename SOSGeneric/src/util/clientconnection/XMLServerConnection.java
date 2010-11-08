@@ -56,7 +56,8 @@ public class XMLServerConnection {
 			output.println(password);
 			connected = true;
 		} catch (Exception e) {
-			System.err.println("Unable to connect to server");
+			e.printStackTrace();
+			System.err.println("Unable to connect to server "+serverAddress+":"+serverPort);
 		}
 	}
 	
@@ -69,12 +70,14 @@ public class XMLServerConnection {
 		} catch (Exception e) {
 		}
 		try {
-		output.close();
+			output.flush();
+			output.close();
 		} catch (Exception e) {
 		}
 		try {
 			sock.close();
 		} catch (Exception e) {
+			e.printStackTrace();
 		}
 		connected = false;
 	}
@@ -86,6 +89,7 @@ public class XMLServerConnection {
 	 */
 	public synchronized String sendCommandToServer(XMLServerCommand command) {
 		if (!connected){
+			System.err.println("not connected");
 			return "error";
 		}
 		String msg = XMLTool.addRootTag(command.toXML(), "Command");
