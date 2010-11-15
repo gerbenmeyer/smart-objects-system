@@ -105,6 +105,7 @@ public class MySQLConnection {
 						+ "  `address` varchar(128) NOT NULL,"
 						+ "  `latitude` decimal(7,5) NOT NULL,"
 						+ "  `longitude` decimal(7,5) NOT NULL,"
+						+ "  `precision` enum('APPROXIMATE','GEOMETRIC_CENTER','RANGE_INTERPOLATED','ROOFTOP') NOT NULL,"
 						+ "  PRIMARY KEY (`id`),"
 						+ "  UNIQUE KEY `address` (`address`)"
 						+ ") ENGINE=MyISAM DEFAULT CHARSET=latin1;";

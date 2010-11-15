@@ -8,6 +8,7 @@ import java.util.Vector;
 
 import model.agent.property.properties.LocationProperty;
 import util.db.MySQLConnection;
+import util.enums.GoogleLocationType;
 
 public class LocationCollectionStorageMySQL extends LocationCollectionStorage {
 
@@ -34,6 +35,7 @@ public class LocationCollectionStorageMySQL extends LocationCollectionStorage {
 				lp.setAddress(address);
 				lp.setLatitude(result.getDouble("latitude"));
 				lp.setLongitude(result.getDouble("longitude"));
+				lp.setLocationType(GoogleLocationType.valueOf(result.getString("precision")));
 			}
 		} catch (SQLException e) {
 			e.printStackTrace();
@@ -62,6 +64,7 @@ public class LocationCollectionStorageMySQL extends LocationCollectionStorage {
 				lp.setAddress(result.getString("address"));
 				lp.setLatitude(result.getDouble("latitude"));
 				lp.setLongitude(result.getDouble("longitude"));
+				lp.setLocationType(GoogleLocationType.valueOf(result.getString("precision")));
 				locations.add(lp);
 			}
 		} catch (SQLException e) {
@@ -83,9 +86,10 @@ public class LocationCollectionStorageMySQL extends LocationCollectionStorage {
 		Statement stm = null;
 		try {
 			stm = conn.getConnection().createStatement();
-			String sql = "INSERT INTO `locations` (address,latitude,longitude) VALUES "
+			String sql = "INSERT INTO `locations` (address,latitude,longitude,`precision`) VALUES "
 				+ "('"+location.getAddress().replaceAll("'", "\\\\'")
-				+ "',"+location.getLatitude()+","+location.getLongitude()+");";
+				+ "',"+location.getLatitude()+","+location.getLongitude()+",'"+location.getLocationType().toString()+"');";
+			System.out.println(sql);
 			stm.executeUpdate(sql);
 		} catch (SQLException e) {
 			e.printStackTrace();
