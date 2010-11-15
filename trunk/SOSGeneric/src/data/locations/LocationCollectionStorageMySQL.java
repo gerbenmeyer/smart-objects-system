@@ -89,7 +89,6 @@ public class LocationCollectionStorageMySQL extends LocationCollectionStorage {
 			String sql = "INSERT INTO `locations` (address,latitude,longitude,`precision`) VALUES "
 				+ "('"+location.getAddress().replaceAll("'", "\\\\'")
 				+ "',"+location.getLatitude()+","+location.getLongitude()+",'"+location.getLocationType().toString()+"');";
-			System.out.println(sql);
 			stm.executeUpdate(sql);
 		} catch (SQLException e) {
 			e.printStackTrace();
