@@ -7,7 +7,6 @@ import main.Settings;
 import model.agent.Agent;
 import model.agent.AgentViewable;
 import model.agent.collection.AgentCollection;
-import model.agent.property.properties.LocationProperty;
 import util.BenchMarker;
 import util.Capitalize;
 import util.db.MySQLConnection;
@@ -106,13 +105,9 @@ public class SearchAgent extends Agent {
 		
 		for (int i = 0; i < Math.min(agents.size(), 5000); i++) {
 			AgentViewable av = agents.get(i);
-			String location = av.get(Agent.LOCATION);
-			if (!location.isEmpty()) {
-				LocationProperty lp = new LocationProperty("", location);
-				lp.setAgentView(av);
-				lp.toScript(mapContent, params);
-			}
+			mapContent.addMapMarker(av, 32);
 		}
+		
 		bm.taskFinished("Iterating agents ("+MySQLConnection.getInstance().getCounter()+" queries)" );
 		bm.stop();
 		mapContent.drawMap();

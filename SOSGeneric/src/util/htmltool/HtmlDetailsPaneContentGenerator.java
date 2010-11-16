@@ -160,6 +160,21 @@ public class HtmlDetailsPaneContentGenerator {
 	 * @param url the url to link to
 	 */
 	public void addDataRowLink(String icon, String name, String value, String statusIcon, String url) {
+		addDataRowLink(icon, name, value, statusIcon, url, "");
+	}
+
+
+	/**
+	 * Adds a data row with an icon, name, value and status icon to the content.
+	 * The row is clickable and will link to the specified url.
+	 * 
+	 * @param icon the icon
+	 * @param name the name of the data
+	 * @param value the value
+	 * @param statusIcon the status icon
+	 * @param url the url to link to
+	 */
+	public void addDataRowLink(String icon, String name, String value, String statusIcon, String url, String style) {
 		name = convertToHtml(name);
 		value = convertToHtml(value);
 
@@ -171,11 +186,11 @@ public class HtmlDetailsPaneContentGenerator {
 		}
 		String row = "";
 		if (value == null || value.isEmpty()) {
-			row = "<div class=\"property linked_property\" onclick=\"document.getElementById('hidden_frame').src = '"
+			row = "<div class=\"property linked_property\" "+style+" onclick=\"document.getElementById('hidden_frame').src = '"
 					+ url + "';\">" + statusIcon + "<div class=\"propertyicon\">" + icon + "</div>"
 					+ "<div class=\"propertyname\">" + name + "</div>" + "</div>\n";
 		} else {
-			row = "<div class=\"property linked_property\" onclick=\"document.getElementById('hidden_frame').src = '"
+			row = "<div class=\"property linked_property\" "+style+" onclick=\"document.getElementById('hidden_frame').src = '"
 					+ url + "';\">" + statusIcon + "<div class=\"propertyicon\">" + icon + "</div>"
 					+ "<div class=\"propertyname\">" + name + "</div>" + "<div class=\"propertyvalue\">" + value
 					+ "</div>" + "</div>\n";

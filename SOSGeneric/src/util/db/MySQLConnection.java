@@ -60,7 +60,8 @@ public class MySQLConnection {
             createDatabase();
             createTables();
         } catch (Exception ex) {
-        	ex.printStackTrace();
+        	System.err.println("Unable to connect to the MySQL database.\nExiting...");
+        	System.exit(1);
         }
     }
 
