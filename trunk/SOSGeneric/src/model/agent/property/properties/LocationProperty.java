@@ -1,15 +1,10 @@
 package model.agent.property.properties;
 
-import java.util.HashMap;
-
-import main.Settings;
 import model.agent.Agent;
 import model.agent.property.Property;
 import util.Capitalize;
-import util.enums.AgentStatus;
 import util.enums.GoogleLocationType;
 import util.enums.PropertyType;
-import util.htmltool.HtmlMapContentGenerator;
 
 /**
  * 
@@ -257,85 +252,6 @@ public class LocationProperty extends Property {
 			icon = "destination_icon.png";
 		}
 		return icon;
-	}
-
-	@Override
-	public void toScript(HtmlMapContentGenerator mapContent, HashMap<String, String> params) {
-		toScript(mapContent, params, 32, false);
-	}
-
-	/**
-	 * Returns the LocationProperty specific javascript to be used for map
-	 * generation. Set openInfoWindowOnLoad to pop up the infoWindow when the
-	 * page loads.
-	 * 
-	 * @param mapContent
-	 *            a content generator for the map
-	 * @param params
-	 *            the request parameters
-	 * @param openInfoWindowOnLoad
-	 *            true or false
-	 */
-	public void toScript(HtmlMapContentGenerator mapContent, HashMap<String, String> params,
-			boolean openInfoWindowOnLoad) {
-		toScript(mapContent, params, 32, openInfoWindowOnLoad);
-	}
-
-	/**
-	 * Returns the LocationProperty specific javascript to be used for map
-	 * generation. Set mapIconSize to the desired size of the marker. Set
-	 * openInfoWindowOnLoad to pop up the infoWindow when the page loads.
-	 * 
-	 * @param mapContent
-	 *            a content generator for the map
-	 * @param params
-	 *            the request parameters
-	 * @param mapIconSize
-	 *            the size of the map icon
-	 * @param openInfoWindowOnLoad
-	 *            true or false
-	 */
-	public void toScript(HtmlMapContentGenerator mapContent, HashMap<String, String> params, int mapIconSize,
-			boolean openInfoWindowOnLoad) {
-		if (isNull()) {
-			return;
-		}
-		if (getAgentView() == null) {
-			System.err.println("LocationProperty: Unable to create script, agentView is null");
-			return;
-		}
-
-		String mapIcon = getAgentView().getMapMarkerImage();
-		String smallIcon = getAgentView().getIcon();
-
-		if (getName().equals("SourceLocation")) {
-			mapIcon = "source.png";
-			smallIcon = "source_icon.png";
-		}
-
-		if (getName().equals("DestinationLocation")) {
-			mapIcon = "destination.png";
-			smallIcon = "destination_icon.png";
-		}
-
-		AgentStatus status = getAgentView().getStatus();
-
-		int zIndex = -status.getValue();
-//		boolean finished = getAgentView().get("Finished").equals(Boolean.toString(true));
-//		if (finished && status == AgentStatus.OK) {
-//			zIndex = AgentStatus.UNKNOWN.getValue();
-//		}
-		zIndex++;
-		boolean label = !getAgentView().get(Agent.HIDDEN).equals(Boolean.toString(true))
-				&& (status == AgentStatus.WARNING || status == AgentStatus.ERROR);
-
-		boolean showDetails = Settings.getProperty(Settings.SHOW_AGENT_DETAILS).equals("true");
-
-		mapContent.addMapMarker(latitude, longitude, getAgentView().get(Agent.LABEL), getAgentView().get(
-				Agent.DESCRIPTION), mapIcon, mapIconSize, smallIcon, (showDetails ? getAgentView().getID() : null),
-				zIndex, label, openInfoWindowOnLoad, "?" + Settings.getProperty(Settings.KEYWORD_DEEPLINK) + "="
-						+ getAgentView().getID(), getAgentView().getID());
-
 	}
 
 	@Override

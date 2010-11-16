@@ -248,7 +248,7 @@ function drawMap() {
 	if (clustering_) {
 		clusterer.addMarkers(assoc_array_values(markers));
 	} else {
-		var size = assoc_array_lengt(markers);
+		var size = assoc_array_length(markers);
 		if (size > clustering_proposal_threshold
 				&& confirm('' + size + ' markers, clustering recommended. Do you want to enable clustering?')) {
 			clustering_ = true;
@@ -293,7 +293,7 @@ function setZoom(zoom){
 	map_.setZoom(zoom);
 }
 function addMarker(latitude, longitude, title, mapicon, mapiconsize,
-		smallicon, url, details, zindex, showlabel, openInfoWindowOnLoad, deeplink, id) {
+		zindex, showlabel, infoWindowContent, openInfoWindowOnLoad, id) {
 	var mapsw = mapiconsize / 2;
 	var mapsh = mapiconsize - 2;
 	var markerImage = new google.maps.MarkerImage(mapicon,
@@ -315,10 +315,8 @@ function addMarker(latitude, longitude, title, mapicon, mapiconsize,
 		labelVisible : showlabel,
 		labelZIndex : zindex
 	});
-	var infowindow = new google.maps.InfoWindow( {
-		content : (url == undefined || url.length <= 0 ? '<img src="'+ smallicon + '" width="16" /> ' + title : '<a href="' + url + '.html" target=hidden_frame><img src="'
-					+ smallicon + '" width="16" /> ' + title + '</a>') + (deeplink == undefined ? '' : ' <a href="'+deeplink+'"><img src="link.png"/></a>') + '<br/><br/>'
-				+ details + ''
+	var infowindow = new google.maps.InfoWindow({
+		content : infoWindowContent
 	});
 	
 	google.maps.event.addListener(marker, 'click', function() {
@@ -347,7 +345,7 @@ function load() {
 	setWindowSize();
 	initialize();
 }
-function assoc_array_lengt(array) {
+function assoc_array_length(array) {
 	var size = 0;
 	for (var i in array) {
 		size++;

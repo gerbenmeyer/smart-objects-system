@@ -2,6 +2,12 @@ package util.htmltool;
 
 import java.util.HashMap;
 
+import main.Settings;
+import model.agent.Agent;
+import model.agent.AgentViewable;
+import model.agent.property.properties.LocationProperty;
+import util.enums.AgentStatus;
+
 import com.tecnick.htmlutils.htmlentities.HTMLEntities;
 
 /**
@@ -82,36 +88,71 @@ public class HtmlMapContentGenerator {
 	}
 
 	/**
-	 * Adds javascript which adds a marker with a shadow to the map.
+	 * 
+	/**
+	 * Adds javascript which adds a marker to the map.
 	 * 
 	 * @param latitude
 	 * @param longitude
 	 * @param title
-	 * @param details
-	 *            the details showed in the info window of the marker. Must be
-	 *            formatted as HTML.
 	 * @param mapicon
 	 * @param iconsize
-	 * @param smallicon
-	 * @param url
 	 * @param zIndex
-	 * @param showlabel
+	 * @param showLabel
+	 * @param infoWindowContent the details showed in the info window of the marker. Must be formatted as HTML.
 	 * @param openInfoWindowOnLoad
-	 * @param deeplink
-	 * @param id
-	 *            the identifier of the marker
+	 * @param id the identifier of the marker
 	 */
-	public void addMapMarker(double latitude, double longitude, String title, String details, String mapicon,
-			int iconsize, String smallicon, String url, int zIndex, boolean showlabel, boolean openInfoWindowOnLoad,
-			String deeplink, String id) {
-
+	public void addMapMarker(double latitude, double longitude, String title, String mapicon,
+			int iconsize, int zIndex, boolean showLabel, String infoWindowContent, boolean openInfoWindowOnLoad, String id) {
 		title = convertToHtml(title);
-		details = convertToHtml(details);
-
+		infoWindowContent = convertToHtml(infoWindowContent);
 		script.append("parent.addMarker(" + latitude + "," + longitude + ",'" + title + "','" + mapicon + "',"
-				+ iconsize + ",'" + smallicon + "','" + (url != null && !url.isEmpty() ? url : "") + "','" + details
-				+ "'," + zIndex + ", " + showlabel + ", " + openInfoWindowOnLoad
-				+ (deeplink != null && !deeplink.isEmpty() ? ", '" + deeplink + "'" : "") + ",'" + id + "');\n");
+				+ iconsize + "," + zIndex + ", " + showLabel + ", '" + infoWindowContent + "', " + openInfoWindowOnLoad + ",'" + id + "');\n");
+	}
+	
+	/**
+	 * Adds javascript which adds a marker for a certain agent to the map.
+	 * 
+	 * @param av the view of the agent to be located
+	 * @param iconsize the size of the map icon
+	 */
+	public void addMapMarker(AgentViewable av, int iconsize){
+		addMapMarker(av, iconsize, false);
+	}
+	
+	/**
+	 * Adds javascript which adds a marker for a certain agent to the map.
+	 * 
+	 * @param av the view of the agent to be located
+	 * @param iconsize the size of the map icon
+	 * @param panToLocation true if the map should pan to this agents location 
+	 */
+	public void addMapMarker(AgentViewable av, int iconsize, boolean panToLocation){
+		LocationProperty lp = new LocationProperty("", av.get(Agent.LOCATION));
+		if (lp.isNull()) {
+			return;
+		}
+		String id = av.getID();
+		AgentStatus status = av.getStatus();
+		int zIndex = -status.getValue()+1;
+		boolean showLabel = !av.get(Agent.HIDDEN).equals(Boolean.toString(true))
+		&& (status == AgentStatus.WARNING || status == AgentStatus.ERROR);
+
+		boolean showDetails = Settings.getProperty(Settings.SHOW_AGENT_DETAILS).equals("true");
+		String infoWindowContent = "";
+		if (showDetails) {
+			HashMap<String, String> infoWindowContentAttriutes = new HashMap<String, String>();
+			infoWindowContentAttriutes.put("class", "infoWindowContent");
+			infoWindowContent += HtmlTool.createLink(id+".html", HtmlTool.createImage(av.getIcon(), id)+id, "hidden_frame")
+				+ HtmlTool.createLink("?" + Settings.getProperty(Settings.KEYWORD_DEEPLINK) + "=" + id, HtmlTool.createImage("link.png", "deeplink to "+id))
+				+ HtmlTool.createDiv(av.get(Agent.DESCRIPTION), infoWindowContentAttriutes);
+		}
+		addMapMarker(lp.getLatitude(), lp.getLongitude(), av.get(Agent.LABEL), av.getMapMarkerImage(), iconsize, zIndex,
+				showLabel, infoWindowContent, false, id);
+		if (panToLocation) {
+			panToLocation(lp.getLatitude(), lp.getLongitude());
+		}
 	}
 
 	/**

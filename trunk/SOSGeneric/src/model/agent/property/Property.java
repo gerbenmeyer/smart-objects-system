@@ -1,7 +1,6 @@
 package model.agent.property;
 
 import java.text.Normalizer;
-import java.util.HashMap;
 
 import model.agent.AgentViewable;
 import model.agent.property.properties.BooleanProperty;
@@ -14,7 +13,6 @@ import model.agent.property.properties.TextProperty;
 import model.agent.property.properties.TimeProperty;
 import model.agent.property.properties.TimeWindowProperty;
 import util.enums.PropertyType;
-import util.htmltool.HtmlMapContentGenerator;
 import util.xmltool.KeyData;
 import util.xmltool.KeyDataVector;
 import util.xmltool.XMLTool;
@@ -304,15 +302,6 @@ public abstract class Property {
 //		return "";
 //	}
 
-	/**
-	 * Returns the Property specific javascript to be used for map generation.
-	 * 
-	 * @param mapContent a content generator for the map
-	 * @param params the request parameters
-	 */
-	public void toScript(HtmlMapContentGenerator mapContent,
-			HashMap<String, String> params) {
-	}
 
 	/**
 	 * Normalizes a string to ASCII characters.

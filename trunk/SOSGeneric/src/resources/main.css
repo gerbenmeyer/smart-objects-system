@@ -125,6 +125,10 @@ a {
      border: 1px solid black;
 }
 
+div.infoWindowContent {
+	margin: 5px 0;
+}
+
 div.block{
 	overflow: auto;
 	max-height: 200px;

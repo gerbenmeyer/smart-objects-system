@@ -1,6 +1,5 @@
 package model.agent.property.properties;
 
-import java.util.HashMap;
 import java.util.Vector;
 
 import model.agent.Agent;
@@ -10,7 +9,6 @@ import model.agent.collection.AgentCollectionViewable;
 import model.agent.property.Property;
 import util.enums.AgentStatus;
 import util.enums.PropertyType;
-import util.htmltool.HtmlMapContentGenerator;
 
 /**
  * A Property implementation that holds a list of dependencies.
@@ -228,48 +226,5 @@ public class DependenciesProperty extends Property {
 			}
 		}
 		return status.toString();
-	}
-
-	@Override
-	public void toScript(HtmlMapContentGenerator mapContent, HashMap<String, String> params) {
-		AgentCollectionViewable acv = AgentCollection.getInstance();
-		if (getAgentView() == null) {
-			System.err.println("DependenciesProperty: Unable to create script, agentView is null");
-			return;
-		}
-
-		if (drawOnMap.getValue() && !list.isEmpty()) {
-			if (drawAsRoute.getValue() && hideFinishedObjectsInRoute.getValue()
-					&& includeCurrentLocationInRoute.getValue()) {
-				LocationProperty curLocation = new LocationProperty("", getAgentView().get(Agent.LOCATION));
-				if (!curLocation.isNull()) {
-					mapContent.addMapDirection(curLocation.getLatitude(), curLocation
-							.getLongitude(), "finished", drawRouteAsPolyLines.getValue());
-				}
-			}
-
-			for (String id : list) {
-				AgentViewable pov = acv.get(id);
-				if (pov != null && !pov.get(Agent.LOCATION).isEmpty()) {
-
-					boolean hidden = pov.get("Hidden").equals(Boolean.toString(true));
-
-					LocationProperty lp = new LocationProperty("", pov.get(Agent.LOCATION));
-					lp.setAgentView(pov);
-					if (!lp.isNull()) {
-						lp.toScript(mapContent, params, hidden ? 16 : 32, false);
-
-						if (drawAsRoute.getValue()) {
-							boolean finished = pov.get("Finished").equals(Boolean.toString(true));
-							if (!(hideFinishedObjectsInRoute.getValue() && finished)) {
-								mapContent.addMapDirection(lp.getLatitude(), lp
-										.getLongitude(), finished ? "finished" : "unfinished", drawRouteAsPolyLines
-										.getValue());
-							}
-						}
-					}
-				}
-			}
-		}
 	}
 }
