@@ -172,6 +172,18 @@ public abstract class Agent implements AgentMutable {
 			HtmlDetailsPaneContentGenerator detailsPane,
 			HashMap<String, String> params);
 
+	public String createMapBalloonContent() {
+		String infoWindowContent = "";
+		if (Boolean.parseBoolean(Settings.getProperty(Settings.SHOW_AGENT_DETAILS))) {
+			HashMap<String, String> infoWindowContentAttriutes = new HashMap<String, String>();
+			infoWindowContentAttriutes.put("class", "infoWindowContent");
+			infoWindowContent += HtmlTool.createLink(getID()+".html", HtmlTool.createImage(getIcon(), getID())+getID(), "hidden_frame")
+				+ HtmlTool.createLink("?" + Settings.getProperty(Settings.KEYWORD_DEEPLINK) + "=" + getID(), HtmlTool.createImage("link.png", "deeplink to "+getID()))
+				+ HtmlTool.createDiv(get(Agent.DESCRIPTION), infoWindowContentAttriutes);
+		}
+		return infoWindowContent;
+	}
+	
 	/**
 	 * This function generates the code required for training agents as part of
 	 * the mapContent. Has to be used in combination with

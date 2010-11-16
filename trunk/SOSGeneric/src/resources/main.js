@@ -292,8 +292,7 @@ function panToLocation(latitude, longitude){
 function setZoom(zoom){
 	map_.setZoom(zoom);
 }
-function addMarker(latitude, longitude, title, mapicon, mapiconsize,
-		zindex, showlabel, infoWindowContent, openInfoWindowOnLoad, id) {
+function addMarker(latitude, longitude, title, mapicon, mapiconsize, zindex, showlabel, id) {
 	var mapsw = mapiconsize / 2;
 	var mapsh = mapiconsize - 2;
 	var markerImage = new google.maps.MarkerImage(mapicon,
@@ -315,20 +314,24 @@ function addMarker(latitude, longitude, title, mapicon, mapiconsize,
 		labelVisible : showlabel,
 		labelZIndex : zindex
 	});
-	var infowindow = new google.maps.InfoWindow({
-		content : infoWindowContent
-	});
-	
-	google.maps.event.addListener(marker, 'click', function() {
-		clearInfoWindows();
-		infowindow.open(map_, marker);
-		openInfoWindows.push(infowindow);
-	});
-	if (openInfoWindowOnLoad) {
-		google.maps.event.trigger(marker, 'click');
-	}
-//	markers.push(marker);
 	markers[id] = marker;
+}
+function addMarkerBalloon(markerId, balloonHTMLContent, openInfoWindowOnLoad) {
+	var marker = markers[markerId];
+	if (marker) {
+		var infowindow = new google.maps.InfoWindow({
+			content : balloonHTMLContent
+		});
+		
+		google.maps.event.addListener(marker, 'click', function() {
+			clearInfoWindows();
+			infowindow.open(map_, marker);
+			openInfoWindows.push(infowindow);
+		});
+		if (openInfoWindowOnLoad) {
+			google.maps.event.trigger(marker, 'click');
+		}
+	}
 }
 function addDirection(direction) {
 	if (direction_points.length > 0) {
