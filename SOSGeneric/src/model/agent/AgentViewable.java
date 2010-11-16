@@ -100,4 +100,13 @@ public interface AgentViewable {
 	 * @param params the request parameters
 	 */
 	public void generateMapContent(HtmlMapContentGenerator mapContent, HashMap<String,String> params);
+	
+	/**
+	 * Creates the content of a information balloon associated with a map marker,
+	 * to be shown on the map when the maker is clicked.
+	 * This method should be overridden by agents requiring their own custom balloon.
+	 * 
+	 * @return the HTML formatted content
+	 */
+	public String createMapBalloonContent();
 }

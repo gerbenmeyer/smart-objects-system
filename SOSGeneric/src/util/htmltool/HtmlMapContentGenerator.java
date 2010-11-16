@@ -2,7 +2,6 @@ package util.htmltool;
 
 import java.util.HashMap;
 
-import main.Settings;
 import model.agent.Agent;
 import model.agent.AgentViewable;
 import model.agent.property.properties.LocationProperty;
@@ -16,10 +15,9 @@ import com.tecnick.htmlutils.htmlentities.HTMLEntities;
  * 
  * @author Gerben G. Meyer
  */
-public class HtmlMapContentGenerator {
+public class HtmlMapContentGenerator extends HtmlGenerator{
 
 	private String title;
-	private StringBuffer script;
 
 	/**
 	 * Constructs a new HtmlMapContentGenerator instance with a title.
@@ -28,8 +26,8 @@ public class HtmlMapContentGenerator {
 	 *            the title of the page
 	 */
 	public HtmlMapContentGenerator(String title) {
+		super();
 		this.title = title;
-		this.script = new StringBuffer();
 	}
 
 	/**
@@ -39,7 +37,7 @@ public class HtmlMapContentGenerator {
 	 *            the custom HTML
 	 */
 	public void addCustomScript(String stuff) {
-		script.append(stuff);
+		buffer.append(stuff);
 	}
 
 	/**
@@ -53,7 +51,7 @@ public class HtmlMapContentGenerator {
 
 		StringBuffer headcontent = createMapScriptHeader();
 		headcontent.append("<META HTTP-EQUIV=\"Refresh\" CONTENT=\"300\" />\n");
-		headcontent.append(HtmlTool.createScript(script, scriptAttr));
+		headcontent.append(HtmlTool.createScript(buffer, scriptAttr));
 		StringBuffer headbody = HtmlTool.createHeadBody(title, null, new StringBuffer(), headcontent, null);
 
 		return HtmlTool.createHTML(headbody);
@@ -63,28 +61,28 @@ public class HtmlMapContentGenerator {
 	 * Adds javascript which will go to the current user location.
 	 */
 	public void gotoUserLocation() {
-		script.append("parent.gotoUserLocation();\n");
+		buffer.append("parent.gotoUserLocation();\n");
 	}
 
 	/**
 	 * Adds javascript which clears the map content.
 	 */
 	public void clearMapContent() {
-		script.append("parent.clearMap();\n");
+		buffer.append("parent.clearMap();\n");
 	}
 
 	/**
 	 * Adds javascript which clears the map data.
 	 */
 	public void clearMapData() {
-		script.append("parent.clearMarkers();\n");
+		buffer.append("parent.clearMarkers();\n");
 	}
 
 	/**
 	 * Adds javascript which draws the map.
 	 */
 	public void drawMap() {
-		script.append("parent.drawMap();\n");
+		buffer.append("parent.drawMap();\n");
 	}
 
 	/**
@@ -104,11 +102,10 @@ public class HtmlMapContentGenerator {
 	 * @param id the identifier of the marker
 	 */
 	public void addMapMarker(double latitude, double longitude, String title, String mapicon,
-			int iconsize, int zIndex, boolean showLabel, String infoWindowContent, boolean openInfoWindowOnLoad, String id) {
+			int iconsize, int zIndex, boolean showLabel, String id) {
 		title = convertToHtml(title);
-		infoWindowContent = convertToHtml(infoWindowContent);
-		script.append("parent.addMarker(" + latitude + "," + longitude + ",'" + title + "','" + mapicon + "',"
-				+ iconsize + "," + zIndex + ", " + showLabel + ", '" + infoWindowContent + "', " + openInfoWindowOnLoad + ",'" + id + "');\n");
+		buffer.append("parent.addMarker(" + latitude + "," + longitude + ",'" + title + "','" + mapicon + "',"
+				+ iconsize + "," + zIndex + ", " + showLabel + ",'" + id + "');\n");
 	}
 	
 	/**
@@ -138,21 +135,21 @@ public class HtmlMapContentGenerator {
 		int zIndex = -status.getValue()+1;
 		boolean showLabel = !av.get(Agent.HIDDEN).equals(Boolean.toString(true))
 		&& (status == AgentStatus.WARNING || status == AgentStatus.ERROR);
-
-		boolean showDetails = Settings.getProperty(Settings.SHOW_AGENT_DETAILS).equals("true");
-		String infoWindowContent = "";
-		if (showDetails) {
-			HashMap<String, String> infoWindowContentAttriutes = new HashMap<String, String>();
-			infoWindowContentAttriutes.put("class", "infoWindowContent");
-			infoWindowContent += HtmlTool.createLink(id+".html", HtmlTool.createImage(av.getIcon(), id)+id, "hidden_frame")
-				+ HtmlTool.createLink("?" + Settings.getProperty(Settings.KEYWORD_DEEPLINK) + "=" + id, HtmlTool.createImage("link.png", "deeplink to "+id))
-				+ HtmlTool.createDiv(av.get(Agent.DESCRIPTION), infoWindowContentAttriutes);
-		}
-		addMapMarker(lp.getLatitude(), lp.getLongitude(), av.get(Agent.LABEL), av.getMapMarkerImage(), iconsize, zIndex,
-				showLabel, infoWindowContent, false, id);
+		addMapMarker(lp.getLatitude(), lp.getLongitude(), av.get(Agent.LABEL), av.getMapMarkerImage(), iconsize, zIndex, showLabel, id);
 		if (panToLocation) {
 			panToLocation(lp.getLatitude(), lp.getLongitude());
 		}
+	}
+
+	/**
+	 * Adds a balloon to the code, and associates it with a an existing marker. 
+	 * 
+	 * @param markerId the identifier of the existing marker
+	 * @param balloonContent the HTML formatted content of the balloon
+	 * @param openBalloonOnLoad if the balloon should open on page load
+	 */
+	public void addMapBalloon(String markerId, String balloonContent, boolean openBalloonOnLoad) {
+		buffer.append(String.format("parent.addMarkerBalloon('%s', '%s', %b);\n", markerId, convertToHtml(balloonContent), openBalloonOnLoad));
 	}
 
 	/**
@@ -164,7 +161,7 @@ public class HtmlMapContentGenerator {
 	 * @param polyLine
 	 */
 	public void addMapDirection(double latitude, double longitude, String status, boolean polyLine) {
-		script.append("parent.addDirection({location:'" + latitude + ", " + longitude + "', status:'" + status
+		buffer.append("parent.addDirection({location:'" + latitude + ", " + longitude + "', status:'" + status
 				+ "', poly: " + polyLine + "});\n");
 	}
 
@@ -175,7 +172,7 @@ public class HtmlMapContentGenerator {
 	 * @param longitude
 	 */
 	public void panToLocation(double latitude, double longitude) {
-		script.append("parent.panToLocation(" + latitude + "," + longitude + ");\n");
+		buffer.append("parent.panToLocation(" + latitude + "," + longitude + ");\n");
 	}
 
 	/**
@@ -185,7 +182,7 @@ public class HtmlMapContentGenerator {
 	 * @param longitude
 	 */
 	public void setCenter(double latitude, double longitude) {
-		script.append("parent.setCenter(" + latitude + "," + longitude + ");\n");
+		buffer.append("parent.setCenter(" + latitude + "," + longitude + ");\n");
 	}
 
 	/**
@@ -194,7 +191,7 @@ public class HtmlMapContentGenerator {
 	 * @param zoom
 	 */
 	public void setZoom(int zoom) {
-		script.append("parent.setZoom(" + zoom + ");\n");
+		buffer.append("parent.setZoom(" + zoom + ");\n");
 	}
 
 	/**
@@ -204,7 +201,7 @@ public class HtmlMapContentGenerator {
 	 *            the identifier of the marker
 	 */
 	public void popupInfoWindow(String markerId) {
-		script.append("google.maps.event.trigger(parent.markers['" + markerId + "'], 'click');\n");
+		buffer.append("google.maps.event.trigger(parent.markers['" + markerId + "'], 'click');\n");
 	}
 
 	/**
@@ -229,7 +226,7 @@ public class HtmlMapContentGenerator {
 	 *            the input text
 	 * @return the HTML compatible output
 	 */
-	private static String convertToHtml(String text) {
+	protected static String convertToHtml(String text) {
 		if (text == null) {
 			return null;
 		}

@@ -7,13 +7,12 @@ import java.util.HashMap;
  * 
  * @author G.G. Meyer
  */
-public class HtmlPageGenerator {
+public class HtmlPageGenerator extends HtmlGenerator {
 
 	protected String title;
 	protected String css;
 	protected StringBuffer headerHtml;
 	protected StringBuffer onLoadScript;
-	protected StringBuffer bodyHtml;
 	protected StringBuffer finalScript;
 
 	/**
@@ -24,11 +23,11 @@ public class HtmlPageGenerator {
 	 * @param css the css file
 	 */
 	public HtmlPageGenerator(String title, String css) {
+		super();
 		this.title = title;
 		this.css = css;
 		this.headerHtml = new StringBuffer("\n");
 		this.onLoadScript = new StringBuffer("");
-		this.bodyHtml = new StringBuffer("\n");
 		this.finalScript = new StringBuffer("\n");
 	}
 
@@ -57,8 +56,8 @@ public class HtmlPageGenerator {
 	 * @param stuff the code to be added
 	 */
 	public void addToBodyHtml(String stuff) {
-		bodyHtml.append(stuff);
-		bodyHtml.append("\n");
+		buffer.append(stuff);
+		buffer.append("\n");
 	}
 
 	/**
@@ -76,8 +75,9 @@ public class HtmlPageGenerator {
 	 * 
 	 * @return the HTML code
 	 */
+	@Override
 	public StringBuffer createHtml() {
-		StringBuffer body = new StringBuffer(bodyHtml);
+		StringBuffer body = new StringBuffer(buffer);
 
 		HashMap<String, String> scriptAttr = new HashMap<String, String>();
 		scriptAttr.put("type", "text/javascript");
