@@ -1,13 +1,19 @@
-#summary One-sentence summary of this page.
+#summary an overview of related publications
 
-= Introduction =
+=Publications=
 
-Add your content here.
+==Intelligent Products for Monitoring and Control of Road-Based Logistics==
 
+Gerben G. Meyer, Gijs B. Roest, and Nick B. Szirbik.
 
-= Details =
+In _Proceedings of the 4th IEEE International Conference on Management and Service Science (MASS'10)_, Wuhan, China, 2010. 
 
-Add your content here.  Format your content with:
-  * Text in *bold* or _italic_
-  * Headings, paragraphs, and lists
-  * Automatic links to other wiki pages
+DOI: [http://dx.doi.org/10.1109/ICMSS.2010.5577852 10.1109/ICMSS.2010.5577852]
+
+PDF: [http://gerbenmeyer.nl/publications/meyer2010intelligent.pdf download]
+
+==Proof of the Intelligent Products concept in a logistics context==
+
+Paul Buijs, 2010.
+
+PDF: [http://agentlab.nl/paul/MScThesis_PaulBuijs_withCover.pdf download]
