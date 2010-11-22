@@ -5,7 +5,7 @@
 
 This is a quick guide on how to get your own SOS application up and running. It will refer to the Budapest demo application as an example, which does not include agent learningstatus.
 
-When creating a new project based on the SOSGeneric software, it is recommended to read the system overview page to get an idea of the most important classes and datastructures.
+When creating a new project based on the SOSGeneric software, it is recommended to read the SystemOverview page to get an idea of the most important classes and datastructures.
 
 To get your system ready, two seperate projects need to be build: an application specific server and an application specific data client.
 
