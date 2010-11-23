@@ -14,6 +14,8 @@ PDF: [http://gerbenmeyer.nl/publications/meyer2010intelligent.pdf download]
 
 ==Proof of the Intelligent Products concept in a logistics context==
 
-Paul Buijs, 2010.
+Paul Buijs.
+
+_MSc Thesis_, 2010.
 
 PDF: [http://agentlab.nl/paul/MScThesis_PaulBuijs_withCover.pdf download]
