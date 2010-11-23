@@ -253,4 +253,26 @@ public class AgentCollectionStorageMySQL extends AgentCollectionStorage {
 		}
 		return agents;
 	}
+
+	@Override
+	public boolean delete(String id) {
+		Statement stm = null;
+		try {
+			stm = conn.getConnection().createStatement();
+			String sql = "DELETE FROM `agents` WHERE id = '"+id+"';";
+			stm.executeUpdate(sql);
+		} catch (SQLException e) {
+			System.err.println("removal of agent "+id+" failed");
+			e.printStackTrace();
+			return false;
+		} finally {
+		    if (stm != null) {
+		        try {
+		        	stm.close();
+		        } catch (SQLException sqlEx) { }
+		        stm = null;
+		    }
+		}
+		return true;
+	}
 }

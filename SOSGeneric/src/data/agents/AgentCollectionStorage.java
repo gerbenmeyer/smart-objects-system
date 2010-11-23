@@ -93,4 +93,12 @@ public abstract class AgentCollectionStorage {
 	public static void setInstance(AgentCollectionStorage agentCollectionStorage) {
 		instance = agentCollectionStorage;
 	}
+
+	/**
+	 * Deletes an Agent from the storage.
+	 * 
+	 * @param id the identifier of the Agent to be deleted
+	 * @return success
+	 */
+	public abstract boolean delete(String id);
 }

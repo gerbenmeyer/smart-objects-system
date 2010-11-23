@@ -215,6 +215,7 @@ public class AgentStorageMySQL extends AgentStorage {
 		} catch (SQLException e) {
 			System.err.println("removal of agent "+id+" failed");
 			e.printStackTrace();
+			return false;
 		} finally {
 		    if (stm != null) {
 		        try {

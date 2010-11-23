@@ -118,4 +118,9 @@ public class AgentCollection implements AgentCollectionMutable {
 		}
 		return agents;
 	}
+
+	@Override
+	public boolean delete(Agent agent) {
+		return AgentCollectionStorage.getInstance().delete(agent.getID());
+	}
 }

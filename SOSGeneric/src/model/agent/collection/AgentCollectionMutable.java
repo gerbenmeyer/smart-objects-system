@@ -11,4 +11,11 @@ public interface AgentCollectionMutable extends AgentCollectionViewable {
 	 */
 	public void put(Agent agent);
 
+	/**
+	 * Deletes an agent from the collection.
+	 * 
+	 * @param agent the Agent to be removed from the collection
+	 */
+	public boolean delete(Agent agent);
+	
 }
