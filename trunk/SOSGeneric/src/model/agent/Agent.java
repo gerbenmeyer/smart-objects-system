@@ -356,6 +356,9 @@ public abstract class Agent implements AgentMutable {
 
 	public boolean delete() {
 		// lastWish();
+		if (AgentCollectionStorage.getInstance() != null) {
+			return AgentCollectionStorage.getInstance().delete(getID());
+		}
 		if (AgentStorage.getInstance() != null) {
 			return AgentStorage.getInstance().delete(getID());
 		}
