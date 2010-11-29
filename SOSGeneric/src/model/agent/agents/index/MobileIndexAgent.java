@@ -68,6 +68,6 @@ public class MobileIndexAgent extends IndexAgent {
 		}
 
 		// HtmlTool.outputHTML(Settings.HTML_DATA_DIR + "index.html", html);
-		return HtmlTool.createHTML(htmlPage.createHtml());		
+		return HtmlTool.createHTML(htmlPage.getHtml());		
 	}
 }

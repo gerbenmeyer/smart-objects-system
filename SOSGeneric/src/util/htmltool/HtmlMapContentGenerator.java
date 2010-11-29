@@ -144,12 +144,14 @@ public class HtmlMapContentGenerator extends HtmlGenerator{
 	/**
 	 * Adds a balloon to the code, and associates it with a an existing marker. 
 	 * 
-	 * @param markerId the identifier of the existing marker
-	 * @param balloonContent the HTML formatted content of the balloon
+	 * @param av the view of the agent
 	 * @param openBalloonOnLoad if the balloon should open on page load
 	 */
-	public void addMapBalloon(String markerId, String balloonContent, boolean openBalloonOnLoad) {
-		buffer.append(String.format("parent.addMarkerBalloon('%s', '%s', %b);\n", markerId, convertToHtml(balloonContent), openBalloonOnLoad));
+	public void addMapBalloon(AgentViewable av, boolean openBalloonOnLoad) {
+		HtmlMapBalloonContentGenerator balloonGen = new HtmlMapBalloonContentGenerator();
+		HashMap<String, String> params = new HashMap<String, String>();
+		av.generateMapBalloonContent(balloonGen, params);
+		buffer.append(String.format("parent.addMarkerBalloon('%s', '%s', %b);\n", av.getID(), convertToHtml(balloonGen.getHtml().toString()), openBalloonOnLoad));
 	}
 
 	/**

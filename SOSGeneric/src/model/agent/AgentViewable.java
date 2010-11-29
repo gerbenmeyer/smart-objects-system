@@ -7,6 +7,7 @@ import java.util.Vector;
 import util.enums.AgentStatus;
 import util.enums.PropertyType;
 import util.htmltool.HtmlDetailsPaneContentGenerator;
+import util.htmltool.HtmlMapBalloonContentGenerator;
 import util.htmltool.HtmlMapContentGenerator;
 
 /**
@@ -100,13 +101,13 @@ public interface AgentViewable {
 	 * @param params the request parameters
 	 */
 	public void generateMapContent(HtmlMapContentGenerator mapContent, HashMap<String,String> params);
-	
 	/**
-	 * Creates the content of a information balloon associated with a map marker,
+	 * Adds the content of a information balloon associated with a map marker,
 	 * to be shown on the map when the maker is clicked.
 	 * This method should be overridden by agents requiring their own custom balloon.
 	 * 
-	 * @return the HTML formatted content
+	 * @param balloonContent the generator
+	 * @param params the request parameters
 	 */
-	public String createMapBalloonContent();
+	public void generateMapBalloonContent(HtmlMapBalloonContentGenerator balloonContent, HashMap<String,String> params);
 }

@@ -16,6 +16,7 @@ import model.agent.property.properties.HistoryProperty;
 import util.enums.AgentStatus;
 import util.enums.PropertyType;
 import util.htmltool.HtmlDetailsPaneContentGenerator;
+import util.htmltool.HtmlMapBalloonContentGenerator;
 import util.htmltool.HtmlMapContentGenerator;
 import util.htmltool.HtmlTool;
 import util.xmltool.XMLTool;
@@ -171,17 +172,11 @@ public abstract class Agent implements AgentMutable {
 	public abstract void generateDetailsPaneContent(
 			HtmlDetailsPaneContentGenerator detailsPane,
 			HashMap<String, String> params);
-
-	public String createMapBalloonContent() {
-		String infoWindowContent = "";
-		if (Boolean.parseBoolean(Settings.getProperty(Settings.SHOW_AGENT_DETAILS))) {
-			HashMap<String, String> infoWindowContentAttriutes = new HashMap<String, String>();
-			infoWindowContentAttriutes.put("class", "infoWindowContent");
-			infoWindowContent += HtmlTool.createLink(getID()+".html", HtmlTool.createImage(getIcon(), getID())+getID(), "hidden_frame")
-				+ HtmlTool.createLink("?" + Settings.getProperty(Settings.KEYWORD_DEEPLINK) + "=" + getID(), HtmlTool.createImage("link.png", "deeplink to "+getID()))
-				+ HtmlTool.createDiv(get(Agent.DESCRIPTION), infoWindowContentAttriutes);
-		}
-		return infoWindowContent;
+	
+	public void generateMapBalloonContent(HtmlMapBalloonContentGenerator balloonContent, HashMap<String,String> params) {
+		balloonContent.addLinkToAgent(this);
+		balloonContent.addDeepLinkToAgent(this);
+		balloonContent.addContentDiv(get(Agent.DESCRIPTION));
 	}
 	
 	/**

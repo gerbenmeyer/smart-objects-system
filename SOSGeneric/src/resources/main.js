@@ -64,7 +64,8 @@ function createMap() {
 		navigationControlOptions : {
 			position : google.maps.ControlPosition.BOTTOM_LEFT,
 			style : google.maps.NavigationControlStyle.SMALL
-		}
+		},
+		streetViewControl : false
 	};
 	map_ = new google.maps.Map(document.getElementById('map_canvas'), myOptions);
 	clusterer = new MarkerClusterer(map_, null, {
