@@ -15,11 +15,11 @@ The server manages the storage of each agent and generates a HTML interface to t
 
 ===Step 1: create an application specific Agent===
 
-Create a new class which extends the Agent class from the SOSGeneric project. Implement the required methods and create a constructor which calls super with the id of the agent being constructed. The act and lastWish methods don't need to contain any functional code if your application doesn't include learning. The two generate methods handle the building of the response to the user, by building a map and content in the details pane in the web interface. You can override the createMapBalloonContent method to create your own custom balloon for the marker on the map. Have a look at BudapestObjectAgent.java for further details.
+Create a new class which extends the Agent class from the SOSGeneric project. Implement the required methods and create a constructor which calls super with the id of the agent being constructed. The act and lastWish methods don't need to contain any functional code if your application doesn't include learning. The three generate methods handle the building of the response to the user, by building a map and content in the details pane in the web interface. The generateMapBalloonContent method may be overridden to create your own custom balloon for a map marker. Have a look at BudapestObjectAgent.java for further details.
 
-===Step 2: create a home Agent===
+===Step 2: create a home Agent (optional)===
 
-SOS uses an agent to generate the home page of its interface (to be compared with an index.html). This is an agent with "home" as special id. This agent should be hidden from inclusion in the interface by giving it a BooleanProperty with the Agent.Hidden static as name and its value set to "true". See the BudapestHomeAgent.java file.
+SOS can use a default agent to generate the home page of its interface (to be compared with an index.html). This is an agent a special id, which can be set in the settings file (see step 5). This can be any agent already present in the system. The agent should be hidden from inclusion in the interface by giving it a BooleanProperty with the Agent.HIDDEN static as name and its value set to "true". See the BudapestHomeAgent.java file.
 
 ===Step 3: create a application specific AgentFactory===
 
@@ -39,7 +39,7 @@ A configuration file is used by SOS to read some project specific settings. All 
 
 ===Step 6: add resources===
 
-As can be seen in the configuration file, there is a directory which holds all external resources for the web interface. This includes image files but also for example JavaScript files. Each type of agent (covered in the client part) requires 3 image files: {type}.png (used on the map), {type}_icon.png (used in the map balloon) and {type}_icon_menu.png (used in the menu). Also, a favicon.ico may be added, as well as an icon for the "all" menu item and an application icon (as set in the configuration file).
+As can be seen in the configuration file, there is a directory which holds all external resources for the web interface. This includes mainly image files but could also be JavaScript files. Each type of agent (covered in the client part) requires 3 image files: {type}.png (used on the map), {type}_icon.png (used in the map balloon) and {type}_icon_menu.png (used in the menu). Also, a favicon.ico may be added, as well as an icon for the "all" menu item and an application icon (as set in the configuration file).
 
 ===Step 7: create a database===
 
