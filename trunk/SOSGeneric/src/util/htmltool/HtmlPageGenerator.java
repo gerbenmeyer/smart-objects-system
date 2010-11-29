@@ -76,7 +76,7 @@ public class HtmlPageGenerator extends HtmlGenerator {
 	 * @return the HTML code
 	 */
 	@Override
-	public StringBuffer createHtml() {
+	public StringBuffer getHtml() {
 		StringBuffer body = new StringBuffer(buffer);
 
 		HashMap<String, String> scriptAttr = new HashMap<String, String>();

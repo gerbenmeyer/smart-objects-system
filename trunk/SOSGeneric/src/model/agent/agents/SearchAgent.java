@@ -12,6 +12,7 @@ import util.Capitalize;
 import util.db.MySQLConnection;
 import util.enums.PropertyType;
 import util.htmltool.HtmlDetailsPaneContentGenerator;
+import util.htmltool.HtmlMapBalloonContentGenerator;
 import util.htmltool.HtmlMapContentGenerator;
 import util.htmltool.HtmlTool;
 
@@ -85,6 +86,11 @@ public class SearchAgent extends Agent {
 		bm.stop();
 		;
 	}
+	
+	@Override
+	public void generateMapBalloonContent(HtmlMapBalloonContentGenerator balloonContent, HashMap<String,String> params) {
+		
+	}
 
 	@Override
 	public void generateMapContent(HtmlMapContentGenerator mapContent, HashMap<String, String> params) {
@@ -106,7 +112,7 @@ public class SearchAgent extends Agent {
 		for (int i = 0; i < Math.min(agents.size(), 5000); i++) {
 			AgentViewable av = agents.get(i);
 			mapContent.addMapMarker(av, 32);
-			mapContent.addMapBalloon(av.getID(), av.createMapBalloonContent(), false);
+			mapContent.addMapBalloon(av, false);
 		}
 		
 		bm.taskFinished("Iterating agents ("+MySQLConnection.getInstance().getCounter()+" queries)" );

@@ -210,7 +210,7 @@ public class HTTPListener implements HttpHandler {
 				} else if (details) {
 					HtmlDetailsPaneContentGenerator detailsPane = new HtmlDetailsPaneContentGenerator();
 					av.generateDetailsPaneContent(detailsPane, params);
-					html = detailsPane.createHtml();
+					html = detailsPane.getHtml();
 				} else {
 					HtmlMapContentGenerator mapContent = new HtmlMapContentGenerator(agentCode);
 
@@ -238,7 +238,6 @@ public class HTTPListener implements HttpHandler {
 					}
 
 					av.generateMapContent(mapContent, params);
-
 					html = mapContent.createHtml();
 				}
 				bytes = html.toString().getBytes();
