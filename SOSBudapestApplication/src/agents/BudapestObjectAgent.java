@@ -2,14 +2,12 @@ package agents;
 
 import java.util.HashMap;
 
-import main.Settings;
 import model.agent.Agent;
 import model.agent.AgentViewable;
 import model.agent.collection.AgentCollection;
 import model.agent.property.properties.LocationProperty;
 import util.htmltool.HtmlDetailsPaneContentGenerator;
 import util.htmltool.HtmlMapContentGenerator;
-import util.htmltool.HtmlTool;
 
 /**
  * 
@@ -65,18 +63,5 @@ public class BudapestObjectAgent extends Agent {
 		AgentViewable av = AgentCollection.getInstance().get("search");
 		params.put("q", "type:" + get(Agent.TYPE));
 		av.generateDetailsPaneContent(detailsPane, params);
-	}
-
-	@Override
-	public String createMapBalloonContent() {
-		String infoWindowContent = "";
-		if (Boolean.parseBoolean(Settings.getProperty(Settings.SHOW_AGENT_DETAILS))) {
-			HashMap<String, String> infoWindowContentAttriutes = new HashMap<String, String>();
-			infoWindowContentAttriutes.put("class", "infoWindowContent");
-			infoWindowContent += HtmlTool.createLink(getID()+".html", HtmlTool.createImage(getIcon(), getID())+get(Agent.LABEL), "hidden_frame")
-				+ HtmlTool.createLink("?" + Settings.getProperty(Settings.KEYWORD_DEEPLINK) + "=" + getID(), HtmlTool.createImage("link.png", "deeplink to "+getID()))
-				+ HtmlTool.createDiv(get(Agent.DESCRIPTION), infoWindowContentAttriutes);
-		}
-		return infoWindowContent;
 	}
 }
