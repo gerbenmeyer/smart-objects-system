@@ -24,7 +24,6 @@ public class Settings {
 	public final static String HTML_DATA_DIR = "html_data_dir";
 
 	public final static String XML_PORT = "xml_port";
-	public final static String XML_SERVER_ADDRESS = "xml_server_address";
 	public final static String XML_SERVER_PASSWORD = "xml_server_password";
 	public final static String HTTP_PORT = "http_port";
 	public final static String GOOGLE_MAPS_V2_API_KEY = "google_maps_v2_api_key";
