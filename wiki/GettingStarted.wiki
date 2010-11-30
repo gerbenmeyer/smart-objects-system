@@ -35,7 +35,7 @@ The constructor should call "super" with settings, an instance of the at step 3 
 
 ===Step 5: create a configuration file===
 
-A configuration file is used by SOS to read some project specific settings. All values from the config.ini file in the SOSBudapestApplication are used, so don't forget to set them properly.
+A configuration file is used by SOS to read some project specific settings. All values from the config.ini file in the SOSBudapestApplication are used, so don't forget to set them properly. For a detailed description of each setting, visit the SettingsOverview wiki page.
 
 ===Step 6: add resources===
 
