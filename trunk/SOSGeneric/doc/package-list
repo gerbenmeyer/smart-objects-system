@@ -1,4 +1,6 @@
 data.agents
+data.classification
+data.locations
 main
 model.agent
 model.agent.agents

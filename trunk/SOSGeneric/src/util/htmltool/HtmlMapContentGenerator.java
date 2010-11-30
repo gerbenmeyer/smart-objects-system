@@ -97,8 +97,6 @@ public class HtmlMapContentGenerator extends HtmlGenerator{
 	 * @param iconsize
 	 * @param zIndex
 	 * @param showLabel
-	 * @param infoWindowContent the details showed in the info window of the marker. Must be formatted as HTML.
-	 * @param openInfoWindowOnLoad
 	 * @param id the identifier of the marker
 	 */
 	public void addMapMarker(double latitude, double longitude, String title, String mapicon,
