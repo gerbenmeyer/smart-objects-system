@@ -1,0 +1,109 @@
+#summary an overview of all settings available for the config file
+#labels Phase-Implementation
+
+= Settings =
+
+This page gives an overview of the different settings available in the configuration file of a server application with an explanation how to use them.
+
+== Application ==
+These settings are mainly used to display information in the header of the interface.
+
+*_application_name_* = (string)
+
+The name of the application.
+
+*_application_name_abbreviation_* = (string)
+
+The abbreviation of the application name.
+
+*_application_version_* = (string)
+
+The version of the application
+
+*_application_icon_* = (string)
+
+The icon of the application, placed in the directory set at the following _html_data_dir_ setting.
+
+== Directories ==
+*_html_data_dir_* = (string)
+
+The directory where resources for the HTML interface can be found, like images and icons. May be relative or absolute.
+
+== Server settings ==
+*_xml_port_* = (int)
+
+The port at which the server should listen for client connections, which use XML to exchange information.
+
+*_xml_server_password_* = (string)
+
+The password to be provided by a client to establish a connection.
+
+*_http_port_* = (int)
+
+The port at which the server should listen for HTTP connections, which is used as the user interface.
+
+*_http_server_address_* = (string)
+
+The address of the server, used when creating external links.
+
+*_google_maps_v2_api_key_* = (string)
+
+SOS uses the Google Maps v3 API by default to look up addresses. When this becomes unavailable for some reason (time-out, or limit of requests reached), it falls back to the v2 API, which requires an access key.
+
+*_pause_agent_execution_when_putting_agents_* = (boolean)
+
+If set to true, agents will be paused from execution when agents are added or modified.
+
+*_agent_problem_detection_enabled_* = (boolean)
+
+Set to true to enable problem detection.
+
+*_agent_problem_learning_enabled_* = (boolean)
+
+Set to true to enable agent learning.
+
+== Database setup ==
+*_database_host_* = (string)
+
+The host name of database server.
+
+*_database_user_* = (string)
+
+The database user name.
+
+*_database_password_* = (string)
+
+The database password associated with the database user name.
+
+*_database_name_* = (string)
+
+The name of the database.
+
+== HTML interface ==
+*_show_all_objects_* = (boolean)
+
+Set to true if the 'all' menu item should be shown.
+
+*_show_overview_lists_* = (boolean)
+
+Set to true if the details pane should list overviews.
+
+*_show_agent_details_* = (boolean)
+
+Set to true if the details pane should display agent details.
+
+*_show_agent_details_small_* = (boolean)
+
+Set to true if the details pane should be smaller than default.
+
+*_default_script_* = (string)
+
+The default script/page to load.
+
+*_default_clustering_* = (boolean)
+
+Set to true to enable clustering of map markers by default.
+
+*_keyword_deeplink_* = (string)
+
+The keyword used to create a deep link to agents.
