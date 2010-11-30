@@ -4,6 +4,7 @@
 = Settings =
 
 This page gives an overview of the different settings available in the configuration file of a server application with an explanation how to use them.
+Most of the settings described here have a static string in the [http://smart-objects-system.googlecode.com/svn/trunk/SOSGeneric/doc/main/Settings.html Settings] class, so they can be referred to easily.
 
 == Application ==
 These settings are mainly used to display information in the header of the interface.
