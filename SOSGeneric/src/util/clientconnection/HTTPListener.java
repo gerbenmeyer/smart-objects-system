@@ -212,27 +212,15 @@ public class HTTPListener implements HttpHandler {
 					html = detailsPane.getHtml();
 				} else {
 					HtmlMapContentGenerator mapContent = new HtmlMapContentGenerator(agentCode);
-
-					boolean detailsSmall = true;
-					boolean showSidePane = true;
 					
-					if (av.needsDetailsPane()) {
-						detailsSmall = Settings.getProperty(Settings.SHOW_AGENT_DETAILS_SMALL).equals(Boolean.toString(true));
-					} else {
-						showSidePane = false;
-					}
-				
-					if (av.getID().equals("search")) {
-						if (Settings.getProperty(Settings.SHOW_OVERVIEW_LISTS).equals("true")) {
-							detailsSmall = true;
-						} else {
-							showSidePane = false;
-						}
+					boolean showSidePane = av.needsDetailsPane();
+					
+					if (showSidePane && av.getID().equals("search")) {
+						showSidePane = Settings.getProperty(Settings.SHOW_OVERVIEW_LISTS).equals("true");
 					}
 						
 					if (showSidePane){
 						mapContent.addCustomScript("parent.document.getElementById('details_canvas').innerHTML = 'Loading ...';\n");
-						mapContent.addCustomScript("parent.setDetailsSize("	+ detailsSmall + ");\n");
 						mapContent.addCustomScript("parent.loadDetails('" + agentCode + "_details.html"
 								+ (!paramString.isEmpty() ? "?" + paramString : "") + "');\n");
 					}

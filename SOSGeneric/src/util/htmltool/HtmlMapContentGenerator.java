@@ -7,8 +7,6 @@ import model.agent.AgentViewable;
 import model.agent.property.properties.LocationProperty;
 import util.enums.AgentStatus;
 
-import com.tecnick.htmlutils.htmlentities.HTMLEntities;
-
 /**
  * HtmlMapContentGenerator provides methods for building a map using Goolge
  * maps.
@@ -101,7 +99,7 @@ public class HtmlMapContentGenerator extends HtmlGenerator{
 	 */
 	public void addMapMarker(double latitude, double longitude, String title, String mapicon,
 			int iconsize, int zIndex, boolean showLabel, String id) {
-		title = convertToHtml(title);
+		title = escapeForJS(title);
 		buffer.append("parent.addMarker(" + latitude + "," + longitude + ",'" + title + "','" + mapicon + "',"
 				+ iconsize + "," + zIndex + ", " + showLabel + ",'" + id + "');\n");
 	}
@@ -149,7 +147,7 @@ public class HtmlMapContentGenerator extends HtmlGenerator{
 		HtmlMapBalloonContentGenerator balloonGen = new HtmlMapBalloonContentGenerator();
 		HashMap<String, String> params = new HashMap<String, String>();
 		av.generateMapBalloonContent(balloonGen, params);
-		buffer.append(String.format("parent.addMarkerBalloon('%s', '%s', %b);\n", av.getID(), convertToHtml(balloonGen.getHtml().toString()), openBalloonOnLoad));
+		buffer.append(String.format("parent.addMarkerBalloon('%s', '%s', %b);\n", av.getID(), balloonGen.getHtml().toString().replaceAll("\n", " ").replaceAll("'", "\\\\'"), openBalloonOnLoad));
 	}
 
 	/**
@@ -219,21 +217,16 @@ public class HtmlMapContentGenerator extends HtmlGenerator{
 	}
 
 	/**
-	 * Converts text to HTML and javascript compatible text, inserting HTML
-	 * entities where necessary.
+	 * Converts text JavaScript compatible text
 	 * 
 	 * @param text
 	 *            the input text
-	 * @return the HTML compatible output
+	 * @return the JavaScript compatible output
 	 */
-	protected static String convertToHtml(String text) {
+	protected static String escapeForJS(String text) {
 		if (text == null) {
 			return null;
 		}
-		text = text.replaceAll("\n", " ");
-		text = HTMLEntities.htmlentities(text);
-		text = text.replace("\\", "\\\\");
-		text = text.replace("'", "\\'");
-		return text;
+		return text.replace("\\", "\\\\").replace("'", "\\'");
 	}
 }

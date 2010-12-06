@@ -12,7 +12,6 @@ import util.Capitalize;
 import util.db.MySQLConnection;
 import util.enums.PropertyType;
 import util.htmltool.HtmlDetailsPaneContentGenerator;
-import util.htmltool.HtmlMapBalloonContentGenerator;
 import util.htmltool.HtmlMapContentGenerator;
 import util.htmltool.HtmlTool;
 
@@ -77,21 +76,21 @@ public class SearchAgent extends Agent {
 				Boolean.toString(true));
 
 		bm.taskFinished("Fetching agents ("+MySQLConnection.getInstance().getCounter()+" queries)" );
+		boolean smallDetailsPane = Settings.getProperty(Settings.SHOW_SMALL_DETAILS_PANE).equals("true");
 		for (AgentViewable av : agents) {
 			String statusIcon = showStatus ? av.getStatus().toString().toLowerCase() + ".png" : "";
-			detailsPane.addDataRowLink(av.getIcon(), av.get(Agent.LABEL), statusIcon, av.getID()
+			if (smallDetailsPane){
+				detailsPane.addDataRowLink(av.getIcon(), av.get(Agent.LABEL), statusIcon, av.getID()
 					+ ".html");
+			} else {
+				detailsPane.addDataRowLink(av.getIcon(), av.get(Agent.LABEL), av.get(Agent.DESCRIPTION), 
+					statusIcon, av.getID() + ".html");
+			}
 		}
 		bm.taskFinished("Iterating agents ("+MySQLConnection.getInstance().getCounter()+" queries)" );
 		bm.stop();
-		;
 	}
 	
-	@Override
-	public void generateMapBalloonContent(HtmlMapBalloonContentGenerator balloonContent, HashMap<String,String> params) {
-		
-	}
-
 	@Override
 	public void generateMapContent(HtmlMapContentGenerator mapContent, HashMap<String, String> params) {
 		BenchMarker bm = new BenchMarker("SearchAgent MapContent", false);
