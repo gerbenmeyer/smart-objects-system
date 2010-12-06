@@ -4,7 +4,7 @@
 	<classpathentry kind="con" path="org.eclipse.jdt.launching.JRE_CONTAINER/org.eclipse.jdt.internal.debug.ui.launcher.StandardVMType/JavaSE-1.6"/>
 	<classpathentry kind="lib" path="/SOSLibraries/htmlentities.jar"/>
 	<classpathentry kind="lib" path="/SOSLibraries/mysql-connector-java-5.1.13-bin.jar"/>
-	<classpathentry kind="lib" path="/SOSLibraries/sos_generic.jar"/>
 	<classpathentry kind="lib" path="/SOSLibraries/weka.jar"/>
+	<classpathentry combineaccessrules="false" kind="src" path="/SOSGeneric"/>
 	<classpathentry kind="output" path="bin"/>
 </classpath>
