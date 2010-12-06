@@ -41,20 +41,23 @@ img {
 }
 
 p {
-	margin: 10px;
+	display: block;
+	padding: 0px;	
+	margin: 8px 0px;
 }
 
 h2{
 	display: block;
-	margin: 0px auto;
-	padding: 5px;
-	margin: 5px;
+	padding: 0px;
+	margin: 8px 0px;
 	color: #375285;
 	font-size: 14px;
 }
 
 h3{
-	margin: 8px 10px;
+	display: block;
+	padding: 0px;
+	margin: 8px 0px;
 	color: #375285;
 	font-size: 13px;
 }
@@ -125,8 +128,10 @@ a {
      border: 1px solid black;
 }
 
-div.infoWindowContent {
-	margin: 5px 0;
+div.contentDiv {
+	display: block;
+	padding: 0px;	
+	margin: 8px 0px;
 }
 
 div.block{

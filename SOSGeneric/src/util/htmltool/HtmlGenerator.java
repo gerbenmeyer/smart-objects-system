@@ -1,5 +1,7 @@
 package util.htmltool;
 
+import java.util.HashMap;
+
 import main.Settings;
 import model.agent.Agent;
 import model.agent.AgentViewable;
@@ -54,15 +56,39 @@ public class HtmlGenerator {
 	}
 	
 	/**
-	 * Creates a link to an agent.
+	 * Adds an image to the content.
+	 * 
+	 * @param image
+	 * @param text
+	 */
+	public void addImage(String image, String text){
+		addDiv(HtmlTool.createImage(image, text));
+	}
+	
+	/**
+	 * Adds a floating image to the right side of the content.
+	 * 
+	 * @param image
+	 * @param text
+	 */
+	public void addImageRight(String image, String text){
+		buffer.append(HtmlTool.createImageRight(image, text));
+	}
+	
+	/**
+	 * Creates a header with link the agent icon and label.
 	 * 
 	 * @param av the agent view
 	 */
-	public void addLinkToAgent(AgentViewable av) {
+	public void addAgentHeaderLink(AgentViewable av) {
 		String id = av.getID();
-		buffer.append(HtmlTool.createLink(id+".html", HtmlTool.createImage(av.getIcon(), id)+av.get(Agent.LABEL), "hidden_frame"));
+		if (av.needsDetailsPane()){
+			addHeader(HtmlTool.createLink(id+".html", HtmlTool.createImage(av.getIcon(), id)+av.get(Agent.LABEL), "hidden_frame"));
+		} else {
+			addHeader(HtmlTool.createImage(av.getIcon(), id)+av.get(Agent.LABEL));
+		}
 	}
-	
+
 	/**
 	 * Creates a deeplink to an agent.
 	 * 
@@ -71,6 +97,18 @@ public class HtmlGenerator {
 	public void addDeepLinkToAgent(AgentViewable av) {
 		String id = av.getID();
 		buffer.append(HtmlTool.createLink("?" + Settings.getProperty(Settings.KEYWORD_DEEPLINK) + "=" + id, HtmlTool.createImage("link.png", "deeplink to "+id)));
+	}
+	
+	/**
+	 * Adds a content div.
+	 * 
+	 * @param text the text to be wrapped in the div
+	 */
+	public void addDiv(String text) {
+		text = convertToHtml(text);
+		HashMap<String, String> attr = new HashMap<String, String>();
+		attr.put("class", "contentDiv");
+		buffer.append(HtmlTool.createDiv(text, attr));
 	}
 
 	/**

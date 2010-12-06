@@ -1,5 +1,6 @@
 package model.agent.property.properties;
 
+import model.agent.AgentViewable;
 import model.agent.property.Property;
 import util.enums.PropertyType;
 
@@ -111,8 +112,8 @@ public class TimeWindowProperty extends Property {
 	}
 
 	@Override
-	public String getArffData() {
-		return endTime.getArffData();
+	public String getArffData(AgentViewable av) {
+		return endTime.getArffData(av);
 	}
 
 	@Override

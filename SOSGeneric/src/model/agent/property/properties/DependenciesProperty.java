@@ -209,7 +209,7 @@ public class DependenciesProperty extends Property {
 	}
 
 	@Override
-	public String getArffData() {
+	public String getArffData(AgentViewable av) {
 		if (!usableForTraining.getValue()) {
 			return null;
 		}

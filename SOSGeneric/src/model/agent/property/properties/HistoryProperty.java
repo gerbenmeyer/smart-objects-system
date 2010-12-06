@@ -2,6 +2,7 @@ package model.agent.property.properties;
 
 import java.util.Vector;
 
+import model.agent.AgentViewable;
 import model.agent.property.Property;
 import util.enums.PropertyType;
 
@@ -56,7 +57,7 @@ public class HistoryProperty extends Property {
 	}
 
 	@Override
-	public String getArffData() {
+	public String getArffData(AgentViewable av) {
 		// TODO Auto-generated method stub
 		return null;
 	}

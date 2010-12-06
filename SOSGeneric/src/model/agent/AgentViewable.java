@@ -23,6 +23,10 @@ public interface AgentViewable {
 	 */
 	public PropertyType getPropertyType(String name);
 	/**
+	 * @return the needsDetailsPane
+	 */
+	public boolean needsDetailsPane();
+	/**
 	 * @return the identifier
 	 */
 	public String getID();

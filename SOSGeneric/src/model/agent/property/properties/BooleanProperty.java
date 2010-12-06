@@ -1,5 +1,6 @@
 package model.agent.property.properties;
 
+import model.agent.AgentViewable;
 import model.agent.property.Property;
 import util.enums.PropertyType;
 
@@ -76,7 +77,7 @@ public class BooleanProperty extends Property {
 	}
 
 	@Override
-	public String getArffData() {
+	public String getArffData(AgentViewable av) {
 		return Boolean.toString(getValue());
 	}
 }

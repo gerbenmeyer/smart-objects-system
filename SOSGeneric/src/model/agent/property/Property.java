@@ -29,7 +29,6 @@ public abstract class Property {
 
 	private PropertyType propertyType = PropertyType.UNKNOWN;
 	private String name;
-	private AgentViewable agentView;
 	private boolean hidden = false;
 
 	/**
@@ -42,24 +41,6 @@ public abstract class Property {
 		super();
 		this.name = name;
 		this.propertyType = propertyType;
-	}
-
-	/**
-	 * Gets the AgentViewable of the agent to which this property belongs to.
-	 * 
-	 * @return the AgentViewable
-	 */
-	public AgentViewable getAgentView() {
-		return agentView;
-	}
-
-	/**
-	 * Sets the AgentViewable for this property.
-	 * 
-	 * @param av the AgentViewable to be set
-	 */
-	public void setAgentView(AgentViewable av) {
-		this.agentView = av;
 	}
 
 	/**
@@ -127,7 +108,7 @@ public abstract class Property {
 	 * 
 	 * @return the Arff data
 	 */
-	public abstract String getArffData();
+	public abstract String getArffData(AgentViewable av);
 
 	/**
 	 * Get the XML representation of this Property.

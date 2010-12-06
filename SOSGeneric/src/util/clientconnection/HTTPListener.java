@@ -12,7 +12,6 @@ import java.net.URLEncoder;
 import java.util.HashMap;
 
 import main.Settings;
-import model.agent.Agent;
 import model.agent.AgentViewable;
 import model.agent.agents.IndexAgent;
 import model.agent.collection.AgentCollectionViewable;
@@ -214,27 +213,28 @@ public class HTTPListener implements HttpHandler {
 				} else {
 					HtmlMapContentGenerator mapContent = new HtmlMapContentGenerator(agentCode);
 
-					// TODO: Use other property then hidden for this!
-					if (Boolean.parseBoolean(av.get(Agent.HIDDEN))) {
-						if (Settings.getProperty(Settings.SHOW_OVERVIEW_LISTS).equals("true")) {
-							mapContent.addCustomScript("parent.document.getElementById('details_canvas').innerHTML = 'Loading ...';\n");
-							mapContent.addCustomScript("parent.setDetailsSize(true);\n");
-							mapContent.addCustomScript("parent.loadDetails('" + agentCode + "_details.html"
-									+ (!paramString.isEmpty() ? "?" + paramString : "") + "');\n");
-						} else {
-							mapContent.addCustomScript("parent.setDetailsVisible(false);\n");
-						}
+					boolean detailsSmall = true;
+					boolean showSidePane = true;
+					
+					if (av.needsDetailsPane()) {
+						detailsSmall = Settings.getProperty(Settings.SHOW_AGENT_DETAILS_SMALL).equals(Boolean.toString(true));
 					} else {
-						if (Settings.getProperty(Settings.SHOW_AGENT_DETAILS).equals("true")) {
-							mapContent.addCustomScript("parent.document.getElementById('details_canvas').innerHTML = 'Loading ...';\n");
-							mapContent.addCustomScript("parent.setDetailsSize("
-									+ Settings.getProperty(Settings.SHOW_AGENT_DETAILS_SMALL).equals(
-											Boolean.toString(true)) + ");\n");
-							mapContent.addCustomScript("parent.loadDetails('" + agentCode + "_details.html"
-									+ (!paramString.isEmpty() ? "?" + paramString : "") + "');\n");
+						showSidePane = false;
+					}
+				
+					if (av.getID().equals("search")) {
+						if (Settings.getProperty(Settings.SHOW_OVERVIEW_LISTS).equals("true")) {
+							detailsSmall = true;
 						} else {
-							mapContent.addCustomScript("parent.setDetailsVisible(false);\n");
+							showSidePane = false;
 						}
+					}
+						
+					if (showSidePane){
+						mapContent.addCustomScript("parent.document.getElementById('details_canvas').innerHTML = 'Loading ...';\n");
+						mapContent.addCustomScript("parent.setDetailsSize("	+ detailsSmall + ");\n");
+						mapContent.addCustomScript("parent.loadDetails('" + agentCode + "_details.html"
+								+ (!paramString.isEmpty() ? "?" + paramString : "") + "');\n");
 					}
 
 					av.generateMapContent(mapContent, params);

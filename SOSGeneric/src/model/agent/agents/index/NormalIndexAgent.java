@@ -44,7 +44,7 @@ public class NormalIndexAgent extends IndexAgent {
 		HtmlMapPageGenerator htmlPage = new HtmlMapPageGenerator(Settings.getProperty(Settings.APPLICATION_NAME),
 				"main.css");
 
-		String header = HtmlTool.createImageLeft(Settings.getProperty(Settings.APPLICATION_ICON), "logo", 32);
+		String header = HtmlTool.createImageLeft(Settings.getProperty(Settings.APPLICATION_ICON), "logo");
 		header += HtmlTool.createHeader1(HtmlTool.createLink(Settings.getProperty(Settings.DEFAULT_SCRIPT), Settings.getProperty(Settings.APPLICATION_NAME), "hidden_frame"));
 		header += HtmlTool.createHeader2(Settings.getProperty(Settings.APPLICATION_VERSION));
 

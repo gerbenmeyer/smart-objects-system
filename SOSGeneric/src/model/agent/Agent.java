@@ -46,6 +46,8 @@ public abstract class Agent implements AgentMutable {
 
 	private String id;
 	
+	private boolean needsDetailsPane = true;
+	
 	/**
 	 * Constructs a new Agent object.
 	 * 
@@ -62,6 +64,16 @@ public abstract class Agent implements AgentMutable {
 		}
 	}
 	
+	public boolean needsDetailsPane() {
+		return needsDetailsPane;
+	}
+
+	/**
+	 * @param needsDetailsPane the needsDetailsPane to set
+	 */
+	public void setNeedsDetailsPane(boolean needsDetailsPane) {
+		this.needsDetailsPane = needsDetailsPane;
+	}
 
 	public void setReadBuffer(Map<String, Property> properties){
 		readBuffer.putAll(properties);
@@ -166,17 +178,19 @@ public abstract class Agent implements AgentMutable {
 		return get(Agent.TYPE).toLowerCase() + ".png";
 	}
 
-	public abstract void generateMapContent(HtmlMapContentGenerator mapContent,
-			HashMap<String, String> params);
+	public void generateMapContent(HtmlMapContentGenerator mapContent,
+			HashMap<String, String> params){
+	}
 
-	public abstract void generateDetailsPaneContent(
+	public void generateDetailsPaneContent(
 			HtmlDetailsPaneContentGenerator detailsPane,
-			HashMap<String, String> params);
+			HashMap<String, String> params){
+	}
 	
 	public void generateMapBalloonContent(HtmlMapBalloonContentGenerator balloonContent, HashMap<String,String> params) {
-		balloonContent.addLinkToAgent(this);
+		balloonContent.addAgentHeaderLink(this);
 		balloonContent.addDeepLinkToAgent(this);
-		balloonContent.addContentDiv(get(Agent.DESCRIPTION));
+		balloonContent.addParagraph(get(Agent.DESCRIPTION));
 	}
 	
 	/**
@@ -261,9 +275,6 @@ public abstract class Agent implements AgentMutable {
 		if (p == null && AgentStorage.getInstance() != null) {
 			p = AgentStorage.getInstance().getProperty(getID(), name);
 		}
-		if (p != null){
-			p.setAgentView(this);
-		}
 		return p;
 	}
 
@@ -276,7 +287,6 @@ public abstract class Agent implements AgentMutable {
 			for (String key : dbProperties.keySet()) {
 				if (!properties.containsKey(key)) {
 					Property newP = dbProperties.get(key);
-					newP.setAgentView(this);
 					properties.put(key, newP);
 				}
 			}
@@ -300,7 +310,6 @@ public abstract class Agent implements AgentMutable {
 	}
 
 	public void putProperty(Property p) {
-		p.setAgentView(this);
 		boolean oldExist = getProperty(p.getName()) != null;
 		String oldValue = get(p.getName());
 		String newValue = p.toString();
@@ -329,7 +338,6 @@ public abstract class Agent implements AgentMutable {
 	}
 
 	public void removeProperty(String name) {
-		// FIXME remove from both, or either one?
 		writeBuffer.remove(name);
 		if (AgentStorage.getInstance() != null) {
 			AgentStorage.getInstance().removeProperty(getID(), name);
@@ -397,7 +405,7 @@ public abstract class Agent implements AgentMutable {
 				if (!instance.isEmpty()) {
 					instance += ",";
 				}
-				instance += p.getArffData();
+				instance += p.getArffData(this);
 			}
 		}
 		return instance;
