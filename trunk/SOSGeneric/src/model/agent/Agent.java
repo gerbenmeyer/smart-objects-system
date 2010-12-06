@@ -189,7 +189,6 @@ public abstract class Agent implements AgentMutable {
 	
 	public void generateMapBalloonContent(HtmlMapBalloonContentGenerator balloonContent, HashMap<String,String> params) {
 		balloonContent.addAgentHeaderLink(this);
-		balloonContent.addDeepLinkToAgent(this);
 		balloonContent.addParagraph(get(Agent.DESCRIPTION));
 	}
 	

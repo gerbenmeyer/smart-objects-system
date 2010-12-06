@@ -12,7 +12,6 @@ import util.comparators.AgentTypeComparator;
 import util.enums.AgentStatus;
 import util.enums.PropertyType;
 import util.htmltool.HtmlDetailsPaneContentGenerator;
-import util.htmltool.HtmlMapContentGenerator;
 import util.htmltool.HtmlTool;
 
 /**
@@ -109,10 +108,6 @@ public class MenuAgent extends Agent {
 		menu += "</div>";
 
 		detailsPane.addCustomHtml(menu);
-	}
-
-	@Override
-	public void generateMapContent(HtmlMapContentGenerator mapContent, HashMap<String, String> params) {
 	}
 
 	@Override

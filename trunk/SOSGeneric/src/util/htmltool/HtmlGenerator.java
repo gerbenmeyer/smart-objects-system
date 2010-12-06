@@ -13,7 +13,7 @@ public class HtmlGenerator {
 	protected StringBuffer buffer;
 	
 	public HtmlGenerator() {
-		this.buffer = new StringBuffer("\n");
+		this.buffer = new StringBuffer();
 	}
 
 	/**
@@ -140,8 +140,7 @@ public class HtmlGenerator {
 		if (text == null){
 			return null;
 		}
-		text = text.replaceAll("\n", " ");
-		text = HTMLEntities.htmlentities(text);
-		return text;
+		return HTMLEntities.htmlentities(text.replaceAll("\n", " "));
 	}
+	
 }

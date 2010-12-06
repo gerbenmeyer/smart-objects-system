@@ -75,9 +75,7 @@ public class NormalIndexAgent extends IndexAgent {
 		}
 
 		// show details enabled / disabled.
-		if (Settings.getProperty(Settings.SHOW_OVERVIEW_LISTS).equals("true")) {
-			htmlPage.addToOnLoadScript("setDetailsVisible(true);");
-		}
+		htmlPage.addToOnLoadScript(("parent.setDetailsSize(" + Settings.getProperty(Settings.SHOW_SMALL_DETAILS_PANE).equals("true")) + ");\n");
 
 		// HtmlTool.outputHTML(Settings.HTML_DATA_DIR + "index.html", html);
 		return HtmlTool.createHTML(htmlPage.getHtml());

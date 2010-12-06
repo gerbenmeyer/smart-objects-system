@@ -1,10 +1,6 @@
 package model.agent.agents;
 
-import java.util.HashMap;
-
 import model.agent.Agent;
-import util.htmltool.HtmlDetailsPaneContentGenerator;
-import util.htmltool.HtmlMapContentGenerator;
 
 /**
  * This is a useless agent, without any behaviour.
@@ -36,14 +32,4 @@ public class EmptyAgent extends Agent {
 	public void lastWish() {
 	}
 
-	@Override
-	public void generateDetailsPaneContent(
-			HtmlDetailsPaneContentGenerator detailsPane,
-			HashMap<String, String> params) {
-	}
-
-	@Override
-	public void generateMapContent(HtmlMapContentGenerator mapContent,
-			HashMap<String, String> params) {
-	}
 }

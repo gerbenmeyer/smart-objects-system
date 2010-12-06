@@ -6,7 +6,6 @@ import model.agent.Agent;
 import model.agent.collection.AgentCollection;
 import util.enums.PropertyType;
 import util.htmltool.HtmlDetailsPaneContentGenerator;
-import util.htmltool.HtmlMapContentGenerator;
 
 /**
  * Agent for generating stats.
@@ -55,10 +54,6 @@ public class StatsAgent extends Agent {
 		detailsPane.addDataRow("#", "Agent types: " + AgentCollection.getInstance().getTypes().size(), "");
 		detailsPane.addDataRow("#", "Agent IDs: " + AgentCollection.getInstance().getSize(), "");
 		detailsPane.addDataRow("", "Act: " + get(EXECUTION_WAIT_TIME) + " s", "");
-	}
-
-	@Override
-	public void generateMapContent(HtmlMapContentGenerator mapContent, HashMap<String, String> params) {
 	}
 
 	@Override

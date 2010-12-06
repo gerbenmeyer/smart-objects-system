@@ -4,8 +4,6 @@ import java.util.HashMap;
 
 import model.agent.Agent;
 import util.enums.PropertyType;
-import util.htmltool.HtmlDetailsPaneContentGenerator;
-import util.htmltool.HtmlMapContentGenerator;
 
 /**
  * This abstract agent must be extended by agents which generate an index page.
@@ -29,16 +27,6 @@ public abstract class IndexAgent extends Agent {
 
 	@Override
 	public void act() throws Exception {
-	}
-
-	@Override
-	public void generateDetailsPaneContent(HtmlDetailsPaneContentGenerator detailsPane, HashMap<String, String> params) {
-		
-	}
-
-	@Override
-	public void generateMapContent(HtmlMapContentGenerator mapContent, HashMap<String,String> params){
-		
 	}
 
 	/**

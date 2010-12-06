@@ -32,7 +32,7 @@ public class Settings {
 	
 	public final static String SHOW_ALL_OBJECTS = "show_all_objects";
 	public final static String SHOW_OVERVIEW_LISTS = "show_overview_lists";
-	public final static String SHOW_AGENT_DETAILS_SMALL = "show_agent_details_small";
+	public final static String SHOW_SMALL_DETAILS_PANE = "show_small_details_pane";
 	public final static String AGENT_PROBLEM_DETECTION_ENABLED = "agent_problem_detection_enabled";
 	public final static String AGENT_PROBLEM_LEARNING_ENABLED = "agent_problem_learning_enabled";
 
