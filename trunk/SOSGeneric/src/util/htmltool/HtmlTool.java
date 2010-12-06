@@ -169,16 +169,11 @@ public class HtmlTool {
 	 * 
 	 * @param url the path to the image
 	 * @param text the title of the image
-	 * @param size the size of the image
 	 * @return the image HTML code
 	 */
-	public static String createImageLeft(String url, String text, int size) {
+	public static String createImageLeft(String url, String text) {
 		HashMap<String, String> attributes = new HashMap<String, String>();
 		attributes.put("align", "left");
-		if (size > 0) {
-			attributes.put("width", "" + size);
-			attributes.put("height", "" + size);
-		}
 		return createImage(url, text, attributes);
 	}
 
@@ -187,16 +182,11 @@ public class HtmlTool {
 	 * 
 	 * @param url the path to the image
 	 * @param text the title of the image
-	 * @param size the size of the image
 	 * @return the image HTML code
 	 */
-	public static String createImageRight(String url, String text, int size) {
+	public static String createImageRight(String url, String text) {
 		HashMap<String, String> attributes = new HashMap<String, String>();
 		attributes.put("align", "right");
-		if (size > 0) {
-			attributes.put("width", "" + size);
-			attributes.put("height", "" + size);
-		}
 		return createImage(url, text, attributes);
 	}
 

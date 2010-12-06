@@ -4,6 +4,7 @@ import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.GregorianCalendar;
 
+import model.agent.AgentViewable;
 import model.agent.property.Property;
 import util.enums.PropertyType;
 
@@ -137,7 +138,7 @@ public class TimeProperty extends Property {
 	}
 
 	@Override
-	public String getArffData() {
+	public String getArffData(AgentViewable av) {
 		long date = this.dateTime.getTimeInMillis();
 		long now = new GregorianCalendar().getTimeInMillis();
 		double diffHours = (date - now) / (60.0 * 60.0 * 1000.0);

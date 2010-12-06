@@ -79,7 +79,7 @@ public class HtmlDetailsPaneContentGenerator extends HtmlGenerator{
 			icon = HtmlTool.createImage(icon, icon, 16);
 		}
 		if (statusIcon.endsWith(".png")) {
-			statusIcon = HtmlTool.createImageRight(statusIcon, statusIcon, 16);
+			statusIcon = HtmlTool.createImageRight(statusIcon, statusIcon);
 		}
 		String row = "";
 		if (value == null || value.isEmpty()) {
@@ -140,7 +140,7 @@ public class HtmlDetailsPaneContentGenerator extends HtmlGenerator{
 			icon = HtmlTool.createImage(icon, icon, 16);
 		}
 		if (statusIcon.endsWith(".png")) {
-			statusIcon = HtmlTool.createImageRight(statusIcon, statusIcon, 16);
+			statusIcon = HtmlTool.createImageRight(statusIcon, statusIcon);
 		}
 		String row = "";
 		if (value == null || value.isEmpty()) {

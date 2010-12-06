@@ -1,6 +1,7 @@
 package model.agent.property.properties;
 
 import model.agent.Agent;
+import model.agent.AgentViewable;
 import model.agent.property.Property;
 import util.Capitalize;
 import util.enums.GoogleLocationType;
@@ -242,16 +243,7 @@ public class LocationProperty extends Property {
 	}
 
 	public String getIcon() {
-		String icon = "location.png";
-		if (getAgentView() != null) {
-			icon = getAgentView().getIcon();
-		}
-		if (getName().equals("SourceLocation")) {
-			icon = "source_icon.png";
-		} else if (getName().equals("DestinationLocation")) {
-			icon = "destination_icon.png";
-		}
-		return icon;
+		return "location.png";
 	}
 
 	@Override
@@ -260,11 +252,11 @@ public class LocationProperty extends Property {
 	}
 
 	@Override
-	public String getArffData() {
+	public String getArffData(AgentViewable av) {
 		double distance = 0.0;
 
 		try {
-			LocationProperty lp = new LocationProperty("", getAgentView().get(Agent.LOCATION));
+			LocationProperty lp = new LocationProperty("", av.get(Agent.LOCATION));
 			distance = this.distanceTo(lp);
 		} catch (Exception e) {
 		}

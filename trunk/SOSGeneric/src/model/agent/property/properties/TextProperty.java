@@ -1,5 +1,6 @@
 package model.agent.property.properties;
 
+import model.agent.AgentViewable;
 import model.agent.property.Property;
 import util.enums.PropertyType;
 
@@ -83,7 +84,7 @@ public class TextProperty extends Property {
 	}
 
 	@Override
-	public String getArffData() {
+	public String getArffData(AgentViewable av) {
 		return null;
 	}
 }
