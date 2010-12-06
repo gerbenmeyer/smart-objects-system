@@ -38,19 +38,18 @@ public class BudapestHomeAgent extends Agent {
 		//move the map to Budapest
 		mapContent.setCenter(47.5, 19.07);
 		mapContent.setZoom(13);
+		
 		//show all agents by using the always existing search agent to search for all agents
 		AgentViewable av = AgentCollection.getInstance().get("search");
 		params.put("q", "");
 		av.generateMapContent(mapContent, params);
 	}
 
-
 	@Override
 	public void generateDetailsPaneContent(HtmlDetailsPaneContentGenerator detailsPane, HashMap<String, String> params) {
 		//show a welcome message
 		detailsPane.addHeader("Welcome to the "+Settings.getProperty(Settings.APPLICATION_NAME));
 		detailsPane.addParagraph("Here, you can get an overview of all the major attractions in Budapest. Furthermore, trainstations, the airport, and even places to stay can be found here.");
-		
 		
 		//show all attractions by using the always existing search agent to search for all agents
 		detailsPane.addSubHeader("The major attractions");

@@ -39,8 +39,8 @@ public class BudapestObjectAgent extends Agent {
 		//pan the map to the location of this object
 		LocationProperty lp = new LocationProperty("", get(Agent.LOCATION));
 		if (!lp.isNull()) {
-			mapContent.panToLocation(lp.getLatitude(), lp.getLongitude());
 			mapContent.setZoom(14);
+			mapContent.panToLocation(lp.getLatitude(), lp.getLongitude());
 		}
 		//show the info window of this object
 		mapContent.popupInfoWindow(this.getID());
