@@ -58,7 +58,7 @@ public class Settings {
 	public static final String NOTIFICATION_EMAIL_ALLOWED_TYPES = "notification_email_allowed_types";
 	
 	// SMTP SETTINGS
-	public final static String SMTP_EMAIL_ADDRESS = "smpt_email_address";
+	public final static String SMTP_EMAIL_ADDRESS = "smtp_email_address";
 	public final static String SMTP_SERVER = "smtp_server";
 	public final static String SMTP_USERNAME = "smtp_username";
 	public final static String SMPT_PASSWORD = "smtp_password";
