@@ -209,7 +209,7 @@ public class NotificationAgent extends Agent {
 
 		Message msg = new MimeMessage(session);
 		msg.setFrom(new InternetAddress(Settings.getProperty(Settings.APPLICATION_NAME_ABBREVIATION)
-				+ " <" + Settings.getProperty(Settings.MAIL_ADDRESS) + ">"));
+				+ " <" + Settings.getProperty(Settings.SMTP_EMAIL_ADDRESS) + ">"));
 		msg.setRecipients(Message.RecipientType.TO, InternetAddress.parse(address, false));
 
 		String title = "[" + Settings.getProperty(Settings.APPLICATION_NAME_ABBREVIATION) + "] email notification";
@@ -237,8 +237,8 @@ public class NotificationAgent extends Agent {
 
 		Transport t = session.getTransport("smtps");
 		try {
-			t.connect(Settings.getProperty(Settings.MAIL_SMTP_SERVER), Settings.getProperty(Settings.MAIL_USERNAME),
-					Settings.getProperty(Settings.MAIL_PASSWORD));
+			t.connect(Settings.getProperty(Settings.SMTP_SERVER), Settings.getProperty(Settings.SMTP_USERNAME),
+					Settings.getProperty(Settings.SMPT_PASSWORD));
 			t.sendMessage(msg, msg.getAllRecipients());
 		} finally {
 			t.close();
