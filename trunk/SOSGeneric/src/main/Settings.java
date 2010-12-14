@@ -14,39 +14,42 @@ import java.util.Properties;
 
 public class Settings {
 
-	// field names
+	// APPLICATION
 	public final static String APPLICATION_NAME = "application_name";
 	public final static String APPLICATION_NAME_ABBREVIATION = "application_name_abbreviation";
 	public final static String APPLICATION_ICON = "application_icon";
 	public final static String APPLICATION_VERSION = "application_version";
 
-	public final static String AGENTS_DATA_DIR = "agents_data_dir";
+	// DIRECTORY LOCATIONS
 	public final static String HTML_DATA_DIR = "html_data_dir";
 
+	// SERVER SETTINGS
 	public final static String XML_PORT = "xml_port";
 	public final static String XML_SERVER_PASSWORD = "xml_server_password";
 	public final static String HTTP_PORT = "http_port";
 	public final static String HTTP_SERVER_ADDRESS = "http_server_address";
 	public final static String GOOGLE_MAPS_V2_API_KEY = "google_maps_v2_api_key";
 	
+	// AGENT SETTINGS
 	public final static String PAUSE_AGENT_EXECUTION_WHEN_PUTTING_AGENTS = "pause_agent_execution_when_putting_agents";
-	
-	public final static String SHOW_ALL_OBJECTS = "show_all_objects";
-	public final static String SHOW_OVERVIEW_LISTS = "show_overview_lists";
-	public final static String SHOW_SMALL_DETAILS_PANE = "show_small_details_pane";
 	public final static String AGENT_PROBLEM_DETECTION_ENABLED = "agent_problem_detection_enabled";
-	public final static String AGENT_PROBLEM_LEARNING_ENABLED = "agent_problem_learning_enabled";
-
-	public final static String DEFAULT_SCRIPT = "default_script";
-	public final static String DEFAULT_CLUSTERING = "default_clustering";
-
-	public final static String KEYWORD_DEEPLINK = "keyword_deeplink";
+	public final static String AGENT_PROBLEM_LEARNING_ENABLED = "agent_problem_learning_enabled";	
 	
+	// DATABASE SETUP
 	public final static String DATABASE_HOST = "database_host";
 	public final static String DATABASE_USER = "database_user";
 	public final static String DATABASE_PASSWORD = "database_password";
-	public final static String DATABASE_NAME = "database_name";
-
+	public final static String DATABASE_NAME = "database_name";	
+	
+	// HTML INTERFACE
+	public final static String SHOW_ALL_OBJECTS = "show_all_objects";
+	public final static String SHOW_OVERVIEW_LISTS = "show_overview_lists";
+	public final static String SHOW_SMALL_DETAILS_PANE = "show_small_details_pane";
+	public final static String DEFAULT_SCRIPT = "default_script";
+	public final static String DEFAULT_CLUSTERING = "default_clustering";
+	public final static String KEYWORD_DEEPLINK = "keyword_deeplink";
+	
+	// NOTIFICATION SETTINGS
 	public final static String NOTIFICATION_EMAIL_ENABLED = "notification_email_enabled";
 	public final static String NOTIFICATION_EMAIL_MINUTES_THRESHOLD = "notification_email_threshold";
 	public final static String NOTIFICATION_EMAIL_STATUS_THRESHOLD = "notification_email_status_threshold";
@@ -54,10 +57,11 @@ public class Settings {
 	public final static String NOTIFICATION_EMAIL_CONTENT = "notification_email_content";
 	public static final String NOTIFICATION_EMAIL_ALLOWED_TYPES = "notification_email_allowed_types";
 	
-	public final static String MAIL_ADDRESS = "email_address";
-	public final static String MAIL_USERNAME = "email_user";
-	public final static String MAIL_SMTP_SERVER = "smtp_server";
-	public final static String MAIL_PASSWORD = "email_pass";
+	// SMTP SETTINGS
+	public final static String SMTP_EMAIL_ADDRESS = "smpt_email_address";
+	public final static String SMTP_SERVER = "smtp_server";
+	public final static String SMTP_USERNAME = "smtp_username";
+	public final static String SMPT_PASSWORD = "smtp_password";
 
 	private static Properties settings;
 	
