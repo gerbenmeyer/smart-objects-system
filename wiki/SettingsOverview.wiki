@@ -7,6 +7,7 @@ This page gives an overview of the different settings available in the configura
 Most of the settings described here have a static string in the [http://smart-objects-system.googlecode.com/svn/trunk/SOSGeneric/doc/main/Settings.html Settings] class, so they can be referred to easily.
 
 == Application ==
+
 These settings are mainly used to display information in the header of the interface.
 
 *_application_name_* = (string)
@@ -25,12 +26,14 @@ The version of the application
 
 The icon of the application, placed in the directory set at the following _html_data_dir_ setting.
 
-== Directories ==
+== Directory locations ==
+
 *_html_data_dir_* = (string)
 
 The directory where resources for the HTML interface can be found, like images and icons. May be relative or absolute.
 
 == Server settings ==
+
 *_xml_port_* = (int)
 
 The port at which the server should listen for client connections, which use XML to exchange information.
@@ -51,6 +54,8 @@ The address of the server, used when creating external links.
 
 SOS uses the Google Maps v3 API by default to look up addresses. When this becomes unavailable for some reason (time-out, or limit of requests reached), it falls back to the v2 API, which requires an access key.
 
+== Agent settings ==
+
 *_pause_agent_execution_when_putting_agents_* = (boolean)
 
 If set to true, agents will be paused from execution when agents are added or modified.
@@ -64,6 +69,7 @@ Set to true to enable problem detection.
 Set to true to enable agent learning.
 
 == Database setup ==
+
 *_database_host_* = (string)
 
 The host name of database server.
@@ -81,6 +87,7 @@ The database password associated with the database user name.
 The name of the database.
 
 == HTML interface ==
+
 *_show_all_objects_* = (boolean)
 
 Set to true if the 'all' menu item should be shown.
@@ -89,11 +96,7 @@ Set to true if the 'all' menu item should be shown.
 
 Set to true if the details pane should list overviews.
 
-*_show_agent_details_* = (boolean)
-
-Set to true if the details pane should display agent details.
-
-*_show_agent_details_small_* = (boolean)
+*show_small_details_pane* = (boolean)
 
 Set to true if the details pane should be smaller than default.
 
@@ -108,3 +111,47 @@ Set to true to enable clustering of map markers by default.
 *_keyword_deeplink_* = (string)
 
 The keyword used to create a deep link to agents.
+
+== Notification settings ==
+
+*_notification_email_enabled_* = (boolean)
+
+Set to true if the SOS server should send emails when agents change their status.
+
+*_notification_email_threshold_* = (int)
+
+A number in minutes, indicating the miminum amount of minutes between two notification emails.
+ 
+*_notification_email_status_threshold_* = (int)
+
+A number indicating the status threshold when sending notification emails, i.e. -3 means that only agents in the error status are included, -2 means that both agents in the error and warning status are included, etc.
+
+*_notification_email_recipient_* = (string)
+
+The email recipient of the notification email. Multiple email addresses can be provided by seperation with a comma. 
+
+*_notification_email_content_* = (string)
+
+The directory where resources for the HTML content of the notification email can be found, like images and icons. Must be absolute.
+
+*_notification_email_allowed_types_* = (string)
+
+The agent types which are included in the notification email. Multiple types can be provided by seperation with a comma.
+
+== SMTP settings ==
+
+*_smtp_email_address_* = (string)
+
+The email address used for sending notification emails.
+
+*_smtp_server_* = (string)
+
+The SMTP server used for sending notification emails.
+
+*_smtp_username_* = (string)
+
+The username used for sending emails through the SMTP server.
+
+*_smtp_password_* = (string)
+
+The password used for sending emails through the SMTP server.
