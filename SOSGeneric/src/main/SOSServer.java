@@ -58,6 +58,9 @@ public abstract class SOSServer {
 		agentCollection.put(factory.createAgent("menu"));
 		agentCollection.put(factory.createAgent("search"));
 		agentCollection.put(factory.createAgent("stats"));
+		if (Boolean.parseBoolean(Settings.getProperty(Settings.NOTIFICATION_EMAIL_ENABLED))) {
+			agentCollection.put(factory.createAgent("notifier"));
+		}
 		
 		ClassifierCollectionStorage.setInstance(new ClassifierCollectionStorageMySQL());
 		

@@ -83,7 +83,7 @@ public class HtmlGenerator {
 	public void addAgentHeaderLink(AgentViewable av) {
 		String id = av.getID();
 		if (av.needsDetailsPane()){
-			addHeader(HtmlTool.createLink(id+".html", HtmlTool.createImage(av.getIcon(), id)+av.get(Agent.LABEL), "hidden_frame"));
+			addHeader(HtmlTool.createLink(id+".html", HtmlTool.createImage(av.getIcon(), id)+av.get(Agent.LABEL), "hidden_frame")+HtmlTool.createLink("?" + Settings.getProperty(Settings.KEYWORD_DEEPLINK) + "=" + id, HtmlTool.createImage("link.png", "deeplink to "+id)));
 		} else {
 			addHeader(HtmlTool.createImage(av.getIcon(), id)+av.get(Agent.LABEL));
 		}

@@ -3,6 +3,7 @@ package model.agent.collection;
 import java.util.HashMap;
 
 import model.agent.Agent;
+import model.agent.NotificationAgent;
 import model.agent.agents.MenuAgent;
 import model.agent.agents.SearchAgent;
 import model.agent.agents.StatsAgent;
@@ -37,6 +38,8 @@ public abstract class AgentFactory {
 			return new SearchAgent(agentID);
 		} else if (agentID.equals("stats")) {
 			return new StatsAgent(agentID);
+		} else if (agentID.equals("notifier")) {
+			return new NotificationAgent(agentID);
 		} else {
 			return createSpecificAgent(agentID);
 		}

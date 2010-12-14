@@ -89,7 +89,7 @@ public class HtmlTool {
 			headers.append(encapsulate(desc, "th", null));
 		}
 		HashMap<String, String> tableAttributes = new HashMap<String, String>();
-		tableAttributes.put("style","width: 100%;");
+//		tableAttributes.put("style","width: 100%;");
 		return encapsulate(encapsulate(headers, "tr", null).append(rows), "table", tableAttributes);
 	}
 
