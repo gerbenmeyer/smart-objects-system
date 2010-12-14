@@ -96,7 +96,7 @@ Set to true if the 'all' menu item should be shown.
 
 Set to true if the details pane should list overviews.
 
-*show_small_details_pane* = (boolean)
+*_show_small_details_pane* = (boolean)
 
 Set to true if the details pane should be smaller than default.
 
