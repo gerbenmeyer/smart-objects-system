@@ -121,7 +121,7 @@ Set to true if the SOS server should send emails when agents change their status
 *_notification_email_threshold_* = (int)
 
 A number in minutes, indicating the miminum amount of minutes between two notification emails.
- 
+
 *_notification_email_status_threshold_* = (int)
 
 A number indicating the status threshold when sending notification emails, i.e. -3 means that only agents in the error status are included, -2 means that both agents in the error and warning status are included, etc.
