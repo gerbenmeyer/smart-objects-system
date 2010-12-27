@@ -7,9 +7,9 @@ This page discusses the Budapest Interactive City Map application in a bit more 
 
 = Client =
 
-For the Budapest Interactive City Map, a seperate data client application is developed, called !SOSBudapestDataClient. Next, the actual implementation of this data client (albeit simplified) is explained.
+For the Budapest Interactive City Map, a seperate data client application is developed, called SOSBudapestDataClient. Next, the actual implementation of this data client (albeit simplified) is explained.
 
-*Implementation of !SOSBudapestDataClient*
+*Implementation of SOSBudapestDataClient*
 {{{
 public class SOSBudapestDataClient {
 
@@ -80,10 +80,12 @@ public class BudapestHomeAgent extends Agent {
 		set(PropertyType.BOOLEAN, Agent.HIDDEN, Boolean.toString(true));
 	}
 
+	@Override
 	public void act() throws Exception {
 		/ /no acting needed for this object
 	}
 
+	@Override
 	public void lastWish() {
 		// no last wish needed for this object
 	}
@@ -131,14 +133,17 @@ public class BudapestObjectAgent extends Agent {
 		setNeedsDetailsPane(false);
 	}
 
+	@Override
 	public void act() throws Exception {
 		// no acting needed for this object
 	}
 
+	@Override
 	public void lastWish() {
 		// no last wish needed for this object
 	}
-
+	
+	@Override
 	public boolean isGarbage() {
 		// this agent is never garbage
 		return false;

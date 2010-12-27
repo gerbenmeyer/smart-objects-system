@@ -7,9 +7,9 @@ This page discusses the Dutch Weather application in a bit more detail, accordin
 
 = Client =
 
-For the Dutch Weather application, a seperate data client application is developed, called !SOSDutchWeatherClient. Next, the actual implementation of this data client (albeit simplified) is explained.
+For the Dutch Weather application, a seperate data client application is developed, called SOSDutchWeatherClient. Next, the actual implementation of this data client (albeit simplified) is explained.
 
-*Implementation of !SOSDutchWeatherClient*
+*Implementation of SOSDutchWeatherClient*
 {{{
 	//under construction
 }}}
