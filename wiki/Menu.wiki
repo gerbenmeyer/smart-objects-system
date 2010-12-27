@@ -1,12 +1,9 @@
 #summary wiki menu
 
-*System information*
-
-[SystemOverview Overview]
-
-[SystemStructure Structure]
-
-[SystemBehaviour Behaviour]
+* System information
+  * [SystemOverview Overview]
+  * [SystemStructure Structure]
+  * [SystemBehaviour Behaviour]
 
 
 *Demo applications*
