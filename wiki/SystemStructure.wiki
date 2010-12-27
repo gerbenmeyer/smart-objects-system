@@ -1,8 +1,10 @@
 #summary an overview of important classes in SOS
-#labels Phase-Design
+#labels Phase-Design,Phase-Implementation
 
-=Important classes=
+=System structure=
 This page contains an overview of the most important classes used by the Smart Objects System software and an explanation of what they do.
+
+http://smart-objects-system.googlecode.com/svn/wiki/systemstructure.png
 
 ==SOSServer==
 <font size="1">_[http://smart-objects-system.googlecode.com/svn/trunk/SOSGeneric/doc/main/SOSServer.html SOSGeneric.main.SOSServer]_</font>
