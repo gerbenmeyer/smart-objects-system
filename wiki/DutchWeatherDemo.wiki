@@ -1,0 +1,33 @@
+#summary description of the Budapest Interactive City Map demo
+#labels Phase-Implementation
+
+= Introduction =
+
+This page discusses the Dutch Weather application in a bit more detail, according to the layers as explained in SystemOverview. The actual source code can be found at [http://code.google.com/p/smart-objects-system/source/browse/].
+
+= Client =
+
+For the Dutch Weather application, a seperate data client application is developed, called !SOSDutchWeatherClient. Next, the actual implementation of this data client (albeit simplified) is explained.
+
+*Implementation of !SOSDutchWeatherClient*
+{{{
+	//under construction
+}}}
+
+= Server =
+
+For the Dutch Weather application, a seperate SOS server application is developed, called !SOSDutchWeatherServer, which extends the generic [SystemStructure SOSServer] class. Two application-specific agents are developed, namely a _home_ and _localweather_-agent, which both extend the generic [SystemStructure Agent] class. Next, the actual implementation of these agents (albeit simplified) is explained.
+
+*Implementation of !DutchWeatherHomeAgent*
+{{{
+	//under construction
+}}}
+
+*Implementation of !DutchWeatherLocalWeatherAgent*
+{{{
+	//under construction
+}}}
+
+= Front-end =
+
+_To be added_.
