@@ -20,7 +20,6 @@ import util.htmltool.HtmlMapBalloonContentGenerator;
 import util.htmltool.HtmlMapContentGenerator;
 import util.htmltool.HtmlTool;
 import util.xmltool.XMLTool;
-import data.agents.AgentCollectionStorage;
 import data.agents.AgentStorage;
 
 /**
@@ -121,7 +120,7 @@ public abstract class Agent implements AgentMutable {
 	 * 
 	 * @throws Exception
 	 */
-	protected abstract void act() throws Exception;
+	protected void act() throws Exception {}
 
 	/**
 	 * Learn the agent a new status.
@@ -161,14 +160,16 @@ public abstract class Agent implements AgentMutable {
 	 * This method is executed just before the agent is removed from its
 	 * collection.
 	 */
-	public abstract void lastWish();
+	public void lastWish(){}
 
 	/**
 	 * True if this agent is garbage and may be disposed.
 	 * 
 	 * @return a boolean
 	 */
-	public abstract boolean isGarbage();
+	public boolean isGarbage(){
+		return false;
+	}
 
 	public String getIcon() {
 		return get(Agent.TYPE).toLowerCase() + "_icon.png";
@@ -343,28 +344,21 @@ public abstract class Agent implements AgentMutable {
 		}
 	}
 
-	public boolean save() {
-		if (writeBuffer.isEmpty()){
-			return true;
-		}
-		if (AgentCollectionStorage.getInstance() != null && AgentStorage.getInstance() != null) {
-			AgentCollectionStorage.getInstance().putAgent(this);
+	public void save() {
+		// TODO: is this really not necessary?
+//		if (writeBuffer.isEmpty()){
+//			return;
+//		}
+		if (AgentStorage.getInstance() != null) {
 			AgentStorage.getInstance().putProperties(getID(), writeBuffer);
 			writeBuffer.clear();
-			return true;
 		}
-		return false;
 	}
 
-	public boolean delete() {
-		// lastWish();
-		if (AgentCollectionStorage.getInstance() != null) {
-			return AgentCollectionStorage.getInstance().delete(getID());
-		}
+	public void delete() {
 		if (AgentStorage.getInstance() != null) {
-			return AgentStorage.getInstance().delete(getID());
+			AgentStorage.getInstance().delete(getID());
 		}
-		return true;
 	}
 
 	public String getArffAttributesString() {

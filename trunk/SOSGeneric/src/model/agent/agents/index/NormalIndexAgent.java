@@ -26,20 +26,6 @@ public class NormalIndexAgent extends IndexAgent {
 	}
 
 	@Override
-	public void act() throws Exception {
-	}
-
-	@Override
-	public boolean isGarbage() {
-		return false;
-	}
-
-	@Override
-	public void lastWish() {
-		System.out.println("Indexagent: I am dying!!! ARGH!!!");
-	}
-
-	@Override
 	public StringBuffer generatePage(HashMap<String, String> params) {
 		HtmlMapPageGenerator htmlPage = new HtmlMapPageGenerator(Settings.getProperty(Settings.APPLICATION_NAME),
 				"main.css");

@@ -26,7 +26,7 @@ import util.xmltool.XMLTool;
  * 
  * @author Gerben G. Meyer
  */
-public class XMLServerClientHandler extends Thread {
+public class XMLClientConnection extends Thread {
 
 	private Socket clientSocket = null;
 	private PrintWriter pw = null;
@@ -39,7 +39,7 @@ public class XMLServerClientHandler extends Thread {
 	 * @param server the server
 	 * @param clientSocket the socket
 	 */
-	public XMLServerClientHandler(SOSServer server, Socket clientSocket) {
+	public XMLClientConnection(SOSServer server, Socket clientSocket) {
 		super();
 		this.server = server;
 		this.clientSocket = clientSocket;
@@ -63,7 +63,7 @@ public class XMLServerClientHandler extends Thread {
 			if (clientPassword.equals(Settings.getProperty(Settings.XML_SERVER_PASSWORD))) {
 				String msg = br.readLine();
 				while (msg != null) {
-					XMLServerCommand cmd = XMLServerCommand.fromXML(XMLTool.removeRootTag(msg));
+					XMLCommand cmd = XMLCommand.fromXML(XMLTool.removeRootTag(msg));
 					String result = XMLTool.addRootTag(executeCommand(cmd), "Result");
 					pw.println(result);
 					yield();
@@ -99,27 +99,27 @@ public class XMLServerClientHandler extends Thread {
 	 * @param cmd the command
 	 * @return the result
 	 */
-	private String executeCommand(XMLServerCommand cmd) {
+	private String executeCommand(XMLCommand cmd) {
 		try {
-			if (cmd.getName().equals(XMLServerCommand.GET_AGENT)) {
+			if (cmd.getName().equals(XMLCommand.GET_AGENT)) {
 				return getAgent(cmd.getParameter());
 			}
-			if (cmd.getName().equals(XMLServerCommand.PUT_AGENT)) {
+			if (cmd.getName().equals(XMLCommand.PUT_AGENT)) {
 				return putAgent(cmd.getParameter());
 			}
-			if (cmd.getName().equals(XMLServerCommand.GET_AGENT_IDS)) {
+			if (cmd.getName().equals(XMLCommand.GET_AGENT_IDS)) {
 				return getAgentIDs(cmd.getParameter());
 			}
-			if (cmd.getName().equals(XMLServerCommand.GET_AGENT_TYPES)) {
+			if (cmd.getName().equals(XMLCommand.GET_AGENT_TYPES)) {
 				return getAgentTypes(cmd.getParameter());
 			}			
-			if (cmd.getName().equals(XMLServerCommand.GET_LOCATION_INFO)) {
+			if (cmd.getName().equals(XMLCommand.GET_LOCATION_INFO)) {
 				return getLocation(cmd.getParameter());
 			}
-			if (cmd.getName().equals(XMLServerCommand.GET_LOCATION_COLLECTION)) {
+			if (cmd.getName().equals(XMLCommand.GET_LOCATION_COLLECTION)) {
 				return getLocationCollection();
 			}
-			if (cmd.getName().equals(XMLServerCommand.ADD_TRAINING_INSTANCE)) {
+			if (cmd.getName().equals(XMLCommand.ADD_TRAINING_INSTANCE)) {
 				return addTrainingInstance(cmd.getParameter());
 			}
 		} catch (Exception e) {

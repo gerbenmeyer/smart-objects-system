@@ -35,10 +35,6 @@ public class MenuAgent extends Agent {
 	}
 	
 	@Override
-	public void act() throws Exception {
-	}
-
-	@Override
 	public void generateDetailsPaneContent(HtmlDetailsPaneContentGenerator detailsPane, HashMap<String, String> params) {
 		List<String> types = AgentCollection.getInstance().getTypes();
 
@@ -110,13 +106,4 @@ public class MenuAgent extends Agent {
 		detailsPane.addCustomHtml(menu);
 	}
 
-	@Override
-	public boolean isGarbage() {
-		return false;
-	}
-
-	@Override
-	public void lastWish() {
-		System.out.println("Menuagent: I am dying!!! ARGH!!!");
-	}
 }

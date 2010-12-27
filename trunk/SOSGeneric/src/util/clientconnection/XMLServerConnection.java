@@ -87,7 +87,7 @@ public class XMLServerConnection {
 	 * @param command the command
 	 * @return the result
 	 */
-	public synchronized String sendCommandToServer(XMLServerCommand command) {
+	public synchronized String sendCommandToServer(XMLCommand command) {
 		if (!connected){
 			System.err.println("not connected");
 			return "error";

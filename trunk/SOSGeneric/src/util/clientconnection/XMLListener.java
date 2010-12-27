@@ -36,7 +36,7 @@ public class XMLListener {
 			try {
 				ServerSocket sock = new ServerSocket(port);
 				Socket clientSocket = sock.accept();
-				new XMLServerClientHandler(server, clientSocket);
+				new XMLClientConnection(server, clientSocket);
 				sock.close();
 			} catch (Exception e) {
 				System.out.println("A problem occured with waiting for clients: " + e.getMessage());

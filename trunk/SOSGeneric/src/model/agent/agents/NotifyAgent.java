@@ -1,4 +1,4 @@
-package model.agent;
+package model.agent.agents;
 
 import java.util.Calendar;
 import java.util.Collections;
@@ -20,6 +20,8 @@ import javax.mail.internet.MimeMultipart;
 import javax.mail.util.ByteArrayDataSource;
 
 import main.Settings;
+import model.agent.Agent;
+import model.agent.AgentViewable;
 import model.agent.collection.AgentCollection;
 import model.agent.property.properties.BooleanProperty;
 import model.agent.property.properties.DependenciesProperty;
@@ -30,11 +32,11 @@ import util.enums.PropertyType;
 import util.htmltool.HtmlPageGenerator;
 import util.htmltool.HtmlTool;
 
-public class NotificationAgent extends Agent {
+public class NotifyAgent extends Agent {
 
 	private String[] allowedTypes;
 
-	public NotificationAgent(String id) {
+	public NotifyAgent(String id) {
 		super(id);
 		this.allowedTypes = Settings.getProperty(Settings.NOTIFICATION_EMAIL_ALLOWED_TYPES).split(",");
 		if (get(Agent.HIDDEN).isEmpty()) {
@@ -245,13 +247,4 @@ public class NotificationAgent extends Agent {
 		}
 	}
 
-	@Override
-	public boolean isGarbage() {
-		return false;
-	}
-
-	@Override
-	public void lastWish() {
-
-	}
 }
