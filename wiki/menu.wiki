@@ -1,0 +1,17 @@
+#summary wiki menu
+
+*System information*
+[SystemOverview Overview]
+[SystemStructure Structure]
+[SystemBehaviour Behaviour]
+
+*Demo applications*
+[BudapestDemo Budapest Interactive City Map]
+[DutchWeatherDemo Dutch Weather Application]
+
+*Building an application*
+[GettingStarted Getting Started]
+[Settings]
+
+*Others*
+[Publications]

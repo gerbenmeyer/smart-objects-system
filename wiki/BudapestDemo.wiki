@@ -1,11 +1,11 @@
 #summary description of the Budapest Interactive City Map demo
 #labels Phase-Implementation
 
-= Introduction =
+= Budapest Interactive City Map =
 
 This page discusses the Budapest Interactive City Map application in a bit more detail, according to the layers as explained in SystemOverview. The actual source code can be found at [http://code.google.com/p/smart-objects-system/source/browse/].
 
-= Client =
+== Client ==
 
 For the Budapest Interactive City Map, a seperate data client application is developed, called SOSBudapestDataClient. Next, the actual implementation of this data client (albeit simplified) is explained.
 
@@ -66,7 +66,7 @@ public class SOSBudapestDataClient {
 }
 }}}
 
-= Server =
+== Server ==
 
 For the Budapest Interactive City Map, a seperate SOS server application is developed, called !SOSBudapestServer, which extends the generic [SystemStructure SOSServer] class. Two application-specific agents are developed, namely a _home_ and _object_-agent, which both extend the generic [SystemStructure Agent] class. Next, the actual implementation of these agents (albeit simplified) is explained.
 
@@ -139,7 +139,7 @@ public class BudapestObjectAgent extends Agent {
 }
 }}}
 
-= Front-end =
+== Front-end ==
 
 Below, a screenshot of the web interface of the Budapest Interactive City Map application is shown. For the live version of the web interface, please visit [http://www.agentlab.nl/budapest].
 
