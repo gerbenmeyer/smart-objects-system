@@ -50,7 +50,7 @@ public class RemoteAgentCollection implements AgentCollectionMutable {
 	@Override
 	public List<String> getIDs() {
 		Vector<String> ids = new Vector<String>();
-		String result = connection.sendCommandToServer(new XMLServerCommand(XMLServerCommand.GET_AGENT_IDS, ""));
+		String result = connection.sendCommandToServer(new XMLCommand(XMLCommand.GET_AGENT_IDS, ""));
 		if (result != "error" && result != "unknown") {
 			KeyDataVector prop = XMLTool.XMLToProperties(result);
 			for (KeyData item : prop) {
@@ -77,7 +77,7 @@ public class RemoteAgentCollection implements AgentCollectionMutable {
 		properties.add(new KeyData("AgentCode", "" + agentCode));
 		properties.add(new KeyData("Status", "" + status));
 
-		connection.sendCommandToServer(new XMLServerCommand(XMLServerCommand.ADD_TRAINING_INSTANCE, XMLTool.PropertiesToXML(properties)));
+		connection.sendCommandToServer(new XMLCommand(XMLCommand.ADD_TRAINING_INSTANCE, XMLTool.PropertiesToXML(properties)));
 	}
 
 	/**
@@ -87,7 +87,7 @@ public class RemoteAgentCollection implements AgentCollectionMutable {
 	 */
 	@Override
 	public void put(Agent agent) {
-		connection.sendCommandToServer(new XMLServerCommand(XMLServerCommand.PUT_AGENT, agent.toXML()));
+		connection.sendCommandToServer(new XMLCommand(XMLCommand.PUT_AGENT, agent.toXML()));
 	}
 
 	/**
@@ -97,7 +97,7 @@ public class RemoteAgentCollection implements AgentCollectionMutable {
 	 */
 	public void put(Collection<Agent> agents) {
 		for (Agent o : agents) {
-			connection.sendCommandToServer(new XMLServerCommand(XMLServerCommand.PUT_AGENT, o.toXML()));
+			connection.sendCommandToServer(new XMLCommand(XMLCommand.PUT_AGENT, o.toXML()));
 		}
 	}
 
@@ -109,7 +109,7 @@ public class RemoteAgentCollection implements AgentCollectionMutable {
 	@Override
 	public AgentViewable get(String id) {
 		Agent agent = null;
-		String objectResult = connection.sendCommandToServer(new XMLServerCommand(XMLServerCommand.GET_AGENT, id));
+		String objectResult = connection.sendCommandToServer(new XMLCommand(XMLCommand.GET_AGENT, id));
 		if (objectResult != "error" && objectResult != "unknown") {
 			agent = fromXML(objectResult);
 //		} else {
@@ -126,7 +126,7 @@ public class RemoteAgentCollection implements AgentCollectionMutable {
 	@Override
 	public List<String> getTypes() {
 		Vector<String> types = new Vector<String>();
-		String result = connection.sendCommandToServer(new XMLServerCommand(XMLServerCommand.GET_AGENT_TYPES, ""));
+		String result = connection.sendCommandToServer(new XMLCommand(XMLCommand.GET_AGENT_TYPES, ""));
 		if (result != "error" && result != "unknown") {
 			KeyDataVector prop = XMLTool.XMLToProperties(result);
 			for (KeyData item : prop) {

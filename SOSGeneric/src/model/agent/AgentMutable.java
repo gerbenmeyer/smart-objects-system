@@ -101,7 +101,7 @@ public interface AgentMutable extends AgentViewable {
 	 * 
 	 * @return if the save action was successful
 	 */
-	public boolean save();
+	public void save();
 
 	/**
 	 * Deletes the agent. It is removed from the collection and its properties
@@ -109,5 +109,5 @@ public interface AgentMutable extends AgentViewable {
 	 * 
 	 * @return if the delete action was successful
 	 */
-	public boolean delete();
+	public void delete();
 }

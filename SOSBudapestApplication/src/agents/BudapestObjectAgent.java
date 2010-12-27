@@ -18,22 +18,6 @@ public class BudapestObjectAgent extends Agent {
 		setNeedsDetailsPane(false);
 	}
 
-	public void act() throws Exception {
-		//no acting needed for this object
-	}
-
-	public void lastWish() {
-		//no last wish needed for this object
-	}
-
-	/**
-	 * @return the garbage
-	 */
-	public boolean isGarbage() {
-		//this agent is never garbage
-		return false;
-	}
-	
 	@Override
 	public void generateMapContent(HtmlMapContentGenerator mapContent, HashMap<String, String> params) {
 		//pan the map to the location of this object
@@ -47,7 +31,9 @@ public class BudapestObjectAgent extends Agent {
 
 	}
 	
+	@Override
 	public void generateMapBalloonContent(HtmlMapBalloonContentGenerator balloonContent, HashMap<String,String> params) {
+		//create the content of the balloon of this object, containing a header and a paragraph
 		balloonContent.addAgentHeaderLink(this);
 		balloonContent.addParagraph(get(Agent.DESCRIPTION));
 	}

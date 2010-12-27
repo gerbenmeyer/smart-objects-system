@@ -56,13 +56,4 @@ public class StatsAgent extends Agent {
 		detailsPane.addDataRow("", "Act: " + get(EXECUTION_WAIT_TIME) + " s", "");
 	}
 
-	@Override
-	public boolean isGarbage() {
-		return false;
-	}
-
-	@Override
-	public void lastWish() {
-		System.out.println("Statsagent: I am dying!!! ARGH!!!");
-	}
 }

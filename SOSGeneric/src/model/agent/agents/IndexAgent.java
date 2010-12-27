@@ -25,10 +25,6 @@ public abstract class IndexAgent extends Agent {
 		}
 	}
 
-	@Override
-	public void act() throws Exception {
-	}
-
 	/**
 	 * Generates a HTML page.
 	 * 
@@ -37,14 +33,4 @@ public abstract class IndexAgent extends Agent {
 	 */
 	public abstract StringBuffer generatePage(HashMap<String, String> params);
 
-	
-	@Override
-	public boolean isGarbage() {
-		return false;
-	}
-
-	@Override
-	public void lastWish() {
-		System.out.println("Indexagent: I am dying!!! ARGH!!!");
-	}
 }

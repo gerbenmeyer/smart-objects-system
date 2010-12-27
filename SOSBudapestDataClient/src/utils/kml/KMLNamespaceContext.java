@@ -20,7 +20,7 @@ public class KMLNamespaceContext implements NamespaceContext {
 		throw new UnsupportedOperationException();
 	}
 
-	@SuppressWarnings("unchecked")
+	@SuppressWarnings("rawtypes")
 	@Override
 	public Iterator getPrefixes(String arg0) {
 		throw new UnsupportedOperationException();

@@ -36,10 +36,6 @@ public class SearchAgent extends Agent {
 	}
 	
 	@Override
-	public void act() throws Exception {
-	}
-
-	@Override
 	public void generateDetailsPaneContent(HtmlDetailsPaneContentGenerator detailsPane, HashMap<String, String> params) {
 		BenchMarker bm = new BenchMarker("SearchAgent PaneContent", false);
 		MySQLConnection.getInstance().resetCounter();
@@ -119,13 +115,4 @@ public class SearchAgent extends Agent {
 		mapContent.drawMap();
 	}
 
-	@Override
-	public boolean isGarbage() {
-		return false;
-	}
-
-	@Override
-	public void lastWish() {
-		System.out.println("Overviewagent: I am dying!!! ARGH!!!");
-	}
 }

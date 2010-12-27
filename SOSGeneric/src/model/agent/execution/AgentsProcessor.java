@@ -95,6 +95,7 @@ public class AgentsProcessor implements Runnable {
 					if (av == null){
 						continue;
 					}
+					//TODO: Ugly casts should be out!
 					if (av instanceof Agent) {
 						Agent agent = (Agent) av;
 						agentsProcessed++;
@@ -102,6 +103,7 @@ public class AgentsProcessor implements Runnable {
 						// collect garbage
 						if (agent.isGarbage()) {
 							agent.lastWish();
+							((AgentCollection) AgentCollection.getInstance()).delete(agent);
 							agent.delete();
 							continue;
 						}

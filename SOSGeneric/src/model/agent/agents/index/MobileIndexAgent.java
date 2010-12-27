@@ -26,20 +26,6 @@ public class MobileIndexAgent extends IndexAgent {
 	}
 
 	@Override
-	public void act() throws Exception {
-	}
-
-	@Override
-	public boolean isGarbage() {
-		return false;
-	}
-
-	@Override
-	public void lastWish() {
-		System.out.println("Mobileagent: I am dying!!! ARGH!!!");
-	}
-
-	@Override
 	public StringBuffer generatePage(HashMap<String, String> params) {
 		String appName = Settings.getProperty(Settings.APPLICATION_NAME);
 

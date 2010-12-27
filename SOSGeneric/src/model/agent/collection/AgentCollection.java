@@ -89,10 +89,13 @@ public class AgentCollection implements AgentCollectionMutable {
 			if (showStatus){
 				agent.set(PropertyType.STATUS, Agent.STATUS, AgentStatus.UNKNOWN.toString());
 			}
+			if (AgentCollectionStorage.getInstance() != null){
+				AgentCollectionStorage.getInstance().putAgent(agent);
+			}
 			agent.save();
 		}
 	}
-
+	
 	public int getSize() {
 		return AgentCollectionStorage.getInstance().getSize();
 	}
@@ -119,7 +122,6 @@ public class AgentCollection implements AgentCollectionMutable {
 		return agents;
 	}
 
-	@Override
 	public boolean delete(Agent agent) {
 		return AgentCollectionStorage.getInstance().delete(agent.getID());
 	}

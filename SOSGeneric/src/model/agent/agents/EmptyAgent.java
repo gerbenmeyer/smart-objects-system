@@ -18,18 +18,4 @@ public class EmptyAgent extends Agent {
 	public EmptyAgent(String id) {
 		super(id);
 	}
-
-	@Override
-	public void act() throws Exception {
-	}
-
-	@Override
-	public boolean isGarbage() {
-		return false;
-	}
-
-	@Override
-	public void lastWish() {
-	}
-
 }

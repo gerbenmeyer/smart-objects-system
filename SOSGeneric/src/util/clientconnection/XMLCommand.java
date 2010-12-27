@@ -9,7 +9,7 @@ import util.xmltool.XMLTool;
  * 
  * @author Gerben G. Meyer
  */
-public class XMLServerCommand {
+public class XMLCommand {
 
 	public final static String GET_AGENT = "getAgent";
 	public final static String PUT_AGENT = "putAgent";
@@ -26,7 +26,7 @@ public class XMLServerCommand {
 	/**
 	 * Constructs a new XMLServerCommand instance without a name or parameter.
 	 */
-	public XMLServerCommand() {
+	public XMLCommand() {
 		super();
 	}
 
@@ -36,7 +36,7 @@ public class XMLServerCommand {
 	 * @param name the command name
 	 * @param parameter the parameter
 	 */
-	public XMLServerCommand(String name, String parameter) {
+	public XMLCommand(String name, String parameter) {
 		super();
 		this.name = name;
 		this.parameter = parameter;
@@ -84,8 +84,8 @@ public class XMLServerCommand {
 	 * @param xml the XML input
 	 * @return the command
 	 */
-	public static XMLServerCommand fromXML(String xml) {
-		XMLServerCommand result = new XMLServerCommand();
+	public static XMLCommand fromXML(String xml) {
+		XMLCommand result = new XMLCommand();
 		KeyDataVector prop = XMLTool.XMLToProperties(xml);
 		for (KeyData item : prop) {
 			if (item.getTag().equals("Name")) {

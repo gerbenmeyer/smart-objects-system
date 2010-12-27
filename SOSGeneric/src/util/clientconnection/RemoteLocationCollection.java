@@ -56,7 +56,7 @@ public class RemoteLocationCollection implements LocationCollectionViewable {
 			KeyDataVector parameters = new KeyDataVector();
 			parameters.add(new KeyData("Address", normAddress));
 			connection.connect();
-			String result = connection.sendCommandToServer(new XMLServerCommand(XMLServerCommand.GET_LOCATION_INFO, XMLTool
+			String result = connection.sendCommandToServer(new XMLCommand(XMLCommand.GET_LOCATION_INFO, XMLTool
 					.PropertiesToXML(parameters)));
 			connection.disconnect();
 			if (!result.equals("error")) {
@@ -71,7 +71,7 @@ public class RemoteLocationCollection implements LocationCollectionViewable {
 	public Collection<LocationProperty> getLocations() {
 		Collection<LocationProperty> locations = new Vector<LocationProperty>();
 		connection.connect();
-		String result = connection.sendCommandToServer(new XMLServerCommand(XMLServerCommand.GET_LOCATION_COLLECTION, ""));
+		String result = connection.sendCommandToServer(new XMLCommand(XMLCommand.GET_LOCATION_COLLECTION, ""));
 		connection.disconnect();
 		if (result != "error" && result != "unknown") {
 			KeyDataVector prop = XMLTool.XMLToProperties(XMLTool.removeRootTag(result));
