@@ -2,61 +2,105 @@
 #labels Phase-Design,Phase-Implementation
 
 =System structure=
-This page contains an overview of the most important classes used by the Smart Objects System software and an explanation of what they do.
+This page contains an overview of the most important classes used by the Smart Objects System software and an explanation of what they do. The following image shows the class diagram of the system.
 
 http://smart-objects-system.googlecode.com/svn/wiki/systemstructure.png
 
-==SOSServer==
+==Classes==
+
+===SOSServer===
 <font size="1">_[http://smart-objects-system.googlecode.com/svn/trunk/SOSGeneric/doc/main/SOSServer.html SOSGeneric.main.SOSServer]_</font>
 
 This abstract class is the starting point of the system. It reads the settings, starts the HTTP and XML listeners, adds the default agents and prepares several collection and storage objects which are used in the system. Also, an AgentsProcessor is created, which manages the execution of agents. Any implementing project has to extend this class, which has to be run in order to start the system.
 
-==Settings==
+===Settings===
 <font size="1">_[http://smart-objects-system.googlecode.com/svn/trunk/SOSGeneric/doc/main/Settings.html SOSGeneric.main.Settings]_</font>
 
 A proxy class which reads the settings from an .ini file through the use of a Properties object. Predefined setting names have been defined in this class as static strings.
 
-==Agent==
+===Agent===
 <font size="1">_[http://smart-objects-system.googlecode.com/svn/trunk/SOSGeneric/doc/model/agent/Agent.html SOSGeneric.model.agent.Agent]_</font>
 
 An abstract class which acts as a base for all agents. An agent is constructed through its properties, for which the Agent class provides get and set methods. Different access levels are available through the use of interfaces and some common property names are defined as statics strings in the class. Methods for learning, execution and garbage collection are defined in this class. Additionally, generate methods are available which control the generation of the web interface. An implementing project will have to extend the Agent class to provide its application specific behaviour and interface generation.
 
-==Property==
+===Property===
 <font size="1">_[http://smart-objects-system.googlecode.com/svn/trunk/SOSGeneric/doc/model/agent/property/Property.html SOSGeneric.model.agent.property.Property]_</font>
 
 A Property is a basic data structure which defines an agent. A number of property types have been defined, see the util.enums.PropertyType enum or model.agent.property.properties package for details.
 
-==AgentCollection==
-<font size="1">_[http://smart-objects-system.googlecode.com/svn/trunk/SOSGeneric/doc/model/agent/collection/AgentCollection.html SOSGeneric.model.agent.collection.AgentCollection]_</font>
-
-An instance of this class is used to retrieve agents from a storage. It implements two interfaces (one through the other) to provide different levels of access.
-
-==AgentCollectionStorage==
-<font size="1">_[http://smart-objects-system.googlecode.com/svn/trunk/SOSGeneric/doc/data/agents/AgentCollectionStorage.html SOSGeneric.data.agents.AgentCollectionStorage]_</font>
-
-An implementation of this class provides the storage of a collection of agents. This inculdes some basic, much used properties of the agent. The default implementation uses a MySQL database.
-
-==RemoteAgentCollection==
-<font size="1">_[http://smart-objects-system.googlecode.com/svn/trunk/SOSGeneric/doc/util/clientconnection/RemoteAgentCollection.html SOSGeneric.util.clientconnection.RemoteAgentCollection]_</font>
-
-An extension of AgentCollection which uses XML communication with a running server to retrieve Agents. This class is used in client applications.
-
-==AgentStorage==
+===AgentStorage===
 <font size="1">_[http://smart-objects-system.googlecode.com/svn/trunk/SOSGeneric/doc/data/agents/AgentStorage.html SOSGeneric.data.agents.AgentStorage]_</font>
 
 An implementation of this class provides the storage of individual agents and provides methods to manage and retrieve properties of those agents.
 
-==LocationCollection==
+===AgentCollection===
+<font size="1">_[http://smart-objects-system.googlecode.com/svn/trunk/SOSGeneric/doc/model/agent/collection/AgentCollection.html SOSGeneric.model.agent.collection.AgentCollection]_</font>
+
+An instance of this class is used to retrieve agents from a storage. It implements two interfaces (one through the other) to provide different levels of access.
+
+===RemoteAgentCollection===
+<font size="1">_[http://smart-objects-system.googlecode.com/svn/trunk/SOSGeneric/doc/util/clientconnection/RemoteAgentCollection.html SOSGeneric.util.clientconnection.RemoteAgentCollection]_</font>
+
+An extension of AgentCollection which uses XML communication with a running server to retrieve Agents. This class is used in client applications.
+
+===AgentCollectionStorage===
+<font size="1">_[http://smart-objects-system.googlecode.com/svn/trunk/SOSGeneric/doc/data/agents/AgentCollectionStorage.html SOSGeneric.data.agents.AgentCollectionStorage]_</font>
+
+An implementation of this class provides the storage of a collection of agents. This inculdes some basic, much used properties of the agent. The default implementation uses a MySQL database.
+
+===LocationCollection===
 <font size="1">_[http://smart-objects-system.googlecode.com/svn/trunk/SOSGeneric/doc/model/locations/LocationCollection.html SOSGeneric.model.locations.LocationCollection]_</font>
 
 A collection of locations, uses a LocatonCollectionStorage to cache already known addresses and their geographical locations. It also has a remote counterpart, to be used in client applications.
 
-==AgentsProcessor==
-<font size="1">_[http://smart-objects-system.googlecode.com/svn/trunk/SOSGeneric/doc/model/agent/execution/AgentsProcessor.html SOSGeneric.model.agent.execution.AgentsProcessor]_</font>
+===RemoteLocationCollection===
+<font size="1">_[http://smart-objects-system.googlecode.com/svn/trunk/SOSGeneric/doc/util/clientconnection/RemoteLocationCollection.html SOSGeneric.util.clientconnection.RemoteLocationCollection]_</font>
 
-Manages the exection of each agent. It creates an AgentExecutor when an agent is executed, which handles the actual execution of the agent.
+A collection allowing clients to retrieve locations from the server, via an XML communication connection.
 
-==HtmlGenerator==
+===LocationCollectionStorage===
+<font size="1">_[http://smart-objects-system.googlecode.com/svn/trunk/SOSGeneric/doc/data/locations/LocationCollectionStorage.html SOSGeneric.data.locations.LocationCollectionStorage]_</font>
+
+An implementation of this abstract class provides a data storage for locations. This means a cache of known addersses can be build, so location lookup is fast. The default implementationg uses a MySQL database.
+
+===HTTPListener===
+
+This class listens for HTTP connections at a certain port. It handles requests and finds the right agents, instructing them to generate a HTML page.
+
+===HtmlGenerator===
 <font size="1">_[http://smart-objects-system.googlecode.com/svn/trunk/SOSGeneric/doc/util/htmltool/HtmlGenerator.html SOSGeneric.util.htmltool.HtmlGenerator]_</font>
 
 A base for the generation of HTML formatted pages, providing several methods to add elements to the HTML UI. This class is extended several times, to also generate JavaScript code for HTML pages.
+
+===Classifier===
+<font size="1">_[http://smart-objects-system.googlecode.com/svn/trunk/SOSGeneric/doc/model/agent/classification/Classifier.html SOSGeneric.model.agent.classification.Classifier]_</font>
+
+The Classifier object is responsible for the learning part of the application. It uses a storage to save the behaviour of an Agent type, based on its status and several Properties.
+
+===ClassifierCollectionStorage===
+<font size="1">_[http://smart-objects-system.googlecode.com/svn/trunk/SOSGeneric/doc/data/classification/ClassifierCollectionStorage.html SOSGeneric.data.classification.ClassifierCollectionStorage]_</font>
+
+A collection storing all learned Agent instances.
+
+==Interfaces==
+
+===AgentInterface===
+<font size="1">_[http://smart-objects-system.googlecode.com/svn/trunk/SOSGeneric/doc/model/agent/AgentViewable.html SOSGeneric.model.model.agent.AgentViewable]_</font>
+
+<font size="1">_[http://smart-objects-system.googlecode.com/svn/trunk/SOSGeneric/doc/model/agent/AgentMutable.html SOSGeneric.model.agent.AgentMutable]_</font>
+
+Actually two interfaces that must be impelmented by a class to act as an Agent. The Viewable interface provides reading ('getters') methods to the agent, while the Mutable interface allows mutation ('setters') of the agent.
+
+===AgentCollectionInterface===
+<font size="1">_[http://smart-objects-system.googlecode.com/svn/trunk/SOSGeneric/doc/model/agent/collection/AgentCollectionViewable.html SOSGeneric.model.agent.collection.AgentCollectionViewable]_</font>
+
+<font size="1">_[http://smart-objects-system.googlecode.com/svn/trunk/SOSGeneric/doc/model/agent/collection/AgentCollectionMutable.html SOSGeneric.model.agent.collection.AgentCollectionMutable]_</font>
+
+An interface for AgentCollections. It defines methods for agent addition and retrieval. Actually consists of two interface, a Viewable and Mutable interface.
+
+===LocationCollectionInterface===
+<font size="1">_[http://smart-objects-system.googlecode.com/svn/trunk/SOSGeneric/doc/model/locations/LocationCollectionViewable.html SOSGeneric.model.locations.LocationCollectionViewable]_</font>
+
+<font size="1">_[http://smart-objects-system.googlecode.com/svn/trunk/SOSGeneric/doc/model/locations/LocationCollectionMutable.html SOSGeneric.model.locations.LocationCollectionMutable]_</font>
+
+An interface that must be implemented by a LocationCollection. It defines several methods for location retrieval and lookup. Actually consists of two interface, a Viewable and Mutable interface.
