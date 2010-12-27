@@ -1,0 +1,15 @@
+#summary an explanation of the behaviour of SOS
+#labels Phase-Design,Phase-Implementation
+
+=System behaviour=
+This page explains the behaviour of SOS in three different cases. These cases are: a data client adding a new object, a user requesting the web interface, and a user training an agent. Each will be discussed next.
+
+==Data client adding a new object==
+
+The figure below shows a UML communication diagram, indicating the different steps and function calls between classes required when a data client is adding a new object.
+
+[http://smart-objects-system.googlecode.com/svn/wiki/systembehaviour1.png]
+
+==User requesting the web interface==
+
+==User training an agent==
