@@ -1,8 +1,0 @@
-#summary an overview of the overall system design
-#labels Phase-Design,Phase-Requirements
-
-= Introduction =
-
-This page explains the overall system architecture of SOS, which is shown in the figure below. 
-
-[systemstructure.png systemstructure.png]
