@@ -7,6 +7,10 @@ public class WeatherAgentFactory extends AgentFactory {
 
 	@Override
 	protected Agent createSpecificAgent(String agentID) {
-		return new WeatherAgent(agentID);
+		if (agentID.equals("home")) {
+			return new WeatherHomeAgent(agentID);
+		} else {
+			return new WeatherAgent(agentID);
+		}
 	}
 }
