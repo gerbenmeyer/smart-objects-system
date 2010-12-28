@@ -38,12 +38,12 @@ public class MobileIndexAgent extends IndexAgent {
 		htmlPage.addToBodyHtml(HtmlTool.createDiv(header, "header_canvas"));
 
 		// default source
-		String source = Settings.getProperty(Settings.DEFAULT_SCRIPT);
+		String source = Settings.getProperty(Settings.DEFAULT_AGENT)+".map";
 
 		// deeplink to id.
 		if (params != null && params.containsKey(Settings.getProperty(Settings.KEYWORD_DEEPLINK))
 				&& params.get(Settings.getProperty(Settings.KEYWORD_DEEPLINK)) != null) {
-			source = params.get(Settings.getProperty(Settings.KEYWORD_DEEPLINK)) + ".html?deeplink=true";
+			source = params.get(Settings.getProperty(Settings.KEYWORD_DEEPLINK)) + ".map?deeplink=true";
 		}
 		
 		htmlPage.addToOnLoadScript("document.getElementById('hidden_frame').src='" + source + "';");

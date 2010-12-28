@@ -24,6 +24,16 @@ public class HtmlGenerator {
 	public void addCustomHtml(String stuff) {
 		buffer.append(stuff);
 	}
+	
+	/**
+	 * Adds a piece of HTML code to the content.
+	 * 
+	 * @param stuff
+	 *            the custom HTML
+	 */
+	public void addCustomScript(String stuff) {
+		buffer.append(stuff);
+	}	
 
 	/**
 	 * Adds a H2 header to the content.
@@ -83,7 +93,7 @@ public class HtmlGenerator {
 	public void addAgentHeaderLink(AgentViewable av) {
 		String id = av.getID();
 		if (av.needsDetailsPane()){
-			addHeader(HtmlTool.createLink(id+".html", HtmlTool.createImage(av.getIcon(), id)+av.get(Agent.LABEL), "hidden_frame")+HtmlTool.createLink("?" + Settings.getProperty(Settings.KEYWORD_DEEPLINK) + "=" + id, HtmlTool.createImage("link.png", "deeplink to "+id)));
+			addHeader(HtmlTool.createLink(id+".map", HtmlTool.createImage(av.getIcon(), id)+av.get(Agent.LABEL), "hidden_frame")+HtmlTool.createLink("?" + Settings.getProperty(Settings.KEYWORD_DEEPLINK) + "=" + id, HtmlTool.createImage("link.png", "deeplink to "+id)));
 		} else {
 			addHeader(HtmlTool.createImage(av.getIcon(), id)+av.get(Agent.LABEL));
 		}
@@ -141,6 +151,22 @@ public class HtmlGenerator {
 			return null;
 		}
 		return HTMLEntities.htmlentities(text.replaceAll("\n", " "));
+	}
+	
+	/**
+	 * Returns the HTML code of the script.
+	 * 
+	 * @return the code
+	 */
+	public StringBuffer createScript() {
+		HashMap<String, String> scriptAttr = new HashMap<String, String>();
+		scriptAttr.put("type", "text/javascript");
+
+		StringBuffer headcontent = new StringBuffer();
+		headcontent.append(HtmlTool.createScript(buffer, scriptAttr));
+		StringBuffer headbody = HtmlTool.createHeadBody("", null, new StringBuffer(), headcontent, null);
+
+		return HtmlTool.createHTML(headbody);
 	}
 	
 }

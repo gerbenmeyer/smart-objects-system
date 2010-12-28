@@ -15,17 +15,18 @@ import main.Settings;
 import model.agent.AgentViewable;
 import model.agent.agents.IndexAgent;
 import model.agent.collection.AgentCollectionViewable;
-import util.htmltool.HtmlDetailsPaneContentGenerator;
+import util.htmltool.HtmlDetailsContentGenerator;
+import util.htmltool.HtmlGenerator;
 import util.htmltool.HtmlMapContentGenerator;
 import util.htmltool.HtmlTool;
 
-import com.sun.net.httpserver.HttpExchange;
-import com.sun.net.httpserver.HttpHandler;
-import com.sun.net.httpserver.HttpServer;
 import com.sun.net.httpserver.Authenticator.Failure;
 import com.sun.net.httpserver.Authenticator.Result;
 import com.sun.net.httpserver.Authenticator.Retry;
 import com.sun.net.httpserver.Authenticator.Success;
+import com.sun.net.httpserver.HttpExchange;
+import com.sun.net.httpserver.HttpHandler;
+import com.sun.net.httpserver.HttpServer;
 
 /**
  * The HTTPListener listens for HTTP client connections and handles the request.
@@ -175,7 +176,7 @@ public class HTTPListener implements HttpHandler {
 				file = new File("index.html");
 			} else if (path.equals("/m")) {
 				file = new File("mobile.html");
-			} else if (path.endsWith(".html")) { 
+			} else if (path.endsWith(".map") || path.endsWith(".details") || path.endsWith(".train")) { 
 				file = new File(path);
 			} else {
 				file = new File(Settings.getProperty(Settings.HTML_DATA_DIR)+path.substring(1));
@@ -188,29 +189,30 @@ public class HTTPListener implements HttpHandler {
 			String[] fileParts = filename.split("\\.");
 			String agentCode = "";
 			String extension = "";
-			boolean details = false;
 			if (fileParts.length == 2) {
 				agentCode = fileParts[0];
 				extension = fileParts[1];
 			}
 
-			details = agentCode.contains("details");
-			String[] agentCodeParts = agentCode.split("_details");
-			if (agentCodeParts.length == 1) {
-				agentCode = agentCodeParts[0];
-			}
+//			details = agentCode.contains("details");
+//			String[] agentCodeParts = agentCode.split("_details");
+//			if (agentCodeParts.length == 1) {
+//				agentCode = agentCodeParts[0];
+//			}
+			
+			boolean agentExtension = extension.equals("html") || extension.equals("details") || extension.equals("map") || extension.equals("train"); 
 
-			if (extension.equals("html") && !agentCode.isEmpty() && agentCollectionView.containsKey(agentCode)) {
+			if (agentExtension && !agentCode.isEmpty() && agentCollectionView.containsKey(agentCode)) {
 				byte[] bytes = new byte[0];
 				AgentViewable av = agentCollectionView.get(agentCode);
-				StringBuffer html;
-				if (av instanceof IndexAgent) {
+				StringBuffer html = new StringBuffer();
+				if (extension.equals("html") && av instanceof IndexAgent) {
 					html = ((IndexAgent) av).generatePage(params);
-				} else if (details) {
-					HtmlDetailsPaneContentGenerator detailsPane = new HtmlDetailsPaneContentGenerator();
-					av.generateDetailsPaneContent(detailsPane, params);
+				} else if (extension.equals("details")) {
+					HtmlDetailsContentGenerator detailsPane = new HtmlDetailsContentGenerator();
+					av.generateDetailsContent(detailsPane, params);
 					html = detailsPane.getHtml();
-				} else {
+				} else if (extension.equals("map")) {
 					HtmlMapContentGenerator mapContent = new HtmlMapContentGenerator(agentCode);
 					
 					boolean showSidePane = av.needsDetailsPane();
@@ -221,12 +223,18 @@ public class HTTPListener implements HttpHandler {
 						
 					if (showSidePane){
 						mapContent.addCustomScript("parent.document.getElementById('details_canvas').innerHTML = 'Loading ...';\n");
-						mapContent.addCustomScript("parent.loadDetails('" + agentCode + "_details.html"
+						mapContent.addCustomScript("parent.loadDetails('" + agentCode + ".details"
 								+ (!paramString.isEmpty() ? "?" + paramString : "") + "');\n");
 					}
 
 					av.generateMapContent(mapContent, params);
-					html = mapContent.createHtml();
+					html = mapContent.createMapContentScript();
+				} else if (extension.equals("train")) {
+					HtmlGenerator content = new HtmlGenerator();
+					av.teachStatus(content,params);
+					html = content.createScript();
+				} else {
+					System.out.println("This is NOT 21good: " + filename);
 				}
 				bytes = html.toString().getBytes();
 				t.getResponseHeaders().add("Content-Type", "text/html");
@@ -242,15 +250,7 @@ public class HTTPListener implements HttpHandler {
 				} else {
 					is = inputStream;
 				}
-				int c;
-				t.sendResponseHeaders(200, 0);
-				OutputStream os = t.getResponseBody();
-				while ((c = is.read()) != -1) {
-	                os.write(c);
-	            }
-				is.close();
-				os.close();
-
+				
 				if (filename.endsWith(".png")) {
 					t.getResponseHeaders().add("Content-Type", "image/png");
 				} else if (filename.endsWith(".html") || filename.endsWith(".htm")) {
@@ -260,6 +260,17 @@ public class HTTPListener implements HttpHandler {
 				} else if (filename.endsWith(".css")) {
 					t.getResponseHeaders().add("Content-Type", "text/css");
 				}
+				t.sendResponseHeaders(200, 0);
+				
+				int c;
+				OutputStream os = t.getResponseBody();
+				while ((c = is.read()) != -1) {
+	                os.write(c);
+	            }
+				
+				is.close();
+				os.close();
+
 			} else {
 				System.out.println("This is NOT good: " + filename);
 				t.getResponseHeaders().add("Content-Type", "text/html");

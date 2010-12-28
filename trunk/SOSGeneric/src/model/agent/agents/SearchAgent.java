@@ -11,7 +11,7 @@ import util.BenchMarker;
 import util.Capitalize;
 import util.db.MySQLConnection;
 import util.enums.PropertyType;
-import util.htmltool.HtmlDetailsPaneContentGenerator;
+import util.htmltool.HtmlDetailsContentGenerator;
 import util.htmltool.HtmlMapContentGenerator;
 import util.htmltool.HtmlTool;
 
@@ -36,7 +36,7 @@ public class SearchAgent extends Agent {
 	}
 	
 	@Override
-	public void generateDetailsPaneContent(HtmlDetailsPaneContentGenerator detailsPane, HashMap<String, String> params) {
+	public void generateDetailsContent(HtmlDetailsContentGenerator detailsPane, HashMap<String, String> params) {
 		BenchMarker bm = new BenchMarker("SearchAgent PaneContent", false);
 		MySQLConnection.getInstance().resetCounter();
 		String search = "";
@@ -77,10 +77,10 @@ public class SearchAgent extends Agent {
 			String statusIcon = showStatus ? av.getStatus().toString().toLowerCase() + ".png" : "";
 			if (smallDetailsPane){
 				detailsPane.addDataRowLink(av.getIcon(), av.get(Agent.LABEL), statusIcon, av.getID()
-					+ ".html");
+					+ ".map");
 			} else {
 				detailsPane.addDataRowLink(av.getIcon(), av.get(Agent.LABEL), av.get(Agent.DESCRIPTION), 
-					statusIcon, av.getID() + ".html");
+					statusIcon, av.getID() + ".map");
 			}
 		}
 		bm.taskFinished("Iterating agents ("+MySQLConnection.getInstance().getCounter()+" queries)" );

@@ -15,10 +15,10 @@ import model.agent.property.properties.DependenciesProperty;
 import model.agent.property.properties.HistoryProperty;
 import util.enums.AgentStatus;
 import util.enums.PropertyType;
-import util.htmltool.HtmlDetailsPaneContentGenerator;
+import util.htmltool.HtmlDetailsContentGenerator;
+import util.htmltool.HtmlGenerator;
 import util.htmltool.HtmlMapBalloonContentGenerator;
 import util.htmltool.HtmlMapContentGenerator;
-import util.htmltool.HtmlTool;
 import util.xmltool.XMLTool;
 import data.agents.AgentStorage;
 
@@ -122,18 +122,24 @@ public abstract class Agent implements AgentMutable {
 	 */
 	protected void act() throws Exception {}
 
-	/**
-	 * Learn the agent a new status.
-	 * 
-	 * @param status
-	 *            the status to be teached
-	 */
-	public void teachStatus(AgentStatus status) {
-		try {
-			Classifier r = ClassifierCollection.getInstance().get(
-					get(Agent.TYPE), getArffAttributesString());
-			r.addInstance(getArffInstanceString(), status);
-		} catch (Exception e) {
+	public void teachStatus(HtmlGenerator content, HashMap<String,String> params) {
+		if (!Settings.getProperty(Settings.AGENT_PROBLEM_LEARNING_ENABLED)
+				.equals(Boolean.toString(true))) {
+			content.addCustomScript("alert('Training of agents is disabled!');");
+			return;
+		}
+		for (String key : params.keySet()) {
+			if (key.equals("learnstatus")) {
+				try {
+					AgentStatus newStatus = AgentStatus
+							.valueOf(params.get(key));
+					Classifier r = ClassifierCollection.getInstance().get(
+							get(Agent.TYPE), getArffAttributesString());
+					r.addTrainingInstance(getArffInstanceString(), newStatus);
+					content.addCustomScript("alert('New status learned!');");
+				} catch (Exception e) {
+				}
+			}
 		}
 	}
 
@@ -149,7 +155,7 @@ public abstract class Agent implements AgentMutable {
 			try {
 				Classifier classifier = ClassifierCollection.getInstance().get(
 						get(Agent.TYPE), getArffAttributesString());
-				status = classifier.getStatus(getArffInstanceString());
+				status = classifier.classifyStatus(getArffInstanceString());
 			} catch (Exception e) {
 			}
 		}
@@ -183,8 +189,8 @@ public abstract class Agent implements AgentMutable {
 			HashMap<String, String> params){
 	}
 
-	public void generateDetailsPaneContent(
-			HtmlDetailsPaneContentGenerator detailsPane,
+	public void generateDetailsContent(
+			HtmlDetailsContentGenerator detailsPane,
 			HashMap<String, String> params){
 	}
 	
@@ -193,65 +199,6 @@ public abstract class Agent implements AgentMutable {
 		balloonContent.addParagraph(get(Agent.DESCRIPTION));
 	}
 	
-	/**
-	 * This function generates the code required for training agents as part of
-	 * the mapContent. Has to be used in combination with
-	 * generateDetailsPaneTrainingCode
-	 * 
-	 * @param mapContent
-	 * @param params
-	 */
-	public void generateMapContentTrainingCode(
-			HtmlMapContentGenerator mapContent, HashMap<String, String> params) {
-		if (!Settings.getProperty(Settings.AGENT_PROBLEM_LEARNING_ENABLED)
-				.equals(Boolean.toString(true))) {
-			return;
-		}
-		for (String key : params.keySet()) {
-			if (key.equals("learnstatus")) {
-				try {
-					AgentStatus newStatus = AgentStatus
-							.valueOf(params.get(key));
-					teachStatus(newStatus);
-					mapContent.addCustomScript("alert('New status learned!');");
-				} catch (Exception e) {
-				}
-			}
-		}
-	}
-
-	/**
-	 * This function generates the code required for training agents as part of
-	 * the detailsPane. Has to be used in combination with
-	 * generateMapContentTrainingCode
-	 * 
-	 * @param detailsPane
-	 * @param params
-	 */
-	public void generateDetailsPaneTrainingCode(
-			HtmlDetailsPaneContentGenerator detailsPane,
-			HashMap<String, String> params) {
-		if (!Settings.getProperty(Settings.AGENT_PROBLEM_LEARNING_ENABLED)
-				.equals(Boolean.toString(true))) {
-			return;
-		}
-
-		detailsPane.addSubHeader("Training");
-		detailsPane.addDataHeader("", "Training", "Status");
-		String url = getID() + ".html?learnstatus=";
-		String trainingCode = "";
-		trainingCode += HtmlTool.createLink(url + AgentStatus.OK.toString(),
-				HtmlTool.createImage("ok.png", "ok", 16), "hidden_frame");
-		trainingCode += " ";
-		trainingCode += HtmlTool.createLink(url
-				+ AgentStatus.WARNING.toString(), HtmlTool.createImage(
-				"warning.png", "warning", 16), "hidden_frame");
-		trainingCode += " ";
-		trainingCode += HtmlTool.createLink(url + AgentStatus.ERROR.toString(),
-				HtmlTool.createImage("error.png", "error", 16), "hidden_frame");
-		detailsPane.addDataRow("info.png", "Provide status", trainingCode, "");
-	}
-
 	public boolean addIDToDependenciesProperty(String name, String id) {
 		Property p = getProperty(name);
 		if (p == null) {

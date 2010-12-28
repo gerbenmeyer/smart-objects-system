@@ -1,17 +1,19 @@
 package util.htmltool;
 
+import util.enums.AgentStatus;
+
 
 /**
  * HtmlDetailsPaneContentGenerator generates HTML content for the details pane, making use of {@link HtmlTool}.
  * 
  * @author Gerben G. Meyer
  */
-public class HtmlDetailsPaneContentGenerator extends HtmlGenerator{
+public class HtmlDetailsContentGenerator extends HtmlGenerator{
 
 	/**
 	 * Constructs a new HtmlDetailsPaneContentGenerator instance.
 	 */
-	public HtmlDetailsPaneContentGenerator() {
+	public HtmlDetailsContentGenerator() {
 		super();
 	}
 
@@ -154,6 +156,29 @@ public class HtmlDetailsPaneContentGenerator extends HtmlGenerator{
 					+ "</div>" + "</div>\n";
 		}
 		buffer.append(row);
+	}
+	
+	/**
+	 * This function generates the code required for training agents as part of
+	 * the detailsPane. Has to be used in combination with
+	 * generateMapContentTrainingCode
+	 * 
+	 * @param detailsPane
+	 * @param params
+	 */
+	public void addDataRowTrainingButtons(String agentCode) {
+		String url = agentCode + ".train?learnstatus=";
+		String trainingCode = "";
+		trainingCode += HtmlTool.createLink(url + AgentStatus.OK.toString(),
+				HtmlTool.createImage("ok.png", "ok", 16), "hidden_frame");
+		trainingCode += " ";
+		trainingCode += HtmlTool.createLink(url
+				+ AgentStatus.WARNING.toString(), HtmlTool.createImage(
+				"warning.png", "warning", 16), "hidden_frame");
+		trainingCode += " ";
+		trainingCode += HtmlTool.createLink(url + AgentStatus.ERROR.toString(),
+				HtmlTool.createImage("error.png", "error", 16), "hidden_frame");
+		addDataRow("info.png", "Provide status", trainingCode, "");
 	}
 
 }

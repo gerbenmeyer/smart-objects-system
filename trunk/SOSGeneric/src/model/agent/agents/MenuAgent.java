@@ -11,7 +11,7 @@ import util.Capitalize;
 import util.comparators.AgentTypeComparator;
 import util.enums.AgentStatus;
 import util.enums.PropertyType;
-import util.htmltool.HtmlDetailsPaneContentGenerator;
+import util.htmltool.HtmlDetailsContentGenerator;
 import util.htmltool.HtmlTool;
 
 /**
@@ -35,7 +35,7 @@ public class MenuAgent extends Agent {
 	}
 	
 	@Override
-	public void generateDetailsPaneContent(HtmlDetailsPaneContentGenerator detailsPane, HashMap<String, String> params) {
+	public void generateDetailsContent(HtmlDetailsContentGenerator detailsPane, HashMap<String, String> params) {
 		List<String> types = AgentCollection.getInstance().getTypes();
 
 		Collections.sort(types, new AgentTypeComparator());
@@ -51,12 +51,12 @@ public class MenuAgent extends Agent {
 		if (Settings.getProperty(Settings.SHOW_ALL_OBJECTS).equals("true")) {
 			//FIXME not generic, as all_icon_menu.png is not available in the SOSGeneric project
 			if (showStatus) {
-				menu += "<div class=\"property linked_property\" onclick=\"document.getElementById('hidden_frame').src = 'search.html?q='"
+				menu += "<div class=\"property linked_property\" onclick=\"document.getElementById('hidden_frame').src = 'search.map?q='"
 						+ " + document.getElementById('overview_filter').value;\"><div class=\"propertyicon\">"
 						+ HtmlTool.createImage("all_icon_menu.png", "all", 16)
 						+ "</div><div class=\"menu_name\">All</div></div>";
 			} else {
-				menu += "<div class=\"property linked_property\" onclick=\"document.getElementById('hidden_frame').src = 'search.html?q=';\">"
+				menu += "<div class=\"property linked_property\" onclick=\"document.getElementById('hidden_frame').src = 'search.map?q=';\">"
 						+ "<div class=\"propertyicon\">"
 						+ HtmlTool.createImage("all_icon_menu.png", "all", 16)
 						+ "</div><div class=\"menu_name\">All</div></div>";
@@ -65,13 +65,13 @@ public class MenuAgent extends Agent {
 
 		for (String type : types) {
 			if (showStatus) {
-				menu += "<div class=\"property linked_property\" onclick=\"document.getElementById('hidden_frame').src = 'search.html?q=type:"
+				menu += "<div class=\"property linked_property\" onclick=\"document.getElementById('hidden_frame').src = 'search.map?q=type:"
 						+ type.toLowerCase()
 						+ "%20' + document.getElementById('overview_filter').value;\"><div class=\"propertyicon\">"
 						+ HtmlTool.createImage(type.toLowerCase() + "_icon_menu.png", type.toLowerCase(), 16)
 						+ "</div><div class=\"menu_name\">" + Capitalize.capitalize(type) + "</div></div>";
 			} else {
-				menu += "<div class=\"property linked_property\" onclick=\"document.getElementById('hidden_frame').src = 'search.html?q=type:"
+				menu += "<div class=\"property linked_property\" onclick=\"document.getElementById('hidden_frame').src = 'search.map?q=type:"
 						+ type.toLowerCase()
 						+ "';\"><div class=\"propertyicon\">"
 						+ HtmlTool.createImage(type.toLowerCase() + "_icon_menu.png", type.toLowerCase(), 16)
@@ -80,7 +80,7 @@ public class MenuAgent extends Agent {
 		}
 		
 		String defaultClustering = Settings.getProperty(Settings.DEFAULT_CLUSTERING);
-		String defaultScript = Settings.getProperty(Settings.DEFAULT_SCRIPT);
+		String defaultFilter = "";//Settings.getProperty(Settings.DEFAULT_AGENT);
 
 		menu += HtmlTool.createHeader2("Options");
 		menu += "<input id=\"clustering_enabled\" type=\"checkbox\" onclick=\"setClustering(this.checked)\" "
@@ -89,17 +89,17 @@ public class MenuAgent extends Agent {
 
 		if (showStatus) {
 			menu += "<div class=\"filter_text\">Display:</div>"
-					+ "<select id=\"overview_filter\" onchange=\"document.getElementById('hidden_frame').src = 'search.html?q=type:'+document.getElementById('hidden_frame').contentDocument.URL.match(/type:([\\w]+)/)[1]+' '+this.value;\">"
+					+ "<select id=\"overview_filter\" onchange=\"document.getElementById('hidden_frame').src = 'search.map?q=type:'+document.getElementById('hidden_frame').contentDocument.URL.match(/type:([\\w]+)/)[1]+' '+this.value;\">"
 					+ " <option value=\"\">Everything</option>" + " <option value=\"status:"+AgentStatus.ERROR.toString()+"\" "
-					+ (defaultScript.contains("status:"+AgentStatus.ERROR.toString()+"") ? "selected=\"selected\"" : "") + ">Errors</option>"
+					+ (defaultFilter.contains("status:"+AgentStatus.ERROR.toString()+"") ? "selected=\"selected\"" : "") + ">Errors</option>"
 					+ " <option value=\"status:"+AgentStatus.WARNING.toString()+"\" "
-					+ (defaultScript.contains("status:"+AgentStatus.WARNING.toString()+"") ? "selected=\"selected\"" : "") + ">Warnings</option>"
+					+ (defaultFilter.contains("status:"+AgentStatus.WARNING.toString()+"") ? "selected=\"selected\"" : "") + ">Warnings</option>"
 					+ " <option value=\"status:"+AgentStatus.UNKNOWN.toString()+"\" "
-					+ (defaultScript.contains("status:"+AgentStatus.UNKNOWN.toString()+"") ? "selected=\"selected\"" : "") + ">Unknowns</option>"
+					+ (defaultFilter.contains("status:"+AgentStatus.UNKNOWN.toString()+"") ? "selected=\"selected\"" : "") + ">Unknowns</option>"
 					+ "</select>";
 		}
 		
-		menu += "<div class=\"filter_text\">"+HtmlTool.createLink("stats.html", "Stats", "hidden_frame")+"</div>";
+		menu += "<div class=\"filter_text\">"+HtmlTool.createLink("stats.map", "Stats", "hidden_frame")+"</div>";
 
 		menu += "</div>";
 

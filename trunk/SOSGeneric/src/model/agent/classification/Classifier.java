@@ -68,7 +68,7 @@ public class Classifier {
 	 * @param status
 	 *            The trained status
 	 */
-	public synchronized void addInstance(String arffInstance, AgentStatus status) {
+	public synchronized void addTrainingInstance(String arffInstance, AgentStatus status) {
 		this.arffData = arffInstance + "," + status.toString() +"\n"+ this.arffData;
 
 		if (getArffData().replaceAll("[^\\n]", "").length() > 10) {
@@ -91,7 +91,7 @@ public class Classifier {
 	 *            ARFF representation of the to be classified instance
 	 * @return The most appropriate status
 	 */
-	public AgentStatus getStatus(String arffInstance) {
+	public AgentStatus classifyStatus(String arffInstance) {
 		AgentStatus result = AgentStatus.UNKNOWN;
 
 		if (getArffData().replaceAll("[^\\n]", "").length() <= 10) {

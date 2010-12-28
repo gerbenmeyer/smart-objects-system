@@ -5,7 +5,7 @@ import java.util.HashMap;
 import model.agent.Agent;
 import model.agent.collection.AgentCollection;
 import util.enums.PropertyType;
-import util.htmltool.HtmlDetailsPaneContentGenerator;
+import util.htmltool.HtmlDetailsContentGenerator;
 
 /**
  * Agent for generating stats.
@@ -47,7 +47,7 @@ public class StatsAgent extends Agent {
 	}
 
 	@Override
-	public void generateDetailsPaneContent(HtmlDetailsPaneContentGenerator detailsPane, HashMap<String, String> params) {
+	public void generateDetailsContent(HtmlDetailsContentGenerator detailsPane, HashMap<String, String> params) {
 		detailsPane.addHeader("Statistics");
 		detailsPane.addSubHeader("Index");
 		detailsPane.addDataHeader("", "Property");
