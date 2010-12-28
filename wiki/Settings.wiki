@@ -100,9 +100,9 @@ Set to true if the details pane should list overviews.
 
 Set to true if the details pane should be smaller than default.
 
-*_default_script_* = (string)
+*_default_agent_* = (string)
 
-The default script/page to load.
+The default agent which will generate the frontpage.
 
 *_default_clustering_* = (boolean)
 
