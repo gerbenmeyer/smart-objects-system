@@ -43,7 +43,6 @@ public class StatsAgent extends Agent {
 		double executionWaitTime = (System.currentTimeMillis() - lastExecutionMillis) / 1000.0;
 		set(PropertyType.NUMBER, EXECUTION_WAIT_TIME, "" + executionWaitTime);
 		set(PropertyType.NUMBER, LAST_EXECUTION_MILLIS, "" + System.currentTimeMillis());
-		save();
 	}
 
 	@Override

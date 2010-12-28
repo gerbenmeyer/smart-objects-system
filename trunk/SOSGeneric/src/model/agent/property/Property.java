@@ -232,13 +232,10 @@ public abstract class Property {
 		if (p != null) {
 			if (value.length() > 0) {
 				try {
-//					if (recordHistory) {
-//						p.recordHistory();
-//					}
 					p.parseString(value);
 				} catch (Exception e) {
-					e.printStackTrace();
-					System.err.println("Unknown property value: " + value);
+					System.err.println("Unknown property value for "+p.getPropertyType()+": " + value);
+					return null;
 				}
 			}
 		}

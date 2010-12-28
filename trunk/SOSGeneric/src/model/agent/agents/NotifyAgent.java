@@ -144,7 +144,6 @@ public class NotifyAgent extends Agent {
 		set(PropertyType.DEPENDENCIES, "ExistingIssueAgents", existingIssueIds.toString());
 		set(PropertyType.TIME, "LastRun", TimeProperty.nowString());
 		set(PropertyType.BOOLEAN, "FirstRun", Boolean.toString(false));
-		this.save();
 	}
 
 	/**

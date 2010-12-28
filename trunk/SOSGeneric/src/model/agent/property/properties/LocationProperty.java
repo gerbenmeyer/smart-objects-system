@@ -194,7 +194,7 @@ public class LocationProperty extends Property {
 	 */
 	public boolean nearby(LocationProperty lp) {
 		double distance = distanceTo(lp);
-		double threshold = 3.0;
+		double threshold = 5.0;
 
 		if (this.getLocationType() == GoogleLocationType.APPROXIMATE
 				|| lp.getLocationType() == GoogleLocationType.APPROXIMATE) {
