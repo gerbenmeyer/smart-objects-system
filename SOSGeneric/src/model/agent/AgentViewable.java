@@ -118,6 +118,7 @@ public interface AgentViewable {
 	/**
 	 * Learn the agent a new status, based on http request params.
 	 * 
+	 * @param content the generator which can be used for a result
 	 * @param params the request parameters
 	 */
 	public void teachStatus(HtmlGenerator content, HashMap<String,String> params);	
