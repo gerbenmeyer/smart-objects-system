@@ -163,8 +163,7 @@ public class HtmlDetailsContentGenerator extends HtmlGenerator{
 	 * the detailsPane. Has to be used in combination with
 	 * generateMapContentTrainingCode
 	 * 
-	 * @param detailsPane
-	 * @param params
+	 * @param agentCode
 	 */
 	public void addDataRowTrainingButtons(String agentCode) {
 		String url = agentCode + ".train?learnstatus=";
