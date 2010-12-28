@@ -20,14 +20,21 @@ This abstract class is the starting point of the system. It reads the settings, 
 
 A proxy class which reads the settings from an .ini file through the use of a Properties object. Predefined setting names have been defined in this class as static strings.
 
-===HTTPListener===
+===HTMLConnection===
+<font size="1">_[http://smart-objects-system.googlecode.com/svn/trunk/SOSGeneric/doc/util/clientconnection/HTTPListener.html SOSGeneric.util.clientconnection.HTTPListener]_</font>
 
-This class listens for HTTP connections at a certain port. It handles requests and finds the right agents, instructing them to generate a HTML page.
-
-===HtmlGenerator===
 <font size="1">_[http://smart-objects-system.googlecode.com/svn/trunk/SOSGeneric/doc/util/htmltool/HtmlGenerator.html SOSGeneric.util.htmltool.HtmlGenerator]_</font>
 
-A base for the generation of HTML formatted pages, providing several methods to add elements to the HTML UI. This class is extended several times, to also generate JavaScript code for HTML pages.
+Actually consists of two classes, HTTPListener and HtmlGenerator.
+HTTPListener listens for HTTP connections at a certain port. It handles requests and finds the right agents, instructing them to generate a HTML page through a HtmlGenerator object. This object provides several methods for adding elements to the HTML UI. Child implementations also include generation of JavaScript code for HTML pages.
+
+===XMLConnection===
+<font size="1">_[http://smart-objects-system.googlecode.com/svn/trunk/SOSGeneric/doc/util/clientconnection/XMLListener.html SOSGeneric.util.clientconnection.XMLListener]_</font>
+
+<font size="1">_[http://smart-objects-system.googlecode.com/svn/trunk/SOSGeneric/doc/util/clientconnection/XMLClientConnection.html SOSGeneric.util.clientconnection.XMLClientConnection]_</font>
+
+Actually consists of two classes, XMLListener and XMLClientConnection.
+XMLListener listens on a port for connections, creating a XMLClientConnection. XMLClientConnection handles the reception of commands from a client (which are serialized [http://smart-objects-system.googlecode.com/svn/trunk/SOSGeneric/doc/util/clientconnection/XMLServerCommand.html XMLServerCommands]) and translates them to a server action, which might be send back to the client.
 
 ==Data Representation==
 
