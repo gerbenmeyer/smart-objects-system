@@ -98,16 +98,12 @@ public interface AgentMutable extends AgentViewable {
 
 	/**
 	 * Saves the agent in the {@link AgentCollectionStorage}
-	 * 
-	 * @return if the save action was successful
 	 */
 	public void save();
 
 	/**
 	 * Deletes the agent. It is removed from the collection and its properties
 	 * are deleted.
-	 * 
-	 * @return if the delete action was successful
 	 */
 	public void delete();
 }
