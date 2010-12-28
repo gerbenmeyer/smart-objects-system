@@ -108,6 +108,7 @@ public abstract class Agent implements AgentMutable {
 	final public void execute() throws InterruptedException {
 		try {
 			act();
+			save();
 		} catch (InterruptedException ie) {
 			throw ie;
 		} catch (Exception e) {
@@ -292,10 +293,9 @@ public abstract class Agent implements AgentMutable {
 	}
 
 	public void save() {
-		// TODO: is this really not necessary?
-//		if (writeBuffer.isEmpty()){
-//			return;
-//		}
+		if (writeBuffer.isEmpty()){
+			return;
+		}
 		if (AgentStorage.getInstance() != null) {
 			AgentStorage.getInstance().putProperties(getID(), writeBuffer);
 			writeBuffer.clear();
@@ -388,7 +388,10 @@ public abstract class Agent implements AgentMutable {
 	}
 
 	public void set(PropertyType pt, String name, String value) {
-		putProperty(Property.createProperty(pt, name, value));
+		Property p = Property.createProperty(pt, name, value);
+		if (p != null){
+			putProperty(p);
+		}
 	}
 
 	public AgentStatus getStatus() {
