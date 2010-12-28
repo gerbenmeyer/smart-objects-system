@@ -45,7 +45,7 @@ public class Settings {
 	public final static String SHOW_ALL_OBJECTS = "show_all_objects";
 	public final static String SHOW_OVERVIEW_LISTS = "show_overview_lists";
 	public final static String SHOW_SMALL_DETAILS_PANE = "show_small_details_pane";
-	public final static String DEFAULT_SCRIPT = "default_script";
+	public final static String DEFAULT_AGENT = "default_agent";
 	public final static String DEFAULT_CLUSTERING = "default_clustering";
 	public final static String KEYWORD_DEEPLINK = "keyword_deeplink";
 	

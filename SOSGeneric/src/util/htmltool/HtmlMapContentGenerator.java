@@ -29,26 +29,16 @@ public class HtmlMapContentGenerator extends HtmlGenerator{
 	}
 
 	/**
-	 * Adds a piece of HTML code to the content.
-	 * 
-	 * @param stuff
-	 *            the custom HTML
-	 */
-	public void addCustomScript(String stuff) {
-		buffer.append(stuff);
-	}
-
-	/**
-	 * Returns the HTML code of the map.
+	 * Returns the HTML code of the map script.
 	 * 
 	 * @return the code
 	 */
-	public StringBuffer createHtml() {
+	public StringBuffer createMapContentScript() {
 		HashMap<String, String> scriptAttr = new HashMap<String, String>();
 		scriptAttr.put("type", "text/javascript");
 
 		StringBuffer headcontent = createMapScriptHeader();
-		headcontent.append("<META HTTP-EQUIV=\"Refresh\" CONTENT=\"300\" />\n");
+//		headcontent.append("<META HTTP-EQUIV=\"Refresh\" CONTENT=\"300\" />\n");
 		headcontent.append(HtmlTool.createScript(buffer, scriptAttr));
 		StringBuffer headbody = HtmlTool.createHeadBody(title, null, new StringBuffer(), headcontent, null);
 

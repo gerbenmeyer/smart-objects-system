@@ -7,7 +7,7 @@ import model.agent.Agent;
 import model.agent.AgentViewable;
 import model.agent.collection.AgentCollection;
 import util.enums.PropertyType;
-import util.htmltool.HtmlDetailsPaneContentGenerator;
+import util.htmltool.HtmlDetailsContentGenerator;
 import util.htmltool.HtmlMapContentGenerator;
 
 public class BudapestHomeAgent extends Agent {
@@ -32,7 +32,7 @@ public class BudapestHomeAgent extends Agent {
 	}
 
 	@Override
-	public void generateDetailsPaneContent(HtmlDetailsPaneContentGenerator detailsPane, HashMap<String, String> params) {
+	public void generateDetailsContent(HtmlDetailsContentGenerator detailsPane, HashMap<String, String> params) {
 		//show a welcome message
 		detailsPane.addHeader("Welcome to the "+Settings.getProperty(Settings.APPLICATION_NAME));
 		detailsPane.addParagraph("Here, you can get an overview of all the major attractions in Budapest. Furthermore, trainstations, the airport, and even places to stay can be found here.");
@@ -41,7 +41,7 @@ public class BudapestHomeAgent extends Agent {
 		detailsPane.addSubHeader("The major attractions");
 		AgentViewable av = AgentCollection.getInstance().get("search");
 		params.put("q", "type:attraction");
-		av.generateDetailsPaneContent(detailsPane, params);
+		av.generateDetailsContent(detailsPane, params);
 	}
 
 }

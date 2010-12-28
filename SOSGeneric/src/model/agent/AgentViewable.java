@@ -6,7 +6,8 @@ import java.util.Vector;
 
 import util.enums.AgentStatus;
 import util.enums.PropertyType;
-import util.htmltool.HtmlDetailsPaneContentGenerator;
+import util.htmltool.HtmlDetailsContentGenerator;
+import util.htmltool.HtmlGenerator;
 import util.htmltool.HtmlMapBalloonContentGenerator;
 import util.htmltool.HtmlMapContentGenerator;
 
@@ -97,7 +98,7 @@ public interface AgentViewable {
 	 * @param detailsPane the generator
 	 * @param params the request parameters
 	 */
-	public void generateDetailsPaneContent(HtmlDetailsPaneContentGenerator detailsPane, HashMap<String, String> params);
+	public void generateDetailsContent(HtmlDetailsContentGenerator detailsPane, HashMap<String, String> params);
 	/**
 	 * Adds the agent specific map content to the map content generator. Request parameters may be passed through.
 	 * 
@@ -114,4 +115,10 @@ public interface AgentViewable {
 	 * @param params the request parameters
 	 */
 	public void generateMapBalloonContent(HtmlMapBalloonContentGenerator balloonContent, HashMap<String,String> params);
+	/**
+	 * Learn the agent a new status, based on http request params.
+	 * 
+	 * @param params the request parameters
+	 */
+	public void teachStatus(HtmlGenerator content, HashMap<String,String> params);	
 }

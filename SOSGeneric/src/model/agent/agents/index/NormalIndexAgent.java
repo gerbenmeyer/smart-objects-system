@@ -31,11 +31,11 @@ public class NormalIndexAgent extends IndexAgent {
 				"main.css");
 
 		String header = HtmlTool.createImageLeft(Settings.getProperty(Settings.APPLICATION_ICON), "logo");
-		header += HtmlTool.createHeader1(HtmlTool.createLink(Settings.getProperty(Settings.DEFAULT_SCRIPT), Settings.getProperty(Settings.APPLICATION_NAME), "hidden_frame"));
+		header += HtmlTool.createHeader1(HtmlTool.createLink(Settings.getProperty(Settings.DEFAULT_AGENT)+".map", Settings.getProperty(Settings.APPLICATION_NAME), "hidden_frame"));
 		header += HtmlTool.createHeader2(Settings.getProperty(Settings.APPLICATION_VERSION));
 
 		String search = "";
-		search += "<form style=\"float:right;\" action=\"search.html\" method=\"get\" target=\"hidden_frame\">";
+		search += "<form style=\"float:right;\" action=\"search.map\" method=\"get\" target=\"hidden_frame\">";
 		search += "<input type=\"text\" name=\"q\" />";
 		search += "&nbsp;";
 		search += "<input type=\"image\" src=\"search.png\" alt=\"Search\" style=\"vertical-align:middle\"/>";
@@ -43,15 +43,15 @@ public class NormalIndexAgent extends IndexAgent {
 
 		htmlPage.addToBodyHtml(HtmlTool.createDiv(search + header, "header_canvas"));
 
-		htmlPage.addToFinalScript("ajaxpage('menu_details.html','menu_canvas');");
+		htmlPage.addToFinalScript("ajaxpage('menu.details','menu_canvas');");
 
 		// default source
-		String source = Settings.getProperty(Settings.DEFAULT_SCRIPT);
+		String source = Settings.getProperty(Settings.DEFAULT_AGENT)+".map";
 
 		// deeplink to id.
 		if (params != null && params.containsKey(Settings.getProperty(Settings.KEYWORD_DEEPLINK))
 				&& params.get(Settings.getProperty(Settings.KEYWORD_DEEPLINK)) != null) {
-			source = params.get(Settings.getProperty(Settings.KEYWORD_DEEPLINK)) + ".html?deeplink=true";
+			source = params.get(Settings.getProperty(Settings.KEYWORD_DEEPLINK)) + ".map?deeplink=true";
 		}
 		htmlPage.addToOnLoadScript("document.getElementById('hidden_frame').src='" + source + "';");
 

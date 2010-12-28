@@ -279,7 +279,7 @@ public class XMLClientConnection extends Thread {
 		AgentViewable av = AgentCollection.getInstance().get(agentCode);
 		if (av != null) {
 			Classifier r = ClassifierCollection.getInstance().get(av.get(Agent.TYPE), av.getArffAttributesString());
-			r.addInstance(av.getArffInstanceString(), status);
+			r.addTrainingInstance(av.getArffInstanceString(), status);
 		} else {
 			return "error";
 		}
