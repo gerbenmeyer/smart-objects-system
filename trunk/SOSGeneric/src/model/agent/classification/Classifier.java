@@ -23,7 +23,7 @@ public class Classifier {
 	private LMT decisionAlgorithm;
 
 	private static double requiredConfidenceFactor = 4.0;
-	
+
 	private String arffData;
 	private String arffAttributes;
 
@@ -35,12 +35,13 @@ public class Classifier {
 	 * @param arffAttributes
 	 *            ARFF representation of the attributes of the agents using this
 	 *            classifier
-	 * @param arffData existing data
+	 * @param arffData
+	 *            existing data
 	 */
 	public Classifier(String agentType, String arffAttributes, String arffData) {
 		this(agentType, arffAttributes, arffData, new LMT());
 	}
-	
+
 	/**
 	 * Creates a new Classifier with an existing LMT decision algorithm.
 	 * 
@@ -49,8 +50,10 @@ public class Classifier {
 	 * @param arffAttributes
 	 *            ARFF representation of the attributes of the agents using this
 	 *            classifier
-	 * @param arffData existing data
-	 * @param decisionAlgorithm the decision algorithm
+	 * @param arffData
+	 *            existing data
+	 * @param decisionAlgorithm
+	 *            the decision algorithm
 	 */
 	public Classifier(String agentType, String arffAttributes, String arffData, LMT decisionAlgorithm) {
 		this.agentType = agentType;
@@ -69,9 +72,9 @@ public class Classifier {
 	 *            The trained status
 	 */
 	public synchronized void addTrainingInstance(String arffInstance, AgentStatus status) {
-		this.arffData = arffInstance + "," + status.toString() +"\n"+ this.arffData;
+		this.arffData = arffInstance + "," + status.toString() + "\n" + this.arffData;
 
-		if (getArffData().replaceAll("[^\\n]", "").length() > 10) {
+		if (getArffData().replaceAll("[^\\n]", "").length() > 4) {
 			try {
 				Instances instances = new Instances(new StringReader(this.toArff(true)));
 				instances.setClassIndex(instances.numAttributes() - 1);
@@ -94,7 +97,7 @@ public class Classifier {
 	public AgentStatus classifyStatus(String arffInstance) {
 		AgentStatus result = AgentStatus.UNKNOWN;
 
-		if (getArffData().replaceAll("[^\\n]", "").length() <= 10) {
+		if (getArffData().replaceAll("[^\\n]", "").length() <= 4) {
 			return result;
 		}
 		try {
@@ -124,6 +127,10 @@ public class Classifier {
 
 			double confidenceFactor = bestPolicyValue / secondBestPolicyValue;
 
+//			System.out.println("Status: "
+//					+ AgentStatus.valueOf(blaat.attribute(blaat.numAttributes() - 1).value(classifyResult))
+//					+ "; confidence: " + confidenceFactor);
+
 			if (confidenceFactor >= requiredConfidenceFactor) {
 				result = AgentStatus.valueOf(blaat.attribute(blaat.numAttributes() - 1).value(classifyResult));
 			}
@@ -145,17 +152,13 @@ public class Classifier {
 	 * @return the ARFF string
 	 */
 	public String toArff(boolean includeData) {
-		String result = "@RELATION " + agentType + "\n"
-		+ "\n"
-		+ getArffAttributes() + "\n"
-		+ "\n"
-		+ "@DATA\n";
+		String result = "@RELATION " + agentType + "\n" + "\n" + getArffAttributes() + "\n" + "\n" + "@DATA\n";
 		if (includeData) {
 			result += getArffData();
 		}
 		return result;
 	}
-	
+
 	/**
 	 * @return the agentType
 	 */
@@ -176,7 +179,7 @@ public class Classifier {
 	public String getArffAttributes() {
 		return arffAttributes;
 	}
-	
+
 	/**
 	 * @return the decisionAlgorithm
 	 */

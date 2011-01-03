@@ -20,6 +20,7 @@ import util.htmltool.HtmlGenerator;
 import util.htmltool.HtmlMapBalloonContentGenerator;
 import util.htmltool.HtmlMapContentGenerator;
 import util.xmltool.XMLTool;
+import data.agents.AgentCollectionStorage;
 import data.agents.AgentStorage;
 
 /**
@@ -109,6 +110,9 @@ public abstract class Agent implements AgentMutable {
 		try {
 			act();
 			save();
+			if (AgentCollectionStorage.getInstance() != null){
+				AgentCollectionStorage.getInstance().putAgent(this);
+			}
 		} catch (InterruptedException ie) {
 			throw ie;
 		} catch (Exception e) {

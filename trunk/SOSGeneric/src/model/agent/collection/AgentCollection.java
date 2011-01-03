@@ -89,10 +89,10 @@ public class AgentCollection implements AgentCollectionMutable {
 			if (showStatus){
 				agent.set(PropertyType.STATUS, Agent.STATUS, AgentStatus.UNKNOWN.toString());
 			}
+			agent.save();
 			if (AgentCollectionStorage.getInstance() != null){
 				AgentCollectionStorage.getInstance().putAgent(agent);
 			}
-			agent.save();
 		}
 	}
 	
