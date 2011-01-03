@@ -28,6 +28,9 @@ public class SearchAgent extends Agent {
 	 * 
 	 * @param id the identifier for the agent
 	 */
+	
+	public final static int MAX_AGENTS = Integer.MAX_VALUE-1;
+	
 	public SearchAgent(String id) {
 		super(id);
 		if (get(Agent.HIDDEN).isEmpty()) {
@@ -59,11 +62,8 @@ public class SearchAgent extends Agent {
 
 		List<AgentViewable> agents = AgentCollection.getInstance().searchAgents(search.replace('+', ' '));
 		
-		if (agents.size() > 5000){
-			detailsPane.addParagraph(HtmlTool.createImage("warning.png", "Warning")+" Too many "+Settings.getProperty(Settings.KEYWORD_DEEPLINK)+"s, only showing first 5000.");
-		}
-		while (agents.size() > 5000){
-			agents.remove(agents.size()-1);
+		if (agents.size() > MAX_AGENTS){
+			detailsPane.addParagraph(HtmlTool.createImage("warning.png", "Warning")+" Too many "+Settings.getProperty(Settings.KEYWORD_DEEPLINK)+"s, only showing first "+MAX_AGENTS+".");
 		}
 
 		detailsPane.addDataHeader("", Capitalize.capitalize(Settings.getProperty(Settings.KEYWORD_DEEPLINK)));
@@ -73,7 +73,8 @@ public class SearchAgent extends Agent {
 
 		bm.taskFinished("Fetching agents ("+MySQLConnection.getInstance().getCounter()+" queries)" );
 		boolean smallDetailsPane = Settings.getProperty(Settings.SHOW_SMALL_DETAILS_PANE).equals("true");
-		for (AgentViewable av : agents) {
+		for (int i = 0; i < Math.min(agents.size(), MAX_AGENTS); i++) {
+			AgentViewable av = agents.get(i);
 			String statusIcon = showStatus ? av.getStatus().toString().toLowerCase() + ".png" : "";
 			if (smallDetailsPane){
 				detailsPane.addDataRowLink(av.getIcon(), av.get(Agent.LABEL), statusIcon, av.getID()
@@ -104,7 +105,7 @@ public class SearchAgent extends Agent {
 		List<AgentViewable> agents = AgentCollection.getInstance().searchAgents(search.replace('+', ' '));
 		bm.taskFinished("Fetching agents ("+MySQLConnection.getInstance().getCounter()+" queries)" );
 		
-		for (int i = 0; i < Math.min(agents.size(), 5000); i++) {
+		for (int i = 0; i < Math.min(agents.size(), MAX_AGENTS); i++) {
 			AgentViewable av = agents.get(i);
 			mapContent.addMapMarker(av, 32);
 			mapContent.addMapBalloon(av, false);
