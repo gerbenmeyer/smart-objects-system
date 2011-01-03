@@ -12,6 +12,7 @@ import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 import model.agent.Agent;
+import model.agent.agents.SearchAgent;
 import model.agent.property.Property;
 import util.db.MySQLConnection;
 import util.enums.AgentStatus;
@@ -223,7 +224,7 @@ public class AgentCollectionStorageMySQL extends AgentCollectionStorage {
 			// exclude hidden
 			+ "WHERE hidden = 'false' " + filters
 			//TODO move limit to settings
-			+ (!query.trim().isEmpty()?"AND label LIKE '%"+query.trim()+"%' OR description LIKE '%"+query.trim()+"%' ":"")+ "LIMIT 5001;";
+			+ (!query.trim().isEmpty()?"AND label LIKE '%"+query.trim()+"%' OR description LIKE '%"+query.trim()+"%' ":"")+ "LIMIT "+(SearchAgent.MAX_AGENTS+1)+";";
 		
 		List<Map<String, Property>> agents = new Vector<Map<String, Property>>();
 		Statement stm = null;
