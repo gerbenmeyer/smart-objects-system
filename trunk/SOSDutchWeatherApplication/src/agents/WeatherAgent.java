@@ -44,45 +44,38 @@ public class WeatherAgent extends Agent {
 		// create the content of the balloon of this object, containing a header
 		// and a paragraph
 		balloonContent.addAgentHeaderLink(this);
-		String temp = get("TemperatureCelcius");
-		String windsp = get("WindSpeedMS");
-		String winddir = get("WindDirection");
-		String rain = get("RainMMPerHour");
-		if (!temp.isEmpty()) {
-			balloonContent.addParagraph("Temperature: " + temp + " °C");
-		}
-		if (!windsp.isEmpty()) {
-			balloonContent.addParagraph("Wind speed: " + windsp + " m/s " + winddir);
-		}
-		if (!rain.isEmpty()) {
-			balloonContent.addParagraph("Rain: " + rain + " mm/h");
-		}
+		balloonContent.addParagraph("Temperature: " + get("TemperatureCelcius") + " °C");
+		balloonContent.addParagraph("Wind: " + get("WindSpeedMS") + " m/s " + get("WindDirection"));
+		balloonContent.addParagraph("Rain: " + get("RainMMPerHour") + " mm/h");
 	}
 
 	@Override
 	public void generateDetailsContent(HtmlDetailsContentGenerator detailsPane, HashMap<String, String> params) {
 		detailsPane.addHeader(HtmlTool.createImage(getMapMarkerImage(), "") + " " + get(Agent.LABEL));
-		String time = get("Date");
-		if (!time.isEmpty()) {
-			detailsPane.addParagraph(HtmlTool.createImage("clock.png", "clock") + " " + time);
-		}
+		
 		Property status = getProperty(Agent.STATUS);
 		detailsPane.addSubHeader("Problem detection");
 		detailsPane.addDataHeader("", "Name", "Value");
 		detailsPane.addDataRow(status.getIcon(), status.getName(), status.toInformativeString());
+		
 		detailsPane.addSubHeader("Training");
 		detailsPane.addDataHeader("", "Training", "Status");
 		detailsPane.addDataRowTrainingButtons(getID());
 		
 		detailsPane.addSubHeader("Properties");
 		detailsPane.addDataHeader("", "Name", "Value");
-		for (String key : getPropertiesKeySet()) {
-			Property p = getProperty(key);
-			if (!p.isHidden()) {
-				if (p.getPropertyType() != PropertyType.STATUS) {
-					detailsPane.addDataRow(p.getIcon(), p.getName(), p.toInformativeString());
-				}
-			}
-		}
+		
+		Property datetime = getProperty("DateTime");
+		detailsPane.addDataRow(datetime.getIcon(), "Date & Time", datetime.toInformativeString());
+		
+		detailsPane.addDataRow("", "Temperature", get("TemperatureCelcius") + " °C");
+		detailsPane.addDataRow("", "Wind", get("WindSpeedMS") + " m/s " + get("WindDirection"));
+		detailsPane.addDataRow("", "Rain", get("RainMMPerHour") + " mm/h");
+		
+		Property description = getProperty(Agent.DESCRIPTION);
+		detailsPane.addDataRow(description.getIcon(), description.getName(), description.toInformativeString());
+		
+		detailsPane.addDataRow("", "Source", HtmlTool.createLink(get("URL"), get("URL"), "_blank"));
+		
 	}
 }

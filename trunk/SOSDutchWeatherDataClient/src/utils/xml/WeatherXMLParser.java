@@ -59,49 +59,47 @@ public class WeatherXMLParser {
 			String id = station.getAttributes().getNamedItem("id").getTextContent();
 			Node stationName = (Node)xPath.evaluate("stationnaam", station, XPathConstants.NODE);
 			String name = stationName.getTextContent();
-			String region = stationName.getAttributes().getNamedItem("regio").getTextContent();
 			double lat = Double.parseDouble(((Node)xPath.evaluate("lat", station, XPathConstants.NODE)).getTextContent());
 			double lon = Double.parseDouble(((Node)xPath.evaluate("lon", station, XPathConstants.NODE)).getTextContent());
 			String dateString = ((Node)xPath.evaluate("datum", station, XPathConstants.NODE)).getTextContent();
 			Date date = new SimpleDateFormat(WEATHER_TIME_FORMAT, Locale.US).parse(dateString);
-			String humidity = ((Node)xPath.evaluate("luchtvochtigheid", station, XPathConstants.NODE)).getTextContent();
 			String tempCelcius = ((Node)xPath.evaluate("temperatuurGC", station, XPathConstants.NODE)).getTextContent();
 			String windSpeedMS = ((Node)xPath.evaluate("windsnelheidMS", station, XPathConstants.NODE)).getTextContent();
-			String windSpeedBF = ((Node)xPath.evaluate("windsnelheidBF", station, XPathConstants.NODE)).getTextContent();
-			String windDirectionDegees = ((Node)xPath.evaluate("windrichtingGR", station, XPathConstants.NODE)).getTextContent();
 			String windDirection = ((Node)xPath.evaluate("windrichting", station, XPathConstants.NODE)).getTextContent();
-			String pressure = ((Node)xPath.evaluate("luchtdruk", station, XPathConstants.NODE)).getTextContent();
-			String sight = ((Node)xPath.evaluate("zichtmeters", station, XPathConstants.NODE)).getTextContent();
-			String gustsMS = ((Node)xPath.evaluate("windstotenMS", station, XPathConstants.NODE)).getTextContent();
 			String rainMMPerHour = ((Node)xPath.evaluate("regenMMPU", station, XPathConstants.NODE)).getTextContent();
 			String weatherInWords = ((Node)xPath.evaluate("icoonactueel", station, XPathConstants.NODE)).getAttributes().getNamedItem("zin").getTextContent();
-			String temp10cm = ((Node)xPath.evaluate("temperatuur10cm", station, XPathConstants.NODE)).getTextContent();
 			String url = ((Node)xPath.evaluate("url", station, XPathConstants.NODE)).getTextContent();
 			
 			Agent agent = new EmptyAgent(id);
 			agent.set(PropertyType.TEXT, Agent.TYPE, "Station");
 			agent.set(PropertyType.TEXT, Agent.LABEL, HTMLEntities.unhtmlentities(name).replaceAll("Meetstation ", ""));
 			agent.set(PropertyType.TEXT, Agent.DESCRIPTION, HTMLEntities.unhtmlentities(weatherInWords));
-			agent.set(PropertyType.TEXT, "Region", HTMLEntities.unhtmlentities(region));
-			TimeProperty timeP = new TimeProperty("Date");
+			TimeProperty timeP = new TimeProperty("DateTime");
 			timeP.getDateTime().setTime(date);
 			agent.putProperty(timeP);
 			agent.set(PropertyType.LOCATION, Agent.LOCATION, LocationProperty.getCoordinate(lat, lon));
-			agent.set(PropertyType.NUMBER, "Humidity", humidity);
-			agent.set(PropertyType.NUMBER, "TemperatureCelcius", tempCelcius);
-			agent.set(PropertyType.NUMBER, "WindSpeedMS", windSpeedMS);
-			agent.set(PropertyType.NUMBER, "WindSpeedBF", windSpeedBF);
-			agent.set(PropertyType.NUMBER, "WindDirectionDegrees", windDirectionDegees);
+			agent.set(PropertyType.NUMBER, "TemperatureCelcius", parseNumber(tempCelcius,"0"));
+			agent.set(PropertyType.NUMBER, "WindSpeedMS", parseNumber(windSpeedMS));
 			agent.set(PropertyType.TEXT, "WindDirection", windDirection);
-			agent.set(PropertyType.NUMBER, "Pressure", pressure);
-			agent.set(PropertyType.NUMBER, "Sight", sight);
-			agent.set(PropertyType.NUMBER, "GustsMS", gustsMS);
-			agent.set(PropertyType.NUMBER, "RainMMPerHour", rainMMPerHour);
-			agent.set(PropertyType.NUMBER, "Temperature10CM", temp10cm);
+			agent.set(PropertyType.NUMBER, "RainMMPerHour", parseNumber(rainMMPerHour));
 			agent.set(PropertyType.TEXT, "URL", HTMLEntities.unhtmlentities(url));
 			agents.add(agent);
 			
 		}
 		return agents;
 	}
+	
+	private String parseNumber(String number){
+		return parseNumber(number, "-1");
+	}
+	
+	private String parseNumber(String number, String defaultValue){
+		try{
+			Double.parseDouble(number);
+			return number;
+		} catch (Exception e){
+			return defaultValue;
+		}
+	}
+	
 }
