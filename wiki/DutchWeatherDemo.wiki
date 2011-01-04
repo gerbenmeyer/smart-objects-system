@@ -1,13 +1,13 @@
-#summary description of the Dutch Weather demo Application
+#summary description of the Dutch Weather Map demo
 #labels Phase-Implementation
 
-= Dutch Weather Application =
+= Dutch Weather Map =
 
 This page discusses the Dutch Weather application in a bit more detail, according to the layers as explained in SystemOverview. The actual source code can be found at [http://code.google.com/p/smart-objects-system/source/browse/].
 
 == Client ==
 
-For the Dutch Weather application, a seperate data client application is developed, called SOSDutchWeatherClient. Next, the actual implementation of this data client (albeit simplified) is explained.
+For the Dutch Weather Map, a seperate data client application is developed, called SOSDutchWeatherClient. Next, the actual implementation of this data client (albeit simplified) is explained.
 
 *Implementation of SOSDutchWeatherClient*
 {{{
