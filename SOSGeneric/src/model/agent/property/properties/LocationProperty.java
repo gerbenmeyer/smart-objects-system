@@ -162,13 +162,11 @@ public class LocationProperty extends Property {
 	@Override
 	public void parseString(String str) {
 		String[] split = str.split(seperator);
-		if (split.length >= 5) {
-			this.addressName = Capitalize.capitalizeLine(split[0].trim());
-			this.address = split[1].trim();
-			this.type = GoogleLocationType.valueOf(split[2].trim());
-			this.latitude = Double.parseDouble(split[3].trim());
-			this.longitude = Double.parseDouble(split[4].trim());
-		}
+		this.addressName = Capitalize.capitalizeLine(split[0].trim());
+		this.address = split[1].trim();
+		this.type = GoogleLocationType.valueOf(split[2].trim());
+		this.latitude = Double.parseDouble(split[3].trim());
+		this.longitude = Double.parseDouble(split[4].trim());
 	}
 
 	public static String parseHint() {
