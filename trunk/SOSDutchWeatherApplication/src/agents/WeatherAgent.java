@@ -43,6 +43,7 @@ public class WeatherAgent extends Agent {
 	public void generateMapBalloonContent(HtmlMapBalloonContentGenerator balloonContent, HashMap<String, String> params) {
 		// create the content of the balloon of this object, containing a header
 		// and a paragraph
+		balloonContent.addCustomHtml(HtmlTool.createImageRight(getMapMarkerImage(), get(Agent.DESCRIPTION)));
 		balloonContent.addAgentHeaderLink(this);
 		balloonContent.addParagraph("Temperature: " + get("TemperatureCelcius") + " °C");
 		balloonContent.addParagraph("Wind: " + get("WindSpeedMS") + " m/s " + get("WindDirection"));
@@ -64,9 +65,6 @@ public class WeatherAgent extends Agent {
 		
 		detailsPane.addSubHeader("Properties");
 		detailsPane.addDataHeader("", "Name", "Value");
-		
-		Property datetime = getProperty("DateTime");
-		detailsPane.addDataRow(datetime.getIcon(), "Date & Time", datetime.toInformativeString());
 		
 		detailsPane.addDataRow("", "Temperature", get("TemperatureCelcius") + " °C");
 		detailsPane.addDataRow("", "Wind", get("WindSpeedMS") + " m/s " + get("WindDirection"));
