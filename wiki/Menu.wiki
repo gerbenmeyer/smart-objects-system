@@ -6,7 +6,7 @@
     * [SystemBehaviour Behaviour]
   * Demo applications
     * [BudapestDemo Budapest Interactive City Map]
-    * [DutchWeatherDemo Dutch Weather Application]
+    * [DutchWeatherDemo Dutch Weather Map]
   * Building an application
     * [GettingStarted Getting Started]
     * [Settings]
