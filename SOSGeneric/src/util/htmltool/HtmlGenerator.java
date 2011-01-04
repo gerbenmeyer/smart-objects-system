@@ -92,10 +92,14 @@ public class HtmlGenerator {
 	 */
 	public void addAgentHeaderLink(AgentViewable av) {
 		String id = av.getID();
+		String status = "";
+		if (Settings.getProperty(Settings.AGENT_PROBLEM_DETECTION_ENABLED).equals(Boolean.toString(true))){
+			status = HtmlTool.createImage(av.getStatus().toString().toLowerCase()+".png", av.getStatus().toString().toLowerCase());
+		}
 		if (av.needsDetailsPane()){
-			addHeader(HtmlTool.createLink(id+".map", HtmlTool.createImage(av.getIcon(), id)+av.get(Agent.LABEL), "hidden_frame")+HtmlTool.createLink("?" + Settings.getProperty(Settings.KEYWORD_DEEPLINK) + "=" + id, HtmlTool.createImage("link.png", "deeplink to "+id)));
+			addHeader(HtmlTool.createLink(id+".map", HtmlTool.createImage(av.getIcon(), id)+av.get(Agent.LABEL), "hidden_frame")+status+HtmlTool.createLink("?" + Settings.getProperty(Settings.KEYWORD_DEEPLINK) + "=" + id, HtmlTool.createImage("link.png", "deeplink to "+id)));
 		} else {
-			addHeader(HtmlTool.createImage(av.getIcon(), id)+av.get(Agent.LABEL));
+			addHeader(HtmlTool.createImage(av.getIcon(), id)+av.get(Agent.LABEL)+status);
 		}
 	}
 
