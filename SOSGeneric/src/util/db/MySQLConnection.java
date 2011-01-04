@@ -90,7 +90,7 @@ public class MySQLConnection {
 						+ "  KEY `status` (`status`),"
 						+ "  KEY `type` (`type`),"
 						+ "  KEY `hidden` (`hidden`)"
-						+ ") ENGINE=MyISAM DEFAULT CHARSET=latin1;";
+						+ ") ENGINE=MyISAM DEFAULT CHARSET=utf8;";
 				} else if (tableName.equals("properties")) {
 					sql = "CREATE TABLE IF NOT EXISTS `properties` ("
 						+ "  `agent_id` varchar(32) NOT NULL,"
@@ -99,7 +99,7 @@ public class MySQLConnection {
 						+ "  `value` longtext NOT NULL,"
 						+ "  PRIMARY KEY (`agent_id`,`name`),"
 						+ " KEY `type` (`type`)"
-						+ ") ENGINE=MyISAM DEFAULT CHARSET=latin1;";
+						+ ") ENGINE=MyISAM DEFAULT CHARSET=utf8;";
 				} else if (tableName.equals("locations")) {
 					sql = "CREATE TABLE IF NOT EXISTS `locations` ("
 						+ "  `id` int(11) NOT NULL AUTO_INCREMENT,"
@@ -109,7 +109,7 @@ public class MySQLConnection {
 						+ "  `precision` enum('APPROXIMATE','GEOMETRIC_CENTER','RANGE_INTERPOLATED','ROOFTOP') NOT NULL,"
 						+ "  PRIMARY KEY (`id`),"
 						+ "  UNIQUE KEY `address` (`address`)"
-						+ ") ENGINE=MyISAM DEFAULT CHARSET=latin1;";
+						+ ") ENGINE=MyISAM DEFAULT CHARSET=utf8;";
 				} else if (tableName.equals("classification")) {
 					sql = "CREATE TABLE IF NOT EXISTS `classification` ("
 						+ "  `agent_type_hash` varchar(32) NOT NULL,"
@@ -117,7 +117,7 @@ public class MySQLConnection {
 						+ "  `data` mediumtext NOT NULL,"
 						+ "  `lmt` longblob NOT NULL,"
 						+ "  PRIMARY KEY (`agent_type_hash`)"
-						+ ") ENGINE=MyISAM DEFAULT CHARSET=latin1;";
+						+ ") ENGINE=MyISAM DEFAULT CHARSET=utf8;";
 				} else {
 					throw new Exception("trying to create unknown table: "+tableName);
 				}
@@ -141,7 +141,7 @@ public class MySQLConnection {
 		Statement stm = null;
 		String databaseName = Settings.getProperty(Settings.DATABASE_NAME);
 		try {
-			String sql = "CREATE DATABASE IF NOT EXISTS `"+databaseName+"` DEFAULT CHARACTER SET latin1 COLLATE latin1_swedish_ci;";
+			String sql = "CREATE DATABASE IF NOT EXISTS `"+databaseName+"` DEFAULT CHARACTER SET utf8;";
 			stm = connection.createStatement();
 			stm.executeUpdate(sql);
         	stm.close();

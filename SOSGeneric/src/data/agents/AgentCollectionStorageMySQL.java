@@ -183,16 +183,17 @@ public class AgentCollectionStorageMySQL extends AgentCollectionStorage {
 	@Override
 	public void putAgent(Agent agent) {
 		Statement stm = null;
+		String label = agent.get(Agent.LABEL).replaceAll("\\\\'", "'").replaceAll("'", "\\\\'");
+		String description = agent.get(Agent.DESCRIPTION).replaceAll("\\\\'", "'").replaceAll("'", "\\\\'");
+		String location = agent.get(Agent.LOCATION).replaceAll("\\\\'", "'").replaceAll("'", "\\\\'");
+		String agentSQL = "INSERT INTO `agents` (id,label,description,status,hidden,type,location) VALUES "
+			+ "('"+agent.getID()+"','"+label+"','"+description+"','"+(agent.get(Agent.STATUS).isEmpty() ? AgentStatus.UNKNOWN.toString() : agent.get(Agent.STATUS))+"','"+(agent.get(Agent.HIDDEN).isEmpty() ? Boolean.toString(false) : agent.get(Agent.HIDDEN))+"','"+agent.get(Agent.TYPE)+"','"+location+"') "
+			+ "ON DUPLICATE KEY UPDATE label=VALUES(label),description=VALUES(description),status=VALUES(status),hidden=VALUES(hidden),type=VALUES(type),location=VALUES(location);";
 		try {
 			stm = conn.getConnection().createStatement();
-			String label = agent.get(Agent.LABEL).replaceAll("\\\\'", "'").replaceAll("'", "\\\\'");
-			String description = agent.get(Agent.DESCRIPTION).replaceAll("\\\\'", "'").replaceAll("'", "\\\\'");
-			String location = agent.get(Agent.LOCATION).replaceAll("\\\\'", "'").replaceAll("'", "\\\\'");
-			String agentSQL = "INSERT INTO `agents` (id,label,description,status,hidden,type,location) VALUES "
-				+ "('"+agent.getID()+"','"+label+"','"+description+"','"+(agent.get(Agent.STATUS).isEmpty() ? AgentStatus.UNKNOWN.toString() : agent.get(Agent.STATUS))+"','"+(agent.get(Agent.HIDDEN).isEmpty() ? Boolean.toString(false) : agent.get(Agent.HIDDEN))+"','"+agent.get(Agent.TYPE)+"','"+location+"') "
-				+ "ON DUPLICATE KEY UPDATE label=VALUES(label),description=VALUES(description),status=VALUES(status),hidden=VALUES(hidden),type=VALUES(type),location=VALUES(location);";
 			stm.executeUpdate(agentSQL);
 		} catch (SQLException e) {
+			System.err.println(agentSQL);
 			e.printStackTrace();
 		} finally {
 		    if (stm != null) {
