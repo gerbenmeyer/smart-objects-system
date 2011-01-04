@@ -88,10 +88,10 @@ public class HtmlMapContentGenerator extends HtmlGenerator{
 	 * @param id the identifier of the marker
 	 */
 	public void addMapMarker(double latitude, double longitude, String title, String mapicon,
-			int iconsize, int zIndex, boolean showLabel, String id) {
+			int iconsize, int zIndex, String id) {
 		title = escapeForJS(title);
 		buffer.append("parent.addMarker(" + latitude + "," + longitude + ",'" + title + "','" + mapicon + "',"
-				+ iconsize + "," + zIndex + ", " + showLabel + ",'" + id + "');\n");
+				+ iconsize + "," + zIndex + ",'" + id + "');\n");
 	}
 	
 	/**
@@ -119,9 +119,7 @@ public class HtmlMapContentGenerator extends HtmlGenerator{
 		String id = av.getID();
 		AgentStatus status = av.getStatus();
 		int zIndex = -status.getValue()+1;
-		boolean showLabel = !av.get(Agent.HIDDEN).equals(Boolean.toString(true))
-		&& (status == AgentStatus.WARNING || status == AgentStatus.ERROR);
-		addMapMarker(lp.getLatitude(), lp.getLongitude(), av.get(Agent.LABEL), av.getMapMarkerImage(), iconsize, zIndex, showLabel, id);
+		addMapMarker(lp.getLatitude(), lp.getLongitude(), av.get(Agent.LABEL), av.getMapMarkerImage(), iconsize, zIndex, id);
 		if (panToLocation) {
 			panToLocation(lp.getLatitude(), lp.getLongitude());
 		}
@@ -134,6 +132,10 @@ public class HtmlMapContentGenerator extends HtmlGenerator{
 	 * @param openBalloonOnLoad if the balloon should open on page load
 	 */
 	public void addMapBalloon(AgentViewable av, boolean openBalloonOnLoad) {
+		LocationProperty lp = new LocationProperty("", av.get(Agent.LOCATION));
+		if (lp.isNull()) {
+			return;
+		}
 		HtmlMapBalloonContentGenerator balloonGen = new HtmlMapBalloonContentGenerator();
 		HashMap<String, String> params = new HashMap<String, String>();
 		av.generateMapBalloonContent(balloonGen, params);

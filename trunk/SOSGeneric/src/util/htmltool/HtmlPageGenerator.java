@@ -104,8 +104,6 @@ public class HtmlPageGenerator extends HtmlGenerator {
 		content.append(HtmlTool.createEmptyScript(scriptAttributes));
 		scriptAttributes.put("src", "markerclusterer.js");
 		content.append(HtmlTool.createEmptyScript(scriptAttributes));
-		scriptAttributes.put("src", "markerwithlabel.js");
-		content.append(HtmlTool.createEmptyScript(scriptAttributes));
 		scriptAttributes.put("src", "ajax.js");
 		content.append(HtmlTool.createEmptyScript(scriptAttributes));
 		scriptAttributes.put("src", "main.js");

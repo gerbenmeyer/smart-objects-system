@@ -293,27 +293,17 @@ function panToLocation(latitude, longitude){
 function setZoom(zoom){
 	map_.setZoom(zoom);
 }
-function addMarker(latitude, longitude, title, mapicon, mapiconsize, zindex, showlabel, id) {
+function addMarker(latitude, longitude, title, mapicon, mapiconsize, zindex, id) {
 	var mapsw = mapiconsize / 2;
 	var mapsh = mapiconsize - 2;
 	var markerImage = new google.maps.MarkerImage(mapicon,
 			new google.maps.Size(mapiconsize, mapiconsize), null,
 			new google.maps.Point(mapsw, mapsh));
-	var labeltitle = title;
-	if (labeltitle.length > 7) {
-		labeltitle = '...' + labeltitle.substring(labeltitle.length - 7,
-				labeltitle.length);
-	}
-	var marker = new MarkerWithLabel( {
+	var marker = new google.maps.Marker( {
 		position : new google.maps.LatLng(latitude, longitude),
 		title : '' + title + '',
 		icon : markerImage,
-		zIndex : zindex,
-		labelText : '' + labeltitle + '',
-		labelClass : "labels", // the CSS class for the label
-		labelStyle : {},
-		labelVisible : showlabel,
-		labelZIndex : zindex
+		zIndex : zindex
 	});
 	markers[id] = marker;
 }
