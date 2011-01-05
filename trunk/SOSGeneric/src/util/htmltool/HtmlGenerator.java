@@ -72,7 +72,7 @@ public class HtmlGenerator {
 	 * @param text
 	 */
 	public void addImage(String image, String text){
-		addDiv(HtmlTool.createImage(image, text));
+		addParagraph(HtmlTool.createImage(image, text));
 	}
 	
 	/**
