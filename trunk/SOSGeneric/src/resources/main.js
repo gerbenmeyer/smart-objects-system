@@ -4,7 +4,6 @@ var markers = [];
 var openInfoWindows = [];
 var clustering_ = false;
 var clusterer;
-var clustering_proposal_threshold = 1000;
 var direction_points = [];
 var direction_limit = 10;
 var directionArray = [];
@@ -249,17 +248,9 @@ function drawMap() {
 	if (clustering_) {
 		clusterer.addMarkers(assoc_array_values(markers));
 	} else {
-		var size = assoc_array_length(markers);
-		if (size > clustering_proposal_threshold
-				&& confirm('' + size + ' markers, clustering recommended. Do you want to enable clustering?')) {
-			clustering_ = true;
-			document.getElementById('clustering_enabled').checked = 'checked';
-			clusterer.addMarkers(assoc_array_values(markers));
-		} else {
-			for (i in markers) {
-				markers[i].setMap(map_);
-				markers[i].setVisible(true);
-			}
+		for (i in markers) {
+			markers[i].setMap(map_);
+			markers[i].setVisible(true);
 		}
 	}
 	loadDirections();
