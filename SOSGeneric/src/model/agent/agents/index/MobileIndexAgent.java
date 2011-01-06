@@ -31,10 +31,8 @@ public class MobileIndexAgent extends IndexAgent {
 
 		HtmlMobileMapPageGenerator htmlPage = new HtmlMobileMapPageGenerator(appName, "main.css");
 	
-		String header = HtmlTool.createImageLeft(Settings.getProperty(Settings.APPLICATION_ICON), "logo");
-		header += HtmlTool.createHeader1(Settings.getProperty(Settings.APPLICATION_NAME));
-		header += HtmlTool.createHeader2(Settings.getProperty(Settings.APPLICATION_VERSION));
-		
+		String header = HtmlTool.createLink(Settings.getProperty(Settings.DEFAULT_AGENT)+".map", HtmlTool.createImageLeft(Settings.getProperty(Settings.APPLICATION_ICON), Settings.getProperty(Settings.APPLICATION_NAME)), "hidden_frame");
+
 		htmlPage.addToBodyHtml(HtmlTool.createDiv(header, "header_canvas"));
 
 		// default source

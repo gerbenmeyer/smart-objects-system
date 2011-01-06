@@ -219,6 +219,16 @@ public class HtmlTool {
 	public static String createHeader3(String text) {
 		return encapsulate(text, "h3", null);
 	}
+	
+	/**
+	 * Creates a paragraph.
+	 * 
+	 * @param text the text
+	 * @return the paragraph
+	 */
+	public static String createParagraph(String text) {
+		return createParagraph(text, null);
+	}
 
 	/**
 	 * Creates a paragraph with optional attributes around text.
@@ -228,18 +238,6 @@ public class HtmlTool {
 	 * @return the paragraph
 	 */
 	public static String createParagraph(String text, HashMap<String, String> attributes) {
-		return encapsulate(text, "p", attributes);
-	}
-
-	/**
-	 * Creates a paragraph around text, which aligns right.
-	 * 
-	 * @param text the text
-	 * @return the paragraph
-	 */
-	public static String createParagraphRight(String text) {
-		HashMap<String, String> attributes = new HashMap<String, String>();
-		attributes.put("style", "float:right");
 		return encapsulate(text, "p", attributes);
 	}
 
