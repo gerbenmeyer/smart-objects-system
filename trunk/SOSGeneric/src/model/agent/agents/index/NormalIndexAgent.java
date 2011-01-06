@@ -30,18 +30,23 @@ public class NormalIndexAgent extends IndexAgent {
 		HtmlMapPageGenerator htmlPage = new HtmlMapPageGenerator(Settings.getProperty(Settings.APPLICATION_NAME),
 				"main.css");
 
-		String header = HtmlTool.createImageLeft(Settings.getProperty(Settings.APPLICATION_ICON), "logo");
-		header += HtmlTool.createHeader1(HtmlTool.createLink(Settings.getProperty(Settings.DEFAULT_AGENT)+".map", Settings.getProperty(Settings.APPLICATION_NAME), "hidden_frame"));
-		header += HtmlTool.createHeader2(Settings.getProperty(Settings.APPLICATION_VERSION));
+		String header = HtmlTool.createLink(Settings.getProperty(Settings.DEFAULT_AGENT)+".map", HtmlTool.createImage(Settings.getProperty(Settings.APPLICATION_ICON), Settings.getProperty(Settings.APPLICATION_NAME)), "hidden_frame");
 
-		String search = "";
-		search += "<form style=\"float:right;\" action=\"search.map\" method=\"get\" target=\"hidden_frame\">";
-		search += "<input type=\"text\" name=\"q\" />";
-		search += "&nbsp;";
-		search += "<input type=\"image\" src=\"search.png\" alt=\"Search\" style=\"vertical-align:middle\"/>";
-		search += "</form>";
+		String searchForm = "";
+		searchForm += "<form style=\"margin:8px 0px;\" action=\"search.map\" method=\"get\" target=\"hidden_frame\">";
+		searchForm += "<input type=\"text\" name=\"q\" />";
+		searchForm += "&nbsp;";
+		searchForm += "<input type=\"image\" src=\"search.png\" alt=\"Search\" style=\"vertical-align:middle\"/>";
+		searchForm += "</form>";
+		
+		String versionParagraph = HtmlTool.createParagraph(Settings.getProperty(Settings.APPLICATION_VERSION)); 
+			
+		HashMap<String, String> attributes = new HashMap<String, String>();
+		attributes.put("style", "float:right;text-align:right;");
+		
+		String right = HtmlTool.createDiv(searchForm + versionParagraph, attributes );
 
-		htmlPage.addToBodyHtml(HtmlTool.createDiv(search + header, "header_canvas"));
+		htmlPage.addToBodyHtml(HtmlTool.createDiv(right + header, "header_canvas"));
 
 		htmlPage.addToFinalScript("ajaxpage('menu.details','menu_canvas');");
 
