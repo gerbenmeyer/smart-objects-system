@@ -20,8 +20,8 @@ import util.xmltool.XMLTool;
 import com.tecnick.htmlutils.htmlentities.HTMLEntities;
 
 /**
- * An abstract class for holding and creating properties of an Agent.
- * All properties must extend this class.
+ * An abstract class for holding and creating properties of an Agent. All
+ * properties must extend this class.
  * 
  * @author Gerben G. Meyer
  */
@@ -34,8 +34,10 @@ public abstract class Property {
 	/**
 	 * Constructs a new Property object.
 	 * 
-	 * @param name the property's name
-	 * @param propertyType the property's type
+	 * @param name
+	 *            the property's name
+	 * @param propertyType
+	 *            the property's type
 	 */
 	public Property(String name, PropertyType propertyType) {
 		super();
@@ -81,7 +83,8 @@ public abstract class Property {
 	 * Parses a string representation into this Property. Can be used for
 	 * serialization, in conjuction with the {@link #toString()} method.
 	 * 
-	 * @param str the string to be parsed
+	 * @param str
+	 *            the string to be parsed
 	 */
 	public abstract void parseString(String str);
 
@@ -95,7 +98,7 @@ public abstract class Property {
 	public static String parseHint() {
 		return "";
 	}
-	
+
 	/**
 	 * Get the Arff attributes declaration of this Property.
 	 * 
@@ -138,17 +141,16 @@ public abstract class Property {
 		// }
 		properties.add(new KeyData("Value", value));
 
-		properties
-				.add(new KeyData("Hidden", Boolean.toString(this.isHidden())));
+		properties.add(new KeyData("Hidden", Boolean.toString(this.isHidden())));
 
-		return XMLTool.addRootTag(XMLTool.PropertiesToXML(properties),
-				"Property");
+		return XMLTool.addRootTag(XMLTool.PropertiesToXML(properties), "Property");
 	}
-	
+
 	/**
 	 * Converts the xml representation of a property to a Property instance.
 	 * 
-	 * @param xml the representation
+	 * @param xml
+	 *            the representation
 	 * @return the Property
 	 */
 	public static Property fromXML(String xml) {
@@ -168,34 +170,34 @@ public abstract class Property {
 			p = createProperty(pt, name, value);
 			p.setHidden(hidden);
 		} catch (Exception e) {
-			System.err.println("Niet goed! " + type + " - " + name + " - "
-					+ value);
+			System.err.println("Niet goed! " + type + " - " + name + " - " + value);
 		}
 		return p;
 	}
-	
-//	/**
-//	 * Creates a new Property instance without a name and history recording.
-//	 * 
-//	 * @param type the type of property
-//	 * @param value the value of the property
-//	 * @return a fresh Property
-//	 */
-//	public static Property createProperty(PropertyType type, String value) {
-//		return createProperty(type, "", value);
-//	}
-	
+
+	// /**
+	// * Creates a new Property instance without a name and history recording.
+	// *
+	// * @param type the type of property
+	// * @param value the value of the property
+	// * @return a fresh Property
+	// */
+	// public static Property createProperty(PropertyType type, String value) {
+	// return createProperty(type, "", value);
+	// }
 
 	/**
 	 * Creates a new Property instance.
 	 * 
-	 * @param type the type of Property
-	 * @param name the name of the property
-	 * @param value the value of the property
+	 * @param type
+	 *            the type of Property
+	 * @param name
+	 *            the name of the property
+	 * @param value
+	 *            the value of the property
 	 * @return a fresh Property
 	 */
-	public static Property createProperty(PropertyType type, String name,
-			String value) {
+	public static Property createProperty(PropertyType type, String name, String value) {
 		Property p = null;
 		switch (type) {
 		case BOOLEAN:
@@ -230,13 +232,12 @@ public abstract class Property {
 			break;
 		}
 		if (p != null) {
-			if (value.length() > 0) {
-				try {
-					p.parseString(value);
-				} catch (Exception e) {
-					System.err.println("Unknown property value for "+p.getPropertyType()+": " + value);
-					return null;
-				}
+			try {
+				p.parseString(value);
+			} catch (Exception e) {
+//				System.err.println("Unknown property value for " + p.getPropertyType() + ": " + value);
+//				e.printStackTrace();
+				return null;
 			}
 		}
 		return p;
@@ -251,40 +252,42 @@ public abstract class Property {
 		return "info.png";
 	}
 
-//	/**
-//	 * Returns the HTML formatted string containing the history of this Property.
-//	 * 
-//	 * @return the HTML string
-//	 */
-//	public String toHistoryHTML() {
-//		if (recordingHistory()) {
-//			String historyId = "history" + Math.round((Math.random() * 1000000));
-//			return "<div class=\"historytoggle\"><img src=\"clock.png\" title=\"Toggle history\" width=\"16\" height=\"16\" onclick=\"if (document.getElementById('"
-//					+ historyId
-//					+ "').style.display =='none') { document.getElementById('"
-//					+ historyId
-//					+ "').style.display = 'inline'; } else { document.getElementById('"
-//					+ historyId
-//					+ "').style.display = 'none'; }; \"/></div>"
-//					+ "<div class=\"history\" id=\""
-//					+ historyId
-//					+ "\" style=\"display: none\">"
-//					+ "<h3>History</h3>"
-//					+ "<div class=\"propertyheader\">"
-//					+ "<div class=\"propertyicon\"></div>"
-//					+ "<div class=\"propertyname\">Time</div>"
-//					+ "<div class=\"propertyvalue\">Name</div>"
-//					+ "</div>"
-//					+ getHistory().toHTML() + "</div>";
-//		}
-//		return "";
-//	}
-
+	// /**
+	// * Returns the HTML formatted string containing the history of this
+	// Property.
+	// *
+	// * @return the HTML string
+	// */
+	// public String toHistoryHTML() {
+	// if (recordingHistory()) {
+	// String historyId = "history" + Math.round((Math.random() * 1000000));
+	// return
+	// "<div class=\"historytoggle\"><img src=\"clock.png\" title=\"Toggle history\" width=\"16\" height=\"16\" onclick=\"if (document.getElementById('"
+	// + historyId
+	// + "').style.display =='none') { document.getElementById('"
+	// + historyId
+	// + "').style.display = 'inline'; } else { document.getElementById('"
+	// + historyId
+	// + "').style.display = 'none'; }; \"/></div>"
+	// + "<div class=\"history\" id=\""
+	// + historyId
+	// + "\" style=\"display: none\">"
+	// + "<h3>History</h3>"
+	// + "<div class=\"propertyheader\">"
+	// + "<div class=\"propertyicon\"></div>"
+	// + "<div class=\"propertyname\">Time</div>"
+	// + "<div class=\"propertyvalue\">Name</div>"
+	// + "</div>"
+	// + getHistory().toHTML() + "</div>";
+	// }
+	// return "";
+	// }
 
 	/**
 	 * Normalizes a string to ASCII characters.
 	 * 
-	 * @param address the string to be normalized
+	 * @param address
+	 *            the string to be normalized
 	 * @return the normalized string
 	 */
 	public static String normalize(String address) {
@@ -307,7 +310,8 @@ public abstract class Property {
 	/**
 	 * Set to true if this Property should be hidden in the view.
 	 * 
-	 * @param hideHTML true or false
+	 * @param hideHTML
+	 *            true or false
 	 */
 	public void setHidden(boolean hideHTML) {
 		this.hidden = hideHTML;
