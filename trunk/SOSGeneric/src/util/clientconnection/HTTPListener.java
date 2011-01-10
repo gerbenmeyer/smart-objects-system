@@ -78,7 +78,7 @@ public class HTTPListener implements HttpHandler {
 	 * @param msg the URL
 	 * @return the hash
 	 */
-	private HashMap<String, String> decodeQuery(String msg) {
+	public final static HashMap<String, String> decodeQuery(String msg) {
 		HashMap<String, String> params = new HashMap<String, String>();
 		String[] msgParams = msg.split("&");
 		for (String param : msgParams) {
@@ -100,7 +100,7 @@ public class HTTPListener implements HttpHandler {
 	 * @param params the parameters
 	 * @return the URL
 	 */
-	private String encodeQuery(HashMap<String, String> params) {
+	public final static String encodeQuery(HashMap<String, String> params) {
 		String query = "";
 		for (String key : params.keySet()) {
 			if (key.equals("timestamp")) {

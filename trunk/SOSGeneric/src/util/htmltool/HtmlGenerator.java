@@ -97,7 +97,7 @@ public class HtmlGenerator {
 			status = HtmlTool.createImage(av.getStatus().toString().toLowerCase()+".png", av.getStatus().toString().toLowerCase());
 		}
 		if (av.needsDetailsPane()){
-			addHeader(HtmlTool.createLink(id+".map", HtmlTool.createImage(av.getIcon(), id)+av.get(Agent.LABEL), "hidden_frame")+status+HtmlTool.createLink("?" + Settings.getProperty(Settings.KEYWORD_DEEPLINK) + "=" + id, HtmlTool.createImage("link.png", "deeplink to "+id)));
+			addHeader(HtmlTool.createLink(id+".map", HtmlTool.createImage(av.getIcon(), id)+av.get(Agent.LABEL), "hidden_frame"));
 		} else {
 			addHeader(HtmlTool.createImage(av.getIcon(), id)+av.get(Agent.LABEL)+status);
 		}
@@ -110,7 +110,7 @@ public class HtmlGenerator {
 	 */
 	public void addDeepLinkToAgent(AgentViewable av) {
 		String id = av.getID();
-		buffer.append(HtmlTool.createLink("?" + Settings.getProperty(Settings.KEYWORD_DEEPLINK) + "=" + id, HtmlTool.createImage("link.png", "deeplink to "+id)));
+		buffer.append(HtmlTool.createDeeplink("?" + Settings.getProperty(Settings.KEYWORD_DEEPLINK) + "=" + id));
 	}
 	
 	/**
@@ -124,6 +124,17 @@ public class HtmlGenerator {
 		attr.put("class", "contentDiv");
 		buffer.append(HtmlTool.createDiv(text, attr));
 	}
+	
+	/**
+	 * Adds a custom content div.
+	 * 
+	 * @param text the text to be wrapped in the div
+	 * @param attributes all html attributes of the div
+	 */
+	public void addCustomDiv(String text, HashMap<String, String> attributes) {
+		text = convertToHtml(text);
+		buffer.append(HtmlTool.createDiv(text, attributes));
+	}	
 
 	/**
 	 * Returns the HTML code of the details pane.

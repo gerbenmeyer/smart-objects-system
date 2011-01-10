@@ -4,6 +4,7 @@ import java.util.HashMap;
 
 import main.Settings;
 import model.agent.agents.IndexAgent;
+import util.clientconnection.HTTPListener;
 import util.htmltool.HtmlMapPageGenerator;
 import util.htmltool.HtmlTool;
 
@@ -51,13 +52,8 @@ public class NormalIndexAgent extends IndexAgent {
 		htmlPage.addToFinalScript("ajaxpage('menu.details','menu_canvas');");
 
 		// default source
-		String source = Settings.getProperty(Settings.DEFAULT_AGENT)+".map";
+		String source = Settings.getProperty(Settings.DEFAULT_AGENT)+".map?"+HTTPListener.encodeQuery(params);
 
-		// deeplink to id.
-		if (params != null && params.containsKey(Settings.getProperty(Settings.KEYWORD_DEEPLINK))
-				&& params.get(Settings.getProperty(Settings.KEYWORD_DEEPLINK)) != null) {
-			source = params.get(Settings.getProperty(Settings.KEYWORD_DEEPLINK)) + ".map?deeplink=true";
-		}
 		htmlPage.addToOnLoadScript("document.getElementById('hidden_frame').src='" + source + "';");
 
 		// clustering enabled / disabled.

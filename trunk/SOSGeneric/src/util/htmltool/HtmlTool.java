@@ -58,7 +58,7 @@ public class HtmlTool {
 				content.append(" " + key + "=\"" + tagAttributes.get(key) + "\"");
 			}
 		}
-		content.append(" />\n");
+		content.append(" />");
 		return content.toString();
 	}
 
@@ -117,6 +117,19 @@ public class HtmlTool {
 	 */
 	public static String createLink(String url, String text) {
 		return createLink(url, text, "_self");
+	}
+	
+	/**
+	 * Creates a copyable link
+	 * 
+	 * @param url
+	 * @return
+	 */
+	public static String createDeeplink(String url){
+		String id = ""+System.nanoTime();
+		String link = "<a href=\"#\" onClick=\"document.getElementById('"+id+"').style.visibility='visible';document.getElementById('"+id+"').focus();document.getElementById('"+id+"').select();\">"+HtmlTool.createImage("link.png", "Link")+"</a>";
+		String value = "<input type=\"text\" id=\""+id+"\" title=\"Copy-paste the link in an e-mail or chat message\" size=\"30\" readonly style=\"visibility:hidden;margin:0px;padding:0px;\" value=\""+url+"\"/>";
+		return link+" "+value;
 	}
 
 	/**

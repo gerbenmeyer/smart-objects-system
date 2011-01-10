@@ -8,7 +8,7 @@ body{
 
 img {
 	border-width: 0px;
-	vertical-align: bottom;
+	vertical-align: middle;
 }
 
 #header_canvas{
@@ -30,23 +30,30 @@ p {
 }
 
 h2{
+	font-family: Verdana, Arial;
 	display: block;
 	padding: 0px;
 	margin: 8px 0px;
 	color: #375285;
-	font-size: 14px;
+	font-size: 18px;
 }
 
 h3{
+	font-family: Verdana, Arial;
 	display: block;
 	padding: 0px;
 	margin: 8px 0px;
 	color: #375285;
-	font-size: 13px;
+	font-size: 16px;
 }
 
 a {
 	color: black;
+	text-decoration:none;
+}
+
+a:hover {
+	text-decoration:underline;
 }
 
 #menu_canvas{

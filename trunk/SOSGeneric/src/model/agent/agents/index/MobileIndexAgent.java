@@ -4,6 +4,7 @@ import java.util.HashMap;
 
 import main.Settings;
 import model.agent.agents.IndexAgent;
+import util.clientconnection.HTTPListener;
 import util.htmltool.HtmlMobileMapPageGenerator;
 import util.htmltool.HtmlTool;
 
@@ -36,7 +37,7 @@ public class MobileIndexAgent extends IndexAgent {
 		htmlPage.addToBodyHtml(HtmlTool.createDiv(header, "header_canvas"));
 
 		// default source
-		String source = Settings.getProperty(Settings.DEFAULT_AGENT)+".map";
+		String source = Settings.getProperty(Settings.DEFAULT_AGENT)+".map?"+HTTPListener.encodeQuery(params);
 
 		// deeplink to id.
 		if (params != null && params.containsKey(Settings.getProperty(Settings.KEYWORD_DEEPLINK))
