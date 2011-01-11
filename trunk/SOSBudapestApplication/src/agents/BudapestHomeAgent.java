@@ -2,7 +2,6 @@ package agents;
 
 import java.util.HashMap;
 
-import main.Settings;
 import model.agent.Agent;
 import model.agent.AgentViewable;
 import model.agent.collection.AgentCollection;
@@ -34,7 +33,7 @@ public class BudapestHomeAgent extends Agent {
 	@Override
 	public void generateDetailsContent(HtmlDetailsContentGenerator detailsPane, HashMap<String, String> params) {
 		//show a welcome message
-		detailsPane.addHeader("Welcome to the "+Settings.getProperty(Settings.APPLICATION_NAME));
+		detailsPane.addHeader("Welcome!");
 		detailsPane.addParagraph("Here, you can get an overview of all the major attractions in Budapest. Furthermore, trainstations, the airport, and even places to stay can be found here.");
 		
 		//show all attractions by using the always existing search agent to search for all agents

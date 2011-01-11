@@ -2,7 +2,6 @@ package agents;
 
 import java.util.HashMap;
 
-import main.Settings;
 import model.agent.Agent;
 import model.agent.AgentViewable;
 import model.agent.collection.AgentCollection;
@@ -34,10 +33,10 @@ public class WeatherHomeAgent extends Agent {
 	@Override
 	public void generateDetailsContent(HtmlDetailsContentGenerator detailsPane, HashMap<String, String> params) {
 		//show a welcome message
-		detailsPane.addHeader("Welcome to the "+Settings.getProperty(Settings.APPLICATION_NAME));
+		detailsPane.addHeader("Welcome!");
 		detailsPane.addParagraph("Here, you can get an overview of weather in The Netherlands.");
 		
-		//show all attractions by using the always existing search agent to search for all agents
+		//show all weather stations by using the always existing search agent to search for all agents
 		detailsPane.addSubHeader("Weather stations");
 		AgentViewable av = AgentCollection.getInstance().get("search");
 		params.put("q", "");

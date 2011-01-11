@@ -48,6 +48,7 @@ public class SOSDutchWeatherDataClient {
 				e.printStackTrace();
 			}
 
+			// wait 15 minutes, and do the same thing again
 			try {
 				Thread.sleep(15 /*minutes*/ * 60 /*seconds*/ * 1000 /*milliseconds*/);
 			} catch (InterruptedException e) {
