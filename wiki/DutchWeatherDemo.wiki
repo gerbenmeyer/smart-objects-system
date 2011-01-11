@@ -11,23 +11,183 @@ For the Dutch Weather Map, a seperate data client application is developed, call
 
 *Implementation of SOSDutchWeatherClient*
 {{{
-	//under construction
+public class SOSDutchWeatherDataClient {
+
+	// The remove agent collection, to which the converted external data is added (i.e. the SOS data store)
+	private static RemoteAgentCollection remoteAgentCollection = new RemoteAgentCollection(
+			DutchWeatherClientSettings.SERVER_ADDRESS, DutchWeatherClientSettings.SERVER_PORT,
+			DutchWeatherClientSettings.USERNAME, DutchWeatherClientSettings.PASSWORD);
+
+	// The external datasource which has to be interpreted
+	private static final String XML_URL = "http://xml.buienradar.nl/";
+
+	public SOSDutchWeatherDataClient() throws FileNotFoundException {
+
+		while (true) {
+			// The WeatherXMLParser is parsing the external data source, and 
+			// converts it into agents, as required by the RemoteAgentCollection
+			WeatherXMLParser parser = new WeatherXMLParser(XML_URL);;
+
+			// if KML parsing was successful, process the result, and send 
+			// the objects to the server
+			try {
+				Collection<Agent> agents = parser.parse();
+				remoteAgentCollection.connect();
+				remoteAgentCollection.put(agents);
+				remoteAgentCollection.disconnect();
+				System.out.println(agents.size() + " objects sent to server!");
+			} catch (Exception e) {
+				e.printStackTrace();
+			}
+
+			// wait 15 minutes, and do the same thing again
+			try {
+				Thread.sleep(15 /*minutes*/ * 60 /*seconds*/ * 1000 /*milliseconds*/);
+			} catch (InterruptedException e) {
+				e.printStackTrace();
+			}
+		}
+	}
+
+	public static void main(String[] args) {
+		// Create a new SOS data client
+		new SOSDutchWeatherDataClient();
+	}
+}
 }}}
 
 == Server ==
 
 For the Dutch Weather application, a seperate SOS server application is developed, called !SOSDutchWeatherServer, which extends the generic [SystemStructure SOSServer] class. Two application-specific agents are developed, namely a _home_ and _localweather_-agent, which both extend the generic [SystemStructure Agent] class. Next, the actual implementation of these agents (albeit simplified) is explained.
 
-*Implementation of !DutchWeatherHomeAgent*
+*Implementation of !WeatherHomeAgent*
 {{{
-	//under construction
+public class WeatherHomeAgent extends Agent {
+
+	public WeatherHomeAgent(String id) {
+		super(id);
+		// make sure that this agent is hidden, i.e. that it does not show up in the search results
+		set(PropertyType.BOOLEAN, Agent.HIDDEN, Boolean.toString(true));
+	}
+
+	@Override
+	public void generateMapContent(HtmlMapContentGenerator mapContent, HashMap<String,String> params){
+		//move the map to The Netherlands
+		mapContent.setCenter(52, 6.5);
+		mapContent.setZoom(7);
+		
+		//show all agents by using the always existing search agent to search for all agents
+		AgentViewable av = AgentCollection.getInstance().get("search");
+		params.put("q", "");
+		av.generateMapContent(mapContent, params);
+	}
+
+	@Override
+	public void generateDetailsContent(HtmlDetailsContentGenerator detailsPane, HashMap<String, String> params) {
+		//show a welcome message
+		detailsPane.addHeader("Welcome!");
+		detailsPane.addParagraph("Here, you can get an overview of weather in The Netherlands.");
+		
+		//show all weather stations by using the always existing search agent to search for all agents
+		detailsPane.addSubHeader("Weather stations");
+		AgentViewable av = AgentCollection.getInstance().get("search");
+		params.put("q", "");
+		av.generateDetailsContent(detailsPane, params);
+	}
+}
 }}}
 
-*Implementation of !DutchWeatherLocalWeatherAgent*
+*Implementation of !WeatherAgent*
 {{{
-	//under construction
+public class WeatherAgent extends Agent {
+
+	public WeatherAgent(String id) {
+		super(id);
+	}
+
+	@Override
+	public void act() throws Exception {
+		// set the status to the one which is learned from all training
+		// instances
+		set(PropertyType.STATUS, Agent.STATUS, getLearnedStatus().toString());
+	}
+
+	@Override
+	public String getMapMarkerImage() {
+		// a custom map marker image, representing the current weather (i.e.
+		// cloudy, sunny)	
+		return get(Agent.DESCRIPTION).replaceAll("\\s", "_").replaceAll(",", "") + ".png";
+	}
+
+	@Override
+	public void generateMapContent(HtmlMapContentGenerator mapContent, HashMap<String, String> params) {
+		// pan the map to the location of this object
+		LocationProperty lp = new LocationProperty("", get(Agent.LOCATION));
+		if (!lp.isNull()) {
+			mapContent.setZoom(9);
+			mapContent.panToLocation(lp.getLatitude(), lp.getLongitude());
+		}
+		// show the info window of this object
+		mapContent.popupInfoWindow(this.getID());
+	}
+
+	@Override
+	public void generateMapBalloonContent(HtmlMapBalloonContentGenerator balloonContent, HashMap<String, String> params) {
+		// create custom content for the balloon of this agent type
+		
+		// add the icon of the weather status
+		balloonContent.addCustomHtml(HtmlTool.createImageRight(getMapMarkerImage(), get(Agent.DESCRIPTION)));
+		
+		// add the label of this agent to the balloon
+		balloonContent.addAgentHeaderLink(this);
+		
+		// add the weather properties of this location
+		balloonContent.addParagraph(HtmlTool.createImage("temp_icon.png", "temp")+" Temperature: "+get("TemperatureCelcius")+" °C");
+		balloonContent.addParagraph(HtmlTool.createImage("wind_icon.png", "temp")+" Wind: "+get("WindSpeedMS")+" m/s "+get("WindDirection"));
+		balloonContent.addParagraph(HtmlTool.createImage("rain_icon.png", "temp")+" Rain: "+get("RainMMPerHour")+" mm/h");
+	}
+
+	@Override
+	public void generateDetailsContent(HtmlDetailsContentGenerator detailsPane, HashMap<String, String> params) {
+		// create custom content for the details pane of this agent type
+		
+		// add the icon of the weather status
+		detailsPane.addCustomHtml(HtmlTool.createImageRight(getMapMarkerImage(), get(Agent.DESCRIPTION)));		
+		
+		// add the label of this agent to the details pane
+		detailsPane.addAgentHeader(this);
+		
+		// add information about the current status of this agent
+		Property status = getProperty(Agent.STATUS);
+		detailsPane.addSubHeader("Problem detection");
+		detailsPane.addDataHeader("", "Name", "Value");
+		detailsPane.addDataRow(status.getIcon(), status.getName(), status.toInformativeString());
+		
+		// add controls to train agents of this type
+		detailsPane.addSubHeader("Training");
+		detailsPane.addDataHeader("", "Training", "Status");
+		detailsPane.addDataRowTrainingButtons(getID());
+		
+		// add the weather properties
+		detailsPane.addSubHeader("Properties");
+		detailsPane.addDataHeader("", "Name", "Value");
+		detailsPane.addDataRow("temp_icon.png", "Temperature", get("TemperatureCelcius") + " °C");
+		detailsPane.addDataRow("wind_icon.png", "Wind", get("WindSpeedMS") + " m/s " + get("WindDirection"));
+		detailsPane.addDataRow("rain_icon.png", "Rain", get("RainMMPerHour") + " mm/h");
+
+		// add the weather description
+		Property description = getProperty(Agent.DESCRIPTION);
+		detailsPane.addDataRow(description.getIcon(), description.getName(), description.toInformativeString());
+		
+		// add a link to the data source
+		detailsPane.addDataRow("", "Source", HtmlTool.createLink(get("URL"), get("URL"), "_blank"));
+		
+	}
+}
 }}}
 
 == Front-end ==
 
-_To be added_.
+Below, a screenshot of the web interface of the Dutch Weather Map application is shown. For the live version of the web interface, please visit [http://dutchweather.agentlab.nl/].
+
+[http://dutchweather.agentlab.nl/ http://smart-objects-system.googlecode.com/svn/wiki/dutchweatherwebinterface.png]

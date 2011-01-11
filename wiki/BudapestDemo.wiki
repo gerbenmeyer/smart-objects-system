@@ -141,6 +141,6 @@ public class BudapestObjectAgent extends Agent {
 
 == Front-end ==
 
-Below, a screenshot of the web interface of the Budapest Interactive City Map application is shown. For the live version of the web interface, please visit [http://www.agentlab.nl/budapest].
+Below, a screenshot of the web interface of the Budapest Interactive City Map application is shown. For the live version of the web interface, please visit [http://budapest.agentlab.nl/].
 
-[http://smart-objects-system.googlecode.com/svn/wiki/budapestwebinterface.png]
+[http://budapest.agentlab.nl/ http://smart-objects-system.googlecode.com/svn/wiki/budapestwebinterface.png]

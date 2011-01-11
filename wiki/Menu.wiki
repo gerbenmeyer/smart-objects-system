@@ -4,9 +4,11 @@
     * [SystemOverview Overview]
     * [SystemStructure Structure]
     * [SystemBehaviour Behaviour]
-  * Demo applications
+  * Applications
     * [BudapestDemo Budapest Interactive City Map]
     * [DutchWeatherDemo Dutch Weather Map]
+	* [GlobalTweets]
+	* [SOSLogistics]
   * Building an application
     * [GettingStarted Getting Started]
     * [Settings]
