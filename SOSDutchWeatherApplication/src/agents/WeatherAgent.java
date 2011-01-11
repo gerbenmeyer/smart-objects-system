@@ -41,38 +41,53 @@ public class WeatherAgent extends Agent {
 
 	@Override
 	public void generateMapBalloonContent(HtmlMapBalloonContentGenerator balloonContent, HashMap<String, String> params) {
-		// create the content of the balloon of this object, containing a header
-		// and a paragraph
+		// create custom content for the balloon of this agent type
+		
+		// add the icon of the weather status
 		balloonContent.addCustomHtml(HtmlTool.createImageRight(getMapMarkerImage(), get(Agent.DESCRIPTION)));
+		
+		// add the label of this agent to the balloon
 		balloonContent.addAgentHeaderLink(this);
-		balloonContent.addParagraph("Temperature: " + get("TemperatureCelcius") + " °C");
-		balloonContent.addParagraph("Wind: " + get("WindSpeedMS") + " m/s " + get("WindDirection"));
-		balloonContent.addParagraph("Rain: " + get("RainMMPerHour") + " mm/h");
+		
+		// add the weather properties of this location
+		balloonContent.addParagraph(HtmlTool.createImage("temp_icon.png", "temp")+" Temperature: "+get("TemperatureCelcius")+" °C");
+		balloonContent.addParagraph(HtmlTool.createImage("wind_icon.png", "temp")+" Wind: "+get("WindSpeedMS")+" m/s "+get("WindDirection"));
+		balloonContent.addParagraph(HtmlTool.createImage("rain_icon.png", "temp")+" Rain: "+get("RainMMPerHour")+" mm/h");
 	}
 
 	@Override
 	public void generateDetailsContent(HtmlDetailsContentGenerator detailsPane, HashMap<String, String> params) {
-		detailsPane.addHeader(HtmlTool.createImage(getMapMarkerImage(), "") + " " + get(Agent.LABEL));
+		// create custom content for the details pane of this agent type
 		
+		// add the icon of the weather status
+		detailsPane.addCustomHtml(HtmlTool.createImageRight(getMapMarkerImage(), get(Agent.DESCRIPTION)));		
+		
+		// add the label of this agent to the details pane
+		detailsPane.addAgentHeader(this);
+		
+		// add information about the current status of this agent
 		Property status = getProperty(Agent.STATUS);
 		detailsPane.addSubHeader("Problem detection");
 		detailsPane.addDataHeader("", "Name", "Value");
 		detailsPane.addDataRow(status.getIcon(), status.getName(), status.toInformativeString());
 		
+		// add controls to train agents of this type
 		detailsPane.addSubHeader("Training");
 		detailsPane.addDataHeader("", "Training", "Status");
 		detailsPane.addDataRowTrainingButtons(getID());
 		
+		// add the weather properties
 		detailsPane.addSubHeader("Properties");
 		detailsPane.addDataHeader("", "Name", "Value");
-		
-		detailsPane.addDataRow("", "Temperature", get("TemperatureCelcius") + " °C");
-		detailsPane.addDataRow("", "Wind", get("WindSpeedMS") + " m/s " + get("WindDirection"));
-		detailsPane.addDataRow("", "Rain", get("RainMMPerHour") + " mm/h");
-		
+		detailsPane.addDataRow("temp_icon.png", "Temperature", get("TemperatureCelcius") + " °C");
+		detailsPane.addDataRow("wind_icon.png", "Wind", get("WindSpeedMS") + " m/s " + get("WindDirection"));
+		detailsPane.addDataRow("rain_icon.png", "Rain", get("RainMMPerHour") + " mm/h");
+
+		// add the weather description
 		Property description = getProperty(Agent.DESCRIPTION);
 		detailsPane.addDataRow(description.getIcon(), description.getName(), description.toInformativeString());
 		
+		// add a link to the data source
 		detailsPane.addDataRow("", "Source", HtmlTool.createLink(get("URL"), get("URL"), "_blank"));
 		
 	}

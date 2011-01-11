@@ -20,13 +20,13 @@ public class SOSBudapestServer extends SOSServer {
 	 * @param settings
 	 */
 	public SOSBudapestServer(Properties settings) {
-		//call constructor of SOSGeneric
+		// call constructor of SOSGeneric
 		super(settings, new BudapestAgentFactory(), new HashMap<String, String>());
 
-		//add the home agent to the agent collection
+		// add the home agent to the agent collection
 		getAgentCollection().put(new BudapestHomeAgent("home"));
 
-		//run the server
+		// run the server
 		runServer();
 	}
 
@@ -34,7 +34,7 @@ public class SOSBudapestServer extends SOSServer {
 	 * @param args
 	 */
 	public static void main(String[] args) {
-		//read settings from the config file
+		// read settings from the config file
 		File file = new File("config.ini");
 		Properties settings = new Properties();
 		try {
@@ -44,7 +44,7 @@ public class SOSBudapestServer extends SOSServer {
 		} catch (Exception e) {
 		}
 		
-		//create new SOS server
+		// create new SOS server
 		new SOSBudapestServer(settings);
 
 	}
