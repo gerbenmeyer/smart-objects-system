@@ -1,13 +1,9 @@
-#summary One-sentence summary of this page.
+#summary description of the SOSLogistics application
 
-= Introduction =
+= SOSLogistics =
 
-Add your content here.
+SOSLogistics is the first application made with the Smart Objects Systems framework. The purpose of this application is to assist in monitoring and control of trucks and products at a road freight transportation company.
 
+== Front-end ==
 
-= Details =
-
-Add your content here.  Format your content with:
-  * Text in *bold* or _italic_
-  * Headings, paragraphs, and lists
-  * Automatic links to other wiki pages
+_To be added_

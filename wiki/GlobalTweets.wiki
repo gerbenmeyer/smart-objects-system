@@ -1,13 +1,9 @@
-#summary One-sentence summary of this page.
+#summary description of the GlobalTweets application
 
-= Introduction =
+= GlobalTweets =
 
-Add your content here
+GlobalTweets is an application currently under development, with the purpose to let users discover what is happening on Twitter around the globe.
 
+== Front-end ==
 
-= Details =
-
-Add your content here.  Format your content with:
-  * Text in *bold* or _italic_
-  * Headings, paragraphs, and lists
-  * Automatic links to other wiki pages
+_To be added_
