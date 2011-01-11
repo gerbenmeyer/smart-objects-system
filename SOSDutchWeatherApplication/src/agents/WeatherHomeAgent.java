@@ -13,6 +13,7 @@ public class WeatherHomeAgent extends Agent {
 
 	public WeatherHomeAgent(String id) {
 		super(id);
+		// make sure that this agent is hidden, i.e. that it does not show up in the search results
 		if (get(Agent.HIDDEN).isEmpty()) {
 			set(PropertyType.BOOLEAN, Agent.HIDDEN, Boolean.toString(true));
 		}
