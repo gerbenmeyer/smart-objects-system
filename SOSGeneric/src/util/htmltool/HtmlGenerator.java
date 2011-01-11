@@ -86,33 +86,37 @@ public class HtmlGenerator {
 	}
 	
 	/**
+	 * Creates a header with the agent icon and label.
+	 * 
+	 * @param av the agent view
+	 */
+	public void addAgentHeader(AgentViewable av) {
+		String id = av.getID();
+		String status = "";
+		if (Settings.getProperty(Settings.AGENT_PROBLEM_DETECTION_ENABLED).equals(Boolean.toString(true))){
+			status = " "+HtmlTool.createImage(av.getStatus().toString().toLowerCase()+".png", av.getStatus().toString().toLowerCase());
+		}
+		addHeader(HtmlTool.createImage(av.getIcon(), id)+" "+av.get(Agent.LABEL)+status);
+	}	
+	
+	/**
 	 * Creates a header with link the agent icon and label.
 	 * 
 	 * @param av the agent view
 	 */
 	public void addAgentHeaderLink(AgentViewable av) {
+		if (!av.needsDetailsPane()){
+			addAgentHeader(av);
+			return;
+		}
 		String id = av.getID();
 		String status = "";
 		if (Settings.getProperty(Settings.AGENT_PROBLEM_DETECTION_ENABLED).equals(Boolean.toString(true))){
-			status = HtmlTool.createImage(av.getStatus().toString().toLowerCase()+".png", av.getStatus().toString().toLowerCase());
+			status = " "+HtmlTool.createImage(av.getStatus().toString().toLowerCase()+".png", av.getStatus().toString().toLowerCase());
 		}
-		if (av.needsDetailsPane()){
-			addHeader(HtmlTool.createLink(id+".map", HtmlTool.createImage(av.getIcon(), id)+av.get(Agent.LABEL), "hidden_frame"));
-		} else {
-			addHeader(HtmlTool.createImage(av.getIcon(), id)+av.get(Agent.LABEL)+status);
-		}
+		addHeader(HtmlTool.createImage(av.getIcon(), id)+" "+HtmlTool.createLink(id+".map", av.get(Agent.LABEL), "hidden_frame")+status);
 	}
 
-	/**
-	 * Creates a deeplink to an agent.
-	 * 
-	 * @param av the agent view
-	 */
-	public void addDeepLinkToAgent(AgentViewable av) {
-		String id = av.getID();
-		buffer.append(HtmlTool.createDeeplink("?" + Settings.getProperty(Settings.KEYWORD_DEEPLINK) + "=" + id));
-	}
-	
 	/**
 	 * Adds a content div.
 	 * 
