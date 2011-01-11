@@ -219,6 +219,10 @@ div.history .propertyvalue{
 #details_canvas.overview {
 	width: 170px;
 }
+
+p.images img {
+	margin-right: 5px;
+}
 /*
 div.overview .propertyheader{
 	width: 50px;
