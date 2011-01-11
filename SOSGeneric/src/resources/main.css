@@ -130,7 +130,6 @@ div.block{
 }
 
 div.propertyheader{
-	border: 1px solid #bbb;
 	display: block;
 	background-color: #dae8f9;
 	padding: 1px;
@@ -139,9 +138,6 @@ div.propertyheader{
 }
 
 div.property{
-	border-left: 1px solid #bbb;
-	border-right: 1px solid #bbb;
-	border-bottom: 1px solid #bbb;
 	display: block;
 	padding: 1px;
 	margin: 0px; 
