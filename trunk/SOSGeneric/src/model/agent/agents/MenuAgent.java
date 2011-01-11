@@ -40,7 +40,7 @@ public class MenuAgent extends Agent {
 
 		Collections.sort(types, new AgentTypeComparator());
 		String menu = HtmlTool
-				.createHeader2("Menu <img src=\"hide.png\" title=\"Toggle menu\" width=\"16\" height=\"16\" style=\"float:right;\" onclick=\"if (document.getElementById('menu_content').style.display == 'none') { document.getElementById('menu_content').style.display = 'inline'; this.src = 'hide.png'; } else { document.getElementById('menu_content').style.display = 'none'; this.src = 'show.png'; }\">")
+				.createHeader2("Filter <img src=\"hide.png\" title=\"Toggle menu\" width=\"16\" height=\"16\" style=\"float:right;\" onclick=\"if (document.getElementById('menu_content').style.display == 'none') { document.getElementById('menu_content').style.display = 'inline'; this.src = 'hide.png'; } else { document.getElementById('menu_content').style.display = 'none'; this.src = 'show.png'; }\">")
 				+ "<div id=\"menu_content\">"
 				+ "<div class=\"propertyheader\"><div class=\"propertyicon\"></div><div class=\"propertyname\">"
 				+ Capitalize.capitalize(Settings.getProperty(Settings.KEYWORD_DEEPLINK)) + " types</div></div>";
@@ -53,13 +53,13 @@ public class MenuAgent extends Agent {
 			if (showStatus) {
 				menu += "<div class=\"property linked_property\" onclick=\"document.getElementById('hidden_frame').src = 'search.map?q='"
 						+ " + document.getElementById('overview_filter').value;\"><div class=\"propertyicon\">"
-						+ HtmlTool.createImage("all_icon_menu.png", "all", 16)
-						+ "</div><div class=\"menu_name\">All</div></div>";
+						+ HtmlTool.createImage("all_icon_menu.png", "none", 16)
+						+ "</div><div class=\"menu_name\">None</div></div>";
 			} else {
 				menu += "<div class=\"property linked_property\" onclick=\"document.getElementById('hidden_frame').src = 'search.map?q=';\">"
 						+ "<div class=\"propertyicon\">"
-						+ HtmlTool.createImage("all_icon_menu.png", "all", 16)
-						+ "</div><div class=\"menu_name\">All</div></div>";
+						+ HtmlTool.createImage("all_icon_menu.png", "none", 16)
+						+ "</div><div class=\"menu_name\">None</div></div>";
 			}
 		}
 
@@ -99,8 +99,6 @@ public class MenuAgent extends Agent {
 					+ "</select>";
 		}
 		
-		menu += "<div class=\"filter_text\">"+HtmlTool.createLink("stats.map", "Stats", "hidden_frame")+"</div>";
-
 		menu += "</div>";
 
 		detailsPane.addCustomHtml(menu);
