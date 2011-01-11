@@ -116,6 +116,20 @@ public class HtmlGenerator {
 		}
 		addHeader(HtmlTool.createImage(av.getIcon(), id)+" "+HtmlTool.createLink(id+".map", av.get(Agent.LABEL), "hidden_frame")+status);
 	}
+	
+	/**
+	 * Creates a header with link the agent icon and label.
+	 * 
+	 * @param av the agent view
+	 */
+	public void addAgentLink(AgentViewable av) {
+		String id = av.getID();
+		String status = "";
+		if (Settings.getProperty(Settings.AGENT_PROBLEM_DETECTION_ENABLED).equals(Boolean.toString(true))){
+			status = " "+HtmlTool.createImage(av.getStatus().toString().toLowerCase()+".png", av.getStatus().toString().toLowerCase());
+		}
+		addParagraph(HtmlTool.createImage(av.getIcon(), id)+" "+HtmlTool.createLink(id+".map", av.get(Agent.LABEL), "hidden_frame")+status);
+	}	
 
 	/**
 	 * Adds a content div.
