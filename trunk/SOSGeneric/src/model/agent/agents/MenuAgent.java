@@ -41,9 +41,7 @@ public class MenuAgent extends Agent {
 		Collections.sort(types, new AgentTypeComparator());
 		String menu = HtmlTool
 				.createHeader2("Filter <img src=\"hide.png\" title=\"Toggle menu\" width=\"16\" height=\"16\" style=\"float:right;\" onclick=\"if (document.getElementById('menu_content').style.display == 'none') { document.getElementById('menu_content').style.display = 'inline'; this.src = 'hide.png'; } else { document.getElementById('menu_content').style.display = 'none'; this.src = 'show.png'; }\">")
-				+ "<div id=\"menu_content\">"
-				+ "<div class=\"propertyheader\"><div class=\"propertyicon\"></div><div class=\"propertyname\">"
-				+ Capitalize.capitalize(Settings.getProperty(Settings.KEYWORD_DEEPLINK)) + " types</div></div>";
+				+ "<div id=\"menu_content\">";
 
 		boolean showStatus = Settings.getProperty(Settings.AGENT_PROBLEM_DETECTION_ENABLED).equals(
 				Boolean.toString(true));
@@ -54,12 +52,12 @@ public class MenuAgent extends Agent {
 				menu += "<div class=\"property linked_property\" onclick=\"document.getElementById('hidden_frame').src = 'search.map?q='"
 						+ " + document.getElementById('overview_filter').value;\"><div class=\"propertyicon\">"
 						+ HtmlTool.createImage("all_icon_menu.png", "none", 16)
-						+ "</div><div class=\"menu_name\">None</div></div>";
+						+ "</div><div class=\"menu_name\">All</div></div>";
 			} else {
 				menu += "<div class=\"property linked_property\" onclick=\"document.getElementById('hidden_frame').src = 'search.map?q=';\">"
 						+ "<div class=\"propertyicon\">"
 						+ HtmlTool.createImage("all_icon_menu.png", "none", 16)
-						+ "</div><div class=\"menu_name\">None</div></div>";
+						+ "</div><div class=\"menu_name\">All</div></div>";
 			}
 		}
 
@@ -79,13 +77,18 @@ public class MenuAgent extends Agent {
 			}
 		}
 		
-		String defaultClustering = Settings.getProperty(Settings.DEFAULT_CLUSTERING);
+		boolean clustering = Settings.getProperty(Settings.DEFAULT_CLUSTERING).equals(Boolean.toString(true));
 		String defaultFilter = "";//Settings.getProperty(Settings.DEFAULT_AGENT);
 
-		menu += HtmlTool.createHeader2("Options");
+		if (clustering || showStatus){
+			menu += HtmlTool.createHeader2("Options");
+		}
+		
+		if (clustering) {
 		menu += "<input id=\"clustering_enabled\" type=\"checkbox\" onclick=\"setClustering(this.checked)\" "
-				+ (defaultClustering.equals("true") ? "checked=\"checked\"" : "") + "><label for=\"clustering_enabled\">Cluster "
+				+ (clustering ? "checked=\"checked\"" : "") + "><label for=\"clustering_enabled\">Cluster "
 				+ Settings.getProperty(Settings.KEYWORD_DEEPLINK) + "s</label></input><br/>";
+		}
 
 		if (showStatus) {
 			menu += "<div class=\"filter_text\">Display:</div>"

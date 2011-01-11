@@ -8,7 +8,6 @@ import model.agent.Agent;
 import model.agent.AgentViewable;
 import model.agent.collection.AgentCollection;
 import util.BenchMarker;
-import util.Capitalize;
 import util.db.MySQLConnection;
 import util.enums.PropertyType;
 import util.htmltool.HtmlDetailsContentGenerator;
@@ -65,8 +64,6 @@ public class SearchAgent extends Agent {
 		if (agents.size() > MAX_AGENTS){
 			detailsPane.addParagraph(HtmlTool.createImage("warning.png", "Warning")+" Too many "+Settings.getProperty(Settings.KEYWORD_DEEPLINK)+"s, only showing first "+MAX_AGENTS+".");
 		}
-
-		detailsPane.addDataHeader("", Capitalize.capitalize(Settings.getProperty(Settings.KEYWORD_DEEPLINK)));
 
 		boolean showStatus = Settings.getProperty(Settings.AGENT_PROBLEM_DETECTION_ENABLED).equals(
 				Boolean.toString(true));
