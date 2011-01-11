@@ -64,6 +64,16 @@ public class HtmlGenerator {
 		text = convertToHtml(text);
 		buffer.append(HtmlTool.createParagraph(text, null));
 	}
+
+	/**
+	 * Adds a paragraph with text to the content.
+	 * 
+	 * @param text the text to be wrapped in the paragraph
+	 */
+	public void addParagraph(String text, HashMap<String, String> attributes) {
+		text = convertToHtml(text);
+		buffer.append(HtmlTool.createParagraph(text, attributes));
+	}
 	
 	/**
 	 * Adds an image to the content.
