@@ -142,9 +142,12 @@ public class WeatherAgent extends Agent {
 		balloonContent.addAgentHeaderLink(this);
 		
 		// add the weather properties of this location
-		balloonContent.addParagraph(HtmlTool.createImage("temp_icon.png", "temp")+" Temperature: "+get("TemperatureCelcius")+" °C");
-		balloonContent.addParagraph(HtmlTool.createImage("wind_icon.png", "temp")+" Wind: "+get("WindSpeedMS")+" m/s "+get("WindDirection"));
-		balloonContent.addParagraph(HtmlTool.createImage("rain_icon.png", "temp")+" Rain: "+get("RainMMPerHour")+" mm/h");
+		balloonContent.addParagraph(HtmlTool.createImage("temp_icon.png", "temp") + 
+				" Temperature: " + get("TemperatureCelcius") + " °C");
+		balloonContent.addParagraph(HtmlTool.createImage("wind_icon.png", "temp") + 
+				" Wind: " + get("WindSpeedMS") + " m/s " + get("WindDirection"));
+		balloonContent.addParagraph(HtmlTool.createImage("rain_icon.png", "temp") +
+				" Rain: " + get("RainMMPerHour") + " mm/h");
 	}
 
 	@Override
