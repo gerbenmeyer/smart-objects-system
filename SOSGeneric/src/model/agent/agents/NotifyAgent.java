@@ -185,8 +185,7 @@ public class NotifyAgent extends Agent {
 		String img = HtmlTool.createImage(Settings.getProperty(Settings.NOTIFICATION_EMAIL_CONTENT) + av.getIcon(),
 				av.getStatus().toString().toLowerCase());
 
-		String url = "http://" + Settings.getProperty(Settings.HTTP_SERVER_ADDRESS) + ":"
-				+ Settings.getProperty(Settings.HTTP_PORT) + "?" + Settings.getProperty(Settings.KEYWORD_DEEPLINK)
+		String url = Settings.getProperty(Settings.HTTP_SERVER_ADDRESS) + "?" + Settings.getProperty(Settings.KEYWORD_DEEPLINK)
 				+ "=" + av.getID();
 
 		return HtmlTool.createTableRow(new String[] { img, HtmlTool.createLink(url, av.get(Agent.LABEL)),
