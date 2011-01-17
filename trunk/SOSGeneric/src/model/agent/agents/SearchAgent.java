@@ -104,8 +104,8 @@ public class SearchAgent extends Agent {
 		
 		for (int i = 0; i < Math.min(agents.size(), MAX_AGENTS); i++) {
 			AgentViewable av = agents.get(i);
-			mapContent.addMapMarker(av, 32);
-			mapContent.addMapBalloon(av, false);
+			mapContent.addMapMarker(av);
+//			mapContent.addMapBalloon(av, false);
 		}
 		
 		bm.taskFinished("Iterating agents ("+MySQLConnection.getInstance().getCounter()+" queries)" );
