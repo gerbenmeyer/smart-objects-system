@@ -17,6 +17,7 @@ import model.agent.agents.IndexAgent;
 import model.agent.collection.AgentCollectionViewable;
 import util.htmltool.HtmlDetailsContentGenerator;
 import util.htmltool.HtmlGenerator;
+import util.htmltool.HtmlMapBalloonContentGenerator;
 import util.htmltool.HtmlMapContentGenerator;
 import util.htmltool.HtmlTool;
 
@@ -200,7 +201,7 @@ public class HTTPListener implements HttpHandler {
 //				agentCode = agentCodeParts[0];
 //			}
 			
-			boolean agentExtension = extension.equals("html") || extension.equals("details") || extension.equals("map") || extension.equals("train"); 
+			boolean agentExtension = extension.equals("html") || extension.equals("details") || extension.equals("map") || extension.equals("train") || extension.equals("balloon"); 
 
 			if (agentExtension && !agentCode.isEmpty() && agentCollectionView.containsKey(agentCode)) {
 				byte[] bytes = new byte[0];
@@ -222,9 +223,9 @@ public class HTTPListener implements HttpHandler {
 					}
 						
 					if (showSidePane){
-						mapContent.addCustomScript("parent.document.getElementById('details_canvas').innerHTML = 'Loading ...';\n");
+						mapContent.addCustomScript("parent.document.getElementById('details_canvas').innerHTML = 'Loading ...';");
 						mapContent.addCustomScript("parent.loadDetails('" + agentCode + ".details"
-								+ (!paramString.isEmpty() ? "?" + paramString : "") + "');\n");
+								+ (!paramString.isEmpty() ? "?" + paramString : "") + "');");
 					}
 
 					av.generateMapContent(mapContent, params);
@@ -233,8 +234,10 @@ public class HTTPListener implements HttpHandler {
 					HtmlGenerator content = new HtmlGenerator();
 					av.teachStatus(content,params);
 					html = content.createScript();
-				} else {
-					System.out.println("This is NOT 21good: " + filename);
+				} else if (extension.equals("balloon")) {
+					HtmlMapBalloonContentGenerator balloonContentGen = new HtmlMapBalloonContentGenerator();
+					av.generateMapBalloonContent(balloonContentGen, params);
+					html = balloonContentGen.getHtml();
 				}
 				bytes = html.toString().getBytes();
 				t.getResponseHeaders().add("Content-Type", "text/html");

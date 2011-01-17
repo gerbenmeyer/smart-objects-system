@@ -1,6 +1,7 @@
 var map_;
 var userMarker = null;
 var markers = [];
+var infoWindows = [];
 var openInfoWindows = [];
 var clustering_ = false;
 var clusterer;
@@ -50,6 +51,7 @@ function geoSuccess(position) {
 		zIndex: 0
 	});
 	map_.setCenter(new google.maps.LatLng(position.coords.latitude, position.coords.longitude));
+	map_.setZoom(7);
 }
 function geoFailure(position) {
 
@@ -284,7 +286,11 @@ function panToLocation(latitude, longitude){
 function setZoom(zoom){
 	map_.setZoom(zoom);
 }
-function addMarker(latitude, longitude, title, mapicon, mapiconsize, zindex, id) {
+
+function aM(latitude, longitude, title, mapicon, id) { //addMarker
+	addMarker(latitude, longitude, title, mapicon, 32, 1, id);		
+}
+function addMarker(latitude, longitude, title, mapicon, mapiconsize, zindex, id){
 	var mapsw = mapiconsize / 2;
 	var mapsh = mapiconsize - 2;
 	var markerImage = new google.maps.MarkerImage(mapicon,
@@ -296,24 +302,11 @@ function addMarker(latitude, longitude, title, mapicon, mapiconsize, zindex, id)
 		icon : markerImage,
 		zIndex : zindex
 	});
+	google.maps.event.addListener(marker, 'click', function() {
+		clearInfoWindows();
+		ajaxballoon(""+id+".balloon",marker);
+	});
 	markers[id] = marker;
-}
-function addMarkerBalloon(markerId, balloonHTMLContent, openInfoWindowOnLoad) {
-	var marker = markers[markerId];
-	if (marker) {
-		var infowindow = new google.maps.InfoWindow({
-			content : balloonHTMLContent
-		});
-		
-		google.maps.event.addListener(marker, 'click', function() {
-			clearInfoWindows();
-			infowindow.open(map_, marker);
-			openInfoWindows.push(infowindow);
-		});
-		if (openInfoWindowOnLoad) {
-			google.maps.event.trigger(marker, 'click');
-		}
-	}
 }
 function addDirection(direction) {
 	if (direction_points.length > 0) {

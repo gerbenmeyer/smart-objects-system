@@ -36,6 +36,43 @@ if (page_request.readyState == 4 && (page_request.status==200 || window.location
 document.getElementById(containerid).innerHTML=page_request.responseText
 }
 
+function ajaxballoon(url, marker){
+	var page_request = false
+	if (window.XMLHttpRequest) // if Mozilla, Safari etc
+	page_request = new XMLHttpRequest()
+	else if (window.ActiveXObject){ // if IE
+	try {
+	page_request = new ActiveXObject("Msxml2.XMLHTTP")
+	} 
+	catch (e){
+	try{
+	page_request = new ActiveXObject("Microsoft.XMLHTTP")
+	}
+	catch (e){}
+	}
+	}
+	else
+	return false
+	page_request.onreadystatechange=function(){
+	loadballoon(page_request, marker)
+	}
+	page_request.open('GET', url, true)
+	page_request.send(null)
+}
+
+function loadballoon(page_request, marker){
+	if (page_request.readyState == 4 && (page_request.status==200 || window.location.href.indexOf("http")==-1)){
+		var content_ = page_request.responseText;
+		if (content_.length > 0){
+			var infowindow = new google.maps.InfoWindow({
+				content : content_
+			});
+			infowindow.open(map_, marker);
+			openInfoWindows.push(infowindow);
+		}
+	}
+}
+
 function loadobjs(){
 if (!document.getElementById)
 return

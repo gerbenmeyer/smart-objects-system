@@ -5,7 +5,6 @@ import java.util.HashMap;
 import model.agent.Agent;
 import model.agent.AgentViewable;
 import model.agent.property.properties.LocationProperty;
-import util.enums.AgentStatus;
 
 /**
  * HtmlMapContentGenerator provides methods for building a map using Goolge
@@ -39,6 +38,7 @@ public class HtmlMapContentGenerator extends HtmlGenerator{
 
 		StringBuffer headcontent = createMapScriptHeader();
 //		headcontent.append("<META HTTP-EQUIV=\"Refresh\" CONTENT=\"300\" />\n");
+		buffer.insert(0, "var p = parent;");
 		headcontent.append(HtmlTool.createScript(buffer, scriptAttr));
 		StringBuffer headbody = HtmlTool.createHeadBody(title, null, new StringBuffer(), headcontent, null);
 
@@ -49,32 +49,48 @@ public class HtmlMapContentGenerator extends HtmlGenerator{
 	 * Adds javascript which will go to the current user location.
 	 */
 	public void gotoUserLocation() {
-		buffer.append("parent.gotoUserLocation();\n");
+		buffer.append("p.gotoUserLocation();");
 	}
 
 	/**
 	 * Adds javascript which clears the map content.
 	 */
 	public void clearMapContent() {
-		buffer.append("parent.clearMap();\n");
+		buffer.append("p.clearMap();");
 	}
 
 	/**
 	 * Adds javascript which clears the map data.
 	 */
 	public void clearMapData() {
-		buffer.append("parent.clearMarkers();\n");
+		buffer.append("p.clearMarkers();");
 	}
 
 	/**
 	 * Adds javascript which draws the map.
 	 */
 	public void drawMap() {
-		buffer.append("parent.drawMap();\n");
+		buffer.append("p.drawMap();");
 	}
 
+
 	/**
+	 * Adds javascript which adds a marker to the map.
 	 * 
+	 * @param latitude
+	 * @param longitude
+	 * @param title
+	 * @param mapicon
+	 * @param showLabel
+	 * @param id the identifier of the marker
+	 */
+	public void addMapMarker(double latitude, double longitude, String title, String mapicon,
+			String id) {
+		title = escapeForJS(title);
+		buffer.append("p.aM(" + latitude + "," + longitude + ",'" + title + "','" + mapicon + "','"
+				+ id + "');");
+	}	
+	
 	/**
 	 * Adds javascript which adds a marker to the map.
 	 * 
@@ -90,56 +106,22 @@ public class HtmlMapContentGenerator extends HtmlGenerator{
 	public void addMapMarker(double latitude, double longitude, String title, String mapicon,
 			int iconsize, int zIndex, String id) {
 		title = escapeForJS(title);
-		buffer.append("parent.addMarker(" + latitude + "," + longitude + ",'" + title + "','" + mapicon + "',"
-				+ iconsize + "," + zIndex + ",'" + id + "');\n");
-	}
-	
-	/**
-	 * Adds javascript which adds a marker for a certain agent to the map.
-	 * 
-	 * @param av the view of the agent to be located
-	 * @param iconsize the size of the map icon
-	 */
-	public void addMapMarker(AgentViewable av, int iconsize){
-		addMapMarker(av, iconsize, false);
-	}
-	
-	/**
-	 * Adds javascript which adds a marker for a certain agent to the map.
-	 * 
-	 * @param av the view of the agent to be located
-	 * @param iconsize the size of the map icon
-	 * @param panToLocation true if the map should pan to this agents location 
-	 */
-	public void addMapMarker(AgentViewable av, int iconsize, boolean panToLocation){
-		LocationProperty lp = new LocationProperty("", av.get(Agent.LOCATION));
-		if (lp.isNull()) {
-			return;
-		}
-		String id = av.getID();
-		AgentStatus status = av.getStatus();
-		int zIndex = -status.getValue()+1;
-		addMapMarker(lp.getLatitude(), lp.getLongitude(), av.get(Agent.LABEL), av.getMapMarkerImage(), iconsize, zIndex, id);
-		if (panToLocation) {
-			panToLocation(lp.getLatitude(), lp.getLongitude());
-		}
+		buffer.append("p.addMarker(" + latitude + "," + longitude + ",'" + title + "','" + mapicon + "',"
+				+ iconsize + "," + zIndex + ",'" + id + "');");
 	}
 
 	/**
-	 * Adds a balloon to the code, and associates it with a an existing marker. 
+	 * Adds javascript which adds a marker for a certain agent to the map.
 	 * 
-	 * @param av the view of the agent
-	 * @param openBalloonOnLoad if the balloon should open on page load
+	 * @param av the view of the agent to be located
+	 * @param iconsize the size of the map icon
 	 */
-	public void addMapBalloon(AgentViewable av, boolean openBalloonOnLoad) {
+	public void addMapMarker(AgentViewable av){
 		LocationProperty lp = new LocationProperty("", av.get(Agent.LOCATION));
 		if (lp.isNull()) {
 			return;
 		}
-		HtmlMapBalloonContentGenerator balloonGen = new HtmlMapBalloonContentGenerator();
-		HashMap<String, String> params = new HashMap<String, String>();
-		av.generateMapBalloonContent(balloonGen, params);
-		buffer.append(String.format("parent.addMarkerBalloon('%s', '%s', %b);\n", av.getID(), balloonGen.getHtml().toString().replaceAll("\n", " ").replaceAll("'", "\\\\'"), openBalloonOnLoad));
+		addMapMarker(lp.getLatitude(), lp.getLongitude(), av.get(Agent.LABEL), av.getMapMarkerImage(), av.getID());
 	}
 
 	/**
@@ -151,8 +133,8 @@ public class HtmlMapContentGenerator extends HtmlGenerator{
 	 * @param polyLine
 	 */
 	public void addMapDirection(double latitude, double longitude, String status, boolean polyLine) {
-		buffer.append("parent.addDirection({location:'" + latitude + ", " + longitude + "', status:'" + status
-				+ "', poly: " + polyLine + "});\n");
+		buffer.append("p.addDirection({location:'" + latitude + ", " + longitude + "', status:'" + status
+				+ "', poly: " + polyLine + "});");
 	}
 
 	/**
@@ -162,7 +144,7 @@ public class HtmlMapContentGenerator extends HtmlGenerator{
 	 * @param longitude
 	 */
 	public void panToLocation(double latitude, double longitude) {
-		buffer.append("parent.panToLocation(" + latitude + "," + longitude + ");\n");
+		buffer.append("p.panToLocation(" + latitude + "," + longitude + ");\n");
 	}
 
 	/**
@@ -172,7 +154,7 @@ public class HtmlMapContentGenerator extends HtmlGenerator{
 	 * @param longitude
 	 */
 	public void setCenter(double latitude, double longitude) {
-		buffer.append("parent.setCenter(" + latitude + "," + longitude + ");\n");
+		buffer.append("p.setCenter(" + latitude + "," + longitude + ");\n");
 	}
 
 	/**
@@ -181,7 +163,7 @@ public class HtmlMapContentGenerator extends HtmlGenerator{
 	 * @param zoom
 	 */
 	public void setZoom(int zoom) {
-		buffer.append("parent.setZoom(" + zoom + ");\n");
+		buffer.append("p.setZoom(" + zoom + ");\n");
 	}
 
 	/**
