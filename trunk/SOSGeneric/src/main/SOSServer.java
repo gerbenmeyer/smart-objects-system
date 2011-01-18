@@ -59,13 +59,13 @@ public abstract class SOSServer {
 		this.agentCollection = new AgentCollection(factory);
 		AgentStorage.setInstance(new AgentStorageMySQL());
 
-		agentCollection.put(factory.createAgent(new NormalIndexAgent("index").getProperties()));
-		agentCollection.put(factory.createAgent(new MobileIndexAgent("mobile").getProperties()));
-		agentCollection.put(factory.createAgent(new MenuAgent("menu").getProperties()));
-		agentCollection.put(factory.createAgent(new SearchAgent("search").getProperties()));
-		agentCollection.put(factory.createAgent(new StatsAgent("stats").getProperties()));
+		agentCollection.put(new NormalIndexAgent("index"));
+		agentCollection.put(new MobileIndexAgent("mobile"));
+		agentCollection.put(new MenuAgent("menu"));
+		agentCollection.put(new SearchAgent("search"));
+		agentCollection.put(new StatsAgent("stats"));
 		if (Boolean.parseBoolean(Settings.getProperty(Settings.NOTIFICATION_EMAIL_ENABLED))) {
-			agentCollection.put(factory.createAgent(new NotifyAgent("notifier").getProperties()));
+			agentCollection.put(new NotifyAgent("notifier"));
 		}
 		
 		ClassifierCollectionStorage.setInstance(new ClassifierCollectionStorageMySQL());

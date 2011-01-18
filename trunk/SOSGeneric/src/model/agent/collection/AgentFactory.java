@@ -49,7 +49,7 @@ public abstract class AgentFactory {
 			}
 		}
 		if (a != null){
-			a.putProperties(properties);
+			a.setReadBuffer(properties);
 		}
 		return a;
 
@@ -101,6 +101,7 @@ public abstract class AgentFactory {
 		if (recordHistory) {
 			agent.recordHistory();
 		}
+		agent.putProperties(properties);
 		return agent;
 	}
 }
