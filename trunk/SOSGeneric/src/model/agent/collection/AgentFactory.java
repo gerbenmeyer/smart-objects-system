@@ -1,6 +1,7 @@
 package model.agent.collection;
 
 import java.util.HashMap;
+import java.util.Map;
 
 import model.agent.Agent;
 import model.agent.agents.MenuAgent;
@@ -22,43 +23,55 @@ import util.xmltool.XMLTool;
 public abstract class AgentFactory {
 
 	/**
-	 * Creates a new agent based on its unique identifier.
+	 * Creates a new agent based on its unique properties.
 	 * 
-	 * @param agentID the identifier of the agent
+	 * @param properties
+	 *            the properties of the agent
 	 * @return a fresh Agent
 	 */
-	public Agent createAgent(String agentID) {
-		if (agentID.equals("index")) {
-			return new NormalIndexAgent(agentID);
-		} else if (agentID.equals("mobile")) {
-			return new MobileIndexAgent(agentID);
-		} else if (agentID.equals("menu")) {
-			return new MenuAgent(agentID);
-		} else if (agentID.equals("search")) {
-			return new SearchAgent(agentID);
-		} else if (agentID.equals("stats")) {
-			return new StatsAgent(agentID);
-		} else if (agentID.equals("notifier")) {
-			return new NotifyAgent(agentID);
-		} else {
-			return createSpecificAgent(agentID);
+	public Agent createAgent(Map<String, Property> properties) {
+
+		Agent a = createSpecificAgent(properties);
+		if (a == null) {
+			String agentID = properties.get(Agent.ID).toString();
+			if (agentID.equals("index")) {
+				a = new NormalIndexAgent(agentID);
+			} else if (agentID.equals("mobile")) {
+				a = new MobileIndexAgent(agentID);
+			} else if (agentID.equals("menu")) {
+				a = new MenuAgent(agentID);
+			} else if (agentID.equals("search")) {
+				a = new SearchAgent(agentID);
+			} else if (agentID.equals("stats")) {
+				a = new StatsAgent(agentID);
+			} else if (agentID.equals("notifier")) {
+				a = new NotifyAgent(agentID);
+			}
 		}
+		if (a != null){
+			a.putProperties(properties);
+		}
+		return a;
+
 	}
 
 	/**
-	 * This method should be implemented by every application specific AgentFactory.
-	 * Called by {@link #createAgent(String)} when not one of the default agents is being created.
+	 * This method should be implemented by every application specific
+	 * AgentFactory. Called by {@link #createAgent(String)}. Should return null
+	 * when the properties do not refer to an application specific agent.
 	 * 
-	 * @param agentID the identifier of the agent
-	 * @return a fresh Agent
+	 * @param properties
+	 *            the properties of the agent
+	 * @return a fresh Agent or null
 	 */
-	protected abstract Agent createSpecificAgent(String agentID);
-	
+	protected abstract Agent createSpecificAgent(Map<String, Property> properties);
 
 	/**
-	 * Converts the xml representation of an Agent to an Agent instance, without recording its history.
+	 * Converts the xml representation of an Agent to an Agent instance, without
+	 * recording its history.
 	 * 
-	 * @param xml the representation
+	 * @param xml
+	 *            the representation
 	 * @return the Agent
 	 */
 	public Agent fromXML(String xml) {
@@ -68,27 +81,25 @@ public abstract class AgentFactory {
 	/**
 	 * Converts the xml representation of an Agent to an Agent instance.
 	 * 
-	 * @param xml the xml representation
-	 * @param recordHistory true if the history of this Agent should be recorded
+	 * @param xml
+	 *            the xml representation
+	 * @param recordHistory
+	 *            true if the history of this Agent should be recorded
 	 * @return the Agent
 	 */
 	public Agent fromXML(String xml, boolean recordHistory) {
 		xml = XMLTool.removeRootTag(xml);
 		KeyDataVector propertiesXML = XMLTool.XMLToProperties(xml);
-		
+
 		HashMap<String, Property> properties = new HashMap<String, Property>();
 		for (KeyData k : propertiesXML) {
 			Property p = Property.fromXML(k.getValue());
 			properties.put(p.getName(), p);
 		}
-		
-		Agent agent = null;
-		if (properties.containsKey(Agent.ID)) {
-			agent = createAgent(properties.get(Agent.ID).toString());
-			if (recordHistory){
-				agent.recordHistory();
-			}
-			agent.putProperties(properties);
+
+		Agent agent = createAgent(properties);
+		if (recordHistory) {
+			agent.recordHistory();
 		}
 		return agent;
 	}

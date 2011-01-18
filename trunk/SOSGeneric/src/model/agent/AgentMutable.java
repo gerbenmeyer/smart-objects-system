@@ -49,7 +49,7 @@ public interface AgentMutable extends AgentViewable {
 	 * @param properties
 	 *            the properties to be added
 	 */
-	public void putProperties(HashMap<String, Property> properties);
+	public void putProperties(Map<String, Property> properties);
 
 	/**
 	 * Gets the properties of this Agent.

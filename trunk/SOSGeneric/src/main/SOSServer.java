@@ -3,6 +3,12 @@ package main;
 import java.util.HashMap;
 import java.util.Properties;
 
+import model.agent.agents.MenuAgent;
+import model.agent.agents.NotifyAgent;
+import model.agent.agents.SearchAgent;
+import model.agent.agents.StatsAgent;
+import model.agent.agents.index.MobileIndexAgent;
+import model.agent.agents.index.NormalIndexAgent;
 import model.agent.collection.AgentCollection;
 import model.agent.collection.AgentCollectionMutable;
 import model.agent.collection.AgentFactory;
@@ -53,13 +59,13 @@ public abstract class SOSServer {
 		this.agentCollection = new AgentCollection(factory);
 		AgentStorage.setInstance(new AgentStorageMySQL());
 
-		agentCollection.put(factory.createAgent("index"));
-		agentCollection.put(factory.createAgent("mobile"));
-		agentCollection.put(factory.createAgent("menu"));
-		agentCollection.put(factory.createAgent("search"));
-		agentCollection.put(factory.createAgent("stats"));
+		agentCollection.put(factory.createAgent(new NormalIndexAgent("index").getProperties()));
+		agentCollection.put(factory.createAgent(new MobileIndexAgent("mobile").getProperties()));
+		agentCollection.put(factory.createAgent(new MenuAgent("menu").getProperties()));
+		agentCollection.put(factory.createAgent(new SearchAgent("search").getProperties()));
+		agentCollection.put(factory.createAgent(new StatsAgent("stats").getProperties()));
 		if (Boolean.parseBoolean(Settings.getProperty(Settings.NOTIFICATION_EMAIL_ENABLED))) {
-			agentCollection.put(factory.createAgent("notifier"));
+			agentCollection.put(factory.createAgent(new NotifyAgent("notifier").getProperties()));
 		}
 		
 		ClassifierCollectionStorage.setInstance(new ClassifierCollectionStorageMySQL());
