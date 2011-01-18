@@ -99,7 +99,11 @@ a:hover {
 
 #map_canvas{
 	display: block;
-	height: 600px;
+	position: absolute;
+	top: 0px;
+	left: 0px;
+	right: 0px;
+	bottom: 0px;
 }
 
 .labels{
@@ -131,7 +135,7 @@ div.block{
 
 div.propertyheader{
 	display: block;
-	background-color: #dae8f9;
+	background-color: #99b3cc;
 	padding: 1px;
 	margin: 0px;
 	overflow: hidden;
@@ -146,7 +150,7 @@ div.property{
 
 div.linked_property:hover{
 	cursor: pointer;
-	background-color: #dae8f9;
+	background-color: #99b3cc;
 }
 
 div.menu_name{
@@ -239,7 +243,7 @@ div.overview .propertyvalue{
 div.history .propertyheader{
 	border: 1px solid #bbb;
 	display: block;
-	background-color: #dae8f9;
+	background-color: #99b3cc;
 	padding: 1px;
 	margin: 0px;
 	overflow: hidden;
