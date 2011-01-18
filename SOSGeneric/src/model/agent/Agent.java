@@ -262,14 +262,17 @@ public abstract class Agent implements AgentMutable {
 	}
 
 	public void putProperty(Property p) {
-		boolean oldExist = getProperty(p.getName()) != null;
+		boolean oldExist = false;
+		if (AgentStorage.getInstance() != null){
+			oldExist = AgentStorage.getInstance().getProperty(getID(), p.getName()) != null; //exists in the database
+		}
 		String oldValue = get(p.getName());
 		String newValue = p.toString();
-		if (!oldValue.equals(newValue) || !oldExist){
+		if (!oldValue.equals(newValue) || !oldExist){ // if changed or not in the database, add to writebuffer
 			writeBuffer.put(p.getName(), p);
-			readBuffer.put(p.getName(), p);	
 			mutateHistory(p, oldValue);
 		}
+		readBuffer.put(p.getName(), p); // always update the readbuffer
 	}
 
 	public boolean removeIDFromDependenciesProperty(String name, String id) {

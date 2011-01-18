@@ -85,7 +85,6 @@ public class HtmlPageGenerator extends HtmlGenerator {
 		body.append(HtmlTool.createScript(finalScript, scriptAttr));
 
 		HashMap<String, String> bodyAttributes = new HashMap<String, String>();
-		bodyAttributes.put("onresize", "setWindowSize();");
 		bodyAttributes.put("onload", "load();" + onLoadScript.toString());
 
 		return HtmlTool.createHeadBody(title, css, body, headerHtml, bodyAttributes);
