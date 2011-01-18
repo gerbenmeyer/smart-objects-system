@@ -213,7 +213,7 @@ public class AgentCollectionStorageMySQL extends AgentCollectionStorage {
 	public void putAgent(Agent agent) {
 		Statement stm = null;
 		String label = agent.get(Agent.LABEL).replaceAll("\\\\'", "'").replaceAll("'", "\\\\'");
-		String description = agent.get(Agent.DESCRIPTION).replaceAll("\\\\'", "'").replaceAll("'", "\\\\'");
+		String description = agent.get(Agent.DESCRIPTION).replaceAll("\\\\'", "'").replaceAll("\\\\", "\\\\\\\\").replaceAll("'", "\\\\'");
 		String location = agent.get(Agent.LOCATION).replaceAll("\\\\'", "'").replaceAll("'", "\\\\'");
 		String agentSQL = "INSERT INTO `agents` (id,label,description,status,hidden,type,location) VALUES "
 			+ "('"+agent.getID()+"','"+label+"','"+description+"','"+(agent.get(Agent.STATUS).isEmpty() ? AgentStatus.UNKNOWN.toString() : agent.get(Agent.STATUS))+"','"+(agent.get(Agent.HIDDEN).isEmpty() ? Boolean.toString(false) : agent.get(Agent.HIDDEN))+"','"+agent.get(Agent.TYPE)+"','"+location+"') "
