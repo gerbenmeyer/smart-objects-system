@@ -17,20 +17,6 @@ var route_colors = {
 	unfinished : '#0000FF',
 	inconsistent : '#FF3333'
 };
-function setWindowSize() {
-	var myHeight;
-	if (typeof (window.innerWidth) == 'number') {
-		myHeight = window.innerHeight;
-	} else if (document.documentElement
-			&& (document.documentElement.clientWidth || document.documentElement.clientHeight)) {
-		myHeight = document.documentElement.clientHeight;
-	} else if (document.body
-			&& (document.body.clientWidth || document.body.clientHeight)) {
-		myHeight = document.body.clientHeight;
-	}
-	document.getElementById('map_canvas').style.height = myHeight + 'px';
-	document.body.style.height = myHeight + 'px';
-}
 function initialize() {
 	createMap();
 }
@@ -320,7 +306,6 @@ function addDirection(direction) {
 	}
 }
 function load() {
-	setWindowSize();
 	initialize();
 }
 function assoc_array_length(array) {
