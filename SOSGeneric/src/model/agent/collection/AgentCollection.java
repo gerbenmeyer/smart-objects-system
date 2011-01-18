@@ -57,7 +57,6 @@ public class AgentCollection implements AgentCollectionMutable {
 		Map<String,Property> properties = AgentCollectionStorage.getInstance().get(id);
 		if (!properties.isEmpty()) {
 			agent = factory.createAgent(properties);
-			agent.setReadBuffer(properties);
 		}
 		return agent;
 	}
@@ -69,7 +68,6 @@ public class AgentCollection implements AgentCollectionMutable {
 		for(Map<String,Property> properties : list) {
 			if (!properties.isEmpty()) {
 				Agent agent = factory.createAgent(properties);
-				agent.setReadBuffer(properties);
 				agents.add(agent);
 			}
 		}
@@ -115,7 +113,6 @@ public class AgentCollection implements AgentCollectionMutable {
 		for(Map<String,Property> properties : list) {
 			if (!properties.isEmpty()) {
 				Agent agent = factory.createAgent(properties);
-				agent.setReadBuffer(properties);
 				agents.add(agent);
 			}
 		}

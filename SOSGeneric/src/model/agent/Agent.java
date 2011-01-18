@@ -265,7 +265,7 @@ public abstract class Agent implements AgentMutable {
 		boolean oldExist = getProperty(p.getName()) != null;
 		String oldValue = get(p.getName());
 		String newValue = p.toString();
-		if (!oldValue.equals(newValue) && oldExist){
+		if (!oldValue.equals(newValue) || !oldExist){
 			writeBuffer.put(p.getName(), p);
 			readBuffer.put(p.getName(), p);	
 			mutateHistory(p, oldValue);
