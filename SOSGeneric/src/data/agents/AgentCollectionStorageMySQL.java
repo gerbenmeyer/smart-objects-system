@@ -83,13 +83,42 @@ public class AgentCollectionStorageMySQL extends AgentCollectionStorage {
 			ResultSet result = stm.executeQuery(sql);
 			while(result.next()){
 				Map<String, Property> properties = new HashMap<String, Property>();
-				properties.put(Agent.ID,Property.createProperty(PropertyType.TEXT, Agent.ID, result.getString("id")));
-				properties.put(Agent.LABEL,Property.createProperty(PropertyType.TEXT, Agent.LABEL, result.getString("label")));
-				properties.put(Agent.DESCRIPTION,Property.createProperty(PropertyType.TEXT, Agent.DESCRIPTION, result.getString("description")));
-				properties.put(Agent.STATUS,Property.createProperty(PropertyType.STATUS, Agent.STATUS, result.getString("status")));
-				properties.put(Agent.HIDDEN,Property.createProperty(PropertyType.BOOLEAN, Agent.HIDDEN, result.getString("hidden")));
-				properties.put(Agent.TYPE,Property.createProperty(PropertyType.TEXT, Agent.TYPE, result.getString("type")));
-				properties.put(Agent.LOCATION,Property.createProperty(PropertyType.LOCATION, Agent.LOCATION, result.getString("location")));
+				
+				Property id = Property.createProperty(PropertyType.TEXT, Agent.ID, result.getString("id"));
+				if (id != null){
+					properties.put(Agent.ID,id);
+				}
+				
+				Property label = Property.createProperty(PropertyType.TEXT, Agent.LABEL, result.getString("label"));
+				if (label != null){
+					properties.put(Agent.LABEL,label);
+				}
+				
+				Property description = Property.createProperty(PropertyType.TEXT, Agent.DESCRIPTION, result.getString("description"));
+				if (description != null){
+					properties.put(Agent.DESCRIPTION, description);
+				}
+				
+				Property status = Property.createProperty(PropertyType.STATUS, Agent.STATUS, result.getString("status"));
+				if (status != null){
+					properties.put(Agent.STATUS,status);
+				}
+				
+				Property hidden = Property.createProperty(PropertyType.BOOLEAN, Agent.HIDDEN, result.getString("hidden"));
+				if (hidden != null){
+					properties.put(Agent.HIDDEN,hidden);
+				}
+				
+				Property type = Property.createProperty(PropertyType.TEXT, Agent.TYPE, result.getString("type"));
+				if (type != null){
+					properties.put(Agent.TYPE,type);
+				}
+				
+				Property location = Property.createProperty(PropertyType.LOCATION, Agent.LOCATION, result.getString("location"));
+				if (location != null){
+					properties.put(Agent.LOCATION,location);
+				}
+				
 				agents.add(properties);
 			}
 		} catch (SQLException e) {
