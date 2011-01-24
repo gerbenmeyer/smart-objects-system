@@ -7,6 +7,7 @@ import java.util.Vector;
 import main.Settings;
 import model.agent.Agent;
 import model.agent.AgentViewable;
+import model.agent.agents.SearchAgent;
 import model.agent.execution.AgentsProcessor;
 import model.agent.property.Property;
 import util.enums.AgentStatus;
@@ -107,8 +108,12 @@ public class AgentCollection implements AgentCollectionMutable {
 	}
 	
 	public List<AgentViewable> searchAgents(String search) {
+		return searchAgents(search, "ORDER BY id", SearchAgent.MAX_AGENTS);
+	}
+	
+	public List<AgentViewable> searchAgents(String search, String sort, int limit) {
 		List<AgentViewable> agents = new Vector<AgentViewable>();
-		List<Map<String,Property>> list = AgentCollectionStorage.getInstance().searchAgents(search);
+		List<Map<String,Property>> list = AgentCollectionStorage.getInstance().searchAgents(search,sort,limit);
 		
 		for(Map<String,Property> properties : list) {
 			if (!properties.isEmpty()) {

@@ -235,6 +235,10 @@ public class AgentCollectionStorageMySQL extends AgentCollectionStorage {
 	}
 	
 	public List<Map<String, Property>> searchAgents(String search) {
+		return searchAgents(search, "ORDER BY id", SearchAgent.MAX_AGENTS);
+	}
+	
+	public List<Map<String, Property>> searchAgents(String search, String sort, int limit) {
 		String filters = "";
 		String query = new String(search);
 		//match type		
@@ -254,7 +258,7 @@ public class AgentCollectionStorageMySQL extends AgentCollectionStorage {
 			// exclude hidden
 			+ "WHERE hidden = 'false' " + filters
 			//TODO move limit to settings
-			+ (!query.trim().isEmpty()?"AND label LIKE '%"+query.trim()+"%' OR description LIKE '%"+query.trim()+"%' ":"")+ " ORDER BY id LIMIT "+(SearchAgent.MAX_AGENTS+1)+";";
+			+ (!query.trim().isEmpty()?"AND label LIKE '%"+query.trim()+"%' OR description LIKE '%"+query.trim()+"%' ":"")+ " "+sort+" LIMIT "+limit+";";
 		
 		List<Map<String, Property>> agents = new Vector<Map<String, Property>>();
 		Statement stm = null;
