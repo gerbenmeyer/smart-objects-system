@@ -77,6 +77,8 @@ public abstract class AgentCollectionStorage {
 	public abstract void putAgent(Agent agent);
 	
 	public abstract List<Map<String, Property>> searchAgents(String search);
+	
+	public abstract List<Map<String, Property>> searchAgents(String search, String sort, int limit);
 
 	/**
 	 * Get the instance of AgentCollectionStorage for this application.

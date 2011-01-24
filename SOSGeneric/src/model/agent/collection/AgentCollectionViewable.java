@@ -64,4 +64,6 @@ public interface AgentCollectionViewable {
 	 * @return a list with the agents which contain the search string 
 	 */
 	public List<AgentViewable> searchAgents(String search);
+	
+	public List<AgentViewable> searchAgents(String search, String sort, int limit);
 }

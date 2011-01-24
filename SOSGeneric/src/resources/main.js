@@ -37,7 +37,7 @@ function geoSuccess(position) {
 		zIndex: 0
 	});
 	map_.setCenter(new google.maps.LatLng(position.coords.latitude, position.coords.longitude));
-	map_.setZoom(7);
+	map_.setZoom(6);
 }
 function geoFailure(position) {
 
