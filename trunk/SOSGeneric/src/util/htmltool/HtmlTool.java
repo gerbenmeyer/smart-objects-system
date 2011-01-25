@@ -328,15 +328,15 @@ public class HtmlTool {
 	public static StringBuffer createHeadBody(String title, String css, StringBuffer bodyContent, StringBuffer headContent,
 			HashMap<String, String> bodyAttributes) {
 		StringBuffer headBuffer = new StringBuffer(encapsulate(title, "title", null));
-		if (headContent != null)
-			headBuffer.append(headContent);
-
 		if (css != null) {
 			HashMap<String, String> attributes = new HashMap<String, String>();
 			attributes.put("href", css);
 			attributes.put("rel", "stylesheet");
 			attributes.put("type", "text/css");
 			headBuffer.append((tagify("link", attributes)));
+		}
+		if (headContent != null) {
+			headBuffer.append(headContent);
 		}
 
 		return encapsulate(headBuffer, "head", null).append(encapsulate(bodyContent, "body", bodyAttributes));
