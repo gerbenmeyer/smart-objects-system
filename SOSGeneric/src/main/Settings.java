@@ -29,6 +29,7 @@ public class Settings {
 	public final static String HTTP_PORT = "http_port";
 	public final static String HTTP_SERVER_ADDRESS = "http_server_address";
 	public final static String GOOGLE_MAPS_V2_API_KEY = "google_maps_v2_api_key";
+	public final static String GOOGLE_ANALYTICS_KEY = "google_analytics_key";
 	
 	// AGENT SETTINGS
 	public final static String PAUSE_AGENT_EXECUTION_WHEN_PUTTING_AGENTS = "pause_agent_execution_when_putting_agents";

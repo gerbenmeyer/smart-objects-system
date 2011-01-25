@@ -2,6 +2,8 @@ package util.htmltool;
 
 import java.util.HashMap;
 
+import main.Settings;
+
 /**
  * HtmlPageGenerator generates an HTML page, including header, body and scripts.
  * 
@@ -86,8 +88,20 @@ public class HtmlPageGenerator extends HtmlGenerator {
 
 		HashMap<String, String> bodyAttributes = new HashMap<String, String>();
 		bodyAttributes.put("onload", "load();" + onLoadScript.toString());
-
-		return HtmlTool.createHeadBody(title, css, body, headerHtml, bodyAttributes);
+		
+		StringBuffer header = new StringBuffer(headerHtml);
+		String analyticsKey = Settings.getProperty(Settings.GOOGLE_ANALYTICS_KEY);
+		if (analyticsKey != null) {
+			StringBuffer analyticsScript = new StringBuffer("var _gaq = _gaq || []; _gaq.push(['_setAccount', '"+analyticsKey+"']); _gaq.push(['_trackPageview']);"
+					+ "(function() {"
+					+ "var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;"
+					+ "ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';"
+					+ "var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);"
+					+ "})();");
+			header.append(HtmlTool.createScript(analyticsScript, scriptAttr));
+		}
+		
+		return HtmlTool.createHeadBody(title, css, body, header, bodyAttributes);
 	}
 	
 	/**
