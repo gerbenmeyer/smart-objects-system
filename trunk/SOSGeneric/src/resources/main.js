@@ -27,6 +27,12 @@ function gotoUserLocation(){
 		geoFailure();
 	}
 }
+function gotoWorldOverview(){
+	if (map_.getZoom() != 2){ 
+		map_.panTo(new google.maps.LatLng(20.0,0.0));
+		map_.setZoom(2);
+	}
+}
 function geoSuccess(position) {
 	if (userMarker != null) userMarker.setMap(null);
 	userMarker = new google.maps.Marker( {
@@ -36,8 +42,8 @@ function geoSuccess(position) {
 		map : map_,
 		zIndex: 0
 	});
-	map_.setCenter(new google.maps.LatLng(position.coords.latitude, position.coords.longitude));
-	map_.setZoom(6);
+	map_.panTo(new google.maps.LatLng(position.coords.latitude, position.coords.longitude));
+	map_.setZoom(7);
 }
 function geoFailure(position) {
 
@@ -45,7 +51,7 @@ function geoFailure(position) {
 function createMap() {
 	var myOptions = {
 		zoom : 2,
-		center : new google.maps.LatLng(10.0, 0.0),
+		center : new google.maps.LatLng(20.0, 0.0),
 		mapTypeId : google.maps.MapTypeId.TERRAIN,
 		mapTypeControl : false,
 		navigationControlOptions : {
