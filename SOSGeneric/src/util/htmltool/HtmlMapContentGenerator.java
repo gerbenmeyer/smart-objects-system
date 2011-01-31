@@ -51,6 +51,13 @@ public class HtmlMapContentGenerator extends HtmlGenerator{
 	public void gotoUserLocation() {
 		buffer.append("p.gotoUserLocation();");
 	}
+	
+	/**
+	 * Adds javascript which will go to the world overview.
+	 */
+	public void gotoWorldOverview() {
+		buffer.append("p.gotoWorldOverview();");
+	}	
 
 	/**
 	 * Adds javascript which clears the map content.
@@ -173,7 +180,7 @@ public class HtmlMapContentGenerator extends HtmlGenerator{
 	 *            the identifier of the marker
 	 */
 	public void popupInfoWindow(String markerId) {
-		buffer.append("google.maps.event.trigger(parent.markers['" + markerId + "'], 'click');\n");
+		buffer.append("google.maps.event.trigger(p.markers['" + markerId + "'], 'click');\n");
 	}
 
 	/**
