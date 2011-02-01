@@ -9,7 +9,7 @@ import model.agent.property.Property;
 import util.enums.PropertyType;
 
 /**
- * A Property implementation holding a time. 
+ * A Property implementation holding a time.
  * 
  * @author Gerben G. Meyer
  */
@@ -29,7 +29,8 @@ public class TimeProperty extends Property {
 	/**
 	 * Constructs a named TimeProperty.
 	 * 
-	 * @param name the name
+	 * @param name
+	 *            the name
 	 */
 	public TimeProperty(String name) {
 		super(name, PropertyType.TIME);
@@ -38,27 +39,33 @@ public class TimeProperty extends Property {
 	/**
 	 * Constructs a named TimeProperty with a value.
 	 * 
-	 * @param name the name
-	 * @param value the value in the format of {@link #formatPattern1} or {@link #formatPattern2}
+	 * @param name
+	 *            the name
+	 * @param value
+	 *            the value in the format of {@link #formatPattern1} or
+	 *            {@link #formatPattern2}
 	 */
 	public TimeProperty(String name, String value) {
 		this(name);
 		parseString(value);
 	}
-	
+
 	/**
 	 * Constructs a named TimeProperty with a value using a GregorianCalendar.
 	 * 
-	 * @param name the name
-	 * @param value the calendar
+	 * @param name
+	 *            the name
+	 * @param value
+	 *            the calendar
 	 */
-	public TimeProperty(String name, GregorianCalendar value){
+	public TimeProperty(String name, GregorianCalendar value) {
 		this(name);
 		setDateTime(value);
 	}
 
 	/**
-	 * Constructs an unnamed TimeProperty using the time of construction as time.
+	 * Constructs an unnamed TimeProperty using the time of construction as
+	 * time.
 	 */
 	public TimeProperty() {
 		this("");
@@ -86,22 +93,27 @@ public class TimeProperty extends Property {
 	/**
 	 * Sets the time of this TimeProperty using values for each field.
 	 * 
-	 * @param year the year
-	 * @param month the month
-	 * @param dayOfMonth the day of the month
-	 * @param hourOfDay the hour
-	 * @param minute the minute
+	 * @param year
+	 *            the year
+	 * @param month
+	 *            the month
+	 * @param dayOfMonth
+	 *            the day of the month
+	 * @param hourOfDay
+	 *            the hour
+	 * @param minute
+	 *            the minute
 	 */
 	public void setDateTime(int year, int month, int dayOfMonth, int hourOfDay, int minute) {
 		this.dateTime = new GregorianCalendar(year, month - 1, dayOfMonth, hourOfDay, minute);
 	}
-	
+
 	/**
 	 * Returns a formatted string with the current time.
 	 * 
 	 * @return the time
 	 */
-	public static String nowString(){
+	public static String nowString() {
 		return new SimpleDateFormat(formatPattern1).format(new GregorianCalendar().getTime());
 	}
 
@@ -119,7 +131,7 @@ public class TimeProperty extends Property {
 			try {
 				this.dateTime.setTime(new SimpleDateFormat(formatPattern2).parse(str));
 			} catch (ParseException e) {
-				e.printStackTrace();
+				// e.printStackTrace();
 			}
 		}
 	}
@@ -128,7 +140,7 @@ public class TimeProperty extends Property {
 		return formatPattern1;
 	}
 
-	public String getIcon(){
+	public String getIcon() {
 		return "datetime.png";
 	}
 
@@ -148,36 +160,36 @@ public class TimeProperty extends Property {
 	@Override
 	public String toInformativeString() {
 		return toString();
-		
-//		long date = this.dateTime.getTimeInMillis();
-//		long now = new GregorianCalendar().getTimeInMillis();
-//		long diffMinutes = (date - now) / (60 * 1000);
-//
-//		long diffHours = diffMinutes / 60;
-//		long diffDays = diffHours / 24;
-//
-//		String text = "";
-//		if (diffMinutes == 0) {
-//			text = "now";
-//		} else {
-//			if (Math.abs(diffDays) > 1) {
-//				text = Math.abs(diffDays) + "d";
-//			} else if (Math.abs(diffHours) > 1) {
-//				text = Math.abs(diffHours) + "h";
-//			} else {
-//				text = Math.abs(diffMinutes) + "m";
-//			}
-//
-//		}
-//
-//		if (diffMinutes > 0) {
-//			text += " ahead";
-//		}
-//
-//		if (diffMinutes < 0) {
-//			text += " ago";
-//		}
-//
-//		return text;
+
+		// long date = this.dateTime.getTimeInMillis();
+		// long now = new GregorianCalendar().getTimeInMillis();
+		// long diffMinutes = (date - now) / (60 * 1000);
+		//
+		// long diffHours = diffMinutes / 60;
+		// long diffDays = diffHours / 24;
+		//
+		// String text = "";
+		// if (diffMinutes == 0) {
+		// text = "now";
+		// } else {
+		// if (Math.abs(diffDays) > 1) {
+		// text = Math.abs(diffDays) + "d";
+		// } else if (Math.abs(diffHours) > 1) {
+		// text = Math.abs(diffHours) + "h";
+		// } else {
+		// text = Math.abs(diffMinutes) + "m";
+		// }
+		//
+		// }
+		//
+		// if (diffMinutes > 0) {
+		// text += " ahead";
+		// }
+		//
+		// if (diffMinutes < 0) {
+		// text += " ago";
+		// }
+		//
+		// return text;
 	}
 }
