@@ -11,6 +11,7 @@ import java.net.URLDecoder;
 import java.net.URLEncoder;
 import java.util.HashMap;
 
+import main.SOSServer;
 import main.Settings;
 import model.agent.AgentViewable;
 import model.agent.agents.IndexAgent;
@@ -66,7 +67,7 @@ public class HTTPListener implements HttpHandler {
 			server.createContext("/", this);
 			server.setExecutor(null);
 			server.start();
-			System.out.println("Listening for HTML clients on port " + port);
+			SOSServer.getDevLogger().info("Listening for HTML clients on port " + port);
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
@@ -275,7 +276,7 @@ public class HTTPListener implements HttpHandler {
 				os.close();
 
 			} else {
-				System.out.println("This is NOT good: " + filename);
+				SOSServer.getDevLogger().warning("This is NOT good: " + filename);
 				t.getResponseHeaders().add("Content-Type", "text/html");
 				t.sendResponseHeaders(404, 0);
 				OutputStream os = t.getResponseBody();

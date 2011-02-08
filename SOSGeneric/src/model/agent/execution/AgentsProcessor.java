@@ -3,6 +3,7 @@ package model.agent.execution;
 import java.util.GregorianCalendar;
 import java.util.List;
 
+import main.SOSServer;
 import model.agent.Agent;
 import model.agent.AgentViewable;
 import model.agent.collection.AgentCollection;
@@ -75,14 +76,14 @@ public class AgentsProcessor implements Runnable {
 						if (diff > 60000) {
 							agentsPerMinute = agentsProcessed / (diff / 60000);
 						}
-						System.out.println("Execution of " + AgentCollection.getInstance().getSize()
+						SOSServer.getDevLogger().info("Execution of " + AgentCollection.getInstance().getSize()
 								+ " agents paused (average execution speed: " + agentsPerMinute + " agents/min)");
 						paused = true;
 						agentsProcessed = 0;
 					}
 				} else {
 					if (paused) {
-						System.out.println("Execution of " + AgentCollection.getInstance().getSize() + " agents resumed");
+						SOSServer.getDevLogger().info("Execution of " + AgentCollection.getInstance().getSize() + " agents resumed");
 						paused = false;
 						startTime = System.currentTimeMillis();
 					}
@@ -120,14 +121,14 @@ public class AgentsProcessor implements Runnable {
 
 						// if the processor timed out, create a new one.
 						if (timedOut) {
-							System.out.println("Execution of agent " + agent.get(Agent.LABEL) + " ("
+							SOSServer.getDevLogger().warning("Execution of agent " + agent.get(Agent.LABEL) + " ("
 									+ agent.get(Agent.TYPE) + ") timed out!");
 							processor = new AgentExecutor(delayMilliseconds);
 						}
 
 						// wait till processor is done
 						while (!processor.isDone()) {
-							System.out.println("Processor is not done with agent " + agent.get(Agent.LABEL) + " ("
+							SOSServer.getDevLogger().info("Processor is not done with agent " + agent.get(Agent.LABEL) + " ("
 									+ agent.get(Agent.TYPE) + ")!");
 							try {
 								Thread.sleep(delayMilliseconds);

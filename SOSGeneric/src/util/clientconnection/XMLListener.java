@@ -24,7 +24,7 @@ public class XMLListener {
 	public XMLListener(SOSServer server) {
 		this.server = server;
 		port = Integer.parseInt(Settings.getProperty(Settings.XML_PORT));
-		System.out.println("Listening for XML clients on port " + port);
+		SOSServer.getDevLogger().info("Listening for XML clients on port " + port);
 		listen();
 	}
 	
@@ -39,7 +39,7 @@ public class XMLListener {
 				new XMLClientConnection(server, clientSocket);
 				sock.close();
 			} catch (Exception e) {
-				System.out.println("A problem occured with waiting for clients: " + e.getMessage());
+				SOSServer.getDevLogger().warning("A problem occured with waiting for clients: " + e.getMessage());
 			}
 		}
 	}

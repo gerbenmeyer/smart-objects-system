@@ -6,6 +6,7 @@ import java.io.InputStreamReader;
 import java.io.PrintWriter;
 import java.net.Socket;
 
+import main.SOSServer;
 import util.xmltool.XMLTool;
 
 /**
@@ -115,12 +116,12 @@ public class XMLServerConnection {
 					+ "\' with parameter " + command.getParameter());
 		}
 		if (result.equals("unknown")) {
-			System.err.println("The server did not know the command \'" + command.getName() + "\' with parameter "
-					+ command.getParameter());
+			SOSServer.getDevLogger().warning("The server did not know the command \'" + command.getName() + "\' with parameter "
+					+ command.getParameter()+"\n-command-\n"+command.toXML());
 			
-			System.err.println("----");
-			System.err.println(command.toXML());
-			System.err.println("----");
+//			System.err.println("----");
+//			System.err.println(command.toXML());
+//			System.err.println("----");
 		}
 		return result;
 	}
