@@ -105,7 +105,7 @@ public class HtmlTool {
 		HashMap<String, String> attributes = new HashMap<String, String>();
 		attributes.put("href", url);
 		attributes.put("target", target);
-		return encapsulate((text != null ? text : url), "a", attributes);
+		return createLink(url, text, attributes);
 	}
 
 	/**
@@ -117,6 +117,22 @@ public class HtmlTool {
 	 */
 	public static String createLink(String url, String text) {
 		return createLink(url, text, "_self");
+	}
+
+	/**
+	 * Creates a link to an url which opens on the same page.
+	 * 
+	 * @param url the url to link to
+	 * @param text the text that will be clickable
+	 * @param attributes additional HTML attributes
+	 * @return the link code
+	 */
+	public static String createLink(String url, String text, HashMap<String, String> attributes) {
+		if (attributes == null) {
+			attributes = new HashMap<String, String>();
+		}
+		attributes.put("href", url);
+		return encapsulate((text != null ? text : url), "a", attributes);
 	}
 	
 	/**

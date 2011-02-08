@@ -1,7 +1,13 @@
 package main;
 
+import java.io.IOException;
 import java.util.HashMap;
 import java.util.Properties;
+import java.util.logging.FileHandler;
+import java.util.logging.Handler;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+import java.util.logging.SimpleFormatter;
 
 import model.agent.agents.MenuAgent;
 import model.agent.agents.NotifyAgent;
@@ -34,6 +40,7 @@ import data.locations.LocationCollectionStorageMySQL;
  */
 public abstract class SOSServer {
 
+	private static Logger devLogger = null;
 	private AgentCollectionMutable agentCollection;
 	private LocationCollection locations;
 	private HashMap<String,String> passwords;
@@ -51,6 +58,7 @@ public abstract class SOSServer {
 		super();
 		this.passwords = passwords;
 		this.factory = factory;
+		
 		new Settings(settings);
 
 		LocationCollectionStorage.setInstance(new LocationCollectionStorageMySQL());
@@ -71,14 +79,17 @@ public abstract class SOSServer {
 		ClassifierCollectionStorage.setInstance(new ClassifierCollectionStorageMySQL());
 		
 		new AgentsProcessor();
+		getDevLogger().fine("Server initialized");
 	}
 	
 	/**
 	 * Starts the server's listeners 
 	 */
 	public void runServer() {
+		getDevLogger().fine("Starting server");
 		new HTTPListener(agentCollection,passwords);
 		new XMLListener(this);
+		getDevLogger().fine("Server started");
 	}
 	
 	/**
@@ -109,5 +120,23 @@ public abstract class SOSServer {
 	
 	public static void main(String[] args) {
 		System.err.println("This project is usable as base only.");
+	}
+	
+	public static Logger getDevLogger() {
+		if (devLogger == null) {
+			devLogger = Logger.getLogger("SOSServerDevLogger");
+			devLogger.setLevel(Level.ALL);
+			try {
+				Handler h = new FileHandler("%t/sos_server_dev.log");
+				h.setFormatter(new SimpleFormatter());
+				devLogger.addHandler(h);
+				devLogger.setUseParentHandlers(false);
+			} catch (SecurityException e) {
+				e.printStackTrace();
+			} catch (IOException e) {
+				e.printStackTrace();
+			}
+		}
+		return devLogger;
 	}
 }
