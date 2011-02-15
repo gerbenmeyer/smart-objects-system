@@ -124,7 +124,11 @@ public class HtmlMapContentGenerator extends HtmlGenerator{
 	 * @param iconsize the size of the map icon
 	 */
 	public void addMapMarker(AgentViewable av){
-		LocationProperty lp = new LocationProperty("", av.get(Agent.LOCATION));
+		String loc = av.get(Agent.LOCATION);
+		if (loc.isEmpty()) {
+			return;
+		}
+		LocationProperty lp = new LocationProperty("", loc);
 		if (lp.isNull()) {
 			return;
 		}
