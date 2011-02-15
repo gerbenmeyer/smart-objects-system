@@ -6,13 +6,14 @@ import java.io.ObjectInputStream;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.sql.Statement;
 
+import main.SOSServer;
 import model.agent.classification.Classifier;
 import util.db.MySQLConnection;
 import weka.classifiers.trees.LMT;
 
 public class ClassifierCollectionStorageMySQL extends ClassifierCollectionStorage {
+	
 	private MySQLConnection conn = null;
 
 	/**
@@ -25,12 +26,12 @@ public class ClassifierCollectionStorageMySQL extends ClassifierCollectionStorag
 
 	@Override
 	public Classifier get(String key) {
-		Classifier classifier = null;
-		Statement stm = null;
+		Classifier clas = null;
+		PreparedStatement getStatement = null;
 		try {
-			stm = conn.getConnection().createStatement();
-			String sql = "SELECT * FROM `classification` WHERE agent_type_hash = '"+key+"';";
-			ResultSet result = stm.executeQuery(sql);
+			getStatement = conn.getConnection().prepareStatement("SELECT * FROM `classification` WHERE `agent_type_hash` = ?;");
+			getStatement.setString(1, key);
+			ResultSet result = getStatement.executeQuery();
 			if (result.first()) {
 				String agentType = result.getString("agent_type_hash");
 				agentType = agentType.substring(0, agentType.lastIndexOf("_"));
@@ -41,48 +42,39 @@ public class ClassifierCollectionStorageMySQL extends ClassifierCollectionStorag
 			    if (buf != null) {
 			    	ObjectInputStream objectIn = new ObjectInputStream(new ByteArrayInputStream(buf));
 			    	lmt = (LMT) objectIn.readObject();
-					classifier = new Classifier(agentType, arffAttributes, arffData, lmt);
+					clas =  new Classifier(agentType, arffAttributes, arffData, lmt);
 			    } else {
-					classifier = new Classifier(agentType, arffAttributes, arffData);
+			    	clas =  new Classifier(agentType, arffAttributes, arffData);
 			    }
 			}
+			result.close();
 		} catch (SQLException e) {
-			e.printStackTrace();
+			SOSServer.getDevLogger().severe("SQL exception: '"+e.toString()+"'\noriginal parameters: key: '"+key+"'");
 		} catch (IOException e) {
 			e.printStackTrace();
 		} catch (ClassNotFoundException e) {
 			e.printStackTrace();
 		} finally {
-		    if (stm != null) {
-		        try {
-		        	stm.close();
-		        } catch (SQLException sqlEx) { }
-		        stm = null;
-		    }
+			try { if (getStatement != null) { getStatement.close(); } } catch (SQLException e) { SOSServer.getDevLogger().warning("SQL exception: '"+e.toString()+"'"); }
 		}
-		return classifier;
+		return clas;
 	}
 
 	@Override
 	public void put(Classifier classifier) {
-		PreparedStatement pstm = null;
 		String key = classifier.getAgentType() + "_" + Integer.toString(classifier.getArffAttributes().hashCode());
+		PreparedStatement putStatement = null;
 		try {
-			pstm = conn.getConnection().prepareStatement("INSERT INTO `classification` (agent_type_hash,attributes,data,lmt) VALUES (?,?,?,?) ON DUPLICATE KEY UPDATE data=VALUES(data),lmt=VALUES(lmt);");
-			pstm.setString(1, key);
-			pstm.setString(2, classifier.getArffAttributes());
-			pstm.setString(3, classifier.getArffData());
-			pstm.setObject(4, classifier.getDecisionAlgorithm());
-			pstm.executeUpdate();
+			putStatement = conn.getConnection().prepareStatement("INSERT INTO `classification` (`agent_type_hash`,`attributes`,`data`,`lmt`) VALUES (?,?,?,?) ON DUPLICATE KEY UPDATE `data`=VALUES(`data`),`lmt`=VALUES(`lmt`);");
+			putStatement.setString(1, key);
+			putStatement.setString(2, classifier.getArffAttributes());
+			putStatement.setString(3, classifier.getArffData());
+			putStatement.setObject(4, classifier.getDecisionAlgorithm());
+			putStatement.executeUpdate();
 		} catch (SQLException e) {
-			e.printStackTrace();
+			SOSServer.getDevLogger().severe("SQL exception: '"+e.toString()+"'\noriginal parameters: key: '"+key+"', attributes: '"+classifier.getArffAttributes()+"', data: '"+classifier.getArffData()+"', lmt: '"+classifier.getDecisionAlgorithm()+"'");
 		} finally {
-		    if (pstm != null) {
-		        try {
-		        	pstm.close();
-		        } catch (SQLException sqlEx) { }
-		        pstm = null;
-		    }
+			try { if (putStatement != null) { putStatement.close(); } } catch (SQLException e) { SOSServer.getDevLogger().warning("SQL exception: '"+e.toString()+"'"); }
 		}
 	}
 }
