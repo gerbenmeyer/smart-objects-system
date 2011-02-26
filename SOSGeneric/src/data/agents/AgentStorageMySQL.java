@@ -134,10 +134,7 @@ public class AgentStorageMySQL extends AgentStorage {
 		if (properties.isEmpty()) return;
 		String value = "", type = "", name = "";
 		PreparedStatement putPropertyStatement = null;
-		boolean prevAutoCommit = true;
 		try {
-			prevAutoCommit = conn.getConnection().getAutoCommit();
-			conn.getConnection().setAutoCommit(false);
 			putPropertyStatement = conn.getConnection().prepareStatement("INSERT INTO `properties` (`agent_id`,`type`,`name`,`value`) VALUES "
 					+ "(?,?,?,?) ON DUPLICATE KEY UPDATE `value`=VALUES(`value`),`type`=VALUES(`type`);");
 			for (Property p : properties.values()) {
@@ -150,11 +147,10 @@ public class AgentStorageMySQL extends AgentStorage {
 				putPropertyStatement.setString(4, value);
 				putPropertyStatement.executeUpdate();
 			}
-			conn.getConnection().commit();
 		} catch (SQLException e) {
 			SOSServer.getDevLogger().severe("SQL exception: '"+e.toString()+"'\noriginal parameters: id; '"+id+"', type: '"+type+"', name: '"+name+"', value: '"+value+"'");
 		} finally {
-			try { conn.getConnection().setAutoCommit(prevAutoCommit); if (putPropertyStatement != null) { putPropertyStatement.close(); } } catch (SQLException e) { SOSServer.getDevLogger().warning("SQL exception: '"+e.toString()+"'"); }
+			try { if (putPropertyStatement != null) { putPropertyStatement.close(); } } catch (SQLException e) { SOSServer.getDevLogger().warning("SQL exception: '"+e.toString()+"'"); }
 		}
 	}
 	
