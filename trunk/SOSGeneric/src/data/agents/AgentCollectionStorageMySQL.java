@@ -29,9 +29,9 @@ public class AgentCollectionStorageMySQL extends AgentCollectionStorage {
 	
 	private MySQLConnection conn = null;
 	
-	PreparedStatement getSizeStatement = null;
-	PreparedStatement getTypesStatement = null;
-	PreparedStatement getIDsStatement = null;
+	private PreparedStatement getSizeStatement = null;
+	private PreparedStatement getTypesStatement = null;
+	private PreparedStatement getIDsStatement = null;
 
 	/**
 	 * Construct a new AgentCollectionStorageMySQL object.
@@ -152,7 +152,7 @@ public class AgentCollectionStorageMySQL extends AgentCollectionStorage {
 	}
 
 	@Override
-	public int getSize() {
+	public synchronized int getSize() {
 		int count = 0;
 		try {
 			ResultSet result = getSizeStatement.executeQuery();
@@ -167,7 +167,7 @@ public class AgentCollectionStorageMySQL extends AgentCollectionStorage {
 	}
 
 	@Override
-	public List<String> getTypes() {
+	public synchronized List<String> getTypes() {
 		Vector<String> types = new Vector<String>();
 		try {
 			ResultSet result = getTypesStatement.executeQuery();
@@ -186,7 +186,7 @@ public class AgentCollectionStorageMySQL extends AgentCollectionStorage {
 	}
 
 	@Override
-	public List<String> getIDs() {
+	public synchronized List<String> getIDs() {
 		Vector<String> ids = new Vector<String>();
 		try {
 			ResultSet result = getIDsStatement.executeQuery();
