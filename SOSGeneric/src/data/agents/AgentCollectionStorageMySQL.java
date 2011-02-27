@@ -172,7 +172,11 @@ public class AgentCollectionStorageMySQL extends AgentCollectionStorage {
 		try {
 			ResultSet result = getTypesStatement.executeQuery();
 			while (result.next()) {
-				types.add(result.getString("type"));
+				try{
+					types.add(result.getString("type"));
+				} catch (NullPointerException e){
+					SOSServer.getDevLogger().severe("Null pointer exception: '"+e.toString()+"'");
+				}
 			}
 			result.close();
 		} catch (SQLException e) {
@@ -187,7 +191,11 @@ public class AgentCollectionStorageMySQL extends AgentCollectionStorage {
 		try {
 			ResultSet result = getIDsStatement.executeQuery();
 			while (result.next()) {
-				ids.add(result.getString("id"));
+				try{
+					ids.add(result.getString("id"));
+				} catch (NullPointerException e){
+					SOSServer.getDevLogger().severe("Null pointer exception: '"+e.toString()+"'");
+				}
 			}
 			result.close();
 		} catch (SQLException e) {
