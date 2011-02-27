@@ -263,10 +263,13 @@ public abstract class Agent implements AgentMutable {
 
 	public void putProperty(Property p) {
 		boolean oldExist = false;
+		String oldValue = "";
 		if (AgentStorage.getInstance() != null){
 			oldExist = AgentStorage.getInstance().getProperty(getID(), p.getName()) != null; //exists in the database
+			if (oldExist){
+				oldValue = AgentStorage.getInstance().getProperty(getID(), p.getName()).toString();
+			}
 		}
-		String oldValue = AgentStorage.getInstance().getProperty(getID(), p.getName()).toString();
 		String newValue = p.toString();
 		if (!oldValue.equals(newValue) || !oldExist){ // if changed or not in the database, add to writebuffer
 			writeBuffer.put(p.getName(), p);
