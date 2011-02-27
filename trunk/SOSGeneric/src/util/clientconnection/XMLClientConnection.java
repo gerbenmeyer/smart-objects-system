@@ -70,12 +70,12 @@ public class XMLClientConnection extends Thread {
 					msg = br.readLine();
 				}
 			} else {
-				System.out.println("XML user \"" + clientUsername + "\" provided wrong password");
+				SOSServer.getDevLogger().severe("XML user \"" + clientUsername + "\" provided wrong password");
 			}
 			// System.out.println("XML user \""+clientUsername+"\" has disconnected");
 
 		} catch (Exception e) {
-			System.out.println("XML user \"" + clientUsername + "\" has disconnected abnormally");
+			SOSServer.getDevLogger().severe("XML user \"" + clientUsername + "\" has disconnected abnormally: '"+e.toString()+"'");
 
 		} finally {
 			try {
