@@ -12,7 +12,7 @@ import model.agent.property.properties.LocationProperty;
  * 
  * @author Gerben G. Meyer
  */
-public class HtmlMapContentGenerator extends HtmlGenerator{
+public class HtmlMapContentGenerator extends HtmlGenerator {
 
 	private String title;
 
@@ -37,7 +37,7 @@ public class HtmlMapContentGenerator extends HtmlGenerator{
 		scriptAttr.put("type", "text/javascript");
 
 		StringBuffer headcontent = createMapScriptHeader();
-//		headcontent.append("<META HTTP-EQUIV=\"Refresh\" CONTENT=\"300\" />\n");
+		// headcontent.append("<META HTTP-EQUIV=\"Refresh\" CONTENT=\"300\" />\n");
 		buffer.insert(0, "var p = parent;");
 		headcontent.append(HtmlTool.createScript(buffer, scriptAttr));
 		StringBuffer headbody = HtmlTool.createHeadBody(title, null, new StringBuffer(), headcontent, null);
@@ -51,13 +51,13 @@ public class HtmlMapContentGenerator extends HtmlGenerator{
 	public void gotoUserLocation() {
 		buffer.append("p.gotoUserLocation();");
 	}
-	
+
 	/**
 	 * Adds javascript which will go to the world overview.
 	 */
 	public void gotoWorldOverview() {
 		buffer.append("p.gotoWorldOverview();");
-	}	
+	}
 
 	/**
 	 * Adds javascript which clears the map content.
@@ -80,7 +80,6 @@ public class HtmlMapContentGenerator extends HtmlGenerator{
 		buffer.append("p.drawMap();");
 	}
 
-
 	/**
 	 * Adds javascript which adds a marker to the map.
 	 * 
@@ -89,15 +88,15 @@ public class HtmlMapContentGenerator extends HtmlGenerator{
 	 * @param title
 	 * @param mapicon
 	 * @param showLabel
-	 * @param id the identifier of the marker
+	 * @param id
+	 *            the identifier of the marker
 	 */
-	public void addMapMarker(double latitude, double longitude, String title, String mapicon,
-			String id) {
+	public void addMapMarker(double latitude, double longitude, String title, String mapicon, String id, int zindex) {
 		title = escapeForJS(title);
-		buffer.append("p.aM(" + latitude + "," + longitude + ",'" + title + "','" + mapicon + "','"
-				+ id + "');");
-	}	
-	
+		buffer.append("p.aM(" + latitude + "," + longitude + ",'" + title + "','" + mapicon + "','" + id + "',"
+				+ zindex + ");");
+	}
+
 	/**
 	 * Adds javascript which adds a marker to the map.
 	 * 
@@ -108,22 +107,24 @@ public class HtmlMapContentGenerator extends HtmlGenerator{
 	 * @param iconsize
 	 * @param zIndex
 	 * @param showLabel
-	 * @param id the identifier of the marker
+	 * @param id
+	 *            the identifier of the marker
 	 */
-	public void addMapMarker(double latitude, double longitude, String title, String mapicon,
-			int iconsize, int zIndex, String id) {
+	public void addMapMarker(double latitude, double longitude, String title, String mapicon, int iconsize, int zIndex,
+			String id) {
 		title = escapeForJS(title);
-		buffer.append("p.addMarker(" + latitude + "," + longitude + ",'" + title + "','" + mapicon + "',"
-				+ iconsize + "," + zIndex + ",'" + id + "');");
+		buffer.append("p.addMarker(" + latitude + "," + longitude + ",'" + title + "','" + mapicon + "'," + iconsize
+				+ "," + zIndex + ",'" + id + "');");
 	}
 
 	/**
 	 * Adds javascript which adds a marker for a certain agent to the map.
 	 * 
-	 * @param av the view of the agent to be located
-	 * @param iconsize the size of the map icon
+	 * @param av
+	 *            the view of the agent to be located
+	 * @param zindex
 	 */
-	public void addMapMarker(AgentViewable av){
+	public void addMapMarker(AgentViewable av, int zindex) {
 		String loc = av.get(Agent.LOCATION);
 		if (loc.isEmpty()) {
 			return;
@@ -132,7 +133,18 @@ public class HtmlMapContentGenerator extends HtmlGenerator{
 		if (lp.isNull()) {
 			return;
 		}
-		addMapMarker(lp.getLatitude(), lp.getLongitude(), av.get(Agent.LABEL), av.getMapMarkerImage(), av.getID());
+		addMapMarker(lp.getLatitude(), lp.getLongitude(), av.get(Agent.LABEL), av.getMapMarkerImage(), av.getID(),
+				zindex);
+	}
+
+	/**
+	 * Adds javascript which adds a marker for a certain agent to the map.
+	 * 
+	 * @param av
+	 *            the view of the agent to be located
+	 */
+	public void addMapMarker(AgentViewable av) {
+		addMapMarker(av, 1);
 	}
 
 	/**
@@ -144,8 +156,8 @@ public class HtmlMapContentGenerator extends HtmlGenerator{
 	 * @param polyLine
 	 */
 	public void addMapDirection(double latitude, double longitude, String status, boolean polyLine) {
-		buffer.append("p.addDirection({location:'" + latitude + ", " + longitude + "', status:'" + status
-				+ "', poly: " + polyLine + "});");
+		buffer.append("p.addDirection({location:'" + latitude + ", " + longitude + "', status:'" + status + "', poly: "
+				+ polyLine + "});");
 	}
 
 	/**
