@@ -108,7 +108,7 @@ public class XMLServerConnection {
 		}
 		if (error) {
 			System.err.println("Connection to server lost");
-			System.exit(0);
+			return "error";
 		}
 		result = XMLTool.removeRootTag(result);
 		if (result.equals("error")) {
