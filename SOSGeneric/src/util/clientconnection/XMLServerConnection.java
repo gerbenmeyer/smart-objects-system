@@ -78,7 +78,6 @@ public class XMLServerConnection {
 		try {
 			sock.close();
 		} catch (Exception e) {
-			e.printStackTrace();
 		}
 		connected = false;
 	}
