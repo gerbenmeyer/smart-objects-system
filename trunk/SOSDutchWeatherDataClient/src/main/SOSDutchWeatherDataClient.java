@@ -7,6 +7,7 @@ import java.util.Collection;
 
 import model.agent.Agent;
 import util.clientconnection.RemoteAgentCollection;
+import util.clientconnection.XMLServerConnection;
 import utils.settings.DutchWeatherClientSettings;
 import utils.xml.WeatherXMLParser;
 
@@ -14,9 +15,9 @@ public class SOSDutchWeatherDataClient {
 
 	// The remove agent collection, to which the converted external data is
 	// added (i.e. the SOS data store)
-	private static RemoteAgentCollection remoteAgentCollection = new RemoteAgentCollection(
+	private static RemoteAgentCollection remoteAgentCollection = new RemoteAgentCollection(new XMLServerConnection(
 			DutchWeatherClientSettings.SERVER_ADDRESS, DutchWeatherClientSettings.SERVER_PORT,
-			DutchWeatherClientSettings.USERNAME, DutchWeatherClientSettings.PASSWORD);
+			DutchWeatherClientSettings.USERNAME, DutchWeatherClientSettings.PASSWORD));
 
 	// The external datasource which has to be interpreted
 	private static final String XML_URL = "http://xml.buienradar.nl/";
