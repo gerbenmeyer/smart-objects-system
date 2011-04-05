@@ -29,14 +29,11 @@ public class RemoteAgentCollection implements AgentCollectionMutable {
 	/**
 	 * Constructs a new RemoteAgentCollection instance for a certain server.
 	 * 
-	 * @param serverAddress the server address
-	 * @param serverPort the server port
-	 * @param username a valid username
-	 * @param password the password for the user
+	 * @param connection the server connection
 	 */
-	public RemoteAgentCollection(String serverAddress, int serverPort, String username, String password) {
+	public RemoteAgentCollection(XMLServerConnection connection) {
 		super();
-		this.connection = new XMLServerConnection(serverAddress, serverPort, username, password);
+		this.connection = connection;
 	}
 	
 	public void connect(){

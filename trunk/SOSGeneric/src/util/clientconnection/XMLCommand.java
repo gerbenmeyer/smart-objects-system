@@ -19,6 +19,7 @@ public class XMLCommand {
 	public final static String PUT_LOCATION_INFO = "putLocationInfo";
 	public final static String GET_LOCATION_COLLECTION = "getLocationCollection";
 	public final static String ADD_TRAINING_INSTANCE = "addTrainingInstance";
+	public final static String GET_LOCATION_COUNTRY = "getLocationCountry";
 	
 	private String name = "";
 	private String parameter = "";
