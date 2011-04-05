@@ -122,6 +122,9 @@ public class XMLClientConnection extends Thread {
 			if (cmd.getName().equals(XMLCommand.ADD_TRAINING_INSTANCE)) {
 				return addTrainingInstance(cmd.getParameter());
 			}
+			if (cmd.getName().equals(XMLCommand.GET_LOCATION_COUNTRY)) {
+				return getLocationCountry(cmd.getParameter());
+			}
 		} catch (Exception e) {
 			e.printStackTrace();
 			return "error";
@@ -239,6 +242,22 @@ public class XMLClientConnection extends Thread {
 			return "error";
 		} else {
 			return li.toXML();
+		}
+	}
+
+	/**
+	 * Get the country of a location.
+	 * 
+	 * @param xml the XML request
+	 * @return the country
+	 */
+	private String getLocationCountry(String xml) {
+		LocationProperty lp = (LocationProperty) LocationProperty.fromXML(xml);
+		String country = server.getLocations().getCountry(lp);
+		if (country != null && !country.isEmpty()) {
+			return country;
+		} else {
+			return "error";
 		}
 	}
 

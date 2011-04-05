@@ -1,16 +1,20 @@
 package model.locations;
 
 import java.io.BufferedReader;
+import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.net.URL;
 import java.net.URLEncoder;
 import java.util.Collection;
+import java.util.Locale;
 
 import javax.xml.parsers.DocumentBuilderFactory;
 import javax.xml.xpath.XPath;
+import javax.xml.xpath.XPathConstants;
 import javax.xml.xpath.XPathFactory;
 
+import main.SOSServer;
 import main.Settings;
 import model.agent.property.Property;
 import model.agent.property.properties.LocationProperty;
@@ -28,7 +32,7 @@ import data.locations.LocationCollectionStorage;
  */
 public class LocationCollection implements LocationCollectionMutable {
 
-	private final String BASE_GEOCODER_URL = "http://maps.google.com/maps/api/geocode/xml";
+	private final String BASE_GEOCODER_URL = "http://maps.googleapis.com/maps/api/geocode/xml";
 	private final String BASE_GEOCODER_BACKUP_URL = "http://maps.google.com/maps/geo";
 	private final String ENCODING = "UTF8";
 
@@ -177,5 +181,41 @@ public class LocationCollection implements LocationCollectionMutable {
 			return lp;
 		}
 		return null;
+	}
+	
+	public String getCountry(LocationProperty lp) {
+		return countryLookup(lp.getLatitude(), lp.getLongitude());
+	}
+	
+	public String getCountry(double latitude, double longitude) {
+		return countryLookup(latitude, longitude);
+	}
+	
+	private synchronized String countryLookup(double latitude, double longitude) {
+		String country = "";
+		String countryCode = "";
+		if (latitude != 0.0 && longitude != 0.0) {
+			InputStream stream = null;
+			try {
+				URL url = new URL(BASE_GEOCODER_URL + String.format(Locale.US, "?latlng=%f,%f&sensor=false&language=en", latitude, longitude));
+				stream = url.openStream();
+				Document document = DocumentBuilderFactory.newInstance().newDocumentBuilder().parse(stream);
+				XPath xpath = XPathFactory.newInstance().newXPath();
+
+				String status = xpath.evaluate("/GeocodeResponse/status", document);
+				if (status.equals("OK")) {
+					Object result = xpath.evaluate("/GeocodeResponse/result/address_component[type='country'][1]", document, XPathConstants.NODE);
+					country = xpath.evaluate("long_name", result);
+					countryCode = xpath.evaluate("short_name", result);
+				} else {
+					throw new RuntimeException("Return status was: "+status);
+				}
+			} catch (Exception e) {
+				SOSServer.getDevLogger().severe("Failed to resolve country for "+latitude+","+longitude+": "+e.getMessage());
+			} finally {
+				try { stream.close(); } catch (IOException e) { }
+			}
+		}
+		return countryCode + ";" + country;
 	}
 }
