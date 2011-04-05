@@ -7,15 +7,16 @@ import java.util.Collection;
 
 import model.agent.Agent;
 import util.clientconnection.RemoteAgentCollection;
+import util.clientconnection.XMLServerConnection;
 import util.enums.PropertyType;
 import utils.kml.KMLParser;
 import utils.settings.BudapestClientSettings;
 
 public class SOSBudapestDataClient {
 
-	private static RemoteAgentCollection remoteAgentCollection = new RemoteAgentCollection(
+	private static RemoteAgentCollection remoteAgentCollection = new RemoteAgentCollection(new XMLServerConnection(
 			BudapestClientSettings.SERVER_ADDRESS, BudapestClientSettings.SERVER_PORT, BudapestClientSettings.USERNAME,
-			BudapestClientSettings.PASSWORD);
+			BudapestClientSettings.PASSWORD));
 
 	private static final String KML_URL = "http://hotels.budapestrooms.com/maps/kml_dir/budapest_map.kml";
 
