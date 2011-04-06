@@ -127,10 +127,10 @@ public class XMLClientConnection extends Thread {
 			}
 		} catch (Exception e) {
 			e.printStackTrace();
-			return "error";
+			return XMLCommand.ERROR;
 		}
 
-		return "unknown";
+		return XMLCommand.UNKNOWN;
 	}
 
 	// --------------------------------------------------------------------------------
@@ -147,7 +147,7 @@ public class XMLClientConnection extends Thread {
 		String id = xml;
 		AgentViewable av = AgentCollection.getInstance().get(id);
 		if (av == null) {
-			return "error";
+			return XMLCommand.ERROR;
 		} else {
 			return av.toXML();
 		}
@@ -239,7 +239,7 @@ public class XMLClientConnection extends Thread {
 		String address = xml;
 		LocationProperty li = server.getLocations().getLocation(address);
 		if (li == null) {
-			return "error";
+			return XMLCommand.ERROR;
 		} else {
 			return li.toXML();
 		}
@@ -257,7 +257,7 @@ public class XMLClientConnection extends Thread {
 		if (country != null && !country.isEmpty()) {
 			return country;
 		} else {
-			return "error";
+			return XMLCommand.ERROR;
 		}
 	}
 
@@ -300,7 +300,7 @@ public class XMLClientConnection extends Thread {
 			Classifier r = ClassifierCollection.getInstance().get(av.get(Agent.TYPE), av.getArffAttributesString());
 			r.addTrainingInstance(av.getArffInstanceString(), status);
 		} else {
-			return "error";
+			return XMLCommand.ERROR;
 		}
 		return "done";
 	}

@@ -192,8 +192,7 @@ public class LocationCollection implements LocationCollectionMutable {
 	}
 	
 	private synchronized String countryLookup(double latitude, double longitude) {
-		String country = "";
-		String countryCode = "";
+		String country = null;
 		if (latitude != 0.0 && longitude != 0.0) {
 			InputStream stream = null;
 			try {
@@ -205,17 +204,20 @@ public class LocationCollection implements LocationCollectionMutable {
 				String status = xpath.evaluate("/GeocodeResponse/status", document);
 				if (status.equals("OK")) {
 					Object result = xpath.evaluate("/GeocodeResponse/result/address_component[type='country'][1]", document, XPathConstants.NODE);
-					country = xpath.evaluate("long_name", result);
-					countryCode = xpath.evaluate("short_name", result);
+					country = xpath.evaluate("short_name", result)+";"+xpath.evaluate("long_name", result);
 				} else {
 					throw new RuntimeException("Return status was: "+status);
 				}
 			} catch (Exception e) {
 				SOSServer.getDevLogger().severe("Failed to resolve country for "+latitude+","+longitude+": "+e.getMessage());
+				country = null;
 			} finally {
 				try { stream.close(); } catch (IOException e) { }
 			}
 		}
-		return countryCode + ";" + country;
+		if (country == null || country.isEmpty()){
+			return null;
+		}
+		return country;
 	}
 }

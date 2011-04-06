@@ -26,7 +26,7 @@ public interface LocationCollectionViewable {
 	 * Get a country name based on coordinates
 	 * 
 	 * @param lp the LocationProperty to use the coordinates from
-	 * @return the country in the following format: code;name
+	 * @return the country in the following format: code;name, or null if not found
 	 */
 	public String getCountry(LocationProperty lp);
 
