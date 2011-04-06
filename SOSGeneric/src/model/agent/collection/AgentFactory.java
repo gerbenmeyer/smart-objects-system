@@ -4,12 +4,11 @@ import java.util.HashMap;
 import java.util.Map;
 
 import model.agent.Agent;
+import model.agent.agents.IndexAgent;
 import model.agent.agents.MenuAgent;
 import model.agent.agents.NotifyAgent;
 import model.agent.agents.SearchAgent;
 import model.agent.agents.StatsAgent;
-import model.agent.agents.index.MobileIndexAgent;
-import model.agent.agents.index.NormalIndexAgent;
 import model.agent.property.Property;
 import util.xmltool.KeyData;
 import util.xmltool.KeyDataVector;
@@ -35,9 +34,7 @@ public abstract class AgentFactory {
 		if (a == null) {
 			String agentID = properties.get(Agent.ID).toString();
 			if (agentID.equals("index")) {
-				a = new NormalIndexAgent(agentID);
-			} else if (agentID.equals("mobile")) {
-				a = new MobileIndexAgent(agentID);
+				a = new IndexAgent(agentID);
 			} else if (agentID.equals("menu")) {
 				a = new MenuAgent(agentID);
 			} else if (agentID.equals("search")) {

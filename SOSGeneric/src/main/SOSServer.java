@@ -9,12 +9,11 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 import java.util.logging.SimpleFormatter;
 
+import model.agent.agents.IndexAgent;
 import model.agent.agents.MenuAgent;
 import model.agent.agents.NotifyAgent;
 import model.agent.agents.SearchAgent;
 import model.agent.agents.StatsAgent;
-import model.agent.agents.index.MobileIndexAgent;
-import model.agent.agents.index.NormalIndexAgent;
 import model.agent.collection.AgentCollection;
 import model.agent.collection.AgentCollectionMutable;
 import model.agent.collection.AgentFactory;
@@ -67,8 +66,7 @@ public abstract class SOSServer {
 		this.agentCollection = new AgentCollection(factory);
 		AgentStorage.setInstance(new AgentStorageMySQL());
 
-		agentCollection.put(new NormalIndexAgent("index"));
-		agentCollection.put(new MobileIndexAgent("mobile"));
+		agentCollection.put(new IndexAgent("index"));
 		agentCollection.put(new MenuAgent("menu"));
 		agentCollection.put(new SearchAgent("search"));
 		agentCollection.put(new StatsAgent("stats"));
