@@ -21,6 +21,9 @@ public class XMLCommand {
 	public final static String ADD_TRAINING_INSTANCE = "addTrainingInstance";
 	public final static String GET_LOCATION_COUNTRY = "getLocationCountry";
 	
+	public final static String ERROR = "error";
+	public final static String UNKNOWN = "unknown";
+	
 	private String name = "";
 	private String parameter = "";
 

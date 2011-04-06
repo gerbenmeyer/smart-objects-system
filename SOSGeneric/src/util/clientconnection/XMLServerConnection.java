@@ -106,7 +106,7 @@ public class XMLServerConnection {
 		synchronized (this) {
 			if (connections == 0) {
 				System.err.println("not connected");
-				result = "error";
+				result = XMLCommand.ERROR;
 			} else {
 				String msg = XMLTool.addRootTag(command.toXML(), "Command");
 				output.println(msg);
@@ -122,17 +122,17 @@ public class XMLServerConnection {
 				}
 				if (error) {
 					System.err.println("Connection to server lost");
-					result = "error";
+					result = XMLCommand.ERROR;
 				} else {
 					result = XMLTool.removeRootTag(result);
-					if (result.equals("error")) {
+					if (result.equals(XMLCommand.ERROR)) {
 						System.err
 								.println("The server was not able to process the command \'"
 										+ command.getName()
 										+ "\' with parameter "
 										+ command.getParameter());
 					}
-					if (result.equals("unknown")) {
+					if (result.equals(XMLCommand.UNKNOWN)) {
 						System.err.println(
 								"The server did not know the command \'"
 										+ command.getName()
