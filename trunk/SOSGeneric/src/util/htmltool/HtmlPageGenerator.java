@@ -100,6 +100,7 @@ public class HtmlPageGenerator extends HtmlGenerator {
 					+ "})();");
 			header.append(HtmlTool.createScript(analyticsScript, scriptAttr));
 		}
+		header.append("<meta http-equiv=\"X-UA-Compatible\" content=\"IE=edge\" />");
 		
 		return HtmlTool.createHeadBody(title, css, body, header, bodyAttributes);
 	}
