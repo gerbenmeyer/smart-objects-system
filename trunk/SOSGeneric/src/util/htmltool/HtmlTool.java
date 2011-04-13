@@ -152,7 +152,7 @@ public class HtmlTool {
 	 * Creates the HTML code to display an image with specific attributes.
 	 * 
 	 * @param url the path to the image
-	 * @param text the title of the image
+	 * @param text the alt text of the image
 	 * @param attributes the attribues of the image
 	 * @return the image HTML code
 	 */
@@ -161,7 +161,7 @@ public class HtmlTool {
 			attributes = new HashMap<String, String>();
 		}
 		attributes.put("src", url);
-		attributes.put("title", text);
+		attributes.put("alt", text);
 		return tagify("img", attributes);
 	}
 	
@@ -169,7 +169,7 @@ public class HtmlTool {
 	 * Creates the HTML code to display an image.
 	 * 
 	 * @param url the path to the image
-	 * @param text the title of the image
+	 * @param text the alt text of the image
 	 * @return the image HTML code
 	 */
 	public static String createImage(String url, String text) {
@@ -180,7 +180,7 @@ public class HtmlTool {
 	 * Creates the HTML code to display an image with a specific size.
 	 * 
 	 * @param url the path to the image
-	 * @param text the title of the image
+	 * @param text the alt text of the image
 	 * @param size the size of the image
 	 * @return the image HTML code
 	 */
