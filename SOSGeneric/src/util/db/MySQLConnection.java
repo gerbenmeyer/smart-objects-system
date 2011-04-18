@@ -98,6 +98,7 @@ public class MySQLConnection {
 						+ "  `name` varchar(32) NOT NULL,"
 						+ "  `value` longtext NOT NULL,"
 						+ "  PRIMARY KEY (`agent_id`,`name`),"
+						+ " KEY `agent_id` (`agent_id`),"
 						+ " KEY `type` (`type`)"
 						+ ") ENGINE=MyISAM DEFAULT CHARSET=utf8;";
 				} else if (tableName.equals("locations")) {

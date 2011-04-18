@@ -99,7 +99,7 @@ public class AgentExecutor extends Thread {
 				if (DEBUG)
 					System.out.println("Processor: " + agent.toString() + " > start.");
 				try {
-					agent.execute();
+					agent.actAndSave();
 					synchronized (this) {
 						if (DEBUG)
 							System.out.println("Processor: " + agent.toString() + " < completed.");
