@@ -106,13 +106,10 @@ public abstract class Agent implements AgentMutable {
 	 * 
 	 * @throws InterruptedException
 	 */
-	final public void execute() throws InterruptedException {
+	final public void actAndSave() throws InterruptedException {
 		try {
 			act();
 			save();
-			if (AgentCollectionStorage.getInstance() != null){
-				AgentCollectionStorage.getInstance().putAgent(this);
-			}
 		} catch (InterruptedException ie) {
 			throw ie;
 		} catch (Exception e) {
@@ -310,9 +307,15 @@ public abstract class Agent implements AgentMutable {
 			AgentStorage.getInstance().putProperties(getID(), writeBuffer);
 			writeBuffer.clear();
 		}
+		if (AgentCollectionStorage.getInstance() != null){
+			AgentCollectionStorage.getInstance().putAgent(this);
+		}
 	}
 
 	public void delete() {
+		if (AgentCollectionStorage.getInstance() != null){
+			AgentCollectionStorage.getInstance().delete(getID());
+		}
 		if (AgentStorage.getInstance() != null) {
 			AgentStorage.getInstance().delete(getID());
 		}

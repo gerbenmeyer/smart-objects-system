@@ -16,7 +16,7 @@ import model.agent.collection.AgentCollection;
 public class AgentsProcessor implements Runnable {
 
 	private static int maxProcessingTimeMillis = 10000;
-	private static int delayMilliseconds = 10;
+	private static int delayMilliseconds = 100;
 	private long agentExecutionEnabledFromTimeStampInMillis = 0;
 	private boolean paused = false;
 	
@@ -104,7 +104,6 @@ public class AgentsProcessor implements Runnable {
 						// collect garbage
 						if (agent.isGarbage()) {
 							agent.lastWish();
-							((AgentCollection) AgentCollection.getInstance()).delete(agent);
 							agent.delete();
 							continue;
 						}
