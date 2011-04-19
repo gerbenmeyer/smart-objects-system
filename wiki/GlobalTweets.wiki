@@ -1,9 +1,13 @@
 #summary description of the GlobalTweets application
 
+http://smart-objects-system.googlecode.com/svn/wiki/globaltweets.png
+
 = GlobalTweets =
 
-GlobalTweets is an application currently under development, with the purpose to let users discover what is happening on Twitter around the globe.
+GlobalTweets is an application which allows users to discover what is happening right now around the globe on Twitter.
 
 == Front-end ==
+
+Below, some screenshots of the web interface of the GlobalTweets are shown. For the live version of the web interface, please visit http://globaltweets.com/.
 
 _To be added_
