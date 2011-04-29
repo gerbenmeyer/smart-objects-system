@@ -88,13 +88,14 @@ public class HtmlMapContentGenerator extends HtmlGenerator {
 	 * @param title
 	 * @param mapicon
 	 * @param showLabel
-	 * @param id
-	 *            the identifier of the marker
+	 * @param id the identifier of the marker
+	 * @param zindex the z-index of the marker
+	 * @param type the type of marker/agent
 	 */
-	public void addMapMarker(double latitude, double longitude, String title, String mapicon, String id, int zindex) {
+	public void addMapMarker(double latitude, double longitude, String title, String mapicon, String id, int zindex, String type) {
 		title = escapeForJS(title);
 		buffer.append("p.aM(" + latitude + "," + longitude + ",'" + title + "','" + mapicon + "','" + id + "',"
-				+ zindex + ");");
+				+ zindex + ",'" + type + "');");
 	}
 
 	/**
@@ -107,8 +108,7 @@ public class HtmlMapContentGenerator extends HtmlGenerator {
 	 * @param iconsize
 	 * @param zIndex
 	 * @param showLabel
-	 * @param id
-	 *            the identifier of the marker
+	 * @param id the identifier of the marker
 	 */
 	public void addMapMarker(double latitude, double longitude, String title, String mapicon, int iconsize, int zIndex,
 			String id) {
@@ -134,7 +134,7 @@ public class HtmlMapContentGenerator extends HtmlGenerator {
 			return;
 		}
 		addMapMarker(lp.getLatitude(), lp.getLongitude(), av.get(Agent.LABEL), av.getMapMarkerImage(), av.getID(),
-				zindex);
+				zindex, av.get(Agent.TYPE));
 	}
 
 	/**
