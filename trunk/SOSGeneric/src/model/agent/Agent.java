@@ -19,6 +19,7 @@ import util.htmltool.HtmlDetailsContentGenerator;
 import util.htmltool.HtmlGenerator;
 import util.htmltool.HtmlMapBalloonContentGenerator;
 import util.htmltool.HtmlMapContentGenerator;
+import util.htmltool.HtmlTool;
 import util.xmltool.XMLTool;
 import data.agents.AgentCollectionStorage;
 import data.agents.AgentStorage;
@@ -127,7 +128,7 @@ public abstract class Agent implements AgentMutable {
 	public void teachStatus(HtmlGenerator content, HashMap<String,String> params) {
 		if (!Settings.getProperty(Settings.AGENT_PROBLEM_LEARNING_ENABLED)
 				.equals(Boolean.toString(true))) {
-			content.addCustomScript("alert('Training of agents is disabled!');");
+			content.add("alert('Training of agents is disabled!');");
 			return;
 		}
 		for (String key : params.keySet()) {
@@ -138,7 +139,7 @@ public abstract class Agent implements AgentMutable {
 					Classifier r = ClassifierCollection.getInstance().get(
 							get(Agent.TYPE), getArffAttributesString());
 					r.addTrainingInstance(getArffInstanceString(), newStatus);
-					content.addCustomScript("alert('New status learned!');");
+					content.add("alert('New status learned!');");
 				} catch (Exception e) {
 				}
 			}
@@ -198,7 +199,7 @@ public abstract class Agent implements AgentMutable {
 	
 	public void generateMapBalloonContent(HtmlMapBalloonContentGenerator balloonContent, HashMap<String,String> params) {
 		balloonContent.addAgentHeaderLink(this);
-		balloonContent.addParagraph(get(Agent.DESCRIPTION));
+		balloonContent.add(HtmlTool.p(get(Agent.DESCRIPTION)));
 	}
 	
 	public boolean addIDToDependenciesProperty(String name, String id) {

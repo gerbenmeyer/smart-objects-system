@@ -52,21 +52,20 @@ public class NotifyAgent extends Agent {
 			set(PropertyType.DEPENDENCIES, "ExistingIssueAgents", new DependenciesProperty("ExistingIssueAgents").toString());
 		}
 	}
-	
+
 	@Override
 	public void act() throws Exception {
-		TimeProperty lastRun = (TimeProperty)getProperty("LastRun");
-		BooleanProperty firstRun = (BooleanProperty)getProperty("FirstRun");
+		TimeProperty lastRun = (TimeProperty) getProperty("LastRun");
+		BooleanProperty firstRun = (BooleanProperty) getProperty("FirstRun");
 		Calendar threshold = new GregorianCalendar();
-		threshold.add(Calendar.MINUTE, -Integer.parseInt(Settings
-				.getProperty(Settings.NOTIFICATION_EMAIL_MINUTES_THRESHOLD)));
+		threshold.add(Calendar.MINUTE, -Integer.parseInt(Settings.getProperty(Settings.NOTIFICATION_EMAIL_MINUTES_THRESHOLD)));
 
 		// Is it time to send the next notification email?
 		if (!lastRun.getDateTime().before(threshold)) {
 			return;
 		}
-		
-		DependenciesProperty existingIssueIds = (DependenciesProperty)getProperty("ExistingIssueAgents");
+
+		DependenciesProperty existingIssueIds = (DependenciesProperty) getProperty("ExistingIssueAgents");
 		Vector<String> newIDs = new Vector<String>();
 		Vector<String> resolvedIDs = new Vector<String>();
 
@@ -75,9 +74,9 @@ public class NotifyAgent extends Agent {
 		allIds.addAll(existingIssueIds.getList());
 		List<AgentViewable> agents = new Vector<AgentViewable>();
 		for (String type : allowedTypes) {
-			agents.addAll(AgentCollection.getInstance().searchAgents("type:"+type.trim().toLowerCase()));
+			agents.addAll(AgentCollection.getInstance().searchAgents("type:" + type.trim().toLowerCase()));
 		}
-		for(AgentViewable av : agents) {
+		for (AgentViewable av : agents) {
 			String id = av.getID();
 			if (!allIds.contains(id)) {
 				allIds.add(id);
@@ -95,12 +94,9 @@ public class NotifyAgent extends Agent {
 			AgentStatus status = av.getStatus();
 			String type = av.get(Agent.TYPE);
 
-			//check if this agent qualifies for adding
-			if (status != null
-					&& status.getValue() <= Integer.valueOf(Settings.getProperty(Settings.NOTIFICATION_EMAIL_STATUS_THRESHOLD))
-					&& !type.isEmpty()
-					&& !newIDs.contains(ID)
-					&& !existingIssueIds.getList().contains(ID)) {
+			// check if this agent qualifies for adding
+			if (status != null && status.getValue() <= Integer.valueOf(Settings.getProperty(Settings.NOTIFICATION_EMAIL_STATUS_THRESHOLD)) && !type.isEmpty()
+					&& !newIDs.contains(ID) && !existingIssueIds.getList().contains(ID)) {
 				newIDs.add(ID);
 			} else {
 				// the ID does not fall within notification email criteria.
@@ -131,8 +127,7 @@ public class NotifyAgent extends Agent {
 			content.append(formatIssuesHTMLTable("Existing Issues", existingIssueIds.getList()));
 			content.append(formatIssuesHTMLTable("Resolved Issues", resolvedIDs));
 
-			sendEmail(Settings.getProperty(Settings.NOTIFICATION_EMAIL_RECIPIENT_ADDRESS), content.toString(),
-					new Vector<String>());
+			sendEmail(Settings.getProperty(Settings.NOTIFICATION_EMAIL_RECIPIENT_ADDRESS), content.toString(), new Vector<String>());
 
 			resolvedIDs.clear();
 		}
@@ -163,7 +158,7 @@ public class NotifyAgent extends Agent {
 			return content;
 		}
 
-		content.append(HtmlTool.createHeader2(title));
+		content.append(HtmlTool.h2(title));
 
 		StringBuffer tableContent = new StringBuffer();
 
@@ -176,22 +171,19 @@ public class NotifyAgent extends Agent {
 			tableContent.append(formatIssueHTMLTableRow(pov));
 		}
 
-		content.append(HtmlTool.createTable(new String[] { "", "Label", "Description" },
-				tableContent));
+		content.append(HtmlTool.table(HtmlTool.tr(HtmlTool.th("") + HtmlTool.th("Label") + HtmlTool.th("Description")) + tableContent));
+
 		return content;
 	}
 
-	private StringBuffer formatIssueHTMLTableRow(AgentViewable av) {
-		String img = HtmlTool.createImage(Settings.getProperty(Settings.NOTIFICATION_EMAIL_CONTENT) + av.getIcon(),
-				av.getStatus().toString().toLowerCase());
+	private String formatIssueHTMLTableRow(AgentViewable av) {
+		String img = HtmlTool.img(av.getStatus().toString().toLowerCase(), Settings.getProperty(Settings.NOTIFICATION_EMAIL_CONTENT) + av.getIcon());
 
-		String url = Settings.getProperty(Settings.HTTP_SERVER_ADDRESS) + "?" + Settings.getProperty(Settings.KEYWORD_DEEPLINK)
-				+ "=" + av.getID();
+		String url = Settings.getProperty(Settings.HTTP_SERVER_ADDRESS) + "?" + Settings.getProperty(Settings.KEYWORD_DEEPLINK) + "=" + av.getID();
 
-		return HtmlTool.createTableRow(new String[] { img, HtmlTool.createLink(url, av.get(Agent.LABEL)),
-				av.get(Agent.DESCRIPTION) });
+		return HtmlTool.tr(HtmlTool.td(img) + HtmlTool.td(HtmlTool.aLink(av.get(Agent.LABEL), url)) + HtmlTool.td(av.get(Agent.DESCRIPTION)));
+
 	}
-
 
 	/**
 	 * Send the email with notifications.
@@ -208,8 +200,8 @@ public class NotifyAgent extends Agent {
 		Session session = Session.getInstance(props, null);
 
 		Message msg = new MimeMessage(session);
-		msg.setFrom(new InternetAddress(Settings.getProperty(Settings.APPLICATION_NAME_ABBREVIATION)
-				+ " <" + Settings.getProperty(Settings.SMTP_EMAIL_ADDRESS) + ">"));
+		msg.setFrom(new InternetAddress(Settings.getProperty(Settings.APPLICATION_NAME_ABBREVIATION) + " <" + Settings.getProperty(Settings.SMTP_EMAIL_ADDRESS)
+				+ ">"));
 		msg.setRecipients(Message.RecipientType.TO, InternetAddress.parse(address, false));
 
 		String title = "[" + Settings.getProperty(Settings.APPLICATION_NAME_ABBREVIATION) + "] email notification";
@@ -223,7 +215,7 @@ public class NotifyAgent extends Agent {
 		Multipart mp = new MimeMultipart();
 		MimeBodyPart htmlPart = new MimeBodyPart();
 
-		htmlPart.setDataHandler(new DataHandler(new ByteArrayDataSource(htmlPage.getHtml().toString(), "text/html")));
+		htmlPart.setDataHandler(new DataHandler(new ByteArrayDataSource(htmlPage.generatePage().toString(), "text/html")));
 		mp.addBodyPart(htmlPart);
 
 		for (String file : filesToAttach) {
@@ -237,8 +229,7 @@ public class NotifyAgent extends Agent {
 
 		Transport t = session.getTransport("smtps");
 		try {
-			t.connect(Settings.getProperty(Settings.SMTP_SERVER), Settings.getProperty(Settings.SMTP_USERNAME),
-					Settings.getProperty(Settings.SMPT_PASSWORD));
+			t.connect(Settings.getProperty(Settings.SMTP_SERVER), Settings.getProperty(Settings.SMTP_USERNAME), Settings.getProperty(Settings.SMPT_PASSWORD));
 			t.sendMessage(msg, msg.getAllRecipients());
 		} finally {
 			t.close();

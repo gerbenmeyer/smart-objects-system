@@ -48,18 +48,15 @@ public class WeatherAgent extends Agent {
 		// create custom content for the balloon of this agent type
 
 		// add the icon of the weather status
-		balloonContent.addCustomHtml(HtmlTool.createImageRight(getMapMarkerImage(), get(Agent.DESCRIPTION)));
+		balloonContent.add(HtmlTool.img(getMapMarkerImage(), get(Agent.DESCRIPTION), "align=\"right\""));
 
 		// add the label of this agent to the balloon
 		balloonContent.addAgentHeaderLink(this);
 
 		// add the weather properties of this location
-		balloonContent.addParagraph(HtmlTool.createImage("temp_icon.png", "temp") + 
-				" Temperature: " + get("TemperatureCelcius") + " °C");
-		balloonContent.addParagraph(HtmlTool.createImage("wind_icon.png", "temp") + 
-				" Wind: " + get("WindSpeedMS") + " m/s " + get("WindDirection"));
-		balloonContent.addParagraph(HtmlTool.createImage("rain_icon.png", "temp") +
-				" Rain: " + get("RainMMPerHour") + " mm/h");
+		balloonContent.addParagraph(HtmlTool.img("temp_icon.png", "temp") + " Temperature: " + get("TemperatureCelcius") + " °C");
+		balloonContent.addParagraph(HtmlTool.img("wind_icon.png", "wind") + " Wind: " + get("WindSpeedMS") + " m/s " + get("WindDirection"));
+		balloonContent.addParagraph(HtmlTool.img("rain_icon.png", "rain") + " Rain: " + get("RainMMPerHour") + " mm/h");
 	}
 
 	@Override
@@ -67,7 +64,7 @@ public class WeatherAgent extends Agent {
 		// create custom content for the details pane of this agent type
 
 		// add the icon of the weather status
-		detailsPane.addCustomHtml(HtmlTool.createImageRight(getMapMarkerImage(), get(Agent.DESCRIPTION)));
+		detailsPane.add(HtmlTool.img(getMapMarkerImage(), get(Agent.DESCRIPTION), "align=\"right\""));
 
 		// add the label of this agent to the details pane
 		detailsPane.addAgentHeader(this);
@@ -95,7 +92,7 @@ public class WeatherAgent extends Agent {
 		detailsPane.addDataRow(description.getIcon(), description.getName(), description.toInformativeString());
 
 		// add a link to the data source
-		detailsPane.addDataRow("", "Source", HtmlTool.createLink(get("URL"), get("URL"), "_blank"));
+		detailsPane.addDataRow("", "Source", HtmlTool.aLink(get("URL"), get("URL"),  "target=\"_blank\""));
 
 	}
 }

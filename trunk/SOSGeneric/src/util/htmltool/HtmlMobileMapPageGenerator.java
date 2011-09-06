@@ -17,7 +17,7 @@ public class HtmlMobileMapPageGenerator extends HtmlPageGenerator {
 	public HtmlMobileMapPageGenerator(String title, String css) {
 		super(title, css);
 		addToHeaderHtml(createMapScriptHeader());
-		addToBodyHtml(HtmlTool.createDiv("", "map_canvas"));
-		addToBodyHtml(HtmlTool.createIFrame("hidden_frame", ""));
+		addToBodyHtml(HtmlTool.div("", "id=\"map_canvas\" name=\"map_canvas\""));
+		addToBodyHtml(HtmlTool.iframe("","id=\"hidden_frame\" name=\"hidden_frame\""));
 	}
 }

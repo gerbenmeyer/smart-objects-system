@@ -27,19 +27,37 @@ public class HtmlMapContentGenerator extends HtmlGenerator {
 		this.title = title;
 	}
 
+	public StringBuffer generateMapContent() {
+		HashMap<String, String> scriptAttr = new HashMap<String, String>();
+		scriptAttr.put("type", "text/javascript");
+
+		StringBuffer headcontent = new StringBuffer(createMapScriptHeader());
+		// headcontent.append("<META HTTP-EQUIV=\"Refresh\" CONTENT=\"300\" />\n");
+		insert("var p = parent;");
+		
+		headcontent.append(HtmlTool.script(getBuffer().toString()));
+		
+		headcontent.insert(0, HtmlTool.title(title));
+		
+		return HtmlTool.html(HtmlTool.head(headcontent), new StringBuffer());
+		
+	}
+	
+	
 	/**
 	 * Returns the HTML code of the map script.
 	 * 
 	 * @return the code
 	 */
+	@Deprecated
 	public StringBuffer createMapContentScript() {
 		HashMap<String, String> scriptAttr = new HashMap<String, String>();
 		scriptAttr.put("type", "text/javascript");
 
-		StringBuffer headcontent = createMapScriptHeader();
+		StringBuffer headcontent = new StringBuffer(createMapScriptHeader());
 		// headcontent.append("<META HTTP-EQUIV=\"Refresh\" CONTENT=\"300\" />\n");
-		buffer.insert(0, "var p = parent;");
-		headcontent.append(HtmlTool.createScript(buffer, scriptAttr));
+		insert("var p = parent;");
+		headcontent.append(HtmlTool.createScript(getBuffer(), scriptAttr));
 		StringBuffer headbody = HtmlTool.createHeadBody(title, null, new StringBuffer(), headcontent, null);
 
 		return HtmlTool.createHTML(headbody);
@@ -49,35 +67,35 @@ public class HtmlMapContentGenerator extends HtmlGenerator {
 	 * Adds javascript which will go to the current user location.
 	 */
 	public void gotoUserLocation() {
-		buffer.append("p.gotoUserLocation();");
+		add("p.gotoUserLocation();");
 	}
 
 	/**
 	 * Adds javascript which will go to the world overview.
 	 */
 	public void gotoWorldOverview() {
-		buffer.append("p.gotoWorldOverview();");
+		add("p.gotoWorldOverview();");
 	}
 
 	/**
 	 * Adds javascript which clears the map content.
 	 */
 	public void clearMapContent() {
-		buffer.append("p.clearMap();");
+		add("p.clearMap();");
 	}
 
 	/**
 	 * Adds javascript which clears the map data.
 	 */
 	public void clearMapData() {
-		buffer.append("p.clearMarkers();");
+		add("p.clearMarkers();");
 	}
 
 	/**
 	 * Adds javascript which draws the map.
 	 */
 	public void drawMap() {
-		buffer.append("p.drawMap();");
+		add("p.drawMap();");
 	}
 
 	/**
@@ -88,14 +106,16 @@ public class HtmlMapContentGenerator extends HtmlGenerator {
 	 * @param title
 	 * @param mapicon
 	 * @param showLabel
-	 * @param id the identifier of the marker
-	 * @param zindex the z-index of the marker
-	 * @param type the type of marker/agent
+	 * @param id
+	 *            the identifier of the marker
+	 * @param zindex
+	 *            the z-index of the marker
+	 * @param type
+	 *            the type of marker/agent
 	 */
 	public void addMapMarker(double latitude, double longitude, String title, String mapicon, String id, int zindex, String type) {
 		title = escapeForJS(title);
-		buffer.append("p.aM(" + latitude + "," + longitude + ",'" + title + "','" + mapicon + "','" + id + "',"
-				+ zindex + ",'" + type + "');");
+		add("p.aM(" + latitude + "," + longitude + ",'" + title + "','" + mapicon + "','" + id + "'," + zindex + ",'" + type + "');");
 	}
 
 	/**
@@ -108,13 +128,12 @@ public class HtmlMapContentGenerator extends HtmlGenerator {
 	 * @param iconsize
 	 * @param zIndex
 	 * @param showLabel
-	 * @param id the identifier of the marker
+	 * @param id
+	 *            the identifier of the marker
 	 */
-	public void addMapMarker(double latitude, double longitude, String title, String mapicon, int iconsize, int zIndex,
-			String id) {
+	public void addMapMarker(double latitude, double longitude, String title, String mapicon, int iconsize, int zIndex, String id) {
 		title = escapeForJS(title);
-		buffer.append("p.addMarker(" + latitude + "," + longitude + ",'" + title + "','" + mapicon + "'," + iconsize
-				+ "," + zIndex + ",'" + id + "');");
+		add("p.addMarker(" + latitude + "," + longitude + ",'" + title + "','" + mapicon + "'," + iconsize + "," + zIndex + ",'" + id + "');");
 	}
 
 	/**
@@ -133,8 +152,7 @@ public class HtmlMapContentGenerator extends HtmlGenerator {
 		if (lp.isNull()) {
 			return;
 		}
-		addMapMarker(lp.getLatitude(), lp.getLongitude(), av.get(Agent.LABEL), av.getMapMarkerImage(), av.getID(),
-				zindex, av.get(Agent.TYPE));
+		addMapMarker(lp.getLatitude(), lp.getLongitude(), av.get(Agent.LABEL), av.getMapMarkerImage(), av.getID(), zindex, av.get(Agent.TYPE));
 	}
 
 	/**
@@ -156,8 +174,7 @@ public class HtmlMapContentGenerator extends HtmlGenerator {
 	 * @param polyLine
 	 */
 	public void addMapDirection(double latitude, double longitude, String status, boolean polyLine) {
-		buffer.append("p.addDirection({location:'" + latitude + ", " + longitude + "', status:'" + status + "', poly: "
-				+ polyLine + "});");
+		add("p.addDirection({location:'" + latitude + ", " + longitude + "', status:'" + status + "', poly: " + polyLine + "});");
 	}
 
 	/**
@@ -167,7 +184,7 @@ public class HtmlMapContentGenerator extends HtmlGenerator {
 	 * @param longitude
 	 */
 	public void panToLocation(double latitude, double longitude) {
-		buffer.append("p.panToLocation(" + latitude + "," + longitude + ");\n");
+		add("p.panToLocation(" + latitude + "," + longitude + ");\n");
 	}
 
 	/**
@@ -177,7 +194,7 @@ public class HtmlMapContentGenerator extends HtmlGenerator {
 	 * @param longitude
 	 */
 	public void setCenter(double latitude, double longitude) {
-		buffer.append("p.setCenter(" + latitude + "," + longitude + ");\n");
+		add("p.setCenter(" + latitude + "," + longitude + ");\n");
 	}
 
 	/**
@@ -186,7 +203,7 @@ public class HtmlMapContentGenerator extends HtmlGenerator {
 	 * @param zoom
 	 */
 	public void setZoom(int zoom) {
-		buffer.append("p.setZoom(" + zoom + ");\n");
+		add("p.setZoom(" + zoom + ");\n");
 	}
 
 	/**
@@ -196,7 +213,7 @@ public class HtmlMapContentGenerator extends HtmlGenerator {
 	 *            the identifier of the marker
 	 */
 	public void popupInfoWindow(String markerId) {
-		buffer.append("google.maps.event.trigger(p.markers['" + markerId + "'], 'click');\n");
+		add("google.maps.event.trigger(p.markers['" + markerId + "'], 'click');\n");
 	}
 
 	/**
@@ -204,13 +221,13 @@ public class HtmlMapContentGenerator extends HtmlGenerator {
 	 * 
 	 * @return the header content
 	 */
-	private static StringBuffer createMapScriptHeader() {
-		StringBuffer content = new StringBuffer();
-		HashMap<String, String> scriptAttributes = new HashMap<String, String>();
-		scriptAttributes.put("type", "text/javascript");
-		scriptAttributes.put("src", "http://maps.google.com/maps/api/js?sensor=false");
-		content.append(HtmlTool.createEmptyScript(scriptAttributes));
-		return content;
+	/**
+	 * Creates the HTML header needed to include a map.
+	 * 
+	 * @return a string containing the HTML code
+	 */
+	public static String createMapScriptHeader() {
+		return HtmlTool.script("", "src=\"http://maps.google.com/maps/api/js?sensor=false\"");
 	}
 
 	/**
