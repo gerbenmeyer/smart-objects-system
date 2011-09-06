@@ -38,19 +38,21 @@ import com.sun.net.httpserver.HttpServer;
 public class HTTPListener implements HttpHandler {
 	private AgentCollectionViewable agentCollectionView;
 
-	private final String errorPage = "<!DOCTYPE html>\n<html>\n"
-		+ HtmlTool.createHeadBody("File not found", null, new StringBuffer(HtmlTool.createHeader1("File not found!")), null, null).toString()
-		+ "\n</html>";
-
+	private final String errorPage = HtmlTool.html(HtmlTool.head(HtmlTool.title("File not found!")), HtmlTool.body(HtmlTool.p("File not found!"))); 
+			
 	HTTPAuthenticator authenticator = null;
 
 	/**
-	 * Constructs a new HTTPListener instance, with an AgentCollectionView to request data from agents and
-	 * a usernames/passwords hash which is used for construction of a {@link HTTPAuthenticator}.
-	 * The listening port is read from the Settings of the project, as is the directory for accessing resources.
+	 * Constructs a new HTTPListener instance, with an AgentCollectionView to
+	 * request data from agents and a usernames/passwords hash which is used for
+	 * construction of a {@link HTTPAuthenticator}. The listening port is read
+	 * from the Settings of the project, as is the directory for accessing
+	 * resources.
 	 * 
-	 * @param acv the view
-	 * @param passwords the hash
+	 * @param acv
+	 *            the view
+	 * @param passwords
+	 *            the hash
 	 */
 	public HTTPListener(AgentCollectionViewable acv, HashMap<String, String> passwords) {
 		super();
@@ -59,7 +61,6 @@ public class HTTPListener implements HttpHandler {
 		if (!passwords.isEmpty()) {
 			authenticator = new HTTPAuthenticator(Settings.getProperty(Settings.APPLICATION_NAME), passwords);
 		}
-
 
 		int port = Integer.parseInt(Settings.getProperty(Settings.HTTP_PORT));
 		try {
@@ -75,9 +76,10 @@ public class HTTPListener implements HttpHandler {
 	}
 
 	/**
-	 * Decodes an URL and returns its query parameters in a HashMap. 
+	 * Decodes an URL and returns its query parameters in a HashMap.
 	 * 
-	 * @param msg the URL
+	 * @param msg
+	 *            the URL
 	 * @return the hash
 	 */
 	public final static HashMap<String, String> decodeQuery(String msg) {
@@ -99,7 +101,8 @@ public class HTTPListener implements HttpHandler {
 	/**
 	 * Creates an URL with parameters from a HashMap with keys/values.
 	 * 
-	 * @param params the parameters
+	 * @param params
+	 *            the parameters
 	 * @return the URL
 	 */
 	public final static String encodeQuery(HashMap<String, String> params) {
@@ -121,9 +124,11 @@ public class HTTPListener implements HttpHandler {
 	}
 
 	/**
-	 * Handles a HTTP request by gathering data from the AgentCollection or serving static resources.
+	 * Handles a HTTP request by gathering data from the AgentCollection or
+	 * serving static resources.
 	 * 
-	 * @param t the request
+	 * @param t
+	 *            the request
 	 */
 	@Override
 	public void handle(HttpExchange t) throws IOException {
@@ -178,12 +183,12 @@ public class HTTPListener implements HttpHandler {
 				file = new File("index.html");
 			} else if (path.equals("/m")) {
 				file = new File("mobile.html");
-			} else if (path.endsWith(".map") || path.endsWith(".details") || path.endsWith(".train")) { 
+			} else if (path.endsWith(".map") || path.endsWith(".details") || path.endsWith(".train")) {
 				file = new File(path);
 			} else {
-				file = new File(Settings.getProperty(Settings.HTML_DATA_DIR)+path.substring(1));
+				file = new File(Settings.getProperty(Settings.HTML_DATA_DIR) + path.substring(1));
 				if (!file.isFile()) {
-					inputStream = this.getClass().getResourceAsStream("/resources/"+path.substring(1));
+					inputStream = this.getClass().getResourceAsStream("/resources/" + path.substring(1));
 				}
 			}
 
@@ -196,13 +201,14 @@ public class HTTPListener implements HttpHandler {
 				extension = fileParts[1];
 			}
 
-//			details = agentCode.contains("details");
-//			String[] agentCodeParts = agentCode.split("_details");
-//			if (agentCodeParts.length == 1) {
-//				agentCode = agentCodeParts[0];
-//			}
-			
-			boolean agentExtension = extension.equals("html") || extension.equals("details") || extension.equals("map") || extension.equals("train") || extension.equals("balloon"); 
+			// details = agentCode.contains("details");
+			// String[] agentCodeParts = agentCode.split("_details");
+			// if (agentCodeParts.length == 1) {
+			// agentCode = agentCodeParts[0];
+			// }
+
+			boolean agentExtension = extension.equals("html") || extension.equals("details") || extension.equals("map") || extension.equals("train")
+					|| extension.equals("balloon");
 
 			if (agentExtension && !agentCode.isEmpty() && agentCollectionView.containsKey(agentCode)) {
 				byte[] bytes = new byte[0];
@@ -213,32 +219,31 @@ public class HTTPListener implements HttpHandler {
 				} else if (extension.equals("details")) {
 					HtmlDetailsContentGenerator detailsPane = new HtmlDetailsContentGenerator();
 					av.generateDetailsContent(detailsPane, params);
-					html = detailsPane.getHtml();
+					html = detailsPane.generateDetailsContent();
 				} else if (extension.equals("map")) {
 					HtmlMapContentGenerator mapContent = new HtmlMapContentGenerator(agentCode);
-					
+
 					boolean showSidePane = av.needsDetailsPane();
-					
+
 					if (showSidePane && av.getID().equals("search")) {
 						showSidePane = Settings.getProperty(Settings.SHOW_OVERVIEW_LISTS).equals("true");
 					}
-						
-					if (showSidePane){
-						mapContent.addCustomScript("parent.document.getElementById('details_canvas').innerHTML = 'Loading ...';");
-						mapContent.addCustomScript("parent.loadDetails('" + agentCode + ".details"
-								+ (!paramString.isEmpty() ? "?" + paramString : "") + "');");
+
+					if (showSidePane) {
+						mapContent.add("parent.document.getElementById('details_canvas').innerHTML = 'Loading ...';");
+						mapContent.add("parent.loadDetails('" + agentCode + ".details" + (!paramString.isEmpty() ? "?" + paramString : "") + "');");
 					}
 
 					av.generateMapContent(mapContent, params);
-					html = mapContent.createMapContentScript();
+					html = mapContent.generateMapContent();
 				} else if (extension.equals("train")) {
 					HtmlGenerator content = new HtmlGenerator();
-					av.teachStatus(content,params);
-					html = content.createScript();
+					av.teachStatus(content, params);
+					html = HtmlTool.html(HtmlTool.head(content.getBuffer()), new StringBuffer()); //TODO: Not a pretty solution 
 				} else if (extension.equals("balloon")) {
 					HtmlMapBalloonContentGenerator balloonContentGen = new HtmlMapBalloonContentGenerator();
 					av.generateMapBalloonContent(balloonContentGen, params);
-					html = balloonContentGen.getHtml();
+					html = balloonContentGen.generateBalloonContent();
 				}
 				bytes = html.toString().getBytes();
 				t.getResponseHeaders().add("Content-Type", "text/html");
@@ -254,7 +259,7 @@ public class HTTPListener implements HttpHandler {
 				} else {
 					is = inputStream;
 				}
-				
+
 				if (filename.endsWith(".png")) {
 					t.getResponseHeaders().add("Content-Type", "image/png");
 				} else if (filename.endsWith(".html") || filename.endsWith(".htm")) {
@@ -265,13 +270,13 @@ public class HTTPListener implements HttpHandler {
 					t.getResponseHeaders().add("Content-Type", "text/css");
 				}
 				t.sendResponseHeaders(200, 0);
-				
+
 				int c;
 				OutputStream os = t.getResponseBody();
 				while ((c = is.read()) != -1) {
-	                os.write(c);
-	            }
-				
+					os.write(c);
+				}
+
 				is.close();
 				os.close();
 

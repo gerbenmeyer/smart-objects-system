@@ -8,5 +8,9 @@ public class HtmlMapBalloonContentGenerator extends HtmlGenerator {
 	public HtmlMapBalloonContentGenerator() {
 		super();
 	}
+	
+	public StringBuffer generateBalloonContent() {
+		return getBuffer();
+	}
 
 }

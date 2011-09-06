@@ -2,13 +2,13 @@ package util.htmltool;
 
 import util.enums.AgentStatus;
 
-
 /**
- * HtmlDetailsPaneContentGenerator generates HTML content for the details pane, making use of {@link HtmlTool}.
+ * HtmlDetailsPaneContentGenerator generates HTML content for the details pane,
+ * making use of {@link HtmlTool}.
  * 
  * @author Gerben G. Meyer
  */
-public class HtmlDetailsContentGenerator extends HtmlGenerator{
+public class HtmlDetailsContentGenerator extends HtmlGenerator {
 
 	/**
 	 * Constructs a new HtmlDetailsPaneContentGenerator instance.
@@ -20,46 +20,50 @@ public class HtmlDetailsContentGenerator extends HtmlGenerator{
 	/**
 	 * Adds a header with an icon, used for data displaying, to the content.
 	 * 
-	 * @param icon the icon
-	 * @param name the name
+	 * @param icon
+	 *            the icon
+	 * @param name
+	 *            the name
 	 */
 	public void addDataHeader(String icon, String name) {
-		name = convertToHtml(name);
 		addDataHeader(icon, name, null);
 	}
 
 	/**
-	 * Adds a header with an icon and value, used for data displaying, to the content.
+	 * Adds a header with an icon and value, used for data displaying, to the
+	 * content.
 	 * 
-	 * @param icon the icon
-	 * @param name the name of the data
-	 * @param value the value of the data
+	 * @param icon
+	 *            the icon
+	 * @param name
+	 *            the name of the data
+	 * @param value
+	 *            the value of the data
 	 */
 	public void addDataHeader(String icon, String name, String value) {
-		name = convertToHtml(name);
-		value = convertToHtml(value);
-
+		name = HtmlTool.convertToHtml(name);
+		value = HtmlTool.convertToHtml(value);
 		if (icon.endsWith(".png")) {
-			icon = HtmlTool.createImage(icon, icon, 16);
+			icon = HtmlTool.img(icon, icon);
 		}
 		String header = "";
 		if (value == null || value.isEmpty()) {
-			header = "<div class=\"propertyheader\">" + "<div class=\"propertyicon\">" + icon + "</div>"
-					+ "<div class=\"propertyname\">" + name + "</div>" + "</div>\n";
+			header = HtmlTool.div(HtmlTool.div(icon, "class=\"propertyicon\"") + HtmlTool.div(name, "class=\"propertyname\""), "class=\"propertyheader\"");
 		} else {
-			header = "<div class=\"propertyheader\">" + "<div class=\"propertyicon\">" + icon + "</div>"
-					+ "<div class=\"propertyname\">" + name + "</div>" + "<div class=\"propertyvalue\">" + value
-					+ "</div>" + "</div>\n";
+			header = HtmlTool.div(HtmlTool.div(icon, "class=\"propertyicon\"") + HtmlTool.div(name, "class=\"propertyname\"") + HtmlTool.div(value, "class=\"propertyvalue\""), "class=\"propertyheader\"");
 		}
-		buffer.append(header);
+		add(header);
 	}
 
 	/**
 	 * Adds a data row with an icon, name and value to the content.
 	 * 
-	 * @param icon the icon
-	 * @param name the name of the data
-	 * @param value the value of the data
+	 * @param icon
+	 *            the icon
+	 * @param name
+	 *            the name of the data
+	 * @param value
+	 *            the value of the data
 	 */
 	public void addDataRow(String icon, String name, String value) {
 		addDataRow(icon, name, value, "");
@@ -68,96 +72,102 @@ public class HtmlDetailsContentGenerator extends HtmlGenerator{
 	/**
 	 * Adds a data row with an icon, name, value and status icon to the content.
 	 * 
-	 * @param icon the icon
-	 * @param name the name of the data
-	 * @param value the value of the data
-	 * @param statusIcon the status icon
+	 * @param icon
+	 *            the icon
+	 * @param name
+	 *            the name of the data
+	 * @param value
+	 *            the value of the data
+	 * @param statusIcon
+	 *            the status icon
 	 */
 	public void addDataRow(String icon, String name, String value, String statusIcon) {
-		name = convertToHtml(name);
-		value = convertToHtml(value);
-
+		name = HtmlTool.convertToHtml(name);
+		value = HtmlTool.convertToHtml(value);		
 		if (icon.endsWith(".png")) {
-			icon = HtmlTool.createImage(icon, icon, 16);
+			icon = HtmlTool.img(icon, icon);
 		}
 		if (statusIcon.endsWith(".png")) {
-			statusIcon = HtmlTool.createImageRight(statusIcon, statusIcon);
+			statusIcon = HtmlTool.img(statusIcon, statusIcon, "align=\"right\"");
 		}
 		String row = "";
 		if (value == null || value.isEmpty()) {
-			row = "<div class=\"property\">" + statusIcon + "<div class=\"propertyicon\">" + icon + "</div>"
-					+ "<div class=\"propertyname\">" + name + "</div>" + "</div>\n";
+			row = HtmlTool.div(HtmlTool.div(icon, "class=\"propertyicon\"") + HtmlTool.div(name, "class=\"propertyname\""), "class=\"property\"");
 		} else {
-			row = "<div class=\"property\">" + statusIcon + "<div class=\"propertyicon\">" + icon + "</div>"
-			+ "<div class=\"propertyname\">" + name + "</div>" + "<div class=\"propertyvalue\">" + value
-			+ "</div>" + "</div>\n";
+			row = HtmlTool.div(HtmlTool.div(icon, "class=\"propertyicon\"") + HtmlTool.div(name, "class=\"propertyname\"") + HtmlTool.div(value, "class=\"propertyvalue\""), "class=\"property\"");
 		}
-		buffer.append(row);
+		add(row);
 	}
 
 	/**
-	 * Adds a data row with an icon, name, status icon to the content.
-	 * The row is clickable and will link to the specified url.
+	 * Adds a data row with an icon, name, status icon to the content. The row
+	 * is clickable and will link to the specified url.
 	 * 
-	 * @param icon the icon
-	 * @param name the name of the data
-	 * @param statusIcon the status icon
-	 * @param url the url to link to
+	 * @param icon
+	 *            the icon
+	 * @param name
+	 *            the name of the data
+	 * @param statusIcon
+	 *            the status icon
+	 * @param url
+	 *            the url to link to
 	 */
 	public void addDataRowLink(String icon, String name, String statusIcon, String url) {
 		addDataRowLink(icon, name, null, statusIcon, url);
 	}
 
-
 	/**
 	 * Adds a data row with an icon, name, value and status icon to the content.
 	 * The row is clickable and will link to the specified url.
 	 * 
-	 * @param icon the icon
-	 * @param name the name of the data
-	 * @param value the value
-	 * @param statusIcon the status icon
-	 * @param url the url to link to
+	 * @param icon
+	 *            the icon
+	 * @param name
+	 *            the name of the data
+	 * @param value
+	 *            the value
+	 * @param statusIcon
+	 *            the status icon
+	 * @param url
+	 *            the url to link to
 	 */
 	public void addDataRowLink(String icon, String name, String value, String statusIcon, String url) {
 		addDataRowLink(icon, name, value, statusIcon, url, "");
 	}
 
-
 	/**
 	 * Adds a data row with an icon, name, value and status icon to the content.
 	 * The row is clickable and will link to the specified url.
 	 * 
-	 * @param icon the icon
-	 * @param name the name of the data
-	 * @param value the value
-	 * @param statusIcon the status icon
-	 * @param url the url to link to
+	 * @param icon
+	 *            the icon
+	 * @param name
+	 *            the name of the data
+	 * @param value
+	 *            the value
+	 * @param statusIcon
+	 *            the status icon
+	 * @param url
+	 *            the url to link to
 	 */
 	public void addDataRowLink(String icon, String name, String value, String statusIcon, String url, String style) {
-		name = convertToHtml(name);
-		value = convertToHtml(value);
-
+		name = HtmlTool.convertToHtml(name);
+		value = HtmlTool.convertToHtml(value);		
 		if (icon.endsWith(".png")) {
-			icon = HtmlTool.createImage(icon, icon, 16);
+			icon = HtmlTool.img(icon, icon);
 		}
 		if (statusIcon.endsWith(".png")) {
-			statusIcon = HtmlTool.createImageRight(statusIcon, statusIcon);
+			statusIcon = HtmlTool.img(statusIcon, statusIcon, "align=\"right\"");
 		}
 		String row = "";
 		if (value == null || value.isEmpty()) {
-			row = "<div class=\"property linked_property\" "+style+" onclick=\"document.getElementById('hidden_frame').src = '"
-					+ url + "';\">" + statusIcon + "<div class=\"propertyicon\">" + icon + "</div>"
-					+ "<div class=\"propertyname\">" + name + "</div>" + "</div>\n";
+			row = HtmlTool.div(HtmlTool.div(icon, "class=\"propertyicon\"") + HtmlTool.div(name, "class=\"propertyname\""), "class=\"property linked_property\" "+ style + " onclick=\"document.getElementById('hidden_frame').src = '" + url + "';\"");
 		} else {
-			row = "<div class=\"property linked_property\" "+style+" onclick=\"document.getElementById('hidden_frame').src = '"
-					+ url + "';\">" + statusIcon + "<div class=\"propertyicon\">" + icon + "</div>"
-					+ "<div class=\"propertyname\">" + name + "</div>" + "<div class=\"propertyvalue\">" + value
-					+ "</div>" + "</div>\n";
+			row = HtmlTool.div(HtmlTool.div(icon, "class=\"propertyicon\"") + HtmlTool.div(name, "class=\"propertyname\"") + HtmlTool.div(value, "class=\"propertyvalue\""), "class=\"property linked_property\" "+ style + " onclick=\"document.getElementById('hidden_frame').src = '" + url + "';\"");
 		}
-		buffer.append(row);
+		add(row);
 	}
-	
+
 	/**
 	 * This function generates the code required for training agents as part of
 	 * the detailsPane. Has to be used in combination with
@@ -168,16 +178,16 @@ public class HtmlDetailsContentGenerator extends HtmlGenerator{
 	public void addDataRowTrainingButtons(String agentCode) {
 		String url = agentCode + ".train?learnstatus=";
 		String trainingCode = "";
-		trainingCode += HtmlTool.createLink(url + AgentStatus.OK.toString(),
-				HtmlTool.createImage("ok.png", "ok", 16), "hidden_frame");
+		trainingCode += HtmlTool.aLink(HtmlTool.img("ok.png", "ok"), url + AgentStatus.OK.toString(), "hidden_frame");
 		trainingCode += " ";
-		trainingCode += HtmlTool.createLink(url
-				+ AgentStatus.WARNING.toString(), HtmlTool.createImage(
-				"warning.png", "warning", 16), "hidden_frame");
+		trainingCode += HtmlTool.aLink(HtmlTool.img("warning.png", "warning"), url + AgentStatus.WARNING.toString(), "hidden_frame");
 		trainingCode += " ";
-		trainingCode += HtmlTool.createLink(url + AgentStatus.ERROR.toString(),
-				HtmlTool.createImage("error.png", "error", 16), "hidden_frame");
+		trainingCode += HtmlTool.aLink(HtmlTool.img("error.png", "error"), url + AgentStatus.ERROR.toString(), "hidden_frame");
 		addDataRow("info.png", "Provide status", trainingCode, "");
+	}
+
+	public StringBuffer generateDetailsContent() {
+		return getBuffer();
 	}
 
 }

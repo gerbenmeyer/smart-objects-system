@@ -1,6 +1,5 @@
 package util.htmltool;
 
-import java.util.HashMap;
 
 /**
  * This HtmlMapGenerator extension is used to generate the main overview page for normal browsers.
@@ -18,18 +17,10 @@ public class HtmlMapPageGenerator extends HtmlPageGenerator {
 	 */
 	public HtmlMapPageGenerator(String title, String css) {
 		super(title, css);
-
 		addToHeaderHtml(createMapScriptHeader());
-
-		addToBodyHtml(HtmlTool.createDiv("", "map_canvas"));
-		addToBodyHtml(HtmlTool.createDiv("", "menu_canvas"));
-
-		HashMap<String, String> detailsCanvasAttributes = new HashMap<String, String>();
-		detailsCanvasAttributes.put("id", "details_canvas");
-		detailsCanvasAttributes.put("name", "details_canvas");
-		detailsCanvasAttributes.put("class", "overview");
-
-		addToBodyHtml(HtmlTool.createDiv("", detailsCanvasAttributes));
-		addToBodyHtml(HtmlTool.createIFrame("hidden_frame", ""));
+		addToBodyHtml(HtmlTool.div("", "id=\"map_canvas\" name=\"map_canvas\""));
+		addToBodyHtml(HtmlTool.div("", "id=\"menu_canvas\" name=\"menu_canvas\""));
+		addToBodyHtml(HtmlTool.div("", "id=\"details_canvas\" name=\"details_canvas\" class=\"overview\""));
+		addToBodyHtml(HtmlTool.iframe("","id=\"hidden_frame\" name=\"hidden_frame\""));
 	}
 }

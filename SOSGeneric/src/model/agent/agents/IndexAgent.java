@@ -34,7 +34,7 @@ public class IndexAgent extends Agent {
 		HtmlMapPageGenerator htmlPage = new HtmlMapPageGenerator(Settings.getProperty(Settings.APPLICATION_NAME),
 				"main.css");
 
-		String header = HtmlTool.createLink(Settings.getProperty(Settings.DEFAULT_AGENT)+".map", HtmlTool.createImage(Settings.getProperty(Settings.APPLICATION_ICON), Settings.getProperty(Settings.APPLICATION_NAME)), "hidden_frame");
+		String header = HtmlTool.aLink(HtmlTool.img(Settings.getProperty(Settings.APPLICATION_ICON), Settings.getProperty(Settings.APPLICATION_NAME)), Settings.getProperty(Settings.DEFAULT_AGENT)+".map", "target=\"hidden_frame\"");
 
 		String searchForm = "";
 		searchForm += "<form style=\"margin:8px 0px;\" action=\"search.map\" method=\"get\" target=\"hidden_frame\">";
@@ -43,14 +43,11 @@ public class IndexAgent extends Agent {
 		searchForm += "<input type=\"image\" src=\"search.png\" alt=\"Search\" style=\"vertical-align:middle\"/>";
 		searchForm += "</form>";
 		
-		String versionParagraph = HtmlTool.createParagraph(Settings.getProperty(Settings.APPLICATION_VERSION)); 
+		String versionParagraph = HtmlTool.p(Settings.getProperty(Settings.APPLICATION_VERSION)); 
 			
-		HashMap<String, String> attributes = new HashMap<String, String>();
-		attributes.put("style", "float:right;text-align:right;");
-		
-		String right = HtmlTool.createDiv(searchForm + versionParagraph, attributes );
+		String right = HtmlTool.div(searchForm + versionParagraph, "style=\"float:right;text-align:right;\"" );
 
-		htmlPage.addToBodyHtml(HtmlTool.createDiv(right + header, "header_canvas"));
+		htmlPage.addToBodyHtml(HtmlTool.div(right + header, "id=\"header_canvas\""));
 
 		htmlPage.addToFinalScript("ajaxpage('menu.details','menu_canvas');");
 
@@ -67,7 +64,6 @@ public class IndexAgent extends Agent {
 		// show details enabled / disabled.
 		htmlPage.addToOnLoadScript(("parent.setDetailsSize(" + Settings.getProperty(Settings.SHOW_SMALL_DETAILS_PANE).equals("true")) + ");\n");
 
-		// HtmlTool.outputHTML(Settings.HTML_DATA_DIR + "index.html", html);
-		return HtmlTool.createHTML(htmlPage.getHtml());
+		return htmlPage.generatePage();
 	}
 }
