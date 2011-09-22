@@ -34,7 +34,6 @@ public class HtmlTool {
 	 */
 	public static String aLink(String content, String href, String optionalAttributes) {
 		String attributes = "href=\"" + href + "\" " + optionalAttributes;
-		content = convertToHtml(content);
 		return tagify("a", content, attributes.trim());
 	}
 
@@ -111,7 +110,6 @@ public class HtmlTool {
 	 * @return HTML code of the tag
 	 */
 	public static String h1(String content, String optionalAttributes) {
-		content = convertToHtml(content);
 		return tagify("h1", content, optionalAttributes.trim());
 	}
 
@@ -133,7 +131,6 @@ public class HtmlTool {
 	 * @return HTML code of the tag
 	 */
 	public static String h2(String content, String optionalAttributes) {
-		content = convertToHtml(content);
 		return tagify("h2", content, optionalAttributes.trim());
 	}
 
@@ -155,7 +152,6 @@ public class HtmlTool {
 	 * @return HTML code of the tag
 	 */
 	public static String h3(String content, String optionalAttributes) {
-		content = convertToHtml(content);
 		return tagify("h3", content, optionalAttributes.trim());
 	}
 
@@ -223,7 +219,6 @@ public class HtmlTool {
 	 * @return HTML code of the tag
 	 */
 	public static String p(String content, String optionalAttributes) {
-		content = convertToHtml(content);
 		return tagify("p", content, optionalAttributes.trim());
 	}
 
@@ -281,7 +276,6 @@ public class HtmlTool {
 	 * @return HTML code of the tag
 	 */
 	public static String th(String content, String optionalAttributes) {
-		content = convertToHtml(content);
 		return tagify("th", content, optionalAttributes.trim());
 	}
 
@@ -303,7 +297,6 @@ public class HtmlTool {
 	 * @return HTML code of the tag
 	 */
 	public static String td(String content, String optionalAttributes) {
-		content = convertToHtml(content);
 		return tagify("td", content, optionalAttributes.trim());
 	}
 
@@ -325,7 +318,6 @@ public class HtmlTool {
 	 * @return HTML code of the tag
 	 */
 	public static String span(String content, String optionalAttributes) {
-		content = convertToHtml(content);
 		return tagify("span", content, optionalAttributes.trim());
 	}
 
@@ -347,7 +339,6 @@ public class HtmlTool {
 	 * @return HTML code of the tag
 	 */
 	public static String title(String content, String optionalAttributes) {
-		content = convertToHtml(content);
 		return tagify("title", content, optionalAttributes.trim());
 	}
 
@@ -532,7 +523,78 @@ public class HtmlTool {
 	private static String tagify(String tagname, String attributes) {
 		return "<" + tagname + (attributes.isEmpty() ? "" : " ") + attributes + " />";
 	}
-	
+
+	/**
+	 * Encodes a text to HTML compatible text.
+	 * 
+	 * @param text
+	 *            the text to encode
+	 * @return the encoded text
+	 */
+	public static String encodeHtml(String text) {
+		if (text == null) {
+			return null;
+		}
+		text = text.replaceAll("\n", " ");
+		text = HTMLEntities.htmlentities(text);
+		return text;
+	}
+
+	/**
+	 * Decodes a HTML compatible text.
+	 * 
+	 * @param text
+	 *            the text to decode
+	 * @return the decoded text
+	 */
+	public static String decodeHtml(String text) {
+		if (text == null) {
+			return null;
+		}
+		return HTMLEntities.unhtmlentities(text);
+	}
+
+	/**
+	 * Encodes a text to HTML compatible text, including &gt;, &lt;, en quotes.
+	 * 
+	 * @param text
+	 *            the text to encode
+	 * @return the encoded text
+	 */
+	public static String encodeHtmlComponent(String text) {
+		if (text == null) {
+			return null;
+		}
+		text = text.replace("\n", " ");
+		text = HTMLEntities.htmlentities(text);
+		text = HTMLEntities.htmlAngleBrackets(text);
+		text = HTMLEntities.htmlQuotes(text);
+		text = text.replace("\\", "&#92;");
+		return text;
+	}
+
+	/**
+	 * Decodes a HTML compatible text, including &gt;, &lt;, en quotes.
+	 * 
+	 * @param text
+	 *            the text to decode
+	 * @return the decoded text
+	 */
+	public static String decodeHtmlComponent(String text) {
+		if (text == null) {
+			return null;
+		}
+		text = text.replace("&#92;", "\\");
+		text = HTMLEntities.unhtmlQuotes(text);
+		text = HTMLEntities.unhtmlAngleBrackets(text);
+		text = HTMLEntities.unhtmlentities(text);
+		return text;
+	}
+
+	/*
+	 * DEPRECATED FROM HERE
+	 */
+
 	/**
 	 * Converts text to HTML compatible text, inserting HTML entities where
 	 * necessary.
@@ -541,16 +603,13 @@ public class HtmlTool {
 	 *            the input text
 	 * @return the HTML compatible output
 	 */
+	@Deprecated
 	public static String convertToHtml(String text) {
 		if (text == null) {
 			return null;
 		}
 		return HTMLEntities.htmlentities(text.replaceAll("\n", " "));
 	}
-
-	/*
-	 * DEPRECATED FROM HERE
-	 */
 
 	/**
 	 * Same as {@link #encapsulate(StringBuffer, String, HashMap)}, but requires
