@@ -41,8 +41,8 @@ public class HtmlDetailsContentGenerator extends HtmlGenerator {
 	 *            the value of the data
 	 */
 	public void addDataHeader(String icon, String name, String value) {
-		name = HtmlTool.convertToHtml(name);
-		value = HtmlTool.convertToHtml(value);
+		name = HtmlTool.encodeHtmlComponent(name);
+		value = HtmlTool.encodeHtmlComponent(value);
 		if (icon.endsWith(".png")) {
 			icon = HtmlTool.img(icon, icon);
 		}
@@ -82,8 +82,8 @@ public class HtmlDetailsContentGenerator extends HtmlGenerator {
 	 *            the status icon
 	 */
 	public void addDataRow(String icon, String name, String value, String statusIcon) {
-		name = HtmlTool.convertToHtml(name);
-		value = HtmlTool.convertToHtml(value);		
+		name = HtmlTool.encodeHtmlComponent(name);
+		value = HtmlTool.encodeHtmlComponent(value);		
 		if (icon.endsWith(".png")) {
 			icon = HtmlTool.img(icon, icon);
 		}
@@ -151,8 +151,8 @@ public class HtmlDetailsContentGenerator extends HtmlGenerator {
 	 *            the url to link to
 	 */
 	public void addDataRowLink(String icon, String name, String value, String statusIcon, String url, String style) {
-		name = HtmlTool.convertToHtml(name);
-		value = HtmlTool.convertToHtml(value);		
+		name = HtmlTool.encodeHtmlComponent(name);
+		value = HtmlTool.encodeHtmlComponent(value);		
 		if (icon.endsWith(".png")) {
 			icon = HtmlTool.img(icon, icon);
 		}

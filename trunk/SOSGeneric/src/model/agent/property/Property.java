@@ -13,11 +13,10 @@ import model.agent.property.properties.TextProperty;
 import model.agent.property.properties.TimeProperty;
 import model.agent.property.properties.TimeWindowProperty;
 import util.enums.PropertyType;
+import util.htmltool.HtmlTool;
 import util.xmltool.KeyData;
 import util.xmltool.KeyDataVector;
 import util.xmltool.XMLTool;
-
-import com.tecnick.htmlutils.htmlentities.HTMLEntities;
 
 /**
  * An abstract class for holding and creating properties of an Agent. All
@@ -124,21 +123,9 @@ public abstract class Property {
 		properties.add(new KeyData("Name", this.getName()));
 
 		String value = this.toString();
-		// try {
-		// value = URLEncoder.encode(value,"UTF-8");
-		// } catch (UnsupportedEncodingException e1) {
-		// e1.printStackTrace();
-		// }
-		// value = HTMLEntities.htmlQuotes(value);
 		value = value.replaceAll("\n", "<newline/>");
-		value = HTMLEntities.htmlentities(value);
-		value = HTMLEntities.htmlQuotes(value);
-		value = HTMLEntities.htmlAngleBrackets(value);
-		// try {
-		// value = URLDecoder.decode(value,"UTF-8");
-		// } catch (UnsupportedEncodingException e) {
-		// e.printStackTrace();
-		// }
+		value = HtmlTool.encodeHtmlComponent(value);
+		
 		properties.add(new KeyData("Value", value));
 
 		properties.add(new KeyData("Hidden", Boolean.toString(this.isHidden())));
@@ -158,11 +145,12 @@ public abstract class Property {
 		KeyDataVector properties = XMLTool.XMLToProperties(xml);
 		String type = properties.getValue("Type");
 		String name = properties.getValue("Name");
+		
 		String value = properties.getValue("Value");
-		value = HTMLEntities.unhtmlAngleBrackets(value);
-		value = HTMLEntities.unhtmlQuotes(value);
-		value = HTMLEntities.unhtmlentities(value);
+		
+		value = HtmlTool.decodeHtmlComponent(value);
 		value = value.replaceAll("<newline/>", "\n");
+		
 		boolean hidden = Boolean.parseBoolean(properties.getValue("Hidden"));
 		Property p = null;
 		try {
