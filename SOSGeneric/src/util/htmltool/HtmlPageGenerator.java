@@ -75,23 +75,23 @@ public class HtmlPageGenerator extends HtmlGenerator {
 		String bodyAttributes = "onload=\"load();"+onLoadScript.toString()+"\"";
 
 		StringBuffer head = new StringBuffer(headerHtml);
+		head.append("<meta http-equiv=\"X-UA-Compatible\" content=\"IE=edge\" />");
 		
 		String analyticsKey = Settings.getProperty(Settings.GOOGLE_ANALYTICS_KEY);
 		if (analyticsKey != null) {
-			StringBuffer analyticsScript = new StringBuffer("var _gaq = _gaq || []; _gaq.push(['_setAccount', '"+analyticsKey+"']); _gaq.push(['_trackPageview']);"
+			head.append(HtmlTool.script("var _gaq = _gaq || []; _gaq.push(['_setAccount', '"+analyticsKey+"']); _gaq.push(['_trackPageview']);"
 					+ "(function() {"
 					+ "var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;"
 					+ "ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';"
 					+ "var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);"
-					+ "})();");
-			finalScript.append(analyticsScript);
+					+ "})();"));
 		}
 		
 		body.append(HtmlTool.script(finalScript.toString()));
 		
 		if (title != null && !title.isEmpty()) head.insert(0, HtmlTool.title(title));
 		if (css != null && !css.isEmpty()) head.insert(0, HtmlTool.linkCss(css));
-		head.append("<meta http-equiv=\"X-UA-Compatible\" content=\"IE=edge\" />");
+		
 		return HtmlTool.html(HtmlTool.head(head), HtmlTool.body(body,bodyAttributes));
 	}
 	
