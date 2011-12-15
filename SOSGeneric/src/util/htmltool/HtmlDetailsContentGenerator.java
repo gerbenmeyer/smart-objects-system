@@ -178,12 +178,13 @@ public class HtmlDetailsContentGenerator extends HtmlGenerator {
 	public void addDataRowTrainingButtons(String agentCode) {
 		String url = agentCode + ".train?learnstatus=";
 		String trainingCode = "";
-		trainingCode += HtmlTool.aLink(HtmlTool.img("ok.png", "ok"), url + AgentStatus.OK.toString(), "hidden_frame");
+		trainingCode += HtmlTool.aLink(HtmlTool.img("ok.png", "ok"), url + AgentStatus.OK.toString(), "target=\"hidden_frame\"");
 		trainingCode += " ";
-		trainingCode += HtmlTool.aLink(HtmlTool.img("warning.png", "warning"), url + AgentStatus.WARNING.toString(), "hidden_frame");
+		trainingCode += HtmlTool.aLink(HtmlTool.img("warning.png", "warning"), url + AgentStatus.WARNING.toString(), "target=\"hidden_frame\"");
 		trainingCode += " ";
-		trainingCode += HtmlTool.aLink(HtmlTool.img("error.png", "error"), url + AgentStatus.ERROR.toString(), "hidden_frame");
-		addDataRow("info.png", "Provide status", trainingCode, "");
+		trainingCode += HtmlTool.aLink(HtmlTool.img("error.png", "error"), url + AgentStatus.ERROR.toString(), "target=\"hidden_frame\"");
+		String row = HtmlTool.div(HtmlTool.div(HtmlTool.img("info.png", "info"), "class=\"propertyicon\"") + HtmlTool.div("Provide status", "class=\"propertyname\"") + HtmlTool.div(trainingCode, "class=\"propertyvalue\""), "class=\"property\"");
+		add(row);
 	}
 
 	public StringBuffer generateDetailsContent() {
