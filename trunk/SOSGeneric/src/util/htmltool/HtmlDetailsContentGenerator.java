@@ -92,9 +92,9 @@ public class HtmlDetailsContentGenerator extends HtmlGenerator {
 		}
 		String row = "";
 		if (value == null || value.isEmpty()) {
-			row = HtmlTool.div(HtmlTool.div(icon, "class=\"propertyicon\"") + HtmlTool.div(name, "class=\"propertyname\""), "class=\"property\"");
+			row = HtmlTool.div(statusIcon + HtmlTool.div(icon, "class=\"propertyicon\"") + HtmlTool.div(name, "class=\"propertyname\""), "class=\"property\"");
 		} else {
-			row = HtmlTool.div(HtmlTool.div(icon, "class=\"propertyicon\"") + HtmlTool.div(name, "class=\"propertyname\"") + HtmlTool.div(value, "class=\"propertyvalue\""), "class=\"property\"");
+			row = HtmlTool.div(statusIcon + HtmlTool.div(icon, "class=\"propertyicon\"") + HtmlTool.div(name, "class=\"propertyname\"") + HtmlTool.div(value, "class=\"propertyvalue\""), "class=\"property\"");
 		}
 		add(row);
 	}
@@ -161,9 +161,9 @@ public class HtmlDetailsContentGenerator extends HtmlGenerator {
 		}
 		String row = "";
 		if (value == null || value.isEmpty()) {
-			row = HtmlTool.div(HtmlTool.div(icon, "class=\"propertyicon\"") + HtmlTool.div(name, "class=\"propertyname\""), "class=\"property linked_property\" "+ style + " onclick=\"document.getElementById('hidden_frame').src = '" + url + "';\"");
+			row = HtmlTool.div(statusIcon + HtmlTool.div(icon, "class=\"propertyicon\"") + HtmlTool.div(name, "class=\"propertyname\""), "class=\"property linked_property\" "+ style + " onclick=\"document.getElementById('hidden_frame').src = '" + url + "';\"");
 		} else {
-			row = HtmlTool.div(HtmlTool.div(icon, "class=\"propertyicon\"") + HtmlTool.div(name, "class=\"propertyname\"") + HtmlTool.div(value, "class=\"propertyvalue\""), "class=\"property linked_property\" "+ style + " onclick=\"document.getElementById('hidden_frame').src = '" + url + "';\"");
+			row = HtmlTool.div(statusIcon + HtmlTool.div(icon, "class=\"propertyicon\"") + HtmlTool.div(name, "class=\"propertyname\"") + HtmlTool.div(value, "class=\"propertyvalue\""), "class=\"property linked_property\" "+ style + " onclick=\"document.getElementById('hidden_frame').src = '" + url + "';\"");
 		}
 		add(row);
 	}
