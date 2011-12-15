@@ -7,7 +7,6 @@ import java.util.Vector;
 import util.enums.AgentStatus;
 import util.enums.PropertyType;
 import util.htmltool.HtmlDetailsContentGenerator;
-import util.htmltool.HtmlGenerator;
 import util.htmltool.HtmlMapBalloonContentGenerator;
 import util.htmltool.HtmlMapContentGenerator;
 
@@ -121,5 +120,5 @@ public interface AgentViewable {
 	 * @param content the generator which can be used for a result
 	 * @param params the request parameters
 	 */
-	public void teachStatus(HtmlGenerator content, HashMap<String,String> params);	
+	public void teachStatus(HtmlMapContentGenerator content, HashMap<String,String> params);	
 }

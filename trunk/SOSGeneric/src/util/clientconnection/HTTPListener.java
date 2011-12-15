@@ -17,7 +17,6 @@ import model.agent.AgentViewable;
 import model.agent.agents.IndexAgent;
 import model.agent.collection.AgentCollectionViewable;
 import util.htmltool.HtmlDetailsContentGenerator;
-import util.htmltool.HtmlGenerator;
 import util.htmltool.HtmlMapBalloonContentGenerator;
 import util.htmltool.HtmlMapContentGenerator;
 import util.htmltool.HtmlTool;
@@ -237,9 +236,9 @@ public class HTTPListener implements HttpHandler {
 					av.generateMapContent(mapContent, params);
 					html = mapContent.generateMapContent();
 				} else if (extension.equals("train")) {
-					HtmlGenerator content = new HtmlGenerator();
-					av.teachStatus(content, params);
-					html = HtmlTool.html(HtmlTool.head(content.getBuffer()), new StringBuffer()); //TODO: Not a pretty solution 
+					HtmlMapContentGenerator mapContent = new HtmlMapContentGenerator(agentCode);
+					av.teachStatus(mapContent, params);
+					html = mapContent.generateMapContent(); 
 				} else if (extension.equals("balloon")) {
 					HtmlMapBalloonContentGenerator balloonContentGen = new HtmlMapBalloonContentGenerator();
 					av.generateMapBalloonContent(balloonContentGen, params);

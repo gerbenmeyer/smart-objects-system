@@ -31,7 +31,7 @@ public class HtmlMapContentGenerator extends HtmlGenerator {
 		HashMap<String, String> scriptAttr = new HashMap<String, String>();
 		scriptAttr.put("type", "text/javascript");
 
-		StringBuffer headcontent = new StringBuffer(createMapScriptHeader());
+		StringBuffer headcontent = new StringBuffer();
 		// headcontent.append("<META HTTP-EQUIV=\"Refresh\" CONTENT=\"300\" />\n");
 		insert("var p = parent;");
 		

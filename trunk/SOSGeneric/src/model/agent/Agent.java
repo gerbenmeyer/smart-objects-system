@@ -16,7 +16,6 @@ import model.agent.property.properties.HistoryProperty;
 import util.enums.AgentStatus;
 import util.enums.PropertyType;
 import util.htmltool.HtmlDetailsContentGenerator;
-import util.htmltool.HtmlGenerator;
 import util.htmltool.HtmlMapBalloonContentGenerator;
 import util.htmltool.HtmlMapContentGenerator;
 import util.htmltool.HtmlTool;
@@ -125,7 +124,7 @@ public abstract class Agent implements AgentMutable {
 	 */
 	protected void act() throws Exception {}
 
-	public void teachStatus(HtmlGenerator content, HashMap<String,String> params) {
+	public void teachStatus(HtmlMapContentGenerator content, HashMap<String,String> params) {
 		if (!Settings.getProperty(Settings.AGENT_PROBLEM_LEARNING_ENABLED)
 				.equals(Boolean.toString(true))) {
 			content.add("alert('Training of agents is disabled!');");

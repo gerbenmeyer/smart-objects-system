@@ -92,7 +92,7 @@ public class WeatherAgent extends Agent {
 		detailsPane.addDataRow(description.getIcon(), description.getName(), description.toInformativeString());
 
 		// add a link to the data source
-		detailsPane.addDataRow("", "Source", HtmlTool.aLink(get("URL"), get("URL"),  "target=\"_blank\""));
+		detailsPane.addDataRow("", "Source", get("URL"));
 
 	}
 }
