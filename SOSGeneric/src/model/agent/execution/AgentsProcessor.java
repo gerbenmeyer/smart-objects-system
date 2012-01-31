@@ -16,7 +16,7 @@ import model.agent.collection.AgentCollection;
 public class AgentsProcessor implements Runnable {
 
 	private static int maxProcessingTimeMillis = 10000;
-	private static int delayMilliseconds = 100;
+	private static int delayMilliseconds = 50;
 	private long agentExecutionEnabledFromTimeStampInMillis = 0;
 	private boolean paused = false;
 	
