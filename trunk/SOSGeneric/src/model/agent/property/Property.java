@@ -6,6 +6,7 @@ import model.agent.AgentViewable;
 import model.agent.property.properties.BooleanProperty;
 import model.agent.property.properties.DependenciesProperty;
 import model.agent.property.properties.HistoryProperty;
+import model.agent.property.properties.IntegerProperty;
 import model.agent.property.properties.LocationProperty;
 import model.agent.property.properties.NumberProperty;
 import model.agent.property.properties.StatusProperty;
@@ -194,6 +195,9 @@ public abstract class Property {
 		case NUMBER:
 			p = new NumberProperty(name);
 			break;
+		case INTEGER:
+			p = new IntegerProperty(name);
+			break;			
 		case TEXT:
 			p = new TextProperty(name);
 			break;

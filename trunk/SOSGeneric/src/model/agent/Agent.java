@@ -194,6 +194,14 @@ public abstract class Agent implements AgentMutable {
 	public void generateDetailsContent(
 			HtmlDetailsContentGenerator detailsPane,
 			HashMap<String, String> params){
+		detailsPane.addAgentHeader(this);
+		for (String key: getPropertiesKeySet()){
+			Property p = getProperty(key);
+			if (!p.isHidden()){
+				detailsPane.addDataRow(p.getIcon(), key, p.toInformativeString());
+			}
+		}
+		
 	}
 	
 	public void generateMapBalloonContent(HtmlMapBalloonContentGenerator balloonContent, HashMap<String,String> params) {
@@ -404,6 +412,12 @@ public abstract class Agent implements AgentMutable {
 		Property p = Property.createProperty(pt, name, value);
 		if (p != null){
 			putProperty(p);
+		}
+	}
+	
+	public void init(PropertyType pt, String name, String value) {
+		if (get(name).isEmpty()) {
+			set(pt,name,value);
 		}
 	}
 
