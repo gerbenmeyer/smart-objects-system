@@ -94,7 +94,7 @@ public class MySQLConnection {
 				} else if (tableName.equals("properties")) {
 					sql = "CREATE TABLE IF NOT EXISTS `properties` ("
 						+ "  `agent_id` varchar(32) NOT NULL,"
-						+ "  `type` enum('UNKNOWN','BOOLEAN','NUMBER','TEXT','TIME','TIMEWINDOW','LOCATION','STATUS','DEPENDENCIES','HISTORY') NOT NULL,"
+						+ "  `type` enum('UNKNOWN','BOOLEAN','INTEGER','NUMBER','TEXT','TIME','TIMEWINDOW','LOCATION','STATUS','DEPENDENCIES','HISTORY') NOT NULL,"
 						+ "  `name` varchar(32) NOT NULL,"
 						+ "  `value` longtext NOT NULL,"
 						+ "  PRIMARY KEY (`agent_id`,`name`),"
