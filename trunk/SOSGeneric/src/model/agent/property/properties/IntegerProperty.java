@@ -19,7 +19,7 @@ public class IntegerProperty extends Property {
 	 * @param name the name
 	 */
 	public IntegerProperty(String name) {
-		super(name,PropertyType.NUMBER);
+		super(name,PropertyType.INTEGER);
 	}
 
 	/**
