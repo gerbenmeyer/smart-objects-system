@@ -32,9 +32,10 @@ public class Settings {
 	public final static String GOOGLE_ANALYTICS_KEY = "google_analytics_key";
 	
 	// AGENT SETTINGS
+	public final static String AGENT_EXECUTION_PRIORITY = "agent_execution_priority";
 	public final static String PAUSE_AGENT_EXECUTION_WHEN_PUTTING_AGENTS = "pause_agent_execution_when_putting_agents";
 	public final static String AGENT_PROBLEM_DETECTION_ENABLED = "agent_problem_detection_enabled";
-	public final static String AGENT_PROBLEM_LEARNING_ENABLED = "agent_problem_learning_enabled";	
+	public final static String AGENT_PROBLEM_LEARNING_ENABLED = "agent_problem_learning_enabled";
 	
 	// DATABASE SETUP
 	public final static String DATABASE_HOST = "database_host";

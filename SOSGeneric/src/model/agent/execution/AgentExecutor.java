@@ -54,6 +54,16 @@ public class AgentExecutor extends Thread {
 	}
 
 	/**
+	 * Gets the agent to be executed
+	 * 
+	 * @param agent
+	 *            the agent to be executed.
+	 */
+	public Agent getAgent() {
+		return agent;
+	}
+
+	/**
 	 * Returns whether the execution of this agent is finished.
 	 * 
 	 * @return whether this AgentExecutor is finished.
@@ -75,7 +85,7 @@ public class AgentExecutor extends Thread {
 		long delay = 0;
 
 		synchronized (this) {
-			while (!done && !interrupted) {
+			if (!done && !interrupted) {
 				delay = timeOut - (System.currentTimeMillis() - base);
 				if (delay <= 0) {
 					if (DEBUG)

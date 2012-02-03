@@ -2,6 +2,7 @@ package model.agent.property;
 
 import java.text.Normalizer;
 
+import main.SOSServer;
 import model.agent.AgentViewable;
 import model.agent.property.properties.BooleanProperty;
 import model.agent.property.properties.DependenciesProperty;
@@ -227,8 +228,7 @@ public abstract class Property {
 			try {
 				p.parseString(value);
 			} catch (Exception e) {
-//				System.err.println("Unknown property value for " + p.getPropertyType() + ": " + value);
-//				e.printStackTrace();
+				SOSServer.getDevLogger().warning("Unknown property value for " + p.getPropertyType() + ": " + value);
 				return null;
 			}
 		}

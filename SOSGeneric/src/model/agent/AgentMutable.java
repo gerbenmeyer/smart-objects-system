@@ -44,6 +44,35 @@ public interface AgentMutable extends AgentViewable {
 	public void set(PropertyType pt, String name, String value);
 	
 	/**
+	 * Sets a text property for this Agent.
+	 * 
+	 * @param name
+	 *            the name of the property
+	 * @param value
+	 *            the value of the property
+	 */
+	public void setText(String name, String value);
+	/**
+	 * Sets an integer property for this Agent.
+	 * 
+	 * @param name
+	 *            the name of the property
+	 * @param value
+	 *            the value of the property
+	 */
+	public void setInt(String name, int value);
+	/**
+	 * Sets a number property for this Agent.
+	 * 
+	 * @param name
+	 *            the name of the property
+	 * @param value
+	 *            the value of the property
+	 */
+	public void setDouble(String name, double value);	
+	
+	
+	/**
 	 * Initializes the property for this Agent.
 	 * 
 	 * @param pt

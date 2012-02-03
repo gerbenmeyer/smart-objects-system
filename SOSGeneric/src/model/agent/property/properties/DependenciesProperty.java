@@ -137,6 +137,16 @@ public class DependenciesProperty extends Property {
 		// getHistory().update(this);
 		return list.remove(id);
 	}
+	
+	/**
+	 * Returns whether the dependencies contains an identifier.
+	 * 
+	 * @param id the identifier
+	 * @return contains
+	 */
+	public boolean containsID(String id) {
+		return list.contains(id);
+	}
 
 	@Override
 	public String toString() {
@@ -174,6 +184,9 @@ public class DependenciesProperty extends Property {
 
 	@Override
 	public void parseString(String str) {
+		if (str.isEmpty()){
+			return;
+		}
 		list = new Vector<String>();
 		String[] values = str.split(";");
 		drawOnMap.parseString(values[0]);

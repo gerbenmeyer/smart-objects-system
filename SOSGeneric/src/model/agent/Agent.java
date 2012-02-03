@@ -321,12 +321,12 @@ public abstract class Agent implements AgentMutable {
 	}
 
 	public void delete() {
-		if (AgentCollectionStorage.getInstance() != null){
-			AgentCollectionStorage.getInstance().delete(getID());
-		}
-		if (AgentStorage.getInstance() != null) {
-			AgentStorage.getInstance().delete(getID());
-		}
+		set(PropertyType.BOOLEAN,"markedForDeletion",Boolean.toString(true));
+		save();
+	}
+	
+	public boolean isMarkedForDeletion() {
+		return get("markedForDeletion").equals(Boolean.toString(true));
 	}
 
 	public String getArffAttributesString() {
@@ -407,12 +407,40 @@ public abstract class Agent implements AgentMutable {
 		}
 		return "";
 	}
+	
+	public int getInt(String name) {
+		String value = get(name);
+		if (value.isEmpty()){
+			return 0;
+		}
+		return Integer.parseInt(value);
+	}
+	
+	public double getDouble(String name) {
+		String value = get(name);
+		if (value.isEmpty()){
+			return 0.0;
+		}
+		return Double.parseDouble(value);
+	}
 
 	public void set(PropertyType pt, String name, String value) {
 		Property p = Property.createProperty(pt, name, value);
 		if (p != null){
 			putProperty(p);
 		}
+	}
+	
+	public void setText(String name, String value){
+		set(PropertyType.TEXT,name,value);
+	}
+	
+	public void setInt(String name, int value){
+		set(PropertyType.INTEGER,name,Integer.toString(value));
+	}
+	
+	public void setDouble(String name, double value){
+		set(PropertyType.NUMBER,name,Double.toString(value));
 	}
 	
 	public void init(PropertyType pt, String name, String value) {
