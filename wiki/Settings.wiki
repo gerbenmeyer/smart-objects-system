@@ -56,6 +56,10 @@ SOS uses the Google Maps v3 API by default to look up addresses. When this becom
 
 == Agent settings ==
 
+*_agent_execution_priority_* = (low/normal/high)
+
+Set the priority of the agent execution. A higher priority will increase the CPU load.
+
 *_pause_agent_execution_when_putting_agents_* = (boolean)
 
 If set to true, agents will be paused from execution when agents are added or modified.
