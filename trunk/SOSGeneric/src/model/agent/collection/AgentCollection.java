@@ -125,7 +125,7 @@ public class AgentCollection implements AgentCollectionMutable {
 		return agents;
 	}
 
-	public boolean delete(Agent agent) {
-		return AgentCollectionStorage.getInstance().delete(agent.getID());
+	public void delete(Agent agent) {
+		agent.delete();
 	}
 }

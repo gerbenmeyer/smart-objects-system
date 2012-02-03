@@ -175,9 +175,9 @@ public class RemoteAgentCollection implements AgentCollectionMutable {
 	}
 
 	@Override
-	public boolean delete(Agent agent) {
+	public void delete(Agent agent) {
 		// TODO Auto-generated method stub
-		return false;
+		return;
 	}
 
 	@Override

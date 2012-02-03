@@ -161,6 +161,9 @@ public class LocationProperty extends Property {
 
 	@Override
 	public void parseString(String str) {
+		if (str.isEmpty()){
+			return;
+		}
 		String[] split = str.split(seperator);
 		this.addressName = Capitalize.capitalizeLine(split[0].trim());
 		this.address = split[1].trim();

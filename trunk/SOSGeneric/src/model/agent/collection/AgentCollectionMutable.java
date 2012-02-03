@@ -16,6 +16,7 @@ public interface AgentCollectionMutable extends AgentCollectionViewable {
 	 * 
 	 * @param agent the Agent to be removed from the collection
 	 */
-	public boolean delete(Agent agent);
+	@Deprecated
+	public void delete(Agent agent);
 	
 }

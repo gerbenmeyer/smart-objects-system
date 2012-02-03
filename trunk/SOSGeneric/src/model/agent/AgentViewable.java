@@ -42,6 +42,20 @@ public interface AgentViewable {
 	 */
 	public String get(String name);
 	/**
+	 * Get the value of a certain property of this agent parsed to an Integer value.
+	 * 
+	 * @param name the name of the property
+	 * @return the value
+	 */
+	public int getInt(String name);
+	/**
+	 * Get the value of a certain property of this agent parsed to a Double value.
+	 * 
+	 * @param name the name of the property
+	 * @return the value
+	 */
+	public double getDouble(String name);	
+	/**
 	 * Get the humanly readable representation of a certain property of this agent.
 	 * 
 	 * @param name the name of the property
