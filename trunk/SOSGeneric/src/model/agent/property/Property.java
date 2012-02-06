@@ -10,6 +10,7 @@ import model.agent.property.properties.HistoryProperty;
 import model.agent.property.properties.IntegerProperty;
 import model.agent.property.properties.LocationProperty;
 import model.agent.property.properties.NumberProperty;
+import model.agent.property.properties.ObjectProperty;
 import model.agent.property.properties.StatusProperty;
 import model.agent.property.properties.TextProperty;
 import model.agent.property.properties.TimeProperty;
@@ -220,6 +221,9 @@ public abstract class Property {
 		case HISTORY:
 			p = new HistoryProperty(name);
 			break;
+		case OBJECT:
+			p = new ObjectProperty(name);
+			break;			
 		default:
 			System.err.println("Unknown property type: " + type);
 			break;

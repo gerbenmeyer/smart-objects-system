@@ -18,9 +18,8 @@ import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
 import org.xml.sax.InputSource;
 
+import util.HTMLEntities;
 import util.enums.PropertyType;
-
-import com.tecnick.htmlutils.htmlentities.HTMLEntities;
 
 public class WeatherXMLParser {
 	

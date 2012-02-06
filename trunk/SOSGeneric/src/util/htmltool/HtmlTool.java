@@ -2,7 +2,7 @@ package util.htmltool;
 
 import java.util.HashMap;
 
-import com.tecnick.htmlutils.htmlentities.HTMLEntities;
+import util.HTMLEntities;
 
 /**
  * A support class with static methods which generate basic HTML elements and

@@ -1,5 +1,6 @@
 package model.agent;
 
+import java.io.Serializable;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -62,6 +63,16 @@ public interface AgentMutable extends AgentViewable {
 	 */
 	public void setInt(String name, int value);
 	/**
+	 * Sets an object property for this Agent.
+	 * 
+	 * @param name
+	 *            the name of the property
+	 * @param value
+	 *            the value of the property
+	 */
+	public void setObject(String name, Serializable value);	
+	
+	/**
 	 * Sets a number property for this Agent.
 	 * 
 	 * @param name
@@ -69,7 +80,7 @@ public interface AgentMutable extends AgentViewable {
 	 * @param value
 	 *            the value of the property
 	 */
-	public void setDouble(String name, double value);	
+	public void setDouble(String name, double value);		
 	
 	
 	/**
