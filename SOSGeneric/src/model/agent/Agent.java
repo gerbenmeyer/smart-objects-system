@@ -1,5 +1,6 @@
 package model.agent;
 
+import java.io.Serializable;
 import java.util.Collections;
 import java.util.HashMap;
 import java.util.HashSet;
@@ -13,6 +14,7 @@ import model.agent.classification.ClassifierCollection;
 import model.agent.property.Property;
 import model.agent.property.properties.DependenciesProperty;
 import model.agent.property.properties.HistoryProperty;
+import model.agent.property.properties.ObjectProperty;
 import util.enums.AgentStatus;
 import util.enums.PropertyType;
 import util.htmltool.HtmlDetailsContentGenerator;
@@ -423,6 +425,14 @@ public abstract class Agent implements AgentMutable {
 		}
 		return Double.parseDouble(value);
 	}
+	
+	public Object getObject(String name) {
+		String value = get(name);
+		if (value.isEmpty()){
+			return null;
+		}
+		return ObjectProperty.objectFromString(value);
+	}
 
 	public void set(PropertyType pt, String name, String value) {
 		Property p = Property.createProperty(pt, name, value);
@@ -441,6 +451,10 @@ public abstract class Agent implements AgentMutable {
 	
 	public void setDouble(String name, double value){
 		set(PropertyType.NUMBER,name,Double.toString(value));
+	}
+	
+	public void setObject(String name, Serializable value){
+		set(PropertyType.OBJECT,name,ObjectProperty.objectToString(value));
 	}
 	
 	public void init(PropertyType pt, String name, String value) {

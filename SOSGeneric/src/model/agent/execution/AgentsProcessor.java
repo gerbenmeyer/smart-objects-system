@@ -12,6 +12,7 @@ import main.Settings;
 import model.agent.Agent;
 import model.agent.AgentViewable;
 import model.agent.collection.AgentCollection;
+import model.messageboard.MessageBoard;
 
 /**
  * The AgentsProcessor controls the processing of agents.
@@ -37,32 +38,20 @@ public class AgentsProcessor implements Runnable {
 		instance = this;
 
 		String priority = Settings.getProperty(Settings.AGENT_EXECUTION_PRIORITY);
-		
-		executors.add(new AgentExecutor(delayMilliseconds));
 
-		if (priority != null) {
-			if (priority.equals("low")) {
-				delayMilliseconds = 100;
-				System.out.println("Agent execution priorty: low");
-			} else if (priority.equals("high")) {
-				delayMilliseconds = 0;
-				executors.add(new AgentExecutor(delayMilliseconds));
-				executors.add(new AgentExecutor(delayMilliseconds));
-				executors.add(new AgentExecutor(delayMilliseconds));
-				executors.add(new AgentExecutor(delayMilliseconds));
-				executors.add(new AgentExecutor(delayMilliseconds));
-				executors.add(new AgentExecutor(delayMilliseconds));
-				executors.add(new AgentExecutor(delayMilliseconds));
-				System.out.println("Agent execution priorty: high");
-			} else {
-				executors.add(new AgentExecutor(delayMilliseconds));
-				executors.add(new AgentExecutor(delayMilliseconds));
-				executors.add(new AgentExecutor(delayMilliseconds));
-				executors.add(new AgentExecutor(delayMilliseconds));				
-				System.out.println("Agent execution priorty: normal");
+		if (priority.equals("normal")) {
+			delayMilliseconds = 50;
+			for (int i = 0; i < 4; i++){
+				executors.add(new AgentExecutor(delayMilliseconds));	
+			}
+		} else if (priority.equals("high")) {
+			delayMilliseconds = 0;
+			for (int i = 0; i < 8; i++){
+				executors.add(new AgentExecutor(delayMilliseconds));	
 			}
 		} else {
-			System.out.println("Agent execution priorty: not set");
+			delayMilliseconds = 100;
+			executors.add(new AgentExecutor(delayMilliseconds));
 		}
 
 		(new Thread(this)).start();
@@ -120,6 +109,16 @@ public class AgentsProcessor implements Runnable {
 					startTime = System.currentTimeMillis();
 				}
 			}
+			
+			
+			if (startTime + 60000 <= new GregorianCalendar().getTimeInMillis()){
+				long diff = System.currentTimeMillis() - startTime;
+				long agentsPerMinute = agentsProcessed / (diff / 60000);
+				System.out.println("Average execution speed: " + agentsPerMinute + " agents/min");
+				agentsProcessed = 0;
+				startTime = System.currentTimeMillis();
+			}
+			
 
 			if (!paused) {
 				for (AgentExecutor executor : executors){
@@ -142,6 +141,7 @@ public class AgentsProcessor implements Runnable {
 								if (AgentStorage.getInstance() != null) {
 									AgentStorage.getInstance().delete(id);
 								}
+								MessageBoard.getInstance().unregisterAgent(id);
 								continue;
 							}
 
