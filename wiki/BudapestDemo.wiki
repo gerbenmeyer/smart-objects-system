@@ -1,5 +1,5 @@
 #summary description of the Budapest Interactive City Map demo
-#labels Phase-Implementation
+#labels Phase-Implementation,Featured
 
 = Budapest Interactive City Map =
 
