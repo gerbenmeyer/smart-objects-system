@@ -14,4 +14,3 @@
   * Building an application
     * [GettingStarted Getting Started]
     * [Settings]
-  * [Publications]
