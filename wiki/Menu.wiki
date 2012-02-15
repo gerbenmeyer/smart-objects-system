@@ -1,5 +1,6 @@
 #summary wiki menu
 
+  * [Home]
   * System information
     * [SystemOverview Overview]
     * [SystemStructure Structure]
@@ -13,5 +14,4 @@
   * Building an application
     * [GettingStarted Getting Started]
     * [Settings]
-  * Others
-    * [Publications]
+  * [Publications]

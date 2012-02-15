@@ -2,9 +2,9 @@
 
 = GlobalTweets =
 
-GlobalTweets is an application which allows users to discover what is happening right now around the globe on Twitter.
+GlobalTweets is an experimental application developed with the Smart Objects Systems framework. The application allows users to discover what is happening right now around the globe on Twitter.
 
-== Front-end ==
+== Screenshot ==
 
 Below, a screenshot of the web interface of the GlobalTweets is shown. For the live version of the web interface, please visit http://globaltweets.com/.
 

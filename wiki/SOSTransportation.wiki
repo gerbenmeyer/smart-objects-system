@@ -2,7 +2,7 @@
 
 = SOSTransportation =
 
-SOSTransportation is the first application made with the Smart Objects Systems framework. The purpose of this application is to assist the planners of a Dutch medium-sized road freight transportation company in monitoring and control of their trucks and pallets.
+SOSTransportation is the first application developed with the Smart Objects Systems framework. The purpose of this application is to assist the planners of a Dutch medium-sized road freight transportation company in monitoring and control of their trucks and pallets.
 
 == Related publications ==
 
@@ -13,5 +13,7 @@ SOSTransportation is the first application made with the Smart Objects Systems f
 == Screenshots ==
 
 http://smart-objects-system.googlecode.com/svn/wiki/sostransportationinterface1.png
+_The web interface of SOSTransportation_
 
 http://smart-objects-system.googlecode.com/svn/wiki/sostransportationinterface2.png
+_An example of an e-mail notification of SOSTransportation_
