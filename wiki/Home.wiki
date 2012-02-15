@@ -2,7 +2,7 @@
 
 = SOS wiki =
 
-Welcome to the wiki of SOS! Here you will find information on how SOS works, and how you can use it. Please use the menu on the left to browse through all available information.
+Welcome to the wiki of the Smart Objects System (SOS)! Here you will find information on how SOS works, and how you can use it. Please use the menu on the left to browse through all the available information.
 
 == Related publications ==
 
