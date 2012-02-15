@@ -1,0 +1,16 @@
+#summary description of the SOSProduction application
+
+= SOSProduction =
+
+SOSProduction is the second application made with the Smart Objects Systems framework. This application is the implementation of a manufacturer agent, which participated in the TAC SCM simulated supply chain competition of 2009.
+
+The source code of this application can be found under [http://code.google.com/p/smart-objects-system/source/browse/#svn%2Ftrunk%2FSOSProduction Source].
+
+== Related publications ==
+
+===Robust Planning and Control Using Intelligent Products===
+
+*Robust Planning and Control Using Intelligent Products.* Gerben G. Meyer and J.C. (Hans) Wortmann. _Lecture Notes in Business Information Processing_, 59: 163-177, 2010. [[http://dx.doi.org/10.1007/978-3-642-15117-0_12 DOI]] [[http://gerbenmeyer.nl/publications/meyer2010robust.pdf PDF]]
+
+*Production Monitoring and Control with Intelligent Products.* Gerben G. Meyer, J.C. (Hans) Wortmann, and Nick B. Szirbik. _International Journal of Production Research_, 49(5):1303-1317, 2011. [[http://dx.doi.org/10.1080/00207543.2010.518742 DOI]] [[http://gerbenmeyer.nl/publications/meyer2011production.pdf PDF]]
+
