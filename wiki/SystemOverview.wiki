@@ -1,5 +1,5 @@
 #summary an overview of the system architecture
-#labels Phase-Design,Phase-Requirements
+#labels Phase-Design,Phase-Requirements,Featured
 
 = System Overview =
 
