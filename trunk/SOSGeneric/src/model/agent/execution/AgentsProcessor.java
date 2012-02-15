@@ -110,16 +110,6 @@ public class AgentsProcessor implements Runnable {
 				}
 			}
 			
-			
-			if (startTime + 60000 <= new GregorianCalendar().getTimeInMillis()){
-				long diff = System.currentTimeMillis() - startTime;
-				long agentsPerMinute = agentsProcessed / (diff / 60000);
-				System.out.println("Average execution speed: " + agentsPerMinute + " agents/min");
-				agentsProcessed = 0;
-				startTime = System.currentTimeMillis();
-			}
-			
-
 			if (!paused) {
 				for (AgentExecutor executor : executors){
 					if (executor.isDone()){
