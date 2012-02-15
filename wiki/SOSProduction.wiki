@@ -1,8 +1,11 @@
 #summary description of the SOSProduction application
+#labels Phase-Implementation,Featured
 
 = SOSProduction =
 
 SOSProduction is the second application developed with the Smart Objects Systems framework. This application is the implementation of a manufacturer agent, which participated in the TAC SCM simulated supply chain competition of 2009.
+
+Binaries of the agent which participated in the competition, as well as the altered TAC SCM servers which have been used for additional simulations, can be found at [http://code.google.com/p/smart-objects-system/downloads/list].
 
 The source code of this application can be found at [http://code.google.com/p/smart-objects-system/source/browse/#svn%2Ftrunk%2FSOSProduction http://code.google.com/p/smart-objects-system/source/browse/].
 
