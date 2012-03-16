@@ -10,7 +10,7 @@
     * [DutchWeatherDemo Dutch Weather Map]
     * [SOSTransportation]
     * [SOSProduction]
-    * [GlobalTweets GlobalTweets.com]
+    * [GlobalTweetscom GlobalTweets.com]
   * Building an application
     * [GettingStarted Getting Started]
     * [Settings]
