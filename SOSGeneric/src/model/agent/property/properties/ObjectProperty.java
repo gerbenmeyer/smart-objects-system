@@ -59,7 +59,7 @@ public class ObjectProperty extends Property {
 	 * @param object
 	 *            the object
 	 */
-	public void setObject(Serializable object) {
+	public void setObject(Object object) {
 		this.text = objectToString(object);
 	}
 
@@ -115,7 +115,7 @@ public class ObjectProperty extends Property {
 	}
 
 	/** Write the object to a Base64 string. */
-	public static String objectToString(Serializable o) {
+	public static String objectToString(Object o) {
 		try {
 			ByteArrayOutputStream baos = new ByteArrayOutputStream();
 			ObjectOutputStream oos = new ObjectOutputStream(baos);
