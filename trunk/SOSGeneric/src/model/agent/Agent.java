@@ -1,6 +1,5 @@
 package model.agent;
 
-import java.io.Serializable;
 import java.util.Collections;
 import java.util.HashMap;
 import java.util.HashSet;
@@ -453,7 +452,7 @@ public abstract class Agent implements AgentMutable {
 		set(PropertyType.NUMBER,name,Double.toString(value));
 	}
 	
-	public void setObject(String name, Serializable value){
+	public void setObject(String name, Object value){
 		set(PropertyType.OBJECT,name,ObjectProperty.objectToString(value));
 	}
 	
