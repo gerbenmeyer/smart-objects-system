@@ -25,6 +25,16 @@ public class HtmlGenerator {
 	}
 	
 	/**
+	 * Adds a piece of HTML code to the content.
+	 * 
+	 * @param stuff
+	 *            the custom HTML
+	 */
+	public void add(StringBuffer stuff) {
+		buffer.append(stuff);
+	}	
+	
+	/**
 	 * Adds a piece of HTML code to the front of the content.
 	 * 
 	 * @param stuff
@@ -33,6 +43,16 @@ public class HtmlGenerator {
 	public void insert(String stuff) {
 		buffer.insert(0,stuff);
 	}	
+	
+	/**
+	 * Adds a piece of HTML code to the front of the content.
+	 * 
+	 * @param stuff
+	 *            the custom HTML
+	 */
+	public void insert(StringBuffer stuff) {
+		buffer.insert(0,stuff);
+	}		
 	
 	
 	

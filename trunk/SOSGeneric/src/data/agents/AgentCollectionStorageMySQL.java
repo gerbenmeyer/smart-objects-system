@@ -253,7 +253,8 @@ public class AgentCollectionStorageMySQL extends AgentCollectionStorage {
 			// exclude hidden
 			+ "WHERE hidden = 'false' " + filters
 			//TODO move limit to settings
-			+ (!query.trim().isEmpty()?"AND label LIKE '%"+query.trim()+"%' OR description LIKE '%"+query.trim()+"%' ":"")+ " "+sort+" LIMIT "+limit+";";
+			//TODO re-enable search on description when this can be achieved in a fast way
+			+ (!query.trim().isEmpty()?"AND label LIKE '%"+query.trim()+"%'"/* OR description LIKE '%"+query.trim()+"%'*/:"")+ " "+sort+" LIMIT "+limit+";";
 		
 		List<Map<String, Property>> agents = new Vector<Map<String, Property>>();
 		Statement stm = null;

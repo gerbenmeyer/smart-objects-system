@@ -90,7 +90,7 @@ public class MySQLConnection {
 						+ "  KEY `status` (`status`),"
 						+ "  KEY `type` (`type`),"
 						+ "  KEY `hidden` (`hidden`)"
-						+ ") ENGINE=MyISAM DEFAULT CHARSET=utf8;";
+						+ ") ENGINE=InnoDB DEFAULT CHARSET=utf8;";
 				} else if (tableName.equals("properties")) {
 					sql = "CREATE TABLE IF NOT EXISTS `properties` ("
 						+ "  `agent_id` varchar(32) NOT NULL,"
@@ -100,7 +100,7 @@ public class MySQLConnection {
 						+ "  PRIMARY KEY (`agent_id`,`name`),"
 						+ " KEY `agent_id` (`agent_id`),"
 						+ " KEY `type` (`type`)"
-						+ ") ENGINE=MyISAM DEFAULT CHARSET=utf8;";
+						+ ") ENGINE=InnoDB DEFAULT CHARSET=utf8;";
 				} else if (tableName.equals("locations")) {
 					sql = "CREATE TABLE IF NOT EXISTS `locations` ("
 						+ "  `id` int(11) NOT NULL AUTO_INCREMENT,"
@@ -110,7 +110,7 @@ public class MySQLConnection {
 						+ "  `precision` enum('APPROXIMATE','GEOMETRIC_CENTER','RANGE_INTERPOLATED','ROOFTOP') NOT NULL,"
 						+ "  PRIMARY KEY (`id`),"
 						+ "  UNIQUE KEY `address` (`address`)"
-						+ ") ENGINE=MyISAM DEFAULT CHARSET=utf8;";
+						+ ") ENGINE=InnoDB DEFAULT CHARSET=utf8;";
 				} else if (tableName.equals("classification")) {
 					sql = "CREATE TABLE IF NOT EXISTS `classification` ("
 						+ "  `agent_type_hash` varchar(32) NOT NULL,"
@@ -118,7 +118,7 @@ public class MySQLConnection {
 						+ "  `data` mediumtext NOT NULL,"
 						+ "  `lmt` longblob NOT NULL,"
 						+ "  PRIMARY KEY (`agent_type_hash`)"
-						+ ") ENGINE=MyISAM DEFAULT CHARSET=utf8;";
+						+ ") ENGINE=InnoDB DEFAULT CHARSET=utf8;";
 				} else {
 					throw new Exception("trying to create unknown table: "+tableName);
 				}
