@@ -29,9 +29,13 @@ public class AgentCollectionStorageMySQL extends AgentCollectionStorage {
 	
 	private MySQLConnection conn = null;
 	
+	private PreparedStatement containsAgentStatement = null;
+	private PreparedStatement getSingleAgentStatement = null;
 	private PreparedStatement getSizeStatement = null;
 	private PreparedStatement getTypesStatement = null;
 	private PreparedStatement getIDsStatement = null;
+	private PreparedStatement putAgentStatement = null;
+	private PreparedStatement deleteStatement = null;
 
 	/**
 	 * Construct a new AgentCollectionStorageMySQL object.
@@ -40,54 +44,53 @@ public class AgentCollectionStorageMySQL extends AgentCollectionStorage {
 		super();
 		this.conn = MySQLConnection.getInstance();
 		try {
+			containsAgentStatement = conn.getConnection().prepareStatement("SELECT `id` FROM `agents` WHERE `id` = ? LIMIT 1;");
+			getSingleAgentStatement = conn.getConnection().prepareStatement("SELECT * FROM `agents` WHERE `id` = ? LIMIT 1;");
 			getSizeStatement = conn.getConnection().prepareStatement("SELECT COUNT(DISTINCT `id`) AS `ids` FROM `agents`;");
 			getTypesStatement = conn.getConnection().prepareStatement("SELECT DISTINCT `type` FROM `agents` WHERE hidden = 'false';");
 			getIDsStatement = conn.getConnection().prepareStatement("SELECT DISTINCT `id` FROM `agents`;");
+			putAgentStatement = conn.getConnection().prepareStatement("INSERT INTO `agents` (`id`,`label`,`description`,`status`,`hidden`,`type`,`location`) VALUES "
+					+ "(?,?,?,?,?,?,?) ON DUPLICATE KEY UPDATE "
+					+ "`label`=VALUES(`label`),`description`=VALUES(`description`),`status`=VALUES(`status`),`hidden`=VALUES(`hidden`),`type`=VALUES(`type`),`location`=VALUES(`location`);");
+			deleteStatement = conn.getConnection().prepareStatement("DELETE FROM `agents` WHERE `id` = ?;");
 		} catch (SQLException e) {
 			SOSServer.getDevLogger().severe("SQL exception: '"+e.toString()+"'\nfailed to prepare statements");
 		}
 	}
 
 	@Override
-	public boolean containsKey(String id) {
+	public synchronized boolean containsKey(String id) {
 		boolean res = false;
-		PreparedStatement containsKeyStatement = null;
+		
 		try {
-			containsKeyStatement = conn.getConnection().prepareStatement("SELECT `id` FROM `agents` WHERE `id` = ? LIMIT 1;");
-			containsKeyStatement.setString(1, id);
-			ResultSet result = containsKeyStatement.executeQuery();
+			containsAgentStatement.setString(1, id);
+			ResultSet result = containsAgentStatement.executeQuery();
 			res = result.first();
 			result.close();
 		} catch (SQLException e) {
 			SOSServer.getDevLogger().severe("SQL exception: '"+e.toString()+"'\noriginal parameters: id: '"+id+"'");
-		} finally {
-			try { if (containsKeyStatement != null) { containsKeyStatement.close(); } } catch (SQLException e) { SOSServer.getDevLogger().warning("SQL exception: '"+e.toString()+"'"); }
-		}
+		} 
 		return res;
 	}
 
 	@Override
-	public Map<String, Property> get(String id) {
+	public synchronized Map<String, Property> get(String id) {
 		Map<String, Property> map = new HashMap<String, Property>();
-		PreparedStatement getSingleStatement = null;
 		try {
-			getSingleStatement = conn.getConnection().prepareStatement("SELECT * FROM `agents` WHERE `id` = ? LIMIT 1;");
-			getSingleStatement.setString(1, id);
-			ResultSet result = getSingleStatement.executeQuery();
+			getSingleAgentStatement.setString(1, id);
+			ResultSet result = getSingleAgentStatement.executeQuery();
 			if (result.first()) {
 				map = processAgentResult(result);
 			}
 			result.close();
 		} catch (SQLException e) {
 			SOSServer.getDevLogger().severe("SQL exception: '"+e.toString()+"'\noriginal parameters: id: '"+id+"'");
-		} finally {
-			try { if (getSingleStatement != null) { getSingleStatement.close(); } } catch (SQLException e) { SOSServer.getDevLogger().warning("SQL exception: '"+e.toString()+"'"); }
-		}
+		} 
 		return map;
 	}
 
 	@Override
-	public List<Map<String, Property>> get(List<String> ids) {
+	public synchronized List<Map<String, Property>> get(List<String> ids) {
 		Vector<Map<String, Property>> agents = new Vector<Map<String, Property>>();
 		
 	    Iterator<String> iter = ids.iterator();
@@ -118,7 +121,7 @@ public class AgentCollectionStorageMySQL extends AgentCollectionStorage {
 		return agents;
 	}
 	
-	private Map<String, Property> processAgentResult(ResultSet result) throws SQLException {
+	private synchronized Map<String, Property> processAgentResult(ResultSet result) throws SQLException {
 		Map<String, Property> properties = new HashMap<String, Property>();
 		Property id = Property.createProperty(PropertyType.TEXT, Agent.ID, result.getString("id"));
 		if (id != null){
@@ -205,15 +208,11 @@ public class AgentCollectionStorageMySQL extends AgentCollectionStorage {
 	}
 
 	@Override
-	public void putAgent(Agent agent) {
-		String label = agent.get(Agent.LABEL);//.replaceAll("\\\\'", "'").replaceAll("'", "\\\\'");
-		String description = agent.get(Agent.DESCRIPTION);//.replaceAll("\\\\'", "'").replaceAll("\\\\", "\\\\\\\\").replaceAll("'", "\\\\'");
-		String location = agent.get(Agent.LOCATION);//.replaceAll("\\\\'", "'").replaceAll("'", "\\\\'");
-		PreparedStatement putAgentStatement = null;
+	public synchronized void putAgent(Agent agent) {
+		String label = agent.get(Agent.LABEL);
+		String description = agent.get(Agent.DESCRIPTION);
+		String location = agent.get(Agent.LOCATION);
 		try {
-			putAgentStatement = conn.getConnection().prepareStatement("INSERT INTO `agents` (`id`,`label`,`description`,`status`,`hidden`,`type`,`location`) VALUES "
-					+ "(?,?,?,?,?,?,?) ON DUPLICATE KEY UPDATE "
-					+ "`label`=VALUES(`label`),`description`=VALUES(`description`),`status`=VALUES(`status`),`hidden`=VALUES(`hidden`),`type`=VALUES(`type`),`location`=VALUES(`location`);");
 			putAgentStatement.setString(1, agent.getID());
 			putAgentStatement.setString(2, label);
 			putAgentStatement.setString(3, description);
@@ -224,16 +223,14 @@ public class AgentCollectionStorageMySQL extends AgentCollectionStorage {
 			putAgentStatement.executeUpdate();
 		} catch (SQLException e) {
 			SOSServer.getDevLogger().severe("SQL exception: '"+e.toString()+"'\noriginal parameters: id: '"+agent.getID()+"', label; '"+label+"', description: '"+description+"', status: '"+(agent.get(Agent.STATUS).isEmpty() ? AgentStatus.UNKNOWN.toString() : agent.get(Agent.STATUS))+"', hidden: '"+(agent.get(Agent.HIDDEN).isEmpty() ? Boolean.toString(false) : agent.get(Agent.HIDDEN))+"', type: '"+agent.get(Agent.TYPE)+"', location: '"+location+"'");
-		} finally {
-			try { if (putAgentStatement != null) { putAgentStatement.close(); } } catch (SQLException e) { SOSServer.getDevLogger().warning("SQL exception: '"+e.toString()+"'"); }
 		}
 	}
 	
-	public List<Map<String, Property>> searchAgents(String search) {
+	public synchronized List<Map<String, Property>> searchAgents(String search) {
 		return searchAgents(search, "ORDER BY id", SearchAgent.MAX_AGENTS);
 	}
 	
-	public List<Map<String, Property>> searchAgents(String search, String sort, int limit) {
+	public synchronized List<Map<String, Property>> searchAgents(String search, String sort, int limit) {
 		String filters = "";
 		String query = new String(search);
 		//match type		
@@ -287,17 +284,13 @@ public class AgentCollectionStorageMySQL extends AgentCollectionStorage {
 	}
 
 	@Override
-	public boolean delete(String id) {
-		PreparedStatement deleteStatement = null;
+	public synchronized boolean delete(String id) {
 		try {
-			deleteStatement = conn.getConnection().prepareStatement("DELETE FROM `agents` WHERE `id` = ?;");
 			deleteStatement.setString(1, id);
 			deleteStatement.executeUpdate();
 		} catch (SQLException e) {
 			SOSServer.getDevLogger().severe("SQL exception: '"+e.toString()+"'\noriginal parameters: id: '"+id+"'");
 			return false;
-		} finally {
-			try { if (deleteStatement != null) { deleteStatement.close(); } } catch (SQLException e) { SOSServer.getDevLogger().warning("SQL exception: '"+e.toString()+"'"); }
 		}
 		return true;
 	}
