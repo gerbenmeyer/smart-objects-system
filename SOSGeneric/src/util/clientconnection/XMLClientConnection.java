@@ -198,7 +198,7 @@ public class XMLClientConnection extends Thread {
 	 */
 	private String putAgent(String xml) {
 		try {
-			Agent agent = server.getFactory().fromXML(xml, true);
+			Agent agent = server.getFactory().fromXML(xml, false);
 			if (agent != null) {
 				server.getAgentCollection().put(agent);
 			} else {

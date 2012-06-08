@@ -303,6 +303,7 @@ public abstract class Agent implements AgentMutable {
 
 	public void removeProperty(String name) {
 		writeBuffer.remove(name);
+		readBuffer.remove(name);
 		if (AgentStorage.getInstance() != null) {
 			AgentStorage.getInstance().removeProperty(getID(), name);
 		}
