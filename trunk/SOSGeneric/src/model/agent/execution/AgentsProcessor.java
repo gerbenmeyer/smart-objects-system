@@ -30,6 +30,8 @@ public class AgentsProcessor implements Runnable {
 	private Vector<AgentExecutor> executors = new Vector<AgentExecutor>();
 	
 	private int index = 0;
+	
+	private List<String> agentIds = null;;
 
 	/**
 	 * Constructs a new AgentsProcessor.
@@ -54,6 +56,8 @@ public class AgentsProcessor implements Runnable {
 			executors.add(new AgentExecutor(delayMilliseconds));
 		}
 
+		agentIds = AgentCollection.getInstance().getIDs();
+		
 		(new Thread(this)).start();
 	}
 
@@ -174,11 +178,11 @@ public class AgentsProcessor implements Runnable {
 	}
 	
 	private String getNextID(){
-		List<String> ids = AgentCollection.getInstance().getIDs();
-		if (index >= ids.size()){
+		if (index >= agentIds.size()){
 			index = 0;
+			agentIds = AgentCollection.getInstance().getIDs();
 		}
-		String id = ids.get(index);
+		String id = agentIds.get(index);
 		index++;
 		return id;
 	}
