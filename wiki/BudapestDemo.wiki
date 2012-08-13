@@ -13,7 +13,7 @@ For the Budapest Interactive City Map, a seperate data client application is dev
 {{{
 public class SOSBudapestDataClient {
 
-	// The remove agent collection, to which the converted external data is added (i.e. the SOS data store)
+	// The remote agent collection, to which the converted external data is added (i.e. the SOS data store)
 	private static RemoteAgentCollection remoteAgentCollection = new RemoteAgentCollection( ... );
 
 	// The external datasource which has to be interpreted
