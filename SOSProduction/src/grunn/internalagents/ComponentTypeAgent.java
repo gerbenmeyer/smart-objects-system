@@ -14,7 +14,6 @@ import java.util.Collections;
 import java.util.Vector;
 
 import model.agent.Agent;
-import model.agent.property.properties.ObjectProperty;
 import model.messageboard.MessageBoard;
 import se.sics.tasim.props.OfferBundle;
 import se.sics.tasim.tac03.aw.Order;
@@ -46,15 +45,15 @@ public class ComponentTypeAgent extends Agent {
 	 */
 	public ComponentTypeAgent(String id, int component) {
 		super(id);
-		init(PropertyType.TEXT, Agent.TYPE, "ComponentType");
-		init(PropertyType.INTEGER, "componentID", Integer.toString(component));
-		init(PropertyType.INTEGER, "inventoryNextDay", Integer.toString(0));
-		init(PropertyType.INTEGER, "inventoryToBeDelivered", Integer.toString(0));
-		init(PropertyType.INTEGER, "inventoryToBeDeliveredSoon", Integer.toString(0));
-		init(PropertyType.INTEGER, "inventoryForDays", Integer.toString(0));
-		init(PropertyType.NUMBER, "marketPriceEstimation", Double.toString(0.0));
-		init(PropertyType.BOOLEAN, "plan_finished", Boolean.toString(true));
-		init(PropertyType.OBJECT, "receivedBids", ObjectProperty.objectToString(new Vector<GRUNNMessage>()));
+		initText(Agent.TYPE, "ComponentType");
+		initInt("componentID", component);
+		initInt("inventoryNextDay", 0);
+		initInt("inventoryToBeDelivered", 0);
+		initInt("inventoryToBeDeliveredSoon", 0);
+		initInt("inventoryForDays", 0);
+		initNumber("marketPriceEstimation", 0.0);
+		initBool("plan_finished", true);
+		initObject("receivedBids", new Vector<GRUNNMessage>());
 	}
 
 	@Override
@@ -67,8 +66,8 @@ public class ComponentTypeAgent extends Agent {
 					int index = GRUNNEnvironment.getInstance().getComponentCatalog().getIndexFor(getInt("componentID"));
 					setText(DESCRIPTION,GRUNNEnvironment.getInstance().getComponentCatalog().getProductName(index));
 					double marketPriceEstimation = 0.75 * GRUNNEnvironment.getInstance().getComponentCatalog().getProductBasePrice(index);
-					setDouble("marketPriceEstimation", marketPriceEstimation);
-					GRUNNSharedKnowledge.getInstance().setComponentMarketPrice(getInt("componentID"), getDouble("marketPriceEstimation"));
+					setNumber("marketPriceEstimation", marketPriceEstimation);
+					GRUNNSharedKnowledge.getInstance().setComponentMarketPrice(getInt("componentID"), getNumber("marketPriceEstimation"));
 
 					set(PropertyType.BOOLEAN, "initialized", Boolean.toString(true));
 				}
@@ -157,7 +156,7 @@ public class ComponentTypeAgent extends Agent {
 			// reduce market price estimation
 			set(PropertyType.NUMBER, "marketPriceEstimation", Double.toString(Double.parseDouble(get("marketPriceEstimation")) * 0.95));
 			// send price to order agents
-			GRUNNSharedKnowledge.getInstance().setComponentMarketPrice(getInt("componentID"), getDouble("marketPriceEstimation"));
+			GRUNNSharedKnowledge.getInstance().setComponentMarketPrice(getInt("componentID"), getNumber("marketPriceEstimation"));
 
 		} else if (inventoryForDays < inventoryForDaysGoal - 4) {
 			orderAmount *= 2.0;
@@ -206,7 +205,7 @@ public class ComponentTypeAgent extends Agent {
 		MessageBoard.getInstance().sendMessage("PurchasePlanner", new GRUNNMessage(get(ID), GRUNNMessageType.FINISHED));
 
 		System.out.println("Comp" + Tools.FormatNumber(getInt("componentID"), 3) + ": Inv.: " + Tools.FormatNumber(getInt("inventoryNextDay")) + " + " + Tools.FormatNumber(getInt("inventoryToBeDelivered")) + ", #days: " + Tools.FormatNumber(getInt("inventoryForDays"), 2) + ", price: "
-				+ Tools.FormatCurrency((int) getDouble("marketPriceEstimation")) + ", " + info);
+				+ Tools.FormatCurrency((int) getNumber("marketPriceEstimation")) + ", " + info);
 	}
 
 	private void sendOrders(OfferBundle supplierOffers) {
@@ -267,8 +266,8 @@ public class ComponentTypeAgent extends Agent {
 
 			double adjustedLearningRate = this.learningRate / suppliersAmount;
 
-			setDouble("marketPriceEstimation", getDouble("marketPriceEstimation") * (1.0 - adjustedLearningRate));
-			setDouble("marketPriceEstimation", getDouble("marketPriceEstimation") + (adjustedLearningRate * offers.getUnitPrice(bestOfferID)));
+			setNumber("marketPriceEstimation", getNumber("marketPriceEstimation") * (1.0 - adjustedLearningRate));
+			setNumber("marketPriceEstimation", getNumber("marketPriceEstimation") + (adjustedLearningRate * offers.getUnitPrice(bestOfferID)));
 
 			// send order
 			GRUNNEnvironment.getInstance().addSupplierOrder(rfqSupplier, offers, bestOfferID);
@@ -277,7 +276,7 @@ public class ComponentTypeAgent extends Agent {
 		GRUNNEnvironment.getInstance().sendSupplierOrders();
 
 		// send price to order agents
-		GRUNNSharedKnowledge.getInstance().setComponentMarketPrice(getInt("componentID"), getDouble("marketPriceEstimation"));
+		GRUNNSharedKnowledge.getInstance().setComponentMarketPrice(getInt("componentID"), getNumber("marketPriceEstimation"));
 	}
 
 	private void distributeComponents() {

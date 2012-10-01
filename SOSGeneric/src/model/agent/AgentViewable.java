@@ -1,8 +1,11 @@
 package model.agent;
 
+import java.util.GregorianCalendar;
 import java.util.HashMap;
 import java.util.Set;
 import java.util.Vector;
+
+import model.agent.property.properties.LocationProperty;
 
 import util.enums.AgentStatus;
 import util.enums.PropertyType;
@@ -35,6 +38,10 @@ public interface AgentViewable {
 	 */
 	public AgentStatus getStatus();
 	/**
+	 * @return the location of the agent
+	 */
+	public LocationProperty getLocation();
+	/**
 	 * Get the value of a certain property of this agent.
 	 * 
 	 * @param name the name of the property
@@ -54,7 +61,28 @@ public interface AgentViewable {
 	 * @param name the name of the property
 	 * @return the value
 	 */
-	public double getDouble(String name);	
+	public double getNumber(String name);
+	/**
+	 * Get the value of a certain property of this agent parsed to a Boolean value.
+	 * 
+	 * @param name the name of the property
+	 * @return the value
+	 */
+	public boolean getBool(String name);		
+	/**
+	 * Get the value of a certain property of this agent parsed to a String.
+	 * 
+	 * @param name the name of the property
+	 * @return the value
+	 */
+	public String getText(String name);		
+	/**
+	 * Get the value of a certain property of this agent parsed to a time.
+	 * 
+	 * @param name the name of the property
+	 * @return the value
+	 */
+	public GregorianCalendar getTime(String name);
 	/**
 	 * Get the value of a certain property of this agent parsed to an object.
 	 * 
@@ -75,13 +103,14 @@ public interface AgentViewable {
 	 * @return the set
 	 */
 	public Set<String> getPropertiesKeySet();
+
 	/**
-	 * Get a vector containing the IDs of all dependant Agents of the requested property.
+	 * Get a vector containing the IDs of all Agents of the requested dependency property.
 	 * 
 	 * @param name the name of the property
 	 * @return a vector
 	 */
-	public Vector<String> getIDsFromDependenciesProperty(String name);
+	public Vector<String> getDependencyIDs(String name);	
 	/**
 	 * Get the icon of the agent.
 	 * 

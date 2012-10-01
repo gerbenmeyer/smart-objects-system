@@ -49,9 +49,9 @@ public class AgentCollectionStorageMySQL extends AgentCollectionStorage {
 			getSizeStatement = conn.getConnection().prepareStatement("SELECT COUNT(DISTINCT `id`) AS `ids` FROM `agents`;");
 			getTypesStatement = conn.getConnection().prepareStatement("SELECT DISTINCT `type` FROM `agents` WHERE hidden = 'false';");
 			getIDsStatement = conn.getConnection().prepareStatement("SELECT DISTINCT `id` FROM `agents`;");
-			putAgentStatement = conn.getConnection().prepareStatement("INSERT INTO `agents` (`id`,`label`,`description`,`status`,`hidden`,`type`,`location`) VALUES "
-					+ "(?,?,?,?,?,?,?) ON DUPLICATE KEY UPDATE "
-					+ "`label`=VALUES(`label`),`description`=VALUES(`description`),`status`=VALUES(`status`),`hidden`=VALUES(`hidden`),`type`=VALUES(`type`),`location`=VALUES(`location`);");
+			putAgentStatement = conn.getConnection().prepareStatement("INSERT INTO `agents` (`id`,`label`,`description`,`status`,`hidden`,`type`,`class`,`location`) VALUES "
+					+ "(?,?,?,?,?,?,?,?) ON DUPLICATE KEY UPDATE "
+					+ "`label`=VALUES(`label`),`description`=VALUES(`description`),`status`=VALUES(`status`),`hidden`=VALUES(`hidden`),`type`=VALUES(`type`),`class`=VALUES(`class`),`location`=VALUES(`location`);");
 			deleteStatement = conn.getConnection().prepareStatement("DELETE FROM `agents` WHERE `id` = ?;");
 		} catch (SQLException e) {
 			SOSServer.getDevLogger().severe("SQL exception: '"+e.toString()+"'\nfailed to prepare statements");
@@ -147,6 +147,10 @@ public class AgentCollectionStorageMySQL extends AgentCollectionStorage {
 		if (type != null){
 			properties.put(Agent.TYPE,type);
 		}
+		Property classProperty = Property.createProperty(PropertyType.TEXT, Agent.CLASS, result.getString("class"));
+		if (classProperty != null){
+			properties.put(Agent.CLASS,classProperty);
+		}		
 		Property location = Property.createProperty(PropertyType.LOCATION, Agent.LOCATION, result.getString("location"));
 		if (location != null){
 			properties.put(Agent.LOCATION,location);
@@ -219,7 +223,8 @@ public class AgentCollectionStorageMySQL extends AgentCollectionStorage {
 			putAgentStatement.setString(4, (agent.get(Agent.STATUS).isEmpty() ? AgentStatus.UNKNOWN.toString() : agent.get(Agent.STATUS)));
 			putAgentStatement.setString(5, (agent.get(Agent.HIDDEN).isEmpty() ? Boolean.toString(false) : agent.get(Agent.HIDDEN)));
 			putAgentStatement.setString(6, agent.get(Agent.TYPE));
-			putAgentStatement.setString(7, location);
+			putAgentStatement.setString(7, agent.get(Agent.CLASS));
+			putAgentStatement.setString(8, location);
 			putAgentStatement.executeUpdate();
 		} catch (SQLException e) {
 			SOSServer.getDevLogger().severe("SQL exception: '"+e.toString()+"'\noriginal parameters: id: '"+agent.getID()+"', label; '"+label+"', description: '"+description+"', status: '"+(agent.get(Agent.STATUS).isEmpty() ? AgentStatus.UNKNOWN.toString() : agent.get(Agent.STATUS))+"', hidden: '"+(agent.get(Agent.HIDDEN).isEmpty() ? Boolean.toString(false) : agent.get(Agent.HIDDEN))+"', type: '"+agent.get(Agent.TYPE)+"', location: '"+location+"'");
@@ -266,6 +271,7 @@ public class AgentCollectionStorageMySQL extends AgentCollectionStorage {
 				properties.put(Agent.STATUS,Property.createProperty(PropertyType.STATUS, Agent.STATUS, result.getString("status")));
 				properties.put(Agent.HIDDEN,Property.createProperty(PropertyType.BOOLEAN, Agent.HIDDEN, result.getString("hidden")));
 				properties.put(Agent.TYPE,Property.createProperty(PropertyType.TEXT, Agent.TYPE, result.getString("type")));
+				properties.put(Agent.CLASS,Property.createProperty(PropertyType.TEXT, Agent.CLASS, result.getString("class")));
 				properties.put(Agent.LOCATION,Property.createProperty(PropertyType.LOCATION, Agent.LOCATION, result.getString("location")));
 				agents.add(properties);
 			}

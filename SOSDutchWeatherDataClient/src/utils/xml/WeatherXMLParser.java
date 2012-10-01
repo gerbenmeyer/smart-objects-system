@@ -11,7 +11,6 @@ import javax.xml.xpath.XPathConstants;
 import javax.xml.xpath.XPathFactory;
 
 import model.agent.Agent;
-import model.agent.agents.EmptyAgent;
 import model.agent.property.properties.LocationProperty;
 
 import org.w3c.dom.Node;
@@ -19,7 +18,7 @@ import org.w3c.dom.NodeList;
 import org.xml.sax.InputSource;
 
 import util.HTMLEntities;
-import util.enums.PropertyType;
+import agents.WeatherAgent;
 
 public class WeatherXMLParser {
 	
@@ -61,16 +60,16 @@ public class WeatherXMLParser {
 				String weatherInWords = ((Node)xPath.evaluate("icoonactueel", station, XPathConstants.NODE)).getAttributes().getNamedItem("zin").getTextContent();
 				String url = ((Node)xPath.evaluate("url", station, XPathConstants.NODE)).getTextContent();
 				
-				Agent agent = new EmptyAgent(id);
-				agent.set(PropertyType.TEXT, Agent.TYPE, "Station");
-				agent.set(PropertyType.TEXT, Agent.LABEL, HTMLEntities.unhtmlentities(name).replaceAll("Meetstation ", ""));
-				agent.set(PropertyType.TEXT, Agent.DESCRIPTION, HTMLEntities.unhtmlentities(weatherInWords));
-				agent.set(PropertyType.LOCATION, Agent.LOCATION, LocationProperty.getCoordinate(lat, lon));
-				agent.set(PropertyType.NUMBER, "TemperatureCelcius", Double.toString(tempCelcius));
-				agent.set(PropertyType.NUMBER, "WindSpeedMS", Double.toString(windSpeedMS));
-				agent.set(PropertyType.TEXT, "WindDirection", windDirection);
-				agent.set(PropertyType.NUMBER, "RainMMPerHour", Double.toString(rainMMPerHour));
-				agent.set(PropertyType.TEXT, "URL", HTMLEntities.unhtmlentities(url));
+				Agent agent = new WeatherAgent(id);
+				agent.setText(Agent.TYPE, "Station");
+				agent.setText(Agent.LABEL, HTMLEntities.unhtmlentities(name).replaceAll("Meetstation ", ""));
+				agent.setText(Agent.DESCRIPTION, HTMLEntities.unhtmlentities(weatherInWords));
+				agent.setLocation(LocationProperty.getCoordinate(lat, lon));
+				agent.setNumber("TemperatureCelcius", tempCelcius);
+				agent.setNumber("WindSpeedMS", windSpeedMS);
+				agent.setText("WindDirection", windDirection);
+				agent.setNumber("RainMMPerHour", rainMMPerHour);
+				agent.setText("URL", HTMLEntities.unhtmlentities(url));
 				agents.add(agent);
 			} catch(Exception e){
 			}

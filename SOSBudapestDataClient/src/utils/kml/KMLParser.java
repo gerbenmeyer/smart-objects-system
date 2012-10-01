@@ -11,7 +11,6 @@ import javax.xml.xpath.XPathConstants;
 import javax.xml.xpath.XPathFactory;
 
 import model.agent.Agent;
-import model.agent.agents.EmptyAgent;
 import model.agent.property.properties.LocationProperty;
 
 import org.w3c.dom.Node;
@@ -19,7 +18,7 @@ import org.w3c.dom.NodeList;
 import org.xml.sax.InputSource;
 
 import util.HTMLEntities;
-import util.enums.PropertyType;
+import agents.BudapestObjectAgent;
 
 public class KMLParser {
 	
@@ -55,11 +54,11 @@ public class KMLParser {
 			String name = ((Node)xPath.evaluate("kml:name", place, XPathConstants.NODE)).getTextContent();
 			String description = ((Node)xPath.evaluate("kml:description", place, XPathConstants.NODE)).getTextContent();
 			String[] coords = ((Node)xPath.evaluate("kml:Point/kml:coordinates", place, XPathConstants.NODE)).getTextContent().split(",");
-			Agent agent = new EmptyAgent(id);
-			agent.set(PropertyType.TEXT,Agent.TYPE,HTMLEntities.unhtmlentities(folderName));
-			agent.set(PropertyType.TEXT,Agent.LABEL,HTMLEntities.unhtmlentities(name));
-			agent.set(PropertyType.TEXT,Agent.DESCRIPTION,HTMLEntities.unhtmlentities(description));
-			agent.set(PropertyType.LOCATION, Agent.LOCATION, LocationProperty.getCoordinate(Double.parseDouble(coords[1]), Double.parseDouble(coords[0])));
+			Agent agent = new BudapestObjectAgent(id);
+			agent.setText(Agent.TYPE,HTMLEntities.unhtmlentities(folderName));
+			agent.setText(Agent.LABEL,HTMLEntities.unhtmlentities(name));
+			agent.setText(Agent.DESCRIPTION,HTMLEntities.unhtmlentities(description));
+			agent.setLocation(LocationProperty.getCoordinate(Double.parseDouble(coords[1]), Double.parseDouble(coords[0])));
 			agents.add(agent);
 		}
 		return agents;

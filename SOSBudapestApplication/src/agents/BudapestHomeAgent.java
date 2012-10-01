@@ -5,7 +5,6 @@ import java.util.HashMap;
 import model.agent.Agent;
 import model.agent.AgentViewable;
 import model.agent.collection.AgentCollection;
-import util.enums.PropertyType;
 import util.htmltool.HtmlDetailsContentGenerator;
 import util.htmltool.HtmlMapContentGenerator;
 
@@ -13,9 +12,7 @@ public class BudapestHomeAgent extends Agent {
 
 	public BudapestHomeAgent(String id) {
 		super(id);
-		if (get(Agent.HIDDEN).isEmpty()) {
-			set(PropertyType.BOOLEAN, Agent.HIDDEN, Boolean.toString(true));
-		}
+		initBool(Agent.HIDDEN, true);
 	}
 
 	@Override

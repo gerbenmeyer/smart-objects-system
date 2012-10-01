@@ -5,14 +5,13 @@ import java.io.FileInputStream;
 import java.util.HashMap;
 import java.util.Properties;
 
-import agents.WeatherAgentFactory;
 import agents.WeatherHomeAgent;
 
 public class SOSDutchWeatherServer extends SOSServer {
 
 	public SOSDutchWeatherServer(Properties settings) {
 		// call constructor of SOSGeneric
-		super(settings, new WeatherAgentFactory(), new HashMap<String, String>());
+		super(settings, new HashMap<String, String>());
 		
 		// add the home agent to the agent collection
 		getAgentCollection().put(new WeatherHomeAgent("home"));

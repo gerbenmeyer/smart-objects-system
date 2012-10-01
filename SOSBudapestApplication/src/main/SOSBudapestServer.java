@@ -5,7 +5,6 @@ import java.io.FileInputStream;
 import java.util.HashMap;
 import java.util.Properties;
 
-import agents.BudapestAgentFactory;
 import agents.BudapestHomeAgent;
 
 /**
@@ -21,8 +20,8 @@ public class SOSBudapestServer extends SOSServer {
 	 */
 	public SOSBudapestServer(Properties settings) {
 		// call constructor of SOSGeneric
-		super(settings, new BudapestAgentFactory(), new HashMap<String, String>());
-
+		super(settings, new HashMap<String, String>());
+		
 		// add the home agent to the agent collection
 		getAgentCollection().put(new BudapestHomeAgent("home"));
 

@@ -1,6 +1,7 @@
 package model.agent;
 
 import java.util.Collections;
+import java.util.GregorianCalendar;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Map;
@@ -13,7 +14,9 @@ import model.agent.classification.ClassifierCollection;
 import model.agent.property.Property;
 import model.agent.property.properties.DependenciesProperty;
 import model.agent.property.properties.HistoryProperty;
+import model.agent.property.properties.LocationProperty;
 import model.agent.property.properties.ObjectProperty;
+import model.agent.property.properties.TimeProperty;
 import util.enums.AgentStatus;
 import util.enums.PropertyType;
 import util.htmltool.HtmlDetailsContentGenerator;
@@ -35,6 +38,7 @@ public abstract class Agent implements AgentMutable {
 	//some default property names
 	public final static String TYPE = "Type";
 	public final static String LABEL = "Label";
+	public final static String CLASS = "Class";
 	public final static String ID = "ID";
 	public final static String LOCATION = "Location";
 	public final static String DESCRIPTION = "Description";
@@ -57,12 +61,9 @@ public abstract class Agent implements AgentMutable {
 	 */
 	public Agent(String id) {
 		this.id = id;
-		if (get(Agent.ID).isEmpty()) {
-			set(PropertyType.TEXT, Agent.ID, id);
-		}
-		if (get(Agent.LABEL).isEmpty()) {
-			set(PropertyType.TEXT, Agent.LABEL, get(Agent.ID));
-		}
+		initText(Agent.ID, id);
+		initText(Agent.LABEL, get(Agent.ID));
+		initText(Agent.CLASS, getClass().getName());
 	}
 	
 	public boolean needsDetailsPane() {
@@ -210,24 +211,6 @@ public abstract class Agent implements AgentMutable {
 		balloonContent.add(HtmlTool.p(get(Agent.DESCRIPTION)));
 	}
 	
-	public boolean addIDToDependenciesProperty(String name, String id) {
-		Property p = getProperty(name);
-		if (p == null) {
-			p = Property.createProperty(PropertyType.DEPENDENCIES, name, "");
-			if (p == null) {
-				return false;
-			}
-		}
-
-		if (p.getPropertyType() == PropertyType.DEPENDENCIES) {
-			DependenciesProperty dp = (DependenciesProperty) p;
-			dp.addID(id);
-			putProperty(dp);
-			return true;
-		}
-		return false;
-	}
-
 	public Property getProperty(String name) {
 		Property p = readBuffer.get(name);
 		if (p == null && AgentStorage.getInstance() != null) {
@@ -284,23 +267,6 @@ public abstract class Agent implements AgentMutable {
 		readBuffer.put(p.getName(), p); // always update the readbuffer
 	}
 
-	public boolean removeIDFromDependenciesProperty(String name, String id) {
-		Property p = getProperty(name);
-		if (p == null) {
-			p = Property.createProperty(PropertyType.DEPENDENCIES, name, "");
-			if (p == null) {
-				return false;
-			}
-		}
-		if (p.getPropertyType() == PropertyType.DEPENDENCIES) {
-			DependenciesProperty dp = (DependenciesProperty) p;
-			dp.removeID(id);
-			putProperty(dp);
-			return true;
-		}
-		return false;
-	}
-
 	public void removeProperty(String name) {
 		writeBuffer.remove(name);
 		readBuffer.remove(name);
@@ -323,12 +289,12 @@ public abstract class Agent implements AgentMutable {
 	}
 
 	public void delete() {
-		set(PropertyType.BOOLEAN,"markedForDeletion",Boolean.toString(true));
+		setBool("markedForDeletion",true);
 		save();
 	}
 	
 	public boolean isMarkedForDeletion() {
-		return get("markedForDeletion").equals(Boolean.toString(true));
+		return getBool("markedForDeletion");
 	}
 
 	public String getArffAttributesString() {
@@ -374,17 +340,7 @@ public abstract class Agent implements AgentMutable {
 		return instance;
 	}
 
-	public Vector<String> getIDsFromDependenciesProperty(String name) {
-		Property p = getProperty(name);
-		if (p == null) {
-			return new Vector<String>();
-		}
-		if (p.getPropertyType() != PropertyType.DEPENDENCIES) {
-			return new Vector<String>();
-		}
-		DependenciesProperty lp = (DependenciesProperty) p;
-		return new Vector<String>(lp.getList());
-	}
+
 
 	public String getPropertyInformativeString(String name) {
 		Property p = getProperty(name);
@@ -401,6 +357,43 @@ public abstract class Agent implements AgentMutable {
 		}
 		return PropertyType.UNKNOWN;
 	}
+	
+	public LocationProperty getLocation() {
+		return new LocationProperty("", get(Agent.LOCATION));
+	}
+	
+	public void setLocation(LocationProperty location) {
+		set(PropertyType.LOCATION,Agent.LOCATION,location.toString());
+	}
+	
+	public AgentStatus getStatus() {
+		String statusString = get(Agent.STATUS);
+		AgentStatus status = AgentStatus.UNKNOWN;
+		if (!statusString.isEmpty()) {
+			status = AgentStatus.valueOf(statusString);
+		}
+		return status;
+	}
+	
+	public void setStatus(AgentStatus status){
+		set(PropertyType.STATUS, Agent.STATUS, status.toString());
+	}
+
+	public String toXML() {
+		String xml = "";
+		for (Property p : getProperties().values()) {
+			xml += p.toXML();
+		}
+		return XMLTool.addRootTag(xml, "Agent");
+	}
+	
+	// Generic init, get, and set methods
+	
+	public void init(PropertyType pt, String name, String value) {
+		if (get(name).isEmpty()) {
+			set(pt,name,value);
+		}
+	}
 
 	public String get(String name) {
 		Property p = getProperty(name);
@@ -408,6 +401,72 @@ public abstract class Agent implements AgentMutable {
 			return p.toString();
 		}
 		return "";
+	}
+	
+	public void set(PropertyType pt, String name, String value) {
+		Property p = Property.createProperty(pt, name, value);
+		if (p != null){
+			putProperty(p);
+		}
+	}
+	
+	// Init, get, add, and remove methods for Dependency property
+	
+	public void initDependency(String name){
+		init(PropertyType.DEPENDENCIES, name, new DependenciesProperty(name).toString());
+	}
+	
+	public Vector<String> getDependencyIDs(String name) {
+		Property p = getProperty(name);
+		if (p == null) {
+			return new Vector<String>();
+		}
+		if (p.getPropertyType() != PropertyType.DEPENDENCIES) {
+			return new Vector<String>();
+		}
+		DependenciesProperty lp = (DependenciesProperty) p;
+		return new Vector<String>(lp.getList());
+	}
+	
+	public boolean addDependencyID(String name, String id) {
+		Property p = getProperty(name);
+		if (p == null) {
+			p = Property.createProperty(PropertyType.DEPENDENCIES, name, "");
+			if (p == null) {
+				return false;
+			}
+		}
+
+		if (p.getPropertyType() == PropertyType.DEPENDENCIES) {
+			DependenciesProperty dp = (DependenciesProperty) p;
+			dp.addID(id);
+			putProperty(dp);
+			return true;
+		}
+		return false;
+	}
+	
+	public boolean removeDependencyID(String name, String id) {
+		Property p = getProperty(name);
+		if (p == null) {
+			p = Property.createProperty(PropertyType.DEPENDENCIES, name, "");
+			if (p == null) {
+				return false;
+			}
+		}
+		if (p.getPropertyType() == PropertyType.DEPENDENCIES) {
+			DependenciesProperty dp = (DependenciesProperty) p;
+			dp.removeID(id);
+			putProperty(dp);
+			return true;
+		}
+		return false;
+	}
+	
+	// Init, get, and set methods for Integer property
+	
+	public void initInt(String name, int value){
+		init(PropertyType.INTEGER,name,Integer.toString(value));
 	}
 	
 	public int getInt(String name) {
@@ -418,12 +477,94 @@ public abstract class Agent implements AgentMutable {
 		return Integer.parseInt(value);
 	}
 	
-	public double getDouble(String name) {
+	public void setInt(String name, int value){
+		set(PropertyType.INTEGER,name,Integer.toString(value));
+	}
+	
+	// Init, get, and set methods for Number property
+	
+	public void initNumber(String name, double value){
+		init(PropertyType.NUMBER,name,Double.toString(value));
+	}	
+	
+	public double getNumber(String name) {
 		String value = get(name);
 		if (value.isEmpty()){
 			return 0.0;
 		}
 		return Double.parseDouble(value);
+	}
+	
+	public void setNumber(String name, double value){
+		set(PropertyType.NUMBER,name,Double.toString(value));
+	}
+	
+	// Init, get, and set methods for Text property
+	
+	public void initText(String name, String value){
+		init(PropertyType.TEXT,name,value);
+	}		
+	
+	public String getText(String name) {
+		return get(name);
+	}
+	
+	public void setText(String name, String value){
+		set(PropertyType.TEXT,name,value);
+	}
+	
+	// Init, get, and set methods for boolean property
+	
+	public void initBool(String name, boolean value){
+		init(PropertyType.BOOLEAN,name,Boolean.toString(value));
+	}
+	
+	public boolean getBool(String name) {
+		String value = get(name);
+		if (value.isEmpty()){
+			return false;
+		}
+		return value.equals(Boolean.toString(true));
+	}
+	
+	public void setBool(String name, boolean value){
+		set(PropertyType.BOOLEAN,name,Boolean.toString(value));
+	}
+	
+	// Init, get, add, and remove methods for Time property
+	
+	public void initTime(String name, GregorianCalendar value){
+		init(PropertyType.TIME, name, new TimeProperty(name,value).toString());
+	}
+	
+	public void initTimeNow(String name){
+		init(PropertyType.TIME, name, TimeProperty.nowString());
+	}
+	
+	public GregorianCalendar getTime(String name){
+		Property p = getProperty(name);
+		if (p == null) {
+			return new GregorianCalendar();
+		}
+		if (p.getPropertyType() != PropertyType.TIME) {
+			return new GregorianCalendar();
+		}
+		TimeProperty tp = (TimeProperty) p;
+		return new TimeProperty(name,tp.toString()).getDateTime();
+	}
+	
+	public void setTime(String name, GregorianCalendar value){
+		set(PropertyType.TIME,name,new TimeProperty(name,value).toString());
+	}
+	
+	public void setTimeNow(String name){
+		set(PropertyType.TIME,name,TimeProperty.nowString());
+	}	
+		
+	// Init, get, and set methods for Object property
+	
+	public void initObject(String name, Object value){
+		init(PropertyType.OBJECT,name,ObjectProperty.objectToString(value));
 	}
 	
 	public Object getObject(String name) {
@@ -433,50 +574,10 @@ public abstract class Agent implements AgentMutable {
 		}
 		return ObjectProperty.objectFromString(value);
 	}
-
-	public void set(PropertyType pt, String name, String value) {
-		Property p = Property.createProperty(pt, name, value);
-		if (p != null){
-			putProperty(p);
-		}
-	}
-	
-	public void setText(String name, String value){
-		set(PropertyType.TEXT,name,value);
-	}
-	
-	public void setInt(String name, int value){
-		set(PropertyType.INTEGER,name,Integer.toString(value));
-	}
-	
-	public void setDouble(String name, double value){
-		set(PropertyType.NUMBER,name,Double.toString(value));
-	}
 	
 	public void setObject(String name, Object value){
 		set(PropertyType.OBJECT,name,ObjectProperty.objectToString(value));
 	}
-	
-	public void init(PropertyType pt, String name, String value) {
-		if (get(name).isEmpty()) {
-			set(pt,name,value);
-		}
-	}
 
-	public AgentStatus getStatus() {
-		String statusString = get(Agent.STATUS);
-		AgentStatus status = AgentStatus.UNKNOWN;
-		if (!statusString.isEmpty()) {
-			status = AgentStatus.valueOf(statusString);
-		}
-		return status;
-	}
 
-	public String toXML() {
-		String xml = "";
-		for (Property p : getProperties().values()) {
-			xml += p.toXML();
-		}
-		return XMLTool.addRootTag(xml, "Agent");
-	}
 }

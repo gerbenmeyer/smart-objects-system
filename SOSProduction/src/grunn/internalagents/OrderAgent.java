@@ -34,22 +34,15 @@ public class OrderAgent extends Agent {
 	/**
 	 * Constructor
 	 * 
-	 * @param iw
-	 * @param ew
-	 * @param agentType
-	 * @param productID
-	 * @param quantity
-	 * @param unitPrice
-	 * @param dueDate
-	 * @param penalty
+	 * @param id
+	 * @param orderID
 	 */
 	public OrderAgent(String id, int orderID) {
 		super(id);
-		init(PropertyType.TEXT, Agent.TYPE, "Order");
-		init(PropertyType.INTEGER, "orderID", Integer.toString(orderID));
-
-		init(PropertyType.INTEGER, "acquiredProduction", Integer.toString(0));
-		init(PropertyType.INTEGER, "acquiredProducts", Integer.toString(0));
+		initText(Agent.TYPE, "Order");
+		initInt("orderID", orderID);
+		initInt("acquiredProduction", 0);
+		initInt("acquiredProducts", 0);
 	}
 
 	private Order getOrder() {

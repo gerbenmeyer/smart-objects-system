@@ -5,7 +5,6 @@ import java.util.HashMap;
 import main.Settings;
 import model.agent.Agent;
 import util.clientconnection.HTTPListener;
-import util.enums.PropertyType;
 import util.htmltool.HtmlMapPageGenerator;
 import util.htmltool.HtmlTool;
 
@@ -25,9 +24,7 @@ public class IndexAgent extends Agent {
 	 */
 	public IndexAgent(String id) {
 		super(id);
-		if (get(Agent.HIDDEN).isEmpty()) {
-			set(PropertyType.BOOLEAN, Agent.HIDDEN, Boolean.toString(true));
-		}
+		initBool(Agent.HIDDEN, true);
 	}
 
 	public StringBuffer generatePage(HashMap<String, String> params) {

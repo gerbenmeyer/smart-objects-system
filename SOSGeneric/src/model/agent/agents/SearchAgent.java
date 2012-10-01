@@ -9,7 +9,6 @@ import model.agent.AgentViewable;
 import model.agent.collection.AgentCollection;
 import util.BenchMarker;
 import util.db.MySQLConnection;
-import util.enums.PropertyType;
 import util.htmltool.HtmlDetailsContentGenerator;
 import util.htmltool.HtmlMapContentGenerator;
 import util.htmltool.HtmlTool;
@@ -33,9 +32,7 @@ public class SearchAgent extends Agent {
 
 	public SearchAgent(String id) {
 		super(id);
-		if (get(Agent.HIDDEN).isEmpty()) {
-			set(PropertyType.BOOLEAN, Agent.HIDDEN, Boolean.toString(true));
-		}
+		initBool(Agent.HIDDEN, true);
 	}
 
 	@Override
@@ -70,7 +67,7 @@ public class SearchAgent extends Agent {
 		boolean showStatus = Settings.getProperty(Settings.AGENT_PROBLEM_DETECTION_ENABLED).equals(Boolean.toString(true));
 
 		bm.taskFinished("Fetching agents (" + MySQLConnection.getInstance().getCounter() + " queries)");
-		boolean smallDetailsPane = Settings.getProperty(Settings.SHOW_SMALL_DETAILS_PANE).equals("true");
+		boolean smallDetailsPane = Settings.getProperty(Settings.SHOW_SMALL_DETAILS_PANE).equals(Boolean.toString(true));
 		for (int i = 0; i < Math.min(agents.size(), MAX_AGENTS); i++) {
 			AgentViewable av = agents.get(i);
 			String statusIcon = showStatus ? av.getStatus().toString().toLowerCase() + ".png" : "";

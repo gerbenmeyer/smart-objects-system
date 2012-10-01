@@ -22,8 +22,8 @@ public class PurchasePlannerAgent extends Agent {
 	 */
 	public PurchasePlannerAgent(String id) {
 		super(id);
-		init(PropertyType.TEXT, Agent.TYPE, "Planner");
-		init(PropertyType.INTEGER, "finishedcounter", Integer.toString(0));
+		initText(Agent.TYPE, "Planner");
+		initInt("finishedcounter", 0);
 	}
 
 	@Override

@@ -5,7 +5,6 @@ import java.util.HashMap;
 import model.agent.Agent;
 import model.agent.property.Property;
 import model.agent.property.properties.LocationProperty;
-import util.enums.PropertyType;
 import util.htmltool.HtmlDetailsContentGenerator;
 import util.htmltool.HtmlMapBalloonContentGenerator;
 import util.htmltool.HtmlMapContentGenerator;
@@ -21,7 +20,7 @@ public class WeatherAgent extends Agent {
 	public void act() throws Exception {
 		// set the status to the one which is learned from all training
 		// instances
-		set(PropertyType.STATUS, Agent.STATUS, getLearnedStatus().toString());
+		setStatus(getLearnedStatus());
 	}
 
 	@Override
@@ -34,7 +33,7 @@ public class WeatherAgent extends Agent {
 	@Override
 	public void generateMapContent(HtmlMapContentGenerator mapContent, HashMap<String, String> params) {
 		// pan the map to the location of this object
-		LocationProperty lp = new LocationProperty("", get(Agent.LOCATION));
+		LocationProperty lp = getLocation();
 		if (!lp.isNull()) {
 			mapContent.setZoom(9);
 			mapContent.panToLocation(lp.getLatitude(), lp.getLongitude());

@@ -4,7 +4,6 @@ import java.util.HashMap;
 
 import model.agent.Agent;
 import model.agent.collection.AgentCollection;
-import util.enums.PropertyType;
 import util.htmltool.HtmlDetailsContentGenerator;
 
 /**
@@ -26,23 +25,17 @@ public class StatsAgent extends Agent {
 	 */
 	public StatsAgent(String id) {
 		super(id);
-		if (get(Agent.HIDDEN).isEmpty()) {
-			set(PropertyType.BOOLEAN, Agent.HIDDEN, Boolean.toString(true));
-		}
-		if (get(LAST_EXECUTION_MILLIS).isEmpty()) {
-			set(PropertyType.NUMBER, LAST_EXECUTION_MILLIS, "" + System.currentTimeMillis());
-		}
-		if (get(EXECUTION_WAIT_TIME).isEmpty()) {
-			set(PropertyType.NUMBER, EXECUTION_WAIT_TIME, "" + 0.0);
-		}
+		initBool(Agent.HIDDEN, true);
+		initNumber(LAST_EXECUTION_MILLIS, System.currentTimeMillis());
+		initNumber(EXECUTION_WAIT_TIME,  0.0);
 	}
 
 	@Override
 	public void act() throws Exception {
 		double lastExecutionMillis = Double.parseDouble(get(LAST_EXECUTION_MILLIS));
 		double executionWaitTime = (System.currentTimeMillis() - lastExecutionMillis) / 1000.0;
-		set(PropertyType.NUMBER, EXECUTION_WAIT_TIME, "" + executionWaitTime);
-		set(PropertyType.NUMBER, LAST_EXECUTION_MILLIS, "" + System.currentTimeMillis());
+		setNumber(EXECUTION_WAIT_TIME, executionWaitTime);
+		setNumber(LAST_EXECUTION_MILLIS, System.currentTimeMillis());
 	}
 
 	@Override

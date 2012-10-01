@@ -35,22 +35,14 @@ import util.htmltool.HtmlTool;
 public class NotifyAgent extends Agent {
 
 	private String[] allowedTypes;
-
+	
 	public NotifyAgent(String id) {
 		super(id);
 		this.allowedTypes = Settings.getProperty(Settings.NOTIFICATION_EMAIL_ALLOWED_TYPES).split(",");
-		if (get(Agent.HIDDEN).isEmpty()) {
-			set(PropertyType.BOOLEAN, Agent.HIDDEN, Boolean.toString(true));
-		}
-		if (get("FirstRun").isEmpty()) {
-			set(PropertyType.BOOLEAN, "FirstRun", Boolean.toString(true));
-		}
-		if (get("LastRun").isEmpty()) {
-			set(PropertyType.TIME, "LastRun", TimeProperty.nowString());
-		}
-		if (get("ExistingIssueAgents").isEmpty()) {
-			set(PropertyType.DEPENDENCIES, "ExistingIssueAgents", new DependenciesProperty("ExistingIssueAgents").toString());
-		}
+		initBool(Agent.HIDDEN, true);
+		initBool("FirstRun", true);
+		initTimeNow("LastRun");
+		initDependency("ExistingIssueAgents");
 	}
 
 	@Override
@@ -137,8 +129,8 @@ public class NotifyAgent extends Agent {
 		newIDs.clear();
 
 		set(PropertyType.DEPENDENCIES, "ExistingIssueAgents", existingIssueIds.toString());
-		set(PropertyType.TIME, "LastRun", TimeProperty.nowString());
-		set(PropertyType.BOOLEAN, "FirstRun", Boolean.toString(false));
+		setTimeNow("LastRun");
+		setBool("FirstRun", false);
 	}
 
 	/**

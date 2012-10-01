@@ -31,7 +31,7 @@ public class HtmlMapContentGenerator extends HtmlGenerator {
 		HashMap<String, String> scriptAttr = new HashMap<String, String>();
 		scriptAttr.put("type", "text/javascript");
 
-		StringBuffer headcontent = new StringBuffer();
+		StringBuffer headcontent = new StringBuffer(createMapScriptHeader());
 		// headcontent.append("<META HTTP-EQUIV=\"Refresh\" CONTENT=\"300\" />\n");
 		insert("var p = parent;");
 		
@@ -243,4 +243,5 @@ public class HtmlMapContentGenerator extends HtmlGenerator {
 		}
 		return text.replace("\\", "\\\\").replace("'", "\\'");
 	}
+	
 }

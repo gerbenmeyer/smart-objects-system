@@ -39,7 +39,7 @@ public class AgentStatusComparator implements Comparator<String> {
 			label1 = av1.get(Agent.LABEL);
 			AgentStatus status1 = AgentStatus.valueOf(av1.getStatus().toString());
 			statusValue1 = -status1.getValue();
-			boolean finished = av1.get("Finished").equals(Boolean.toString(true));
+			boolean finished = av1.getBool("Finished");
 			if (finished && status1 == AgentStatus.OK) {
 				statusValue1 = AgentStatus.UNKNOWN.getValue();
 			}
@@ -52,7 +52,7 @@ public class AgentStatusComparator implements Comparator<String> {
 			label2 = av2.get(Agent.LABEL);
 			AgentStatus status2 = AgentStatus.valueOf(av2.getStatus().toString());
 			statusValue2 = -status2.getValue();
-			boolean finished = av2.get("Finished").equals(Boolean.toString(true));
+			boolean finished = av2.getBool("Finished");
 			if (finished && status2 == AgentStatus.OK) {
 				statusValue2 = AgentStatus.UNKNOWN.getValue();
 			}
