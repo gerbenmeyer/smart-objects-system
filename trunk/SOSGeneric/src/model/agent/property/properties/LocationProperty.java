@@ -265,13 +265,13 @@ public class LocationProperty extends Property {
 	}
 
 	/**
-	 * Get the string representation of a location.
+	 * Get the LocationProperty of a location.
 	 * 
 	 * @param latitude
 	 * @param longitude
-	 * @return the string representation
+	 * @return the LocationProperty
 	 */
-	public static String getCoordinate(double latitude, double longitude) {
+	public static LocationProperty getCoordinate(double latitude, double longitude) {
 		LocationProperty lp = new LocationProperty("");
 		lp.setLocationType(GoogleLocationType.ROOFTOP);
 		lp.setHidden(true);
@@ -280,6 +280,6 @@ public class LocationProperty extends Property {
 		if (lp.isNull()){
 			return null;
 		}
-		return lp.toString();
+		return lp;
 	}
 }

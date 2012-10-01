@@ -10,7 +10,6 @@ import model.agent.collection.AgentCollection;
 import util.Capitalize;
 import util.comparators.AgentTypeComparator;
 import util.enums.AgentStatus;
-import util.enums.PropertyType;
 import util.htmltool.HtmlDetailsContentGenerator;
 import util.htmltool.HtmlTool;
 
@@ -30,9 +29,7 @@ public class MenuAgent extends Agent {
 	 */
 	public MenuAgent(String id) {
 		super(id);
-		if (get(Agent.HIDDEN).isEmpty()) {
-			set(PropertyType.BOOLEAN, Agent.HIDDEN, Boolean.toString(true));
-		}
+		initBool(Agent.HIDDEN, true);
 	}
 
 	@Override

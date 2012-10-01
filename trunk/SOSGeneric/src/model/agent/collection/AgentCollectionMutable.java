@@ -10,13 +10,10 @@ public interface AgentCollectionMutable extends AgentCollectionViewable {
 	 * @param agent the agent to be added to the collection
 	 */
 	public void put(Agent agent);
-
-	/**
-	 * Deletes an agent from the collection.
-	 * 
-	 * @param agent the Agent to be removed from the collection
-	 */
-	@Deprecated
-	public void delete(Agent agent);
 	
+	/**
+	 * Removes all non-hidden agents from the collection
+	 */
+	public void clear();	
+
 }

@@ -10,7 +10,6 @@ import grunn.world.GRUNNMessageType;
 import grunn.world.GRUNNSharedKnowledge;
 import model.agent.Agent;
 import model.agent.property.properties.DependenciesProperty;
-import model.agent.property.properties.ObjectProperty;
 import model.messageboard.MessageBoard;
 import se.sics.tasim.props.OfferBundle;
 import se.sics.tasim.props.RFQBundle;
@@ -45,17 +44,17 @@ public class ProductTypeAgent extends Agent {
 	public ProductTypeAgent(String id, int product) {
 		super(id);
 
-		init(PropertyType.TEXT, Agent.TYPE, "ProductType");
-		init(PropertyType.INTEGER, "productID", Integer.toString(product));
-		init(PropertyType.INTEGER, "assemblyCycles", Integer.toString(0));
-		init(PropertyType.INTEGER, "position", Integer.toString(0));
-		init(PropertyType.NUMBER, "marketPriceEstimation", Double.toString(0.0));
-		init(PropertyType.NUMBER, "componentPriceEstimation", Double.toString(0.0));
-		init(PropertyType.NUMBER, "salesEstimation", Double.toString(35.0));
-		init(PropertyType.NUMBER, "offerAcceptanceRateEstimation", Double.toString(0.50));
-		init(PropertyType.BOOLEAN, "plan_finished", Boolean.toString(true));
-		init(PropertyType.DEPENDENCIES, "createdOrderAgents", new DependenciesProperty("").toString());
-		init(PropertyType.OBJECT, "offersLastDay", ObjectProperty.objectToString(new OfferBundle()));
+		initText(Agent.TYPE, "ProductType");
+		initInt("productID", product);
+		initInt("assemblyCycles", 0);
+		initInt("position", 0);
+		initNumber("marketPriceEstimation", 0.0);
+		initNumber("componentPriceEstimation", 0.0);
+		initNumber("salesEstimation", 35.0);
+		initNumber("offerAcceptanceRateEstimation", 0.50);
+		initBool("plan_finished", true);
+		initDependency("createdOrderAgents");
+		initObject("offersLastDay",new OfferBundle());
 
 	}
 
@@ -70,7 +69,7 @@ public class ProductTypeAgent extends Agent {
 					setText(DESCRIPTION,GRUNNEnvironment.getInstance().getBOMBundle().getProductName(index));
 					setInt("marketPriceEstimation", GRUNNEnvironment.getInstance().getBOMBundle().getProductBasePrice(index));
 					setInt("assemblyCycles", GRUNNEnvironment.getInstance().getBOMBundle().getAssemblyCyclesRequired(index));
-					GRUNNSharedKnowledge.getInstance().setSalesPrognosis(getInt("productID"), (int) getDouble("salesEstimation"));
+					GRUNNSharedKnowledge.getInstance().setSalesPrognosis(getInt("productID"), (int) getNumber("salesEstimation"));
 
 					set(PropertyType.BOOLEAN, "initialized", Boolean.toString(true));
 				}
@@ -142,9 +141,9 @@ public class ProductTypeAgent extends Agent {
 
 			// estimate new market price
 			int unitPrice = offersLastDay.getUnitPrice(i);
-			if (((unitPrice < getDouble("marketPriceEstimation")) && !accepted) || ((unitPrice > getDouble("marketPriceEstimation")) && accepted)) {
-				setDouble("marketPriceEstimation", getDouble("marketPriceEstimation") * (1.0 - this.learningRate));
-				setDouble("marketPriceEstimation", getDouble("marketPriceEstimation") + (this.learningRate * unitPrice));
+			if (((unitPrice < getNumber("marketPriceEstimation")) && !accepted) || ((unitPrice > getNumber("marketPriceEstimation")) && accepted)) {
+				setNumber("marketPriceEstimation", getNumber("marketPriceEstimation") * (1.0 - this.learningRate));
+				setNumber("marketPriceEstimation", getNumber("marketPriceEstimation") + (this.learningRate * unitPrice));
 
 			}
 
@@ -152,21 +151,21 @@ public class ProductTypeAgent extends Agent {
 
 		// offer acceptance rate estimation
 		if (offeredQuantity > 0) {
-			setDouble("offerAcceptanceRateEstimation", getDouble("offerAcceptanceRateEstimation") * (1.0 - this.learningRate));
-			setDouble("offerAcceptanceRateEstimation", getDouble("offerAcceptanceRateEstimation") + (this.learningRate * (1.0 * acceptedQuantity / offeredQuantity)));
+			setNumber("offerAcceptanceRateEstimation", getNumber("offerAcceptanceRateEstimation") * (1.0 - this.learningRate));
+			setNumber("offerAcceptanceRateEstimation", getNumber("offerAcceptanceRateEstimation") + (this.learningRate * (1.0 * acceptedQuantity / offeredQuantity)));
 		}
 
 		// component price
-		setDouble("componentPriceEstimation", 0.0);
+		setNumber("componentPriceEstimation", 0.0);
 		int[] components = GRUNNEnvironment.getInstance().getBOMBundle().getComponentsForProductID(getInt("productID"));
 		if (components != null) {
 			for (int componentID : components) {
-				setDouble("componentPriceEstimation", getDouble("componentPriceEstimation") + GRUNNSharedKnowledge.getInstance().getComponentMarketPrice(componentID));
+				setNumber("componentPriceEstimation", getNumber("componentPriceEstimation") + GRUNNSharedKnowledge.getInstance().getComponentMarketPrice(componentID));
 			}
 		}
 
 		// profit per cycle estimation
-		double profitPerCycle = (getDouble("marketPriceEstimation") - getDouble("componentPriceEstimation")) / getInt("assemblyCycles");
+		double profitPerCycle = (getNumber("marketPriceEstimation") - getNumber("componentPriceEstimation")) / getInt("assemblyCycles");
 		GRUNNSharedKnowledge.getInstance().setProductProfitPerCycle(getInt("productID"), profitPerCycle);
 
 		setObject("offersLastDay", new OfferBundle());
@@ -226,9 +225,9 @@ public class ProductTypeAgent extends Agent {
 			}
 
 			// sales estimation
-			setDouble("salesEstimation", getDouble("salesEstimation") * (1.0 - this.learningRate));
-			setDouble("salesEstimation", getDouble("salesEstimation") + (this.learningRate * (factoryCapacityThisProduct / getInt("assemblyCycles"))));
-			GRUNNSharedKnowledge.getInstance().setSalesPrognosis(getInt("productID"), (int) getDouble("salesEstimation"));
+			setNumber("salesEstimation", getNumber("salesEstimation") * (1.0 - this.learningRate));
+			setNumber("salesEstimation", getNumber("salesEstimation") + (this.learningRate * (factoryCapacityThisProduct / getInt("assemblyCycles"))));
+			GRUNNSharedKnowledge.getInstance().setSalesPrognosis(getInt("productID"), (int) getNumber("salesEstimation"));
 
 			double factoryLoadThisProduct = 1.0 * requiredCyclesForActiveOrdersThisProduct / factoryCapacityThisProduct;
 
@@ -263,7 +262,7 @@ public class ProductTypeAgent extends Agent {
 
 					// try to reserve components
 
-					int requiredComponents = (int) Math.ceil(1.5 * getDouble("offerAcceptanceRateEstimation") * rfqBundle.getQuantity(i));
+					int requiredComponents = (int) Math.ceil(1.5 * getNumber("offerAcceptanceRateEstimation") * rfqBundle.getQuantity(i));
 
 					for (int componentID : GRUNNEnvironment.getInstance().getBOMBundle().getComponentsForProductID(getInt("productID"))) {
 						int availableComponents = GRUNNEnvironment.getInstance().getInventoryForNextDay().getInventoryQuantity(componentID);
@@ -277,7 +276,7 @@ public class ProductTypeAgent extends Agent {
 						}
 					}
 
-					if (getDouble("marketPriceEstimation") < getDouble("componentPriceEstimation")) {
+					if (getNumber("marketPriceEstimation") < getNumber("componentPriceEstimation")) {
 						if (showNoProfitMSG) {
 							info += "no profit, ";
 							showNoProfitMSG = false;
@@ -296,7 +295,7 @@ public class ProductTypeAgent extends Agent {
 						double randomFactor = 1.0 - this.randomRate;
 						randomFactor += Math.random() * 2 * this.randomRate;
 
-						double unitPrice = getDouble("marketPriceEstimation");
+						double unitPrice = getNumber("marketPriceEstimation");
 
 						unitPrice *= loadFactor;
 
@@ -313,7 +312,7 @@ public class ProductTypeAgent extends Agent {
 				info += "no offers, ";
 			}
 
-			System.out.println("Prod " + Tools.FormatNumber(getInt("productID"), 2) + ": " + Tools.FormatCurrency((int) getDouble("marketPriceEstimation")) + " - " + Tools.FormatCurrency((int) getDouble("componentPriceEstimation")) + ", " + info);
+			System.out.println("Prod " + Tools.FormatNumber(getInt("productID"), 2) + ": " + Tools.FormatCurrency((int) getNumber("marketPriceEstimation")) + " - " + Tools.FormatCurrency((int) getNumber("componentPriceEstimation")) + ", " + info);
 		}
 
 		setObject("offersLastDay", offersLastDay);

@@ -21,7 +21,7 @@ public class BudapestObjectAgent extends Agent {
 	@Override
 	public void generateMapContent(HtmlMapContentGenerator mapContent, HashMap<String, String> params) {
 		//pan the map to the location of this object
-		LocationProperty lp = new LocationProperty("", get(Agent.LOCATION));
+		LocationProperty lp = getLocation();
 		if (!lp.isNull()) {
 			mapContent.setZoom(14);
 			mapContent.panToLocation(lp.getLatitude(), lp.getLongitude());

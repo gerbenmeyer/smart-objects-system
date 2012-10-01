@@ -5,7 +5,6 @@ import java.util.HashMap;
 import model.agent.Agent;
 import model.agent.AgentViewable;
 import model.agent.collection.AgentCollection;
-import util.enums.PropertyType;
 import util.htmltool.HtmlDetailsContentGenerator;
 import util.htmltool.HtmlMapContentGenerator;
 
@@ -14,9 +13,7 @@ public class WeatherHomeAgent extends Agent {
 	public WeatherHomeAgent(String id) {
 		super(id);
 		// make sure that this agent is hidden, i.e. that it does not show up in the search results
-		if (get(Agent.HIDDEN).isEmpty()) {
-			set(PropertyType.BOOLEAN, Agent.HIDDEN, Boolean.toString(true));
-		}
+		initBool(Agent.HIDDEN, true);
 	}
 
 	@Override

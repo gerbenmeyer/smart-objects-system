@@ -2,18 +2,17 @@ package grunn.internalagents;
 
 import java.util.HashMap;
 
-import util.enums.PropertyType;
-import util.htmltool.HtmlDetailsContentGenerator;
-import util.htmltool.HtmlMapContentGenerator;
 import model.agent.Agent;
 import model.agent.AgentViewable;
 import model.agent.collection.AgentCollection;
+import util.htmltool.HtmlDetailsContentGenerator;
+import util.htmltool.HtmlMapContentGenerator;
 
 public class HomeAgent extends Agent{
 
 	public HomeAgent(String id) {
 		super(id);
-		init(PropertyType.BOOLEAN, Agent.HIDDEN, Boolean.toString(true));
+		initBool(Agent.HIDDEN, true);
 	}
 	
 	@Override

@@ -15,6 +15,7 @@ import model.agent.AgentViewable;
 import model.agent.classification.Classifier;
 import model.agent.classification.ClassifierCollection;
 import model.agent.collection.AgentCollection;
+import model.agent.collection.AgentFactory;
 import model.agent.property.properties.LocationProperty;
 import util.enums.AgentStatus;
 import util.xmltool.KeyData;
@@ -198,7 +199,7 @@ public class XMLClientConnection extends Thread {
 	 */
 	private String putAgent(String xml) {
 		try {
-			Agent agent = server.getFactory().fromXML(xml, false);
+			Agent agent = AgentFactory.getInstance().fromXML(xml, false);
 			if (agent != null) {
 				server.getAgentCollection().put(agent);
 			} else {

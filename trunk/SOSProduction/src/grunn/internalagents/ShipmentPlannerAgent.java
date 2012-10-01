@@ -12,7 +12,6 @@ import java.util.Collections;
 import java.util.Vector;
 
 import model.agent.Agent;
-import model.agent.property.properties.ObjectProperty;
 import model.messageboard.MessageBoard;
 import se.sics.tasim.tac03.aw.Order;
 import util.enums.PropertyType;
@@ -29,9 +28,9 @@ public class ShipmentPlannerAgent extends Agent {
 	 */
 	public ShipmentPlannerAgent(String id) {
 		super(id);
-		init(PropertyType.TEXT, Agent.TYPE, "Planner");
-		init(PropertyType.BOOLEAN,"plan_finished",Boolean.toString(true));
-		init(PropertyType.OBJECT, "receivedBids", ObjectProperty.objectToString(new Vector<GRUNNMessage>()));
+		initText(Agent.TYPE, "Planner");
+		initBool("plan_finished",true);
+		initObject("receivedBids", new Vector<GRUNNMessage>());
 	}
 
 

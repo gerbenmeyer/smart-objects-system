@@ -5,7 +5,6 @@ import grunn.internalagents.ProductionPlannerAgent;
 import grunn.internalagents.PurchasePlannerAgent;
 import grunn.internalagents.SalesPlannerAgent;
 import grunn.internalagents.ShipmentPlannerAgent;
-import grunn.world.GRUNNAgentFactory;
 
 import java.io.File;
 import java.io.FileInputStream;
@@ -13,8 +12,6 @@ import java.util.HashMap;
 import java.util.Properties;
 
 import main.SOSServer;
-import model.agent.Agent;
-import model.agent.AgentViewable;
 import model.messageboard.MessageBoard;
 
 public class SOSInternalAgents extends SOSServer implements Runnable {
@@ -35,7 +32,7 @@ public class SOSInternalAgents extends SOSServer implements Runnable {
 	 */
 	public SOSInternalAgents(Properties settings) {
 		// call constructor of SOSGeneric
-		super(settings, new GRUNNAgentFactory(), new HashMap<String, String>());
+		super(settings, new HashMap<String, String>());
 
 		// remove all existing agents
 		cleanup();
@@ -81,14 +78,7 @@ public class SOSInternalAgents extends SOSServer implements Runnable {
 	}
 
 	public void cleanup() {
-		for (String agentId : getAgentCollection().getIDs()) {
-			AgentViewable av = getAgentCollection().get(agentId);
-			if (av != null){
-			if (!av.get(Agent.HIDDEN).equals(Boolean.toString(true))) {
-				((Agent) av).delete();
-			}
-			}
-		}
+		getAgentCollection().clear();
 	}
 
 	@Override

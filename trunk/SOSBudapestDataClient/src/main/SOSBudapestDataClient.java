@@ -8,7 +8,6 @@ import java.util.Collection;
 import model.agent.Agent;
 import util.clientconnection.RemoteAgentCollection;
 import util.clientconnection.XMLServerConnection;
-import util.enums.PropertyType;
 import utils.kml.KMLParser;
 import utils.settings.BudapestClientSettings;
 
@@ -64,23 +63,23 @@ public class SOSBudapestDataClient {
 				// type
 				String type = a.get(Agent.TYPE);
 				if (type.equals("Apartments")) {
-					a.set(PropertyType.TEXT,Agent.TYPE,"Apartment");
+					a.setText(Agent.TYPE,"Apartment");
 				} else if (type.equals("Apartment rooms")) {
-					a.set(PropertyType.TEXT,Agent.TYPE,"Apartment");
+					a.setText(Agent.TYPE,"Apartment");
 				} else if (type.equals("Hotels")) {
-					a.set(PropertyType.TEXT,Agent.TYPE,"Hotel");
+					a.setText(Agent.TYPE,"Hotel");
 				} else if (type.equals("Sights")) {
-					a.set(PropertyType.TEXT,Agent.TYPE,"Attraction");
+					a.setText(Agent.TYPE,"Attraction");
 				} else if (type.equals("Airports")) {
-					a.set(PropertyType.TEXT,Agent.TYPE,"Airport");
+					a.setText(Agent.TYPE,"Airport");
 				} else if (type.equals("Transport")) {
-					a.set(PropertyType.TEXT,Agent.TYPE,"Trainstation");
+					a.setText(Agent.TYPE,"Trainstation");
 				}
 
 				// label
 				String label = a.get(Agent.LABEL);
 				label = label.replaceAll("\\s*in Budapest", "");
-				a.set(PropertyType.TEXT,Agent.LABEL,label);
+				a.setText(Agent.LABEL,label);
 
 				// description
 				String description = a.get(Agent.DESCRIPTION);
@@ -90,7 +89,7 @@ public class SOSBudapestDataClient {
 								"");
 				description = description.replaceAll("<\\/?div.*?>", "");
 				description = description.replaceAll("<a.*?\\/a>", "");
-				a.set(PropertyType.TEXT,Agent.DESCRIPTION,description);
+				a.setText(Agent.DESCRIPTION,description);
 			}
 			// send objects to server
 			remoteAgentCollection.connect();
