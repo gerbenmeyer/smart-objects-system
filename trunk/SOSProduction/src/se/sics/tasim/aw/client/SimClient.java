@@ -32,13 +32,13 @@ import java.io.IOException;
 import java.util.logging.FileHandler;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+
 import javax.swing.JFrame;
 import javax.swing.JOptionPane;
 import javax.swing.SwingUtilities;
 import javax.swing.UIManager;
 import javax.swing.UnsupportedLookAndFeelException;
 
-import com.botbox.util.ArrayQueue;
 import se.sics.isl.transport.BinaryTransportWriter;
 import se.sics.isl.transport.Context;
 import se.sics.isl.transport.Transportable;
@@ -51,6 +51,8 @@ import se.sics.tasim.props.Alert;
 import se.sics.tasim.props.SCMInfo;
 import se.sics.tasim.props.SimulationStatus;
 import se.sics.tasim.props.StartInfo;
+
+import com.botbox.util.ArrayQueue;
 
 public class SimClient implements Runnable {
 

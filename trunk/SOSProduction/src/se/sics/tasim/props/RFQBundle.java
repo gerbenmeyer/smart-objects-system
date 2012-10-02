@@ -27,10 +27,11 @@
 package se.sics.tasim.props;
 import java.text.ParseException;
 
-import com.botbox.util.ArrayUtils;
 import se.sics.isl.transport.TransportReader;
 import se.sics.isl.transport.TransportWriter;
 import se.sics.isl.transport.Transportable;
+
+import com.botbox.util.ArrayUtils;
 
 /**
  * <code>RFQBundle</code> contains an ordered set of requests for quotes.

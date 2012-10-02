@@ -30,6 +30,7 @@ import java.awt.Dimension;
 import java.awt.GridLayout;
 import java.net.URL;
 import java.util.logging.Logger;
+
 import javax.swing.BorderFactory;
 import javax.swing.ImageIcon;
 import javax.swing.JComponent;
@@ -41,7 +42,6 @@ import javax.swing.JScrollPane;
 import javax.swing.SwingUtilities;
 import javax.swing.border.TitledBorder;
 
-import com.botbox.util.ArrayUtils;
 import se.sics.isl.gui.BarDiagram;
 import se.sics.isl.gui.DotDiagram;
 import se.sics.isl.gui.MessageModel;
@@ -59,6 +59,8 @@ import se.sics.tasim.props.OfferBundle;
 import se.sics.tasim.props.OrderBundle;
 import se.sics.tasim.props.RFQBundle;
 import se.sics.tasim.props.StartInfo;
+
+import com.botbox.util.ArrayUtils;
 
 /**
  * The <code>ManufacturerInfo</code> is a simple viewer for displaying

@@ -31,7 +31,6 @@ import java.util.TimerTask;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
-import com.botbox.util.ArrayUtils;
 import se.sics.isl.transport.Transportable;
 import se.sics.tasim.aw.Agent;
 import se.sics.tasim.aw.AgentService;
@@ -39,6 +38,8 @@ import se.sics.tasim.aw.Message;
 import se.sics.tasim.aw.TimeListener;
 import se.sics.tasim.props.SimulationStatus;
 import se.sics.tasim.props.StartInfo;
+
+import com.botbox.util.ArrayUtils;
 
 public class AgentServiceImpl extends AgentService {
 

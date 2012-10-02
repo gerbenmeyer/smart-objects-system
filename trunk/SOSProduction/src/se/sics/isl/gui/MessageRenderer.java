@@ -29,10 +29,10 @@
 package se.sics.isl.gui;
 import java.awt.Color;
 import java.awt.Component;
+
 import javax.swing.DefaultListCellRenderer;
-import javax.swing.JList;
-import javax.swing.border.Border;
 import javax.swing.Icon;
+import javax.swing.JList;
 
 public class MessageRenderer extends DefaultListCellRenderer {
 

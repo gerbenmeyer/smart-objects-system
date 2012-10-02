@@ -25,12 +25,11 @@
  *           $Revision: 1.4 $
  */
 package se.sics.tasim.aw;
-import java.io.IOException;
 import java.text.ParseException;
 
-import se.sics.isl.transport.Transportable;
 import se.sics.isl.transport.TransportReader;
 import se.sics.isl.transport.TransportWriter;
+import se.sics.isl.transport.Transportable;
 
 /**
  * <code>Message</code> is used for the communication between all

@@ -3,7 +3,6 @@ package grunn.world;
 import java.io.Serializable;
 
 import model.messageboard.Message;
-
 import se.sics.tasim.props.OfferBundle;
 
 public class GRUNNMessage extends Message implements Serializable{

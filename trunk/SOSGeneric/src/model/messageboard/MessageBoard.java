@@ -1,7 +1,7 @@
 package model.messageboard;
 
 import java.util.HashMap;
-import java.util.Vector;
+import java.util.concurrent.ConcurrentLinkedQueue;
 
 import model.agent.Agent;
 import model.agent.collection.AgentCollection;
@@ -13,13 +13,13 @@ import model.agent.collection.AgentCollection;
  * 
  */
 
-public class MessageBoard extends HashMap<String, Vector<Message>> {
+public class MessageBoard extends HashMap<String, ConcurrentLinkedQueue<Message>> {
 
 	private static final long serialVersionUID = 7120797025956701907L;
 
 	private static MessageBoard instance = new MessageBoard();
 
-	public static synchronized MessageBoard getInstance() {
+	public static MessageBoard getInstance() {
 		return instance;
 	}
 
@@ -47,8 +47,8 @@ public class MessageBoard extends HashMap<String, Vector<Message>> {
 	 * @param agentID
 	 * @param message
 	 */
-	public void sendMessage(String agentId, Message message) {
-		receiveMessage(agentId, message);
+	public void sendMessage(String agentID, Message message) {
+		receiveMessage(agentID, message);
 	}
 
 	/**
@@ -71,18 +71,18 @@ public class MessageBoard extends HashMap<String, Vector<Message>> {
 	 * 
 	 * @return the oldest unread message
 	 */
-	public Message getMessage(String agentId) {
-		if (!containsKey(agentId)) {
+	public Message getMessage(String agentID) {
+		if (!containsKey(agentID)) {
 			return null;
 		}
-		return get(agentId).remove(0);
+		return get(agentID).poll();
 	}
 
-	public int getMessageCount(String agentId) {
-		if (!containsKey(agentId)) {
+	public int getMessageCount(String agentID) {
+		if (!containsKey(agentID)) {
 			return 0;
 		}
-		return get(agentId).size();
+		return get(agentID).size();
 	}
 
 	/**
@@ -91,11 +91,11 @@ public class MessageBoard extends HashMap<String, Vector<Message>> {
 	 * @param message
 	 *            the message the agent has to receive
 	 */
-	private void receiveMessage(String agentId, Message message) {
-		if (!containsKey(agentId)) {
-			return;
+	private void receiveMessage(String agentID, Message message) {
+		if (!containsKey(agentID)) {
+			put(agentID, new ConcurrentLinkedQueue<Message>());
 		}
-		get(agentId).add(message);
+		get(agentID).add(message);
 	}
 
 	/**
@@ -103,20 +103,11 @@ public class MessageBoard extends HashMap<String, Vector<Message>> {
 	 * 
 	 * @return true if the agent has unread messages
 	 */
-	public boolean hasMessage(String agentId) {
-		if (!containsKey(agentId)) {
+	public boolean hasMessage(String agentID) {
+		if (!containsKey(agentID)) {
 			return false;
 		}
-		return !get(agentId).isEmpty();
-	}
-
-	/**
-	 * Registers an agent to the message board
-	 * 
-	 * @param agent
-	 */
-	public void registerAgent(String agentId) {
-		put(agentId, new Vector<Message>());
+		return !get(agentID).isEmpty();
 	}
 
 	/**
@@ -124,8 +115,8 @@ public class MessageBoard extends HashMap<String, Vector<Message>> {
 	 * 
 	 * @param agent
 	 */
-	public void unregisterAgent(String agentId) {
-		remove(agentId);
+	public void removeAgent(String agentID) {
+		remove(agentID);
 	}
 
 }

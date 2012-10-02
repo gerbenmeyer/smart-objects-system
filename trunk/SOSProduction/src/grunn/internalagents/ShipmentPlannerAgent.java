@@ -12,7 +12,6 @@ import java.util.Collections;
 import java.util.Vector;
 
 import model.agent.Agent;
-import model.messageboard.MessageBoard;
 import se.sics.tasim.tac03.aw.Order;
 import util.enums.PropertyType;
 
@@ -36,8 +35,8 @@ public class ShipmentPlannerAgent extends Agent {
 
 	@Override
 	public void act() throws Exception {
-		while (MessageBoard.getInstance().hasMessage(get(ID))) {
-			GRUNNMessage message = (GRUNNMessage) MessageBoard.getInstance().getMessage(get(ID));
+		while (messages().hasMessage()) {
+			GRUNNMessage message = (GRUNNMessage) messages().getMessage();
 			
 			if (message.getMessageType() ==  GRUNNMessageType.NEWDAY){
 				set(PropertyType.BOOLEAN,"plan_finished",Boolean.toString(false));
@@ -87,7 +86,7 @@ public class ShipmentPlannerAgent extends Agent {
 
 			GRUNNMessage resultOfBid = new GRUNNMessage(get(ID), GRUNNMessageType.RESULTOFSHIPMENTBID);
 			resultOfBid.setWonAuction(won);
-			MessageBoard.getInstance().sendMessage(bid.getFromID(), resultOfBid);
+			messages().sendMessage(bid.getFromID(), resultOfBid);
 
 		}
 
