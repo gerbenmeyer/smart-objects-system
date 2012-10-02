@@ -8,7 +8,6 @@ import grunn.world.GRUNNMessage;
 import grunn.world.GRUNNMessageType;
 import grunn.world.GRUNNSharedKnowledge;
 import model.agent.Agent;
-import model.messageboard.MessageBoard;
 import se.sics.tasim.tac03.aw.Order;
 import util.enums.PropertyType;
 
@@ -57,8 +56,8 @@ public class OrderAgent extends Agent {
 	 */
 	@Override
 	protected void act() {
-		while (MessageBoard.getInstance().hasMessage(get(ID))) {
-			GRUNNMessage message = (GRUNNMessage) MessageBoard.getInstance().getMessage(get(ID));
+		while (messages().hasMessage()) {
+			GRUNNMessage message = (GRUNNMessage) messages().getMessage();
 
 			if (message.getMessageType() == GRUNNMessageType.NEWDAY) {
 
@@ -214,7 +213,7 @@ public class OrderAgent extends Agent {
 			bid.setComponentID(componentID);
 			bid.setBidAmount(quantityNeeded);
 			bid.setBidUnitPrice(bidUnitPrice);
-			MessageBoard.getInstance().sendMessage("Component-" + componentID, bid);
+			messages().sendMessage("Component-" + componentID, bid);
 		}
 	}
 
@@ -263,7 +262,7 @@ public class OrderAgent extends Agent {
 		bid.setProductID(getOrder().getProductID());
 		bid.setBidAmount(getOrder().getQuantity());
 		bid.setBidUnitPrice(bidUnitPrice);
-		MessageBoard.getInstance().sendMessage("ProductionPlanner", bid);
+		messages().sendMessage("ProductionPlanner", bid);
 
 	}
 
@@ -292,7 +291,7 @@ public class OrderAgent extends Agent {
 
 		GRUNNMessage bid = new GRUNNMessage(get(ID), GRUNNMessageType.SHIPMENTBID);
 		bid.setOrderID(getInt("orderID"));
-		MessageBoard.getInstance().sendMessage("ShipmentPlanner", bid);
+		messages().sendMessage("ShipmentPlanner", bid);
 	}
 
 	private void handleResultOfShipmentBid(GRUNNMessage message) {

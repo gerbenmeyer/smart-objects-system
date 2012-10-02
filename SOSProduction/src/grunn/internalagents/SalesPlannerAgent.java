@@ -7,7 +7,6 @@ import grunn.GRUNNEnvironment;
 import grunn.world.GRUNNMessage;
 import grunn.world.GRUNNMessageType;
 import model.agent.Agent;
-import model.messageboard.MessageBoard;
 import util.enums.PropertyType;
 
 /**
@@ -28,8 +27,8 @@ public class SalesPlannerAgent extends Agent {
 
 	@Override
 	public void act() throws Exception {
-		while (MessageBoard.getInstance().hasMessage(get(ID))) {
-			GRUNNMessage message = (GRUNNMessage) MessageBoard.getInstance().getMessage(get(ID));
+		while (messages().hasMessage()) {
+			GRUNNMessage message = (GRUNNMessage) messages().getMessage();
 
 			if (message.getMessageType() == GRUNNMessageType.NEWDAY) {
 				// on the first day, create product type agents
@@ -38,8 +37,7 @@ public class SalesPlannerAgent extends Agent {
 						int productID = GRUNNEnvironment.getInstance().getBOMBundle().getProductID(i);
 						String id = "Product-" + productID;
 						GRUNNEnvironment.getInstance().addAgent(new ProductTypeAgent(id, productID));
-						MessageBoard.getInstance().registerAgent(id);
-						MessageBoard.getInstance().sendMessage(id, new GRUNNMessage(get(ID), GRUNNMessageType.NEWDAY));
+						messages().sendMessage(id, new GRUNNMessage(get(ID), GRUNNMessageType.NEWDAY));
 					}
 					set(PropertyType.BOOLEAN, "initialized", Boolean.toString(true));
 				}

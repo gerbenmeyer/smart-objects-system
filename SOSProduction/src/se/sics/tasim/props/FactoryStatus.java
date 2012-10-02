@@ -29,7 +29,6 @@ import java.text.ParseException;
 
 import se.sics.isl.transport.TransportReader;
 import se.sics.isl.transport.TransportWriter;
-import se.sics.isl.transport.Transportable;
 
 /**
  * <code>FactoryStatus</code> is an {@link InventoryStatus} extended

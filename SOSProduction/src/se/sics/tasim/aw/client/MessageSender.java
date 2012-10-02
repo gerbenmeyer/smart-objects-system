@@ -28,8 +28,9 @@ package se.sics.tasim.aw.client;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
-import com.botbox.util.ArrayQueue;
 import se.sics.tasim.aw.Message;
+
+import com.botbox.util.ArrayQueue;
 
 /**
  */

@@ -28,10 +28,11 @@ package se.sics.tasim.props;
 import java.text.ParseException;
 import java.util.logging.Logger;
 
-import com.botbox.util.ArrayUtils;
 import se.sics.isl.transport.TransportReader;
 import se.sics.isl.transport.TransportWriter;
 import se.sics.isl.transport.Transportable;
+
+import com.botbox.util.ArrayUtils;
 
 /**
  * <code>SimpleContent</code> is an abstract base class for

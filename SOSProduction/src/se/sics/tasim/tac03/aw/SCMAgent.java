@@ -31,7 +31,6 @@ import java.util.Enumeration;
 import java.util.Hashtable;
 import java.util.logging.Logger;
 
-import com.botbox.util.ArrayUtils;
 import se.sics.isl.transport.Transportable;
 import se.sics.tasim.aw.Agent;
 import se.sics.tasim.aw.Message;
@@ -51,6 +50,8 @@ import se.sics.tasim.props.ProductionSchedule;
 import se.sics.tasim.props.RFQBundle;
 import se.sics.tasim.props.SimulationStatus;
 import se.sics.tasim.props.StartInfo;
+
+import com.botbox.util.ArrayUtils;
 
 /**
  * The abstract class <code>SCMAgent</code> extends <code>{@link

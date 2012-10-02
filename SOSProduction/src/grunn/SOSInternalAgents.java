@@ -12,7 +12,6 @@ import java.util.HashMap;
 import java.util.Properties;
 
 import main.SOSServer;
-import model.messageboard.MessageBoard;
 
 public class SOSInternalAgents extends SOSServer implements Runnable {
 	
@@ -64,17 +63,9 @@ public class SOSInternalAgents extends SOSServer implements Runnable {
 	public void initialize() {
 		// add the planner agents to the agent collection
 		getAgentCollection().put(new ShipmentPlannerAgent("ShipmentPlanner"));
-		MessageBoard.getInstance().registerAgent("ShipmentPlanner");
-
 		getAgentCollection().put(new ProductionPlannerAgent("ProductionPlanner"));
-		MessageBoard.getInstance().registerAgent("ProductionPlanner");
-
 		getAgentCollection().put(new SalesPlannerAgent("SalesPlanner"));
-		MessageBoard.getInstance().registerAgent("SalesPlanner");
-
 		getAgentCollection().put(new PurchasePlannerAgent("PurchasePlanner"));
-		MessageBoard.getInstance().registerAgent("PurchasePlanner");
-
 	}
 
 	public void cleanup() {

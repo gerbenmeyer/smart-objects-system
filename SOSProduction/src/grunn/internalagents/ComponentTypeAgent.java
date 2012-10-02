@@ -14,7 +14,6 @@ import java.util.Collections;
 import java.util.Vector;
 
 import model.agent.Agent;
-import model.messageboard.MessageBoard;
 import se.sics.tasim.props.OfferBundle;
 import se.sics.tasim.tac03.aw.Order;
 import util.enums.PropertyType;
@@ -58,8 +57,8 @@ public class ComponentTypeAgent extends Agent {
 
 	@Override
 	public void act() throws Exception {
-		while (MessageBoard.getInstance().hasMessage(get(ID))) {
-			GRUNNMessage message = (GRUNNMessage) MessageBoard.getInstance().getMessage(get(ID));
+		while (messages().hasMessage()) {
+			GRUNNMessage message = (GRUNNMessage) messages().getMessage();
 
 			if (message.getMessageType() == GRUNNMessageType.NEWDAY) {
 				if (!get("initialized").equals(Boolean.toString(true))) {
@@ -202,7 +201,7 @@ public class ComponentTypeAgent extends Agent {
 
 		info += "" + rfqs + " rfqs";
 
-		MessageBoard.getInstance().sendMessage("PurchasePlanner", new GRUNNMessage(get(ID), GRUNNMessageType.FINISHED));
+		messages().sendMessage("PurchasePlanner", new GRUNNMessage(get(ID), GRUNNMessageType.FINISHED));
 
 		System.out.println("Comp" + Tools.FormatNumber(getInt("componentID"), 3) + ": Inv.: " + Tools.FormatNumber(getInt("inventoryNextDay")) + " + " + Tools.FormatNumber(getInt("inventoryToBeDelivered")) + ", #days: " + Tools.FormatNumber(getInt("inventoryForDays"), 2) + ", price: "
 				+ Tools.FormatCurrency((int) getNumber("marketPriceEstimation")) + ", " + info);
@@ -314,7 +313,7 @@ public class ComponentTypeAgent extends Agent {
 			resultOfBid.setBidUnitPrice(bid.getBidUnitPrice());
 			resultOfBid.setTotalPrice(won ? totalPrice : 0);
 
-			MessageBoard.getInstance().sendMessage(bid.getFromID(), resultOfBid);
+			messages().sendMessage(bid.getFromID(), resultOfBid);
 
 		}
 		

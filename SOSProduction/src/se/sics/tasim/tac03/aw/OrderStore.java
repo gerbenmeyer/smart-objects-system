@@ -25,8 +25,9 @@
  *           $Revision: 1.3 $
  */
 package se.sics.tasim.tac03.aw;
-import com.botbox.util.ArrayUtils;
 import se.sics.tasim.props.OfferBundle;
+
+import com.botbox.util.ArrayUtils;
 
 /**
  * <code>OrderStore</code> contains a collection of orders.

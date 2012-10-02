@@ -9,7 +9,6 @@ import java.util.Collections;
 import java.util.Vector;
 
 import model.agent.Agent;
-import model.messageboard.MessageBoard;
 import util.enums.PropertyType;
 
 /**
@@ -31,8 +30,8 @@ public class ProductionPlannerAgent extends Agent {
 
 	@Override
 	public void act() throws Exception {
-		while (MessageBoard.getInstance().hasMessage(get(ID))) {
-			GRUNNMessage message = (GRUNNMessage) MessageBoard.getInstance().getMessage(get(ID));
+		while (messages().hasMessage()) {
+			GRUNNMessage message = (GRUNNMessage) messages().getMessage();
 			
 			if (message.getMessageType() == GRUNNMessageType.NEWDAY){
 				set(PropertyType.BOOLEAN,"plan_finished",Boolean.toString(false));
@@ -96,7 +95,7 @@ public class ProductionPlannerAgent extends Agent {
 			resultOfBid.setBidUnitPrice(bid.getBidUnitPrice());
 			resultOfBid.setTotalPrice(won ? totalPrice : 0);
 
-			MessageBoard.getInstance().sendMessage(bid.getFromID(), resultOfBid);
+			messages().sendMessage(bid.getFromID(), resultOfBid);
 
 		}
 		

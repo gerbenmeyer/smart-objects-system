@@ -10,7 +10,6 @@ import grunn.world.GRUNNMessageType;
 import grunn.world.GRUNNSharedKnowledge;
 import model.agent.Agent;
 import model.agent.property.properties.DependenciesProperty;
-import model.messageboard.MessageBoard;
 import se.sics.tasim.props.OfferBundle;
 import se.sics.tasim.props.RFQBundle;
 import se.sics.tasim.tac03.aw.Order;
@@ -60,8 +59,8 @@ public class ProductTypeAgent extends Agent {
 
 	@Override
 	public void act() throws Exception {
-		while (MessageBoard.getInstance().hasMessage(get(ID))) {
-			GRUNNMessage message = (GRUNNMessage) MessageBoard.getInstance().getMessage(get(ID));
+		while (messages().hasMessage()) {
+			GRUNNMessage message = (GRUNNMessage) messages().getMessage();
 
 			if (message.getMessageType() == GRUNNMessageType.NEWDAY) {
 				if (!get("initialized").equals(Boolean.toString(true))) {
@@ -108,8 +107,7 @@ public class ProductTypeAgent extends Agent {
 			String id = "Order-" + order.getOrderID();
 			if ((order.getProductID() == getInt("productID")) && (!dp.containsID(id))) {
 				GRUNNEnvironment.getInstance().addAgent(new OrderAgent(id, order.getOrderID()));
-				MessageBoard.getInstance().registerAgent(id);
-				MessageBoard.getInstance().sendMessage(id, new GRUNNMessage(get(ID), GRUNNMessageType.NEWDAY));
+				messages().sendMessage(id, new GRUNNMessage(get(ID), GRUNNMessageType.NEWDAY));
 				dp.addID(id);
 			}
 		}
@@ -317,7 +315,7 @@ public class ProductTypeAgent extends Agent {
 
 		setObject("offersLastDay", offersLastDay);
 
-		MessageBoard.getInstance().sendMessage("SalesPlanner", new GRUNNMessage(get(ID), GRUNNMessageType.FINISHED));
+		messages().sendMessage("SalesPlanner", new GRUNNMessage(get(ID), GRUNNMessageType.FINISHED));
 
 	}
 

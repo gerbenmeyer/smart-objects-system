@@ -28,7 +28,6 @@
  */
 
 package se.sics.isl.util;
-import java.io.File;
 import java.io.PrintWriter;
 import java.io.StringWriter;
 import java.text.SimpleDateFormat;

@@ -138,7 +138,7 @@ public class AgentCollection implements AgentCollectionMutable {
 					if (AgentStorage.getInstance() != null) {
 						AgentStorage.getInstance().delete(id);
 					}
-					MessageBoard.getInstance().unregisterAgent(id);
+					MessageBoard.getInstance().removeAgent(id);
 				}
 			}
 		}

@@ -135,7 +135,7 @@ public class AgentsProcessor implements Runnable {
 								if (AgentStorage.getInstance() != null) {
 									AgentStorage.getInstance().delete(id);
 								}
-								MessageBoard.getInstance().unregisterAgent(id);
+								MessageBoard.getInstance().removeAgent(id);
 								continue;
 							}
 

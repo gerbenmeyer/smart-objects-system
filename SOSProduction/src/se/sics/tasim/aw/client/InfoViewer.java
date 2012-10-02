@@ -28,6 +28,7 @@
  */
 package se.sics.tasim.aw.client;
 import javax.swing.JComponent;
+
 import se.sics.isl.transport.Transportable;
 
 public abstract class InfoViewer {
