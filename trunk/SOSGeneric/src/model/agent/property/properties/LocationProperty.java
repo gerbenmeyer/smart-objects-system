@@ -277,9 +277,6 @@ public class LocationProperty extends Property {
 		lp.setHidden(true);
 		lp.setLatitude(latitude);
 		lp.setLongitude(longitude);
-		if (lp.isNull()){
-			return null;
-		}
 		return lp;
 	}
 }
