@@ -118,6 +118,9 @@ public class AgentsProcessor implements Runnable {
 				for (AgentExecutor executor : executors){
 					if (executor.isDone()){
 						String id = getNextID();
+						if (id == null){
+							continue;
+						}
 						AgentViewable av = AgentCollection.getInstance().get(id);
 						if (av == null) {
 							continue;
@@ -182,6 +185,9 @@ public class AgentsProcessor implements Runnable {
 			index = 0;
 			agentIds = AgentCollection.getInstance().getIDs();
 		}
+		if (agentIds.isEmpty()){
+			return null;
+		}		
 		String id = agentIds.get(index);
 		index++;
 		return id;

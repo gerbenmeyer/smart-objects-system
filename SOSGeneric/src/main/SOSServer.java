@@ -56,22 +56,15 @@ public abstract class SOSServer {
 		
 		new Settings(settings);
 
+		//instantiating storage
 		LocationCollectionStorage.setInstance(new LocationCollectionStorageMySQL());
 		this.locations = new LocationCollection();
 		AgentCollectionStorage.setInstance(new AgentCollectionStorageMySQL());
 		this.agentCollection = new AgentCollection();
 		AgentStorage.setInstance(new AgentStorageMySQL());
-
-		agentCollection.put(new IndexAgent("index"));
-		agentCollection.put(new MenuAgent("menu"));
-		agentCollection.put(new SearchAgent("search"));
-		agentCollection.put(new StatsAgent("stats"));
-		if (Boolean.parseBoolean(Settings.getProperty(Settings.NOTIFICATION_EMAIL_ENABLED))) {
-			agentCollection.put(new NotifyAgent("notifier"));
-		}
-		
 		ClassifierCollectionStorage.setInstance(new ClassifierCollectionStorageMySQL());
 		
+		//starting agentsprocessor
 		new AgentsProcessor();
 		getDevLogger().fine("Server initialized");
 	}
@@ -81,6 +74,17 @@ public abstract class SOSServer {
 	 */
 	public void runServer() {
 		getDevLogger().fine("Starting server");
+		
+		//adding default agents
+		agentCollection.put(new IndexAgent("index"));
+		agentCollection.put(new MenuAgent("menu"));
+		agentCollection.put(new SearchAgent("search"));
+		agentCollection.put(new StatsAgent("stats"));
+		if (Boolean.parseBoolean(Settings.getProperty(Settings.NOTIFICATION_EMAIL_ENABLED))) {
+			agentCollection.put(new NotifyAgent("notifier"));
+		}
+		
+		//start listening
 		new HTTPListener(agentCollection,passwords);
 		new XMLListener(this);
 		getDevLogger().fine("Server started");
