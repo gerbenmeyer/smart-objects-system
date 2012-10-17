@@ -130,6 +130,12 @@ public class AgentsProcessor implements Runnable {
 							Agent agent = (Agent) av;
 							agentsProcessed++;
 
+							// collect garbage
+							if (!agent.isMarkedForDeletion() && agent.isGarbage()) {
+								agent.lastWish();
+								agent.delete();
+							}
+							
 							// delete agent
 							if (agent.isMarkedForDeletion()) {
 								if (AgentCollectionStorage.getInstance() != null) {
@@ -140,14 +146,7 @@ public class AgentsProcessor implements Runnable {
 								}
 								MessageBoard.getInstance().removeAgent(id);
 								continue;
-							}
-
-							// collect garbage
-							if (agent.isGarbage()) {
-								agent.lastWish();
-								agent.delete();
-								continue;
-							}
+							}							
 							
 							// insert agent into the processor.
 							executor.setAgent(agent);
