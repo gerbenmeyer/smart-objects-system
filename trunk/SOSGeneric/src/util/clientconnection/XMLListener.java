@@ -11,7 +11,7 @@ import main.Settings;
  * 
  * @author Gerben G. Meyer
  */
-public class XMLListener {
+public class XMLListener implements Runnable {
 	
 	private SOSServer server;
 	private int port;
@@ -25,13 +25,13 @@ public class XMLListener {
 		this.server = server;
 		port = Integer.parseInt(Settings.getProperty(Settings.XML_PORT));
 		SOSServer.getDevLogger().info("Listening for XML clients on port " + port);
-		listen();
+		(new Thread(this)).start();
 	}
 	
 	/**
 	 * Start listening and handling.
 	 */
-	private void listen(){
+	public void run(){
 		while (true) {
 			try {
 				ServerSocket sock = new ServerSocket(port);
