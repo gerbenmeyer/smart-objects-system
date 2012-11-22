@@ -64,8 +64,6 @@ public abstract class SOSServer {
 		AgentStorage.setInstance(new AgentStorageMySQL());
 		ClassifierCollectionStorage.setInstance(new ClassifierCollectionStorageMySQL());
 		
-		//starting agentsprocessor
-		new AgentsProcessor();
 		getDevLogger().fine("Server initialized");
 	}
 	
@@ -74,6 +72,9 @@ public abstract class SOSServer {
 	 */
 	public void runServer() {
 		getDevLogger().fine("Starting server");
+		
+		//starting agentsprocessor
+		new AgentsProcessor();
 		
 		//adding default agents
 		agentCollection.put(new IndexAgent("index"));
@@ -87,6 +88,7 @@ public abstract class SOSServer {
 		//start listening
 		new HTTPListener(agentCollection,passwords);
 		new XMLListener(this);
+		
 		getDevLogger().fine("Server started");
 	}
 	
