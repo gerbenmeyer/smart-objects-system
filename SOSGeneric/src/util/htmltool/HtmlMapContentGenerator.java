@@ -43,26 +43,6 @@ public class HtmlMapContentGenerator extends HtmlGenerator {
 		
 	}
 	
-	
-	/**
-	 * Returns the HTML code of the map script.
-	 * 
-	 * @return the code
-	 */
-	@Deprecated
-	public StringBuffer createMapContentScript() {
-		HashMap<String, String> scriptAttr = new HashMap<String, String>();
-		scriptAttr.put("type", "text/javascript");
-
-		StringBuffer headcontent = new StringBuffer(createMapScriptHeader());
-		// headcontent.append("<META HTTP-EQUIV=\"Refresh\" CONTENT=\"300\" />\n");
-		insert("var p = parent;");
-		headcontent.append(HtmlTool.createScript(getBuffer(), scriptAttr));
-		StringBuffer headbody = HtmlTool.createHeadBody(title, null, new StringBuffer(), headcontent, null);
-
-		return HtmlTool.createHTML(headbody);
-	}
-
 	/**
 	 * Adds javascript which will go to the current user location.
 	 */

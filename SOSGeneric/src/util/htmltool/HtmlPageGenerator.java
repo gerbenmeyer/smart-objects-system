@@ -1,7 +1,5 @@
 package util.htmltool;
 
-import java.util.HashMap;
-
 import main.Settings;
 
 /**
@@ -75,6 +73,7 @@ public class HtmlPageGenerator extends HtmlGenerator {
 		String bodyAttributes = "onload=\"load();"+onLoadScript.toString()+"\"";
 
 		StringBuffer head = new StringBuffer(headerHtml);
+		head.insert(0, "<meta charset=\"UTF-8\" />");
 		head.append("<meta http-equiv=\"X-UA-Compatible\" content=\"IE=edge\" />");
 		
 		String analyticsKey = Settings.getProperty(Settings.GOOGLE_ANALYTICS_KEY);
@@ -93,40 +92,6 @@ public class HtmlPageGenerator extends HtmlGenerator {
 		if (css != null && !css.isEmpty()) head.insert(0, HtmlTool.linkCss(css));
 		
 		return HtmlTool.html(HtmlTool.head(head), HtmlTool.body(body,bodyAttributes));
-	}
-	
-
-	/**
-	 * Creates the HTML page.
-	 * 
-	 * @return the HTML code
-	 */
-	@Deprecated
-	public StringBuffer getHtml() {
-		StringBuffer body = new StringBuffer(getBuffer());
-
-		HashMap<String, String> scriptAttr = new HashMap<String, String>();
-		scriptAttr.put("type", "text/javascript");
-
-		body.append(HtmlTool.createScript(finalScript, scriptAttr));
-
-		HashMap<String, String> bodyAttributes = new HashMap<String, String>();
-		bodyAttributes.put("onload", "load();" + onLoadScript.toString());
-		
-		StringBuffer header = new StringBuffer(headerHtml);
-		String analyticsKey = Settings.getProperty(Settings.GOOGLE_ANALYTICS_KEY);
-		if (analyticsKey != null) {
-			StringBuffer analyticsScript = new StringBuffer("var _gaq = _gaq || []; _gaq.push(['_setAccount', '"+analyticsKey+"']); _gaq.push(['_trackPageview']);"
-					+ "(function() {"
-					+ "var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;"
-					+ "ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';"
-					+ "var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);"
-					+ "})();");
-			header.append(HtmlTool.createScript(analyticsScript, scriptAttr));
-		}
-		header.append("<meta http-equiv=\"X-UA-Compatible\" content=\"IE=edge\" />");
-		
-		return HtmlTool.createHeadBody(title, css, body, header, bodyAttributes);
 	}
 	
 	/**

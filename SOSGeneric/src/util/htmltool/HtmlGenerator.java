@@ -1,7 +1,5 @@
 package util.htmltool;
 
-import java.util.HashMap;
-
 import main.Settings;
 import model.agent.Agent;
 import model.agent.AgentViewable;
@@ -136,87 +134,6 @@ public class HtmlGenerator {
 	}	
 	
 	/**
-	 * Adds a piece of HTML code to the content.
-	 * 
-	 * @param stuff
-	 *            the custom HTML
-	 */
-	@Deprecated
-	public void addCustomHtml(String stuff) {
-		buffer.append(stuff);
-	}
-
-	/**
-	 * Adds a piece of HTML code to the content.
-	 * 
-	 * @param stuff
-	 *            the custom HTML
-	 */
-	@Deprecated
-	public void addCustomScript(String stuff) {
-		buffer.append(stuff);
-	}
-
-	/**
-	 * Adds a paragraph with text to the content.
-	 * 
-	 * @param text
-	 *            the text to be wrapped in the paragraph
-	 */
-	@Deprecated
-	public void addParagraph(String text, HashMap<String, String> attributes) {
-		buffer.append(HtmlTool.createParagraph(text, attributes));
-	}
-
-	/**
-	 * Adds an image to the content.
-	 * 
-	 * @param image
-	 * @param text
-	 */
-	@Deprecated
-	public void addImage(String image, String text) {
-		addParagraph(HtmlTool.createImage(image, text));
-	}
-
-	/**
-	 * Adds a floating image to the right side of the content.
-	 * 
-	 * @param image
-	 * @param text
-	 */
-	@Deprecated
-	public void addImageRight(String image, String text) {
-		buffer.append(HtmlTool.createImageRight(image, text));
-	}
-
-	/**
-	 * Adds a content div.
-	 * 
-	 * @param text
-	 *            the text to be wrapped in the div
-	 */
-	@Deprecated
-	public void addDiv(String text) {
-		HashMap<String, String> attr = new HashMap<String, String>();
-		attr.put("class", "contentDiv");
-		buffer.append(HtmlTool.createDiv(text, attr));
-	}
-
-	/**
-	 * Adds a custom content div.
-	 * 
-	 * @param text
-	 *            the text to be wrapped in the div
-	 * @param attributes
-	 *            all html attributes of the div
-	 */
-	@Deprecated
-	public void addCustomDiv(String text, HashMap<String, String> attributes) {
-		buffer.append(HtmlTool.createDiv(text, attributes));
-	}
-
-	/**
 	 * Returns the HTML code of the details pane.
 	 * 
 	 * @return the code
@@ -233,23 +150,6 @@ public class HtmlGenerator {
 	 */
 	public boolean isEmpty() {
 		return buffer.length() == 0;
-	}
-
-	/**
-	 * Returns the HTML code of the script.
-	 * 
-	 * @return the code
-	 */
-	@Deprecated
-	public StringBuffer createScript() {
-		HashMap<String, String> scriptAttr = new HashMap<String, String>();
-		scriptAttr.put("type", "text/javascript");
-
-		StringBuffer headcontent = new StringBuffer();
-		headcontent.append(HtmlTool.createScript(buffer, scriptAttr));
-		StringBuffer headbody = HtmlTool.createHeadBody("", null, new StringBuffer(), headcontent, null);
-
-		return HtmlTool.createHTML(headbody);
 	}
 
 }
