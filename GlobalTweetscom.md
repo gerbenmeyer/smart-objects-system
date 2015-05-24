@@ -1,0 +1,9 @@
+# GlobalTweets.com #
+
+GlobalTweets.com is an experimental application developed with the Smart Objects Systems framework. The application allows users to discover what is happening right now around the globe on Twitter.
+
+## Screenshot ##
+
+Below, a screenshot of the web interface of the GlobalTweets.com is shown. For the live version of the web interface, please visit http://globaltweets.com.
+
+[![](http://smart-objects-system.googlecode.com/svn/wiki/globaltweetsinterface.png)](http://globaltweets.com)

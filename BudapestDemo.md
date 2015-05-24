@@ -1,0 +1,143 @@
+# Budapest Interactive City Map #
+
+This page discusses the Budapest Interactive City Map application in a bit more detail, according to the layers as explained in SystemOverview. The actual source code can be found at http://code.google.com/p/smart-objects-system/source/browse/.
+
+## Client ##
+
+For the Budapest Interactive City Map, a seperate data client application is developed, called SOSBudapestDataClient. Next, the actual implementation of this data client (albeit simplified) is explained.
+
+**Implementation of SOSBudapestDataClient**
+```
+public class SOSBudapestDataClient {
+
+	// The remote agent collection, to which the converted external data is added (i.e. the SOS data store)
+	private static RemoteAgentCollection remoteAgentCollection = new RemoteAgentCollection( ... );
+
+	// The external datasource which has to be interpreted
+	private static final String KML_URL = "http://hotels.budapestrooms.com/maps/kml_dir/budapest_map.kml";
+
+	
+	public static void main(String[] args) {
+		
+		(...)
+		
+		// The KMLParser is parsing the external data source, and converts it into agents, as required by the RemoteAgentCollection
+		Collection<Agent> agents =  KMLParser.parse(KML_URL);
+		
+		(...)
+
+		// if KML parsing was successful, process the result, and send the objects to the server
+		if (agents != null) {
+			// data post-processing for every agent
+			for (Agent a : agents) {
+				// rename the type of the agent
+				String type = a.get(Agent.TYPE);
+				if (type.equals("Apartments")) {
+					a.set(PropertyType.TEXT,Agent.TYPE,"Apartment");
+				} else if (type.equals("Apartment rooms")) {
+					a.set(PropertyType.TEXT,Agent.TYPE,"Apartment");
+				} else if (type.equals("Hotels")) {
+					a.set(PropertyType.TEXT,Agent.TYPE,"Hotel");
+				} else if (type.equals("Sights")) {
+					a.set(PropertyType.TEXT,Agent.TYPE,"Attraction");
+				} else if (type.equals("Airports")) {
+					a.set(PropertyType.TEXT,Agent.TYPE,"Airport");
+				} else if (type.equals("Transport")) {
+					a.set(PropertyType.TEXT,Agent.TYPE,"Trainstation");
+				}
+
+				// remove "in Budapest" from the agent label
+				String label = a.get(Agent.LABEL);
+				label = label.replaceAll("\\s*in Budapest", "");
+				a.set(PropertyType.TEXT,Agent.LABEL,label);
+				
+				(...)
+			}
+			
+			// send objects to server
+			remoteAgentCollection.connect();
+			remoteAgentCollection.put(agents);
+			remoteAgentCollection.disconnect();
+		}
+	}
+}
+```
+
+## Server ##
+
+For the Budapest Interactive City Map, a seperate SOS server application is developed, called !SOSBudapestServer, which extends the generic [SOSServer](SystemStructure.md) class. Two application-specific agents are developed, namely a _home_ and _object_-agent, which both extend the generic [Agent](SystemStructure.md) class. Next, the actual implementation of these agents (albeit simplified) is explained.
+
+**Implementation of BudapestHomeAgent**
+```
+public class BudapestHomeAgent extends Agent {
+
+	public BudapestHomeAgent(String id) {
+		super(id);
+		// make sure that this agent is hidden, i.e. that it does not show up in the search results
+		set(PropertyType.BOOLEAN, Agent.HIDDEN, Boolean.toString(true));
+	}
+
+	@Override
+	public void generateMapContent(HtmlMapContentGenerator mapContent, HashMap<String,String> params){
+		// move the map to Budapest
+		mapContent.setCenter(47.5, 19.07);
+		mapContent.setZoom(13);
+		
+		// show all agents by using the always existing search agent to search for all agents
+		AgentViewable av = AgentCollection.getInstance().get("search");
+		params.put("q", "");
+		av.generateMapContent(mapContent, params);
+	}
+
+	@Override
+	public void generateDetailsContent(HtmlDetailsContentGenerator detailsPane, HashMap<String, String> params) {
+		// show a welcome message
+		detailsPane.addHeader("Welcome to the "+Settings.getProperty(Settings.APPLICATION_NAME));
+		detailsPane.addParagraph("Here, you can get an overview of all the major attractions in Budapest. Furthermore, trainstations, the airport, and even places to stay can be found here.");
+		
+		// show all attractions by using the always existing search agent to search for all agents
+		detailsPane.addSubHeader("The major attractions");
+		AgentViewable av = AgentCollection.getInstance().get("search");
+		params.put("q", "type:attraction");
+		av.generateDetailsContent(detailsPane, params);
+	}
+}
+```
+
+**Implementation of BudapestObjectAgent**
+```
+public class BudapestObjectAgent extends Agent {
+
+	public BudapestObjectAgent(String id) {
+		super(id);
+		// this agent does not change the contents of the details pane on the right
+		setNeedsDetailsPane(false);
+	}
+
+	@Override
+	public void generateMapContent(HtmlMapContentGenerator mapContent, HashMap<String, String> params) {
+		// pan the map to the location of this object
+		LocationProperty lp = new LocationProperty("", get(Agent.LOCATION));
+		if (!lp.isNull()) {
+			mapContent.setZoom(14);
+			mapContent.panToLocation(lp.getLatitude(), lp.getLongitude());
+		}
+		// show the info window of this object
+		mapContent.popupInfoWindow(this.getID());
+
+	}
+	
+	@Override
+	public void generateMapBalloonContent(HtmlMapBalloonContentGenerator balloonContent, HashMap<String,String> params) {
+		// create the content of the balloon of this object, containing a header and a paragraph
+		balloonContent.addAgentHeaderLink(this);
+		balloonContent.addParagraph(get(Agent.DESCRIPTION));
+	}
+}
+```
+
+## Front-end ##
+
+Below, a screenshot of the web interface of the Budapest Interactive City Map application is shown. For the live version of the web interface, please visit http://budapest.agentlab.nl/.
+
+[![](http://smart-objects-system.googlecode.com/svn/wiki/budapestwebinterface.png)](http://budapest.agentlab.nl/)

@@ -1,0 +1,19 @@
+# System Overview #
+
+This page explains the overall system architecture of SOS, which is shown in the figure below. Next, every layer as shown in the figure will be discussed in detail.
+
+![http://smart-objects-system.googlecode.com/svn/wiki/systemoverview.png](http://smart-objects-system.googlecode.com/svn/wiki/systemoverview.png)
+
+## Client ##
+
+Every application build with SOS needs data from one or more external data sources. For each of these external data sources, a data interface needs to be provided, which converts the external data into objects with properties, in the way it is required by the SOS data store. As an example, please have a look at the data client of the BudapestDemo.
+
+## Server ##
+
+The converted data provided from the external data sources are stored in the SOS data store. At this moment, every SOS application always has one data store, in which all objects with their properties are stored. Currently, a MySQL implementation of the SOS data store is provided.
+
+For every object stored in the data store, the server is running an agent, creating a so called "Smart Object". Every agent can execute behaviour, but this behaviour is application specific. As an example, please have a look at the behaviour of the agents of the DutchWeatherDemo. Besides the application specific agents, several default system agents are always running. The _index_, _menu_, and _search_-agent are responsible for generating  the generic part of the web interface, and the _notify_-agent is responsible for generating e-mail notifications.
+
+## Front-end ##
+
+The front-end of an SOS application consists of two parts, namely a web interface, and e-mail notifications. As an example, please have a look at the web interface of the BudapestDemo or the DutchWeatherDemo. The latter one also provides an example of how an e-mail notification looks like.
